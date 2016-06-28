@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorprimary">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_popular"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorprimary"/>
+    <RelativeLayout
+        android:id="@+id/inDevelopment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorprimary">
+        <ImageView
+            android:id="@+id/logoDevelopment"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/big_logo" />
+
+        <ru.klops.klops.cutomfonts.TextViewProRegular
+            android:id="@+id/inDevelopmentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logoDevelopment"
+            android:text="@string/inDevelopment"
+            android:textColor="@color/darkGreyText"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/leftRepairIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/inDevelopmentText"
+            android:layout_below="@+id/logoDevelopment"
+            android:background="@drawable/development" />
+
+        <ImageView
+            android:id="@+id/rightRepairIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_toLeftOf="@+id/inDevelopmentText"
+            android:layout_below="@+id/logoDevelopment"
+            android:background="@drawable/development" />
+    </RelativeLayout>
+</LinearLayout>

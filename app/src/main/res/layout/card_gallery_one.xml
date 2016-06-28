@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/galleryCardOne"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="2dp"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary">
+
+        <View
+            android:id="@+id/splitter"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/galleryCard">
+
+        </View>
+
+        <TextView
+            android:id="@+id/galleryCardOneDate"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:textAllCaps="true"
+            android:text=""
+            android:textColor="@color/greyText"
+            android:textSize="8sp" />
+
+        <ImageView
+            android:id="@+id/galleryCardOneCam"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/galleryCardOneDate"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/photo_cam" />
+
+        <TextView
+            android:id="@+id/galleryCardOneTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/galleryCardOneDate"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="26sp"
+            android:paddingBottom="10dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/splitter">
+
+            <ImageView
+                android:id="@+id/galleryCardOnePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:id="@+id/galleryCardOneLoading"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

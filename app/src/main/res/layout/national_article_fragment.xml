@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/nationalArticle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/nationalTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/blackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/nationalStatusIcon"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_below="@+id/splitterNationalFirst"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="17dp"
+                android:layout_toLeftOf="@+id/nationalStatus"
+                android:background="@drawable/news_update_circle"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/nationalStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/splitterNationalFirst"
+                android:gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:text=""
+                android:textColor="@color/newsStatus"
+                android:textSize="8sp" />
+
+            <View
+                android:id="@+id/splitterNationalFirst"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/nationalTitle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1" />
+
+            <TextView
+                android:id="@+id/nationalAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterNationalFirst"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:id="@+id/nationalDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterNationalFirst"
+                android:gravity="center|left"
+                android:layout_toRightOf="@+id/nationalAuthor"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:paddingRight="2dp"/>
+
+            <ImageView
+                android:id="@+id/nationalCameraIcon"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_below="@+id/splitterNationalFirst"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/nationalDate"
+                android:background="@drawable/camera"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/splitterNationalSecond"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/nationalDate"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1" />
+
+
+            <TextView
+                android:id="@+id/nationalDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterNationalSecond"
+                android:lineSpacingExtra="1dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:minLines="1"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp"/>
+
+            <View
+                android:id="@+id/splitterNationalThird"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/nationalDescription"
+                android:layout_marginLeft="15dp"
+                android:background="@color/greyText"
+                android:alpha="0.4" />
+
+            <RelativeLayout
+                android:id="@+id/nationalField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterNationalThird"
+                android:paddingBottom="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"/>
+
+            <TextView
+                android:id="@+id/nationalMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/nationalField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/simpleWideArticle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/simpleWideTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/blackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/simpleWideStatusIcon"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_below="@+id/splitterSimpleWideFirst"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="17dp"
+                android:layout_toLeftOf="@+id/simpleWideStatus"
+                android:background="@drawable/news_update_circle"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/simpleWideStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/splitterSimpleWideFirst"
+                android:gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:text=""
+                android:textColor="@color/newsStatus"
+                android:textSize="8sp" />
+
+            <View
+                android:id="@+id/splitterSimpleWideFirst"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/simpleWideTitle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1" />
+
+            <TextView
+                android:id="@+id/simpleWideAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterSimpleWideFirst"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:paddingRight="5dp"
+                android:text=""
+                android:gravity="center" />
+
+
+            <TextView
+                android:id="@+id/simpleWideDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterSimpleWideFirst"
+                android:gravity="center|left"
+                android:paddingBottom="15dp"
+                android:layout_toRightOf="@+id/simpleWideAuthor"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:paddingRight="2dp"/>
+
+            <ImageView
+                android:id="@+id/simpleWideCameraIcon"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_below="@+id/splitterSimpleWideFirst"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/simpleWideDate"
+                android:background="@drawable/camera"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/splitterSimpleWideSecond"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/simpleWideDate"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1" />
+
+            <TextView
+                android:id="@+id/simpleWideDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterSimpleWideSecond"
+                android:lineSpacingExtra="1dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:minLines="1"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/splitterSimpleWideThird"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/simpleWideDescription"
+                android:layout_marginLeft="15dp"
+                android:background="@color/greyText"
+                android:alpha="0.4" />
+
+            <RelativeLayout
+                android:id="@+id/simpleWideField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterSimpleWideThird"
+                android:paddingBottom="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"/>
+
+            <TextView
+                android:id="@+id/simpleWideMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/simpleWideField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_search"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/search"
+                style="@style/ImageButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/search"
+                android:clickable="true"
+                android:padding="5dp"/>
+
+
+            <ImageView
+                android:id="@+id/cancel_button"
+                style="@style/ImageButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/cancel"
+                android:clickable="true"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp" />
+
+            <EditText
+                android:id="@+id/search_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/search"
+                android:layout_toLeftOf="@+id/cancel_button"
+                android:background="@android:color/transparent"
+                android:hint="Поиск"
+                android:inputType="textCapWords"
+                android:text=""
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/transparent"
+                android:textSize="18sp"
+                android:paddingLeft="5dp"
+                android:gravity="center_vertical" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_search"
+        android:background="@color/colorPrimary">
+
+        <ru.klops.klops.cutomfonts.TextViewProBold
+            android:id="@+id/search_text_visible_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:text="@string/searchByNews"
+            android:textColor="@color/blackText"
+            android:textSize="20sp" />
+
+        <ru.klops.klops.cutomfonts.TextViewProRegular
+            android:id="@+id/search_text_visible_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="220dp"
+            android:gravity="center"
+            android:text="@string/search_input"
+            android:textColor="@color/blackText"
+            android:textSize="18sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/recyclerBackground" />
+    </RelativeLayout>
+</RelativeLayout>

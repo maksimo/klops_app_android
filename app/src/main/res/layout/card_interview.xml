@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/interviewCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/interviewCardAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="105dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreyText"
+            android:textSize="8sp"
+            android:paddingRight="5dp"
+            android:text=""
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/interviewCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left|center"
+            android:layout_toRightOf="@+id/interviewCardAuthor"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="@color/greyText"
+            android:textSize="8sp" />
+
+        <RelativeLayout
+            android:id="@+id/interviewCardPhotoImageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/interviewCardDate"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp">
+
+            <ru.klops.klops.cutomfonts.CircleImageView
+                android:id="@+id/interviewCardPhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+            <ProgressBar
+                android:id="@+id/interviewCardLoading"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/interviewCardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/interviewCardDate"
+            android:lineSpacingExtra="1dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="110dp"
+            android:paddingRight="30dp"
+            android:maxLines="3"
+            android:text=""
+            android:textColor="@color/blackText"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/interviewCardText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/interviewCardTitle"
+            android:lineSpacingExtra="1dp"
+            android:paddingBottom="10dp"
+            android:maxLines="3"
+            android:paddingLeft="110dp"
+            android:paddingRight="30dp"
+            android:text=""
+            android:textColor="@color/blackText"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</RelativeLayout>

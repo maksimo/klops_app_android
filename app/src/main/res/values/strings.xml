@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Klops</string>
+    <string name="support">ПРИ ПОДДЕРЖКЕ</string>
+    <string name="search_hint">Поиск</string>
+    <string name="searchByNews">Поиск по новостям</string>
+    <string name="search_input">Введите слово или сочетание слов, \nкоторые вы хотите найти в заголовке \nили тексте новости.</string>
+    <string name="popularTransparent">Попул</string>
+    <string name="news">Новое</string>
+    <string name="popularFull">Популярное</string>
+    <string name="confirm">Готово</string>
+    <string name="notifications">УВЕДОМЛЕНИЯ</string>
+    <string name="importantNews">Срочные новости</string>
+    <string name="contacts">ОБРАТНАЯ СВЯЗЬ</string>
+    <string name="mail">Почта</string>
+    <string name="social">Viber/WhatsApp</string>
+    <string name="joinUs">Сотрудничество</string>
+    <string name="advertise">Реклама</string>
+    <string name="advertisePhone">+7 4012 61 68 53</string>
+    <string name="joinPhone">+7 4012 99 16 42</string>
+    <string name="socialPhone">+7 909 78 23 333</string>
+    <string name="email">news@klops.ru</string>
+    <string name="ads">РЕКЛАМА</string>
+    <string name="inDevelopment">Раздел находится в разработке</string>
+    <string name="facebook">Facebook</string>
+    <string name="vkontakte">VKontakte</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="gcm_send_message">Token retrieved and sent to server! You can now use gcmsender to
+        send downstream messages to this app.</string>
+    <string name="registering_message">Generating InstanceID token...</string>
+    <string name="token_error_message">An error occurred while either fetching the InstanceID token,
+        sending the fetched token to the server or subscribing to the main topic. Please try
+        running the sample again.</string>
+    <string name="bigFont">Крупный размер шрифта</string>
+    <string name="middle">Средний размер шрифта</string>
+    <string name="dec">Мелкий размер шрифта</string>
+</resources>

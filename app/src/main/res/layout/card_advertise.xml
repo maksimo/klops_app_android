@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/advertiseCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:id="@+id/advertiseImageLayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/advertiseCardPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:id="@+id/advertiseCardLoading"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/advertiseCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/advertiseImageLayer"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text=""
+            android:textColor="@color/greyText"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/advertiseCardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/advertiseCardDate"
+            android:lineSpacingExtra="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:maxLines="3"
+            android:text=""
+            android:textColor="@color/blackText"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/advertiseCardMegaphone"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_below="@+id/advertiseCardTitle"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/megaphone" />
+
+        <TextView
+            android:id="@+id/advertiseCardCommercial"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/advertiseCardTitle"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/advertiseCardMegaphone"
+            android:paddingLeft="2dp"
+            android:textAllCaps="true"
+            android:text="материал размещен на коммерческой основе"
+            android:textColor="@color/greyText"
+            android:textSize="8sp" />
+    </RelativeLayout>
+</RelativeLayout>

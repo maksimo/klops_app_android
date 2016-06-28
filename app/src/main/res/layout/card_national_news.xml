@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nationalCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:elevation="2dp"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/nationalCardAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="10dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreyText"
+            android:textSize="8sp"
+            android:paddingRight="5dp"
+            android:text=""
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/nationalCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/nationalCardAuthor"
+            android:textAllCaps="true"
+            android:gravity="center|left"
+            android:text=""
+            android:textColor="@color/greyText"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/nationalCardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nationalCardDate"
+            android:lineSpacingExtra="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="20dp"
+            android:maxLines="3"
+            android:textStyle="bold"
+            android:text=""
+            android:textColor="@color/blackText"
+            android:textSize="16sp"/>
+
+        <View
+            android:id="@+id/splitter"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_below="@+id/nationalCardTitle"
+            android:background="@color/greySplitter" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/interviewArticle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/interviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:minLines="1"
+                android:text=""
+                android:textColor="@color/blackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/interviewStatusIcon"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_below="@+id/splitterInterviewFirst"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="17dp"
+                android:layout_toLeftOf="@+id/interviewStatus"
+                android:background="@drawable/news_update_circle"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/interviewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/splitterInterviewFirst"
+                android:gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:text=""
+                android:textColor="@color/newsStatus"
+                android:textSize="8sp" />
+
+            <View
+                android:id="@+id/splitterInterviewFirst"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/interviewTitle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1" />
+
+            <TextView
+                android:id="@+id/interviewAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterInterviewFirst"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:paddingRight="5dp"
+                android:text=""
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/interviewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterInterviewFirst"
+                android:gravity="center|left"
+                android:paddingBottom="15dp"
+                android:layout_toRightOf="@+id/interviewAuthor"
+                android:paddingTop="15dp"
+                android:textAllCaps="true"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:paddingRight="2dp"/>
+
+            <ImageView
+                android:id="@+id/interviewCameraIcon"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_below="@+id/splitterInterviewFirst"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/interviewDate"
+                android:background="@drawable/camera"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/splitterInterviewSecond"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/interviewDate"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/greyText"
+                android:alpha="1"
+                android:layout_marginLeft="15dp" />
+
+            <ru.klops.klops.cutomfonts.CircleImageView
+                android:id="@+id/interviewImagePhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/splitterInterviewSecond"
+                android:paddingLeft="15dp"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:id="@+id/interviewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterInterviewSecond"
+                android:lineSpacingExtra="1dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:minLines="1"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp"
+                android:layout_toRightOf="@+id/interviewImagePhoto"/>
+
+            <View
+                android:id="@+id/splitterInterviewThird"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/interviewDescription"
+                android:paddingLeft="15dp"
+                android:background="@color/greyText"
+                android:alpha="0.4"
+                android:layout_marginLeft="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/interviewField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterInterviewThird"
+                android:paddingBottom="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"/>
+
+            <TextView
+                android:id="@+id/interviewMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/interviewField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/galleryTwoArticle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/galleryTitleLayoutTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/galleryCard">
+
+                <TextView
+                    android:id="@+id/galleryTwoAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="15dp"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGreyText"
+                    android:textSize="8sp"
+                    android:text=""
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/galleryTwoDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_toRightOf="@+id/galleryTwoAuthor"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textColor="@color/darkGreyText"
+                    android:textSize="8sp"/>
+
+                <ImageView
+                    android:id="@+id/galleryCameraIconTwo"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_toRightOf="@+id/galleryTwoDate"
+                    android:background="@drawable/camera"
+                    android:visibility="gone" />
+
+
+                <ImageView
+                    android:id="@+id/galleryTwoStatusIcon"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toLeftOf="@+id/galleryTwoStatus"
+                    android:background="@drawable/news_update_circle"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/galleryTwoStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="15dp"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textColor="@color/newsStatus"
+                    android:textSize="8sp"/>
+
+
+                <ImageView
+                    android:id="@+id/galleryTwoCam"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/galleryTwoDate"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/photo_cam" />
+
+                <TextView
+                    android:id="@+id/galleryTwoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/galleryTwoDate"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="2dp"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="28sp"
+                    android:paddingBottom="20dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/galleryTwoDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/galleryTitleLayoutTwo"
+                android:lineSpacingExtra="2dp"
+                android:minLines="1"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/splitterGalleryTwo"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/galleryTwoDescription"
+                android:layout_marginLeft="15dp"
+                android:background="@color/greyText"
+                android:alpha="0.4" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/galleryTwoPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_below="@+id/splitterGalleryTwo"/>
+
+            <RelativeLayout
+                android:id="@+id/galleryPhotoSet"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/galleryTwoPhotos"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/gallery_switch_shape"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/gallerySwitchIcon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/gallery"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/gallerySwitchCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/gallerySwitchIcon"
+                    android:layout_marginRight="12dp"
+                    android:text=""
+                    android:textColor="@color/greyText"
+                    android:textSize="8sp"
+                    android:layout_marginLeft="5dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/galleryTwoField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/galleryPhotoSet"
+                android:paddingBottom="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"/>
+
+            <TextView
+                android:id="@+id/galleryTwoMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/galleryTwoField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="10dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
