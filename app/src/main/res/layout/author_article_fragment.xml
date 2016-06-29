@@ -120,8 +120,7 @@ android:orientation="vertical">
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_below="@+id/splitterAuthorsSecond"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginLeft="15dp" />
 
         <TextView
             android:id="@+id/authorsDescription"
@@ -148,15 +147,16 @@ android:orientation="vertical">
             android:background="@color/greyText"
             android:alpha="0.4"/>
 
-        <RelativeLayout
+        <WebView
             android:id="@+id/authorsField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/splitterAuthorsThird"
             android:paddingBottom="30dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:paddingTop="15dp"
+            android:layout_marginBottom="20dp" />
 
         <TextView
             android:id="@+id/authorsMatch"

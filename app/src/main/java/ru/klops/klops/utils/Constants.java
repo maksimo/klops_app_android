@@ -27,11 +27,6 @@ public class Constants {
     public static final String GALLERY_SECOND_TEXT = "photo2in1";
     public static final String ADS_TEXT = "ads";
     public static final String SIMPLE_WIDE_TEXT = "simple_wide";
-    // Item text array Objects
-    public static final String TEXT = "text";
-    public static final String LINK = "link";
-    public static final String IMAGE = "image";
-    public static final String TITLE = "title";
     // Intents to Article Activity
     public static final String ARTICLE_SEARCH = "ARTICLE_SEARCH";
     public static final String ARTICLE_FEED = "ARTICLE_FEED";
@@ -41,4 +36,6 @@ public class Constants {
     public static final String RECEIVE_SEARCH = "ru.klops.klops.intent.action.requestSearchArticle";
     public static final String ITEM = "ITEM";
     public static final String SEARCH_RESULT = "SEARCH_RESULT";
+    public static final String PLATFORM = "android";
+
 }

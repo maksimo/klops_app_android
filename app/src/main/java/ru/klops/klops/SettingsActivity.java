@@ -1,5 +1,6 @@
 package ru.klops.klops;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,15 +26,16 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.cutomfonts.TextViewProMd;
 import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.services.RetrofitServiceGenerator;
+import ru.klops.klops.utils.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -69,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;
     String tokenDevice;
-    String platform = "android";
+    ProgressDialog mProgressDialog;
     KlopsApplication app;
 
 
@@ -79,20 +81,26 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
         unbinder = ButterKnife.bind(this);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
-        confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        notifications.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        quickly.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        contacts.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        mail.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        email.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        join.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        joinPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        social.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        socialPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        advertise.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        advertisePhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        app = KlopsApplication.getINSTANCE();
+        initFonts();
+        initProgressDialog();
         setUpReceiver();
         Log.d(LOG, "onCreate");
+    }
+
+    private void initFonts() {
+        confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+        notifications.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        quickly.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        contacts.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        mail.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        email.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        join.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        joinPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        social.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        socialPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        advertise.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        advertisePhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
     }
 
     private void setUpReceiver() {
@@ -111,6 +119,13 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    public void initProgressDialog() {
+        mProgressDialog = new ProgressDialog(this, R.style.MyDialog);
+        mProgressDialog.setIcon(R.drawable.logo_int_settings);
+        mProgressDialog.setTitle("Подписка");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setIndeterminate(true);
+    }
 
     private boolean checkPlayService() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
@@ -139,19 +154,22 @@ public class SettingsActivity extends AppCompatActivity {
     @OnClick(R.id.confirm_button)
     public void confirm() {
         confirm.startAnimation(alpha);
-        startService(new Intent(this, RegistrationIntentService.class));
         onBackPressed();
     }
 
     @OnCheckedChanged(R.id.switch_notifications)
     public void registerGms() {
         if (switchNotifications.isChecked()) {
+            mProgressDialog.setMessage("Подписываюсь на важные новости...");
+            mProgressDialog.show();
+            tokenDevice = app.getToken();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Call<Response> call = api.subscribeNotification(tokenDevice, platform);
-            call.enqueue(new Callback<Response>() {
+            Call<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<Response> call, Response<Response> response) {
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                        mProgressDialog.dismiss();
                         Log.d(LOG, "response code: " + response.code());
                     } else {
                         Log.d(LOG, "response code: " + response.code());
@@ -159,18 +177,22 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Response> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    mProgressDialog.dismiss();
                     Log.d(LOG, "request failed... 403 forbidden" + t.getMessage());
                     Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
                 }
             });
         } else if (!switchNotifications.isChecked()) {
+            mProgressDialog.setMessage("Отписываюсь от важных новостей...");
+            mProgressDialog.show();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Call<Response> call = api.unSubscribeNotification(tokenDevice, platform);
-            call.enqueue(new Callback<Response>() {
+            Call<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<Response> call, Response<Response> response) {
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                        mProgressDialog.dismiss();
                         Log.d(LOG, "response code: " + response.code());
                     } else {
                         Log.d(LOG, "response code: " + response.code());
@@ -178,8 +200,9 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Response> call, Throwable t) {
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Log.d(LOG, "request failed... 403 forbidden" + t.getMessage());
+                    mProgressDialog.dismiss();
                     Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -216,7 +239,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d(LOG, "onStop");
-        finish();
         super.onStop();
 
     }

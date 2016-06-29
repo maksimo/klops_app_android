@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -52,15 +54,12 @@ public class SimpleWideArticleFragment extends Fragment {
     @BindView(R.id.simpleWideDescription)
     TextView shortdescription;
     @BindView(R.id.simpleWideField)
-    RelativeLayout textField;
+    WebView textField;
     @BindView(R.id.simpleWideMatch)
     TextView matchArticles;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
-    List<TextView> textTypes;
-    List<TextView> linkTypes;
-    List<TextView> titleTypes;
     ArticleActivity activity;
 
     @Override
@@ -79,7 +78,7 @@ public class SimpleWideArticleFragment extends Fragment {
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
         setUpImages();
-        setUpTextField();
+        setUpWebViw();
         setUpView();
         return fragmentView;
     }
@@ -92,98 +91,12 @@ public class SimpleWideArticleFragment extends Fragment {
         }
     }
 
-    private void setUpTextField() {
-        Log.d(LOG, "setUpTextField");
-        textTypes = new ArrayList<>();
-        linkTypes = new ArrayList<>();
-        titleTypes = new ArrayList<>();
-        List<Text> texts = new ArrayList<>();
-        texts.addAll(item.getText());
-        int previousID = 0;
-        for (int i = 0; i < texts.size(); i++) {
-            if (texts.get(i).getType().equals(Constants.TEXT)) {
-                TextView textView = new TextView(getContext());
-                textView.setText(texts.get(i).getText());
-                textView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                textView.setTextSize(16);
-                textView.setSingleLine(false);
-                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.darkGreyText));
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                textView.setPadding(0, 5, 0, 5);
-                textView.setLineSpacing(2, 2);
-                int currentID = previousID + 1;
-                textView.setId(currentID);
-                params.addRule(RelativeLayout.BELOW, previousID);
-                textView.setLayoutParams(params);
-                previousID = currentID;
-                textField.addView(textView, params);
-                textTypes.add(textView);
-            } else if (texts.get(i).getType().equals(Constants.TITLE)) {
-                TextView titleView = new TextView(getContext());
-                titleView.setText(texts.get(i).getText());
-                titleView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                titleView.setTextSize(16);
-                titleView.setSingleLine(false);
-                titleView.setTextColor(ContextCompat.getColor(getContext(), R.color.darkGreyText));
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                titleView.setPadding(0, 10, 0, 10);
-                titleView.setLineSpacing(2, 2);
-                int currentID = previousID + 1;
-                titleView.setId(currentID);
-                params.addRule(RelativeLayout.BELOW, previousID);
-                titleView.setLayoutParams(params);
-                textField.addView(titleView, params);
-                titleTypes.add(titleView);
-            } else if (texts.get(i).getType().equals(Constants.LINK)) {
-                final TextView linkView = new TextView(getContext());
-                linkView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                linkView.setText(texts.get(i).getText());
-                linkView.setTextSize(16);
-                linkView.setSingleLine(false);
-                linkView.setPaintFlags(linkView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-                linkView.setTextColor(ContextCompat.getColor(getContext(), R.color.linkColor));
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                linkView.setPadding(0, 5, 0, 5);
-                linkView.setLineSpacing(2, 2);
-                int currentID = previousID + 1;
-                linkView.setId(currentID);
-                params.addRule(RelativeLayout.BELOW, previousID);
-                linkView.setLayoutParams(params);
-                textField.addView(linkView, params);
-                linkView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(linkView.getText().toString())));
-                    }
-                });
-                linkTypes.add(linkView);
-            } else if (texts.get(i).getType().equals(Constants.IMAGE)) {
-                ImageView imageView = new ImageView(getContext());
-                final ProgressBar bar = new ProgressBar(getContext());
-                bar.setPadding(0, 10, 0, 10);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                imageView.setPadding(0, 10, 0, 10);
-                int currentID = previousID + 1;
-                imageView.setId(currentID);
-                bar.setId(currentID);
-                params.addRule(RelativeLayout.BELOW, previousID);
-                imageView.setLayoutParams(params);
-                textField.addView(imageView, params);
-                textField.addView(bar, params);
-                Picasso.with(getContext()).load(texts.get(i).getText()).into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        bar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        bar.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-
-        }
+    private void setUpWebViw() {
+        textField.getSettings().setJavaScriptEnabled(true);
+        textField.loadData(item.getText(), "text/html; charset=utf-8", "UTF-8");
+        textField.getSettings().setDefaultFontSize(16);
+        textField.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        textField.getSettings().setLoadsImagesAutomatically(true);
     }
 
     private void setUpView() {
@@ -208,15 +121,7 @@ public class SimpleWideArticleFragment extends Fragment {
         author.setTextSize(8);
         shortdescription.setTextSize(16);
         matchArticles.setTextSize(34);
-        for (TextView texts : textTypes) {
-            texts.setTextSize(16);
-        }
-        for (TextView titles : titleTypes) {
-            titles.setTextColor(16);
-        }
-        for (TextView links : linkTypes) {
-            links.setTextSize(16);
-        }
+        textField.getSettings().setDefaultFontSize(16);
     }
 
     public void formatIncrement() {
@@ -226,15 +131,7 @@ public class SimpleWideArticleFragment extends Fragment {
         author.setTextSize(9);
         shortdescription.setTextSize(17);
         matchArticles.setTextSize(35);
-        for (TextView texts : textTypes) {
-            texts.setTextSize(17);
-        }
-        for (TextView titles : titleTypes) {
-            titles.setTextColor(17);
-        }
-        for (TextView links : linkTypes) {
-            links.setTextSize(17);
-        }
+        textField.getSettings().setDefaultFontSize(17);
     }
 
     public void formatDecrement() {
@@ -244,15 +141,7 @@ public class SimpleWideArticleFragment extends Fragment {
         author.setTextSize(7);
         shortdescription.setTextSize(15);
         matchArticles.setTextSize(33);
-        for (TextView texts : textTypes) {
-            texts.setTextSize(15);
-        }
-        for (TextView titles : titleTypes) {
-            titles.setTextColor(15);
-        }
-        for (TextView links : linkTypes) {
-            links.setTextSize(15);
-        }
+        textField.getSettings().setDefaultFontSize(15);
     }
 
     public void shareToSocial() {

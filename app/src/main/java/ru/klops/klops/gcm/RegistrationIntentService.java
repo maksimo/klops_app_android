@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import ru.klops.klops.R;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.utils.Constants;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -28,6 +29,7 @@ public class RegistrationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        app = KlopsApplication.getINSTANCE();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             InstanceID instanceID = InstanceID.getInstance(this);
@@ -36,8 +38,6 @@ public class RegistrationIntentService extends IntentService {
             Log.i(TAG, "GCM Registration Token: " + token);
 
             sendRegistrationToServer(token);
-            app.setToken(token);
-
             subscribeTopics(token);
 
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
@@ -50,6 +50,7 @@ public class RegistrationIntentService extends IntentService {
     }
 
     private void sendRegistrationToServer(String token) {
+        app.setToken(token);
     }
 
     private void subscribeTopics(String token) throws IOException {

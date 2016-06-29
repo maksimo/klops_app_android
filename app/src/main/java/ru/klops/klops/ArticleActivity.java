@@ -381,11 +381,8 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
+        finish();
+        super.onBackPressed();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ru.klops.klops.api;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.GET;
@@ -43,14 +44,16 @@ public interface PageApi {
     /**
      * @param tokenValue   device token to register device in klops.ru database
      */
+    @Headers("Content-Type: application/json")
     @POST("/api/subscribe_token")
-    Call<Response> subscribeNotification(@Query("device_token") String tokenValue, @Query("platform") String platform);
+    Call<ResponseBody> subscribeNotification(@Query("device_token") String tokenValue, @Query("platform") String platform);
 
     /**
      * @param deviceToken device token to unregister device in klops.ru database
      */
+    @Headers("Content-Type: application/json")
     @POST("/api/unsubscribe_token")
-    Call<Response> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
+    Call<ResponseBody> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
 
 }
 

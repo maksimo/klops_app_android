@@ -90,10 +90,10 @@ public class SearchFragment extends Fragment {
     }
 
     private void initProgressDialog() {
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.MyDialog);
+        mProgressDialog.setIcon(R.drawable.logo_int_settings);
         mProgressDialog.setMessage("Ожадание отклика сервера...");
         mProgressDialog.setTitle("Поиск статей");
-        mProgressDialog.setIcon(R.drawable.logo_int_settings);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setIndeterminate(true);
     }

@@ -150,8 +150,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterAdvertiseThird"
                 android:paddingBottom="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="15dp"
                 android:paddingTop="15dp" />
 
             <ImageView

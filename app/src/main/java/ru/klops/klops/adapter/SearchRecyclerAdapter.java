@@ -59,7 +59,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
 
@@ -67,13 +66,14 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_result_card, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
+        initProgressDialog();
         return holder;
     }
 
     public void initProgressDialog() {
         mProgressDialog = new ProgressDialog(context.getContext(), R.style.MyDialog);
-        mProgressDialog.setMessage("Ожадание отклика сервера...");
         mProgressDialog.setIcon(R.drawable.logo_int_settings);
+        mProgressDialog.setMessage("Ожадание отклика сервера...");
         mProgressDialog.setTitle("Открываю статью");
         mProgressDialog.setCancelable(false);
         mProgressDialog.setIndeterminate(true);

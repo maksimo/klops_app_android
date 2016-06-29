@@ -2,6 +2,7 @@ package ru.klops.klops.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import butterknife.BindView;
@@ -72,6 +74,7 @@ public class BaseFragment extends Fragment {
         Log.d(LOG, "setUpTab");
         layout.addTab(layout.newTab().setText("Новое"));
         layout.addTab(layout.newTab().setText("Популярное"));
+        changeTabsFont();
         layout.setSelectedTabIndicatorHeight(0);
         adapter = new SlideAdapter(getFragmentManager(), 2);
         viewPager.setAdapter(adapter);
@@ -93,6 +96,22 @@ public class BaseFragment extends Fragment {
             }
         });
         viewPager.startAnimation(fadeIn);
+    }
+
+    private void changeTabsFont() {
+
+        ViewGroup vg = (ViewGroup) layout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                }
+            }
+        }
     }
 
     @OnClick(R.id.search_action)

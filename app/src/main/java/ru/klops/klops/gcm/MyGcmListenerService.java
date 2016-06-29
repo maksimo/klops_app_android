@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import ru.klops.klops.R;
 import ru.klops.klops.SettingsActivity;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -34,6 +35,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.logo_int_settings)
                 .setContentTitle("Важные новости")
                 .setContentText(message)
                 .setAutoCancel(true)

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -55,7 +56,7 @@ public class AdvertiseArticleFragment extends Fragment {
     @BindView(R.id.advertiseDescription)
     TextView advertiseDescription;
     @BindView(R.id.advertiseField)
-    WebView advertiseField;
+    WebView textField;
     @BindView(R.id.advertiseMegaphone)
     ImageView megaphoneIcon;
     @BindView(R.id.advertiseCommercial)
@@ -83,6 +84,7 @@ public class AdvertiseArticleFragment extends Fragment {
         item = getArguments().getParcelable(Constants.ARTICLE);
         setUpImages();
         setUpView();
+        setUpWebViw();
         return fragmentView;
     }
 
@@ -94,7 +96,6 @@ public class AdvertiseArticleFragment extends Fragment {
             advertiseStatusIcon.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
@@ -114,6 +115,14 @@ public class AdvertiseArticleFragment extends Fragment {
 
     }
 
+    private void setUpWebViw() {
+        textField.getSettings().setJavaScriptEnabled(true);
+        textField.loadData(item.getText(), "text/html; charset=utf-8", "UTF-8");
+        textField.getSettings().setDefaultFontSize(16);
+        textField.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        textField.getSettings().setLoadsImagesAutomatically(true);
+    }
+
     public void formatDefault() {
         advertiseTitle.setTextSize(28);
         advertiseStatus.setTextSize(8);
@@ -122,7 +131,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseCommercial.setTextSize(8);
         advertiseMatch.setTextSize(34);
         author.setTextSize(8);
-
+        textField.getSettings().setDefaultFontSize(16);
     }
 
     public void formatIncrement() {
@@ -133,6 +142,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseCommercial.setTextSize(9);
         advertiseMatch.setTextSize(35);
         author.setTextSize(9);
+        textField.getSettings().setDefaultFontSize(17);
 
     }
 
@@ -144,7 +154,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseCommercial.setTextSize(7);
         advertiseMatch.setTextSize(33);
         author.setTextSize(7);
-
+        textField.getSettings().setDefaultFontSize(15);
     }
 
     public void shareToSocial() {
@@ -187,6 +197,8 @@ public class AdvertiseArticleFragment extends Fragment {
         Log.d(LOG, "onDestroyView");
         super.onDestroyView();
     }
+
+
 
     @Override
     public void onDestroy() {

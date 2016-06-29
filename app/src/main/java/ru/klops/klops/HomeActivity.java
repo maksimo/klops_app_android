@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.WindowManager;
 
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.BaseFragment;
@@ -26,6 +27,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Log.d(LOG, "onCreate");
         app = KlopsApplication.getINSTANCE();
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Klops.Ru");
