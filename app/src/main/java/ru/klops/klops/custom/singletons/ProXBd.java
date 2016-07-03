@@ -1,9 +1,9 @@
-package ru.klops.klops.cutomfonts.singletons;
+package ru.klops.klops.custom.singletons;
 
 import android.content.Context;
 import android.graphics.Typeface;
 
-import ru.klops.klops.cutomfonts.FontCache;
+import ru.klops.klops.custom.FontCache;
 
 public class ProXBd {
         private static ProRegular INSTANCE;

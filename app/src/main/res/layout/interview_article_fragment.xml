@@ -18,11 +18,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
+                android:minLines="1"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="15dp"
-                android:minLines="1"
                 android:text=""
                 android:textColor="@color/blackText"
                 android:textSize="16sp" />
@@ -49,8 +49,8 @@
                 android:paddingBottom="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="15dp"
-                android:textAllCaps="true"
                 android:text=""
+                android:textAllCaps="true"
                 android:textColor="@color/newsStatus"
                 android:textSize="8sp" />
 
@@ -61,39 +61,39 @@
                 android:layout_below="@+id/interviewTitle"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/greyText"
-                android:alpha="1" />
+                android:alpha="1"
+                android:background="@color/greyText" />
 
             <TextView
                 android:id="@+id/interviewAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewFirst"
+                android:gravity="center"
                 android:paddingBottom="15dp"
-                android:paddingTop="15dp"
                 android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:text=""
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="8sp"
-                android:paddingRight="5dp"
-                android:text=""
-                android:gravity="center" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/interviewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewFirst"
+                android:layout_toRightOf="@+id/interviewAuthor"
                 android:gravity="center|left"
                 android:paddingBottom="15dp"
-                android:layout_toRightOf="@+id/interviewAuthor"
+                android:paddingRight="2dp"
                 android:paddingTop="15dp"
-                android:textAllCaps="true"
                 android:text=""
+                android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp"
-                android:paddingRight="2dp"/>
+                android:textSize="8sp" />
 
             <ImageView
                 android:id="@+id/interviewCameraIcon"
@@ -103,63 +103,76 @@
                 android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/interviewDate"
                 android:background="@drawable/camera"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/splitterInterviewSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
                 android:layout_below="@+id/interviewDate"
-                android:paddingLeft="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/greyText"
                 android:alpha="1"
-                android:layout_marginLeft="15dp" />
+                android:background="@color/greyText"
+                android:paddingLeft="15dp" />
 
-            <ru.klops.klops.cutomfonts.CircleImageView
-                android:id="@+id/interviewImagePhoto"
+            <RelativeLayout
+                android:id="@+id/interviewImageLayer"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_below="@+id/splitterInterviewSecond"
-                android:paddingLeft="15dp"
-                android:layout_marginTop="30dp"/>
+                android:paddingLeft="15dp" >
+
+                <ru.klops.klops.custom.CircleImageView
+                    android:id="@+id/interviewImagePhoto"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/interviewProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/interviewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewSecond"
+                android:layout_toRightOf="@+id/interviewImageLayer"
                 android:lineSpacingExtra="1dp"
+                android:minLines="1"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="20dp"
-                android:minLines="1"
                 android:text=""
                 android:textColor="@color/darkGreyText"
-                android:textSize="16sp"
-                android:layout_toRightOf="@+id/interviewImagePhoto"/>
+                android:textSize="16sp" />
 
             <View
                 android:id="@+id/splitterInterviewThird"
                 android:layout_width="match_parent"
                 android:layout_height="0.6dp"
                 android:layout_below="@+id/interviewDescription"
-                android:paddingLeft="15dp"
-                android:background="@color/greyText"
+                android:layout_marginLeft="15dp"
                 android:alpha="0.4"
-                android:layout_marginLeft="15dp" />
+                android:background="@color/greyText"
+                android:paddingLeft="15dp" />
 
             <WebView
                 android:id="@+id/interviewField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewThird"
-                android:paddingBottom="30dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="15dp"
-                android:paddingTop="15dp"/>
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp" />
 
             <TextView
                 android:id="@+id/interviewMatch"

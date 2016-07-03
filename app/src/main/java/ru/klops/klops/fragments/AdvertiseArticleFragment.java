@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +64,8 @@ public class AdvertiseArticleFragment extends Fragment {
     TextView advertiseCommercial;
     @BindView(R.id.advertiseMatch)
     TextView advertiseMatch;
+    @BindView(R.id.advertiseProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -90,7 +93,17 @@ public class AdvertiseArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        Picasso.with(getContext()).load(item.getImage()).into(advertisePhoto);
+        Picasso.with(getContext()).load(item.getImage()).into(advertisePhoto, new Callback() {
+            @Override
+            public void onSuccess() {
+                bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                bar.setVisibility(View.VISIBLE);
+            }
+        });
         megaphoneIcon.setVisibility(View.VISIBLE);
         if (!item.getUpdate_status().equals("")) {
             advertiseStatusIcon.setVisibility(View.VISIBLE);

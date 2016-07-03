@@ -330,7 +330,6 @@ public class ArticleActivity extends AppCompatActivity {
 
     public void placeArticleFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .addToBackStack(null)
                 .replace(R.id.articleContainer, fragment)
                 .commit();
     }
@@ -381,8 +380,7 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        finish();
-        super.onBackPressed();
+            super.onBackPressed();
     }
 
     @Override

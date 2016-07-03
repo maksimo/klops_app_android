@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/big_logo" />
 
-        <ru.klops.klops.cutomfonts.TextViewProRegular
+        <ru.klops.klops.custom.TextViewProRegular
             android:id="@+id/inDevelopmentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

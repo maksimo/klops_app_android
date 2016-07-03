@@ -1,4 +1,4 @@
-package ru.klops.klops.cutomfonts;
+package ru.klops.klops.custom;
 
 import android.content.Context;
 import android.graphics.Typeface;

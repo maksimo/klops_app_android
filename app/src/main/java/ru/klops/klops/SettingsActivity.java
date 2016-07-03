@@ -33,12 +33,10 @@ import retrofit2.Response;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.gcm.QuickstartPreferences;
-import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     final String LOG = "SettingsActivity";
     @BindView(R.id.confirm_button)
     TextView confirm;
@@ -68,12 +66,9 @@ public class SettingsActivity extends AppCompatActivity {
     TextView advertisePhone;
     Animation alpha;
     Unbinder unbinder;
-    private BroadcastReceiver registrationReceiver;
-    private boolean isReceiverRegistered;
     String tokenDevice;
     ProgressDialog mProgressDialog;
     KlopsApplication app;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
         app = KlopsApplication.getINSTANCE();
         initFonts();
         initProgressDialog();
-        setUpReceiver();
         Log.d(LOG, "onCreate");
     }
 
@@ -103,52 +97,12 @@ public class SettingsActivity extends AppCompatActivity {
         advertisePhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
     }
 
-    private void setUpReceiver() {
-        Log.d(LOG, "setUpReceiver");
-        registrationReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-            }
-        };
-        registerReceiver();
-        if (checkPlayService()) {
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
     public void initProgressDialog() {
         mProgressDialog = new ProgressDialog(this, R.style.MyDialog);
         mProgressDialog.setIcon(R.drawable.logo_int_settings);
         mProgressDialog.setTitle("Подписка");
         mProgressDialog.setCancelable(false);
         mProgressDialog.setIndeterminate(true);
-    }
-
-    private boolean checkPlayService() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(LOG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    private void registerReceiver() {
-        if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(registrationReceiver,
-                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-            isReceiverRegistered = true;
-        }
     }
 
     @OnClick(R.id.confirm_button)
@@ -217,15 +171,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(registrationReceiver);
-        isReceiverRegistered = false;
         Log.d(LOG, "onPause");
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        registerReceiver();
         Log.d(LOG, "onResume");
         super.onResume();
     }

@@ -72,7 +72,7 @@
         android:layout_below="@+id/toolbar_search"
         android:background="@color/colorPrimary">
 
-        <ru.klops.klops.cutomfonts.TextViewProBold
+        <ru.klops.klops.custom.TextViewProBold
             android:id="@+id/search_text_visible_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:textColor="@color/blackText"
             android:textSize="20sp" />
 
-        <ru.klops.klops.cutomfonts.TextViewProRegular
+        <ru.klops.klops.custom.TextViewProRegular
             android:id="@+id/search_text_visible_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

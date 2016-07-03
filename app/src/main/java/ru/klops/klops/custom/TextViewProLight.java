@@ -1,10 +1,10 @@
-package ru.klops.klops.cutomfonts;
+package ru.klops.klops.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import ru.klops.klops.cutomfonts.singletons.ProLight;
+import ru.klops.klops.custom.singletons.ProLight;
 
 /**
  * TextView with Pro-Light fonts

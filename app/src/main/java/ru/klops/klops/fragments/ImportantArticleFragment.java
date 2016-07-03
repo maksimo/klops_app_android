@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,8 @@ public class ImportantArticleFragment extends Fragment {
     WebView textField;
     @BindView(R.id.importantMatch)
     TextView matchArticles;
+    @BindView(R.id.importantProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -87,7 +90,17 @@ public class ImportantArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        Picasso.with(getContext()).load(item.getImage()).into(photo);
+        Picasso.with(getContext()).load(item.getImage()).into(photo, new Callback() {
+            @Override
+            public void onSuccess() {
+                bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+              bar.setVisibility(View.VISIBLE);
+            }
+        });
         cameraIcon.setVisibility(View.VISIBLE);
         if (!item.getUpdate_status().equals("")) {
             statusCircle.setVisibility(View.VISIBLE);

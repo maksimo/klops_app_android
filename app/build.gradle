@@ -33,11 +33,18 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig getSigningConfig()
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def name = new String("klops-ru");
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("-debug", "-" + name))
+                }
+            }
         }
     }
-}
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,5 +64,4 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
-}
-
+}}

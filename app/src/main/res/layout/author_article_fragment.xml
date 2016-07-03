@@ -1,174 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical">
-
-<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/authorsArticle"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/authorsTitle"
+        <RelativeLayout
+            android:id="@+id/authorsArticle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="2dp"
-            android:paddingBottom="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:minLines="1"
-            android:text=""
-            android:textColor="@color/blackText"
-            android:textSize="16sp" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/authorsStatusIcon"
-            android:layout_width="7dp"
-            android:layout_height="7dp"
-            android:layout_below="@+id/splitterAuthorsFirst"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="17dp"
-            android:layout_toLeftOf="@+id/authorsStatus"
-            android:background="@drawable/news_update_circle"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/authorsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:minLines="1"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/blackText"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/authorsStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/splitterAuthorsFirst"
-            android:gravity="right"
-            android:paddingBottom="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:textAllCaps="true"
-            android:text=""
-            android:textColor="@color/newsStatus"
-            android:textSize="8sp" />
+            <ImageView
+                android:id="@+id/authorsStatusIcon"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_below="@+id/splitterAuthorsFirst"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="17dp"
+                android:layout_toLeftOf="@+id/authorsStatus"
+                android:background="@drawable/news_update_circle"
+                android:visibility="gone" />
 
-        <View
-            android:id="@+id/splitterAuthorsFirst"
-            android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:layout_below="@+id/authorsTitle"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/greyText"
-            android:alpha="1" />
+            <TextView
+                android:id="@+id/authorsStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/splitterAuthorsFirst"
+                android:gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/newsStatus"
+                android:textSize="8sp" />
 
-        <TextView
-            android:id="@+id/authorsAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/splitterAuthorsFirst"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/darkGreyText"
-            android:textSize="8sp"
-            android:paddingRight="5dp"
-            android:text=""
-            android:gravity="center" />
+            <View
+                android:id="@+id/splitterAuthorsFirst"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/authorsTitle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:alpha="1"
+                android:background="@color/greyText" />
 
-        <TextView
-            android:id="@+id/authorsDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/splitterAuthorsFirst"
-            android:gravity="center|left"
-            android:paddingBottom="15dp"
-            android:layout_toRightOf="@+id/authorsAuthor"
-            android:paddingTop="15dp"
-            android:textAllCaps="true"
-            android:text=""
-            android:textColor="@color/darkGreyText"
-            android:textSize="8sp"
-            android:paddingRight="2dp"/>
+            <TextView
+                android:id="@+id/authorsAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterAuthorsFirst"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/authorsCameraIcon"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_below="@+id/splitterAuthorsFirst"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/authorsDate"
-            android:background="@drawable/camera"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/authorsDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterAuthorsFirst"
+                android:layout_toRightOf="@+id/authorsAuthor"
+                android:gravity="center|left"
+                android:paddingBottom="15dp"
+                android:paddingRight="2dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp" />
 
-        <View
-            android:id="@+id/splitterAuthorsSecond"
-            android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:layout_below="@+id/authorsDate"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="30dp"
-            android:background="@color/greyText"
-            android:alpha="1" />
+            <ImageView
+                android:id="@+id/authorsCameraIcon"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_below="@+id/splitterAuthorsFirst"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/authorsDate"
+                android:background="@drawable/camera"
+                android:visibility="gone" />
 
-        <ru.klops.klops.cutomfonts.CircleImageView
-            android:id="@+id/authorsPhoto"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_below="@+id/splitterAuthorsSecond"
-            android:layout_marginLeft="15dp" />
+            <View
+                android:id="@+id/splitterAuthorsSecond"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/authorsDate"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:alpha="1"
+                android:background="@color/greyText" />
 
-        <TextView
-            android:id="@+id/authorsDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/splitterAuthorsSecond"
-            android:lineSpacingExtra="1dp"
-            android:paddingBottom="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="20dp"
-            android:minLines="1"
-            android:text=""
-            android:textColor="@color/darkGreyText"
-            android:textSize="16sp"
-            android:layout_toRightOf="@+id/authorsPhoto"/>
+            <RelativeLayout
+                android:id="@+id/authorPhotoLayer"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/splitterAuthorsSecond"
+                android:layout_marginLeft="15dp">
 
-        <View
-            android:id="@+id/splitterAuthorsThird"
-            android:layout_width="match_parent"
-            android:layout_height="0.6dp"
-            android:layout_below="@+id/authorsDescription"
-            android:layout_marginLeft="15dp"
-            android:background="@color/greyText"
-            android:alpha="0.4"/>
+                <ru.klops.klops.custom.CircleImageView
+                    android:id="@+id/authorsPhoto"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp" />
 
-        <WebView
-            android:id="@+id/authorsField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/splitterAuthorsThird"
-            android:paddingBottom="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:paddingTop="15dp"
-            android:layout_marginBottom="20dp" />
+                <ProgressBar
+                    android:id="@+id/authorsProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:visibility="visible"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/authorsMatch"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_below="@id/authorsField"
-            android:background="@color/recyclerBackground"
-            android:paddingLeft="15dp"
-            android:paddingTop="30dp"
-            android:text="Связанные статьи"
-            android:textColor="@color/blackText"
-            android:textSize="34sp" />
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/authorsDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterAuthorsSecond"
+                android:layout_toRightOf="@+id/authorPhotoLayer"
+                android:lineSpacingExtra="1dp"
+                android:minLines="1"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/splitterAuthorsThird"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/authorsDescription"
+                android:layout_marginLeft="15dp"
+                android:alpha="0.4"
+                android:background="@color/greyText" />
+
+            <WebView
+                android:id="@+id/authorsField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterAuthorsThird"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp" />
+
+            <TextView
+                android:id="@+id/authorsMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/authorsField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

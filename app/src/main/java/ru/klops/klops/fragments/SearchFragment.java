@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -80,13 +82,17 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.search_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
+        initFonts();
         initProgressDialog();
         alpha = AnimationUtils.loadAnimation(getContext(), R.anim.alpha);
+        Log.d(LOG, "onCreateView");
+        return fragmentView;
+    }
+
+    private void initFonts() {
         searchOne.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         searchField.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        Log.d(LOG, "onCreateView");
-        return fragmentView;
     }
 
     private void initProgressDialog() {
@@ -116,6 +122,8 @@ public class SearchFragment extends Fragment {
         if (requestedWord.equals("") && requestedWord == (null)) {
             searchField.setError("Введите ключевое слово");
         } else {
+            InputMethodManager imm = (InputMethodManager) fragmentView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
             startSearch(requestedWord);
@@ -123,6 +131,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void startSearch(final String requestedWord) {
+        ((HomeActivity) getActivity()).hideKeyboard();
         mProgressDialog.show();
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Call<Search> call = api.getSearchResult(requestedWord, 1);
@@ -149,7 +158,7 @@ public class SearchFragment extends Fragment {
         viewSearch.setLayoutManager(manager);
         ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
         viewSearch.addItemDecoration(decoration);
-        adapter = new SearchRecyclerAdapter(SearchFragment.this, copy);
+        adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord);
         viewSearch.setAdapter(adapter);
         viewSearch.setVisibility(View.VISIBLE);
     }
@@ -158,6 +167,8 @@ public class SearchFragment extends Fragment {
     @OnClick(R.id.cancel_button)
     public void cancelAction() {
         btnCancel.startAnimation(alpha);
+        InputMethodManager imm = (InputMethodManager) fragmentView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
         ((HomeActivity) getActivity()).popBackWithFadeOut(new BaseFragment());
     }
 

@@ -13,23 +13,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/simpleWithImagePhoto"
+            <RelativeLayout
+                android:id="@+id/simpleImageLayer"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:scaleType="centerCrop"/>
+                android:layout_height="280dp">
+
+                <ImageView
+                    android:id="@+id/simpleWithImagePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:scaleType="centerCrop" />
+
+                <ProgressBar
+                    android:id="@+id/simpleImageProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/simpleWithImageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/simpleWithImagePhoto"
+                android:layout_below="@+id/simpleImageLayer"
                 android:lineSpacingExtra="2dp"
+                android:minLines="1"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="15dp"
-                android:minLines="1"
                 android:text=""
                 android:textColor="@color/blackText"
                 android:textSize="16sp" />
@@ -56,8 +69,8 @@
                 android:paddingBottom="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="15dp"
-                android:textAllCaps="true"
                 android:text=""
+                android:textAllCaps="true"
                 android:textColor="@color/newsStatus"
                 android:textSize="8sp" />
 
@@ -68,39 +81,39 @@
                 android:layout_below="@+id/simpleWithImageTitle"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/greyText"
-                android:alpha="1" />
+                android:alpha="1"
+                android:background="@color/greyText" />
 
             <TextView
                 android:id="@+id/simpleWithImageAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleImageFirst"
+                android:gravity="center"
                 android:paddingBottom="15dp"
-                android:paddingTop="15dp"
                 android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:text=""
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="8sp"
-                android:paddingRight="5dp"
-                android:text=""
-                android:gravity="center" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/simpleWithImageDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleImageFirst"
+                android:layout_toRightOf="@+id/simpleWithImageAuthor"
                 android:gravity="center|left"
                 android:paddingBottom="15dp"
-                android:layout_toRightOf="@+id/simpleWithImageAuthor"
+                android:paddingRight="2dp"
                 android:paddingTop="15dp"
-                android:textAllCaps="true"
                 android:text=""
+                android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp"
-                android:paddingRight="2dp"/>
+                android:textSize="8sp" />
 
             <ImageView
                 android:id="@+id/simpleWithImageCameraIcon"
@@ -110,7 +123,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/simpleWithImageDate"
                 android:background="@drawable/camera"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/splitterSimpleImageSecond"
@@ -119,8 +132,8 @@
                 android:layout_below="@+id/simpleWithImageDate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/greyText"
-                android:alpha="1" />
+                android:alpha="1"
+                android:background="@color/greyText" />
 
             <TextView
                 android:id="@+id/simpleImageDescription"
@@ -128,11 +141,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleImageSecond"
                 android:lineSpacingExtra="1dp"
+                android:minLines="1"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="20dp"
-                android:minLines="1"
                 android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />
@@ -143,19 +156,19 @@
                 android:layout_height="0.6dp"
                 android:layout_below="@+id/simpleImageDescription"
                 android:layout_marginLeft="15dp"
-                android:background="@color/greyText"
-                android:alpha="0.4" />
+                android:alpha="0.4"
+                android:background="@color/greyText" />
 
             <WebView
                 android:id="@+id/simpleImageTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleImageThird"
-                android:paddingBottom="30dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="15dp"
-                android:paddingTop="15dp"/>
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp" />
 
             <TextView
                 android:id="@+id/simpleImageMatch"

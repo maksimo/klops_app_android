@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,8 @@ public class GalleryOneArticleFragment extends Fragment {
     WebView textField;
     @BindView(R.id.galleryOneMatch)
     TextView matchArticles;
+    @BindView(R.id.galleryOneProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -87,7 +90,17 @@ public class GalleryOneArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        Picasso.with(getContext()).load(item.getImage()).into(photo);
+        Picasso.with(getContext()).load(item.getImage()).into(photo, new Callback() {
+            @Override
+            public void onSuccess() {
+                bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                bar.setVisibility(View.VISIBLE);
+            }
+        });
         photoIcon.setVisibility(View.VISIBLE);
         if (item.getUpdate_status().equals("")) {
             statusCircle.setVisibility(View.VISIBLE);
@@ -149,7 +162,7 @@ public class GalleryOneArticleFragment extends Fragment {
     }
 
 
-    public void shareToSocial(){
+    public void shareToSocial() {
         item.getOg_image(); // image for share
     }
 

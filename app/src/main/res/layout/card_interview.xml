@@ -47,7 +47,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp">
 
-            <ru.klops.klops.cutomfonts.CircleImageView
+            <ru.klops.klops.custom.CircleImageView
                 android:id="@+id/interviewCardPhoto"
                 android:layout_width="80dp"
                 android:layout_height="80dp"/>

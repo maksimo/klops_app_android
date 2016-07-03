@@ -27,9 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Log.d(LOG, "onCreate");
         app = KlopsApplication.getINSTANCE();
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
+        hideKeyboard();
         dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Klops.Ru");
@@ -47,19 +45,21 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(LOG, "placeBaseFragment");
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.home_container, new BaseFragment())
-                .addToBackStack(null).commit();
+                .addToBackStack(null)
+                .add(R.id.home_container, new BaseFragment()).commit();
     }
 
 
     public void replaceFragmentFadeIn(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_container, fragment).setCustomAnimations(R.anim.fade_in, R.anim.fade_out).addToBackStack(null).commit();
+                .addToBackStack(null)
+                .replace(R.id.home_container, fragment).setCustomAnimations(R.anim.fade_in, R.anim.fade_out).commit();
     }
 
     public void popBackWithFadeOut(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_container, fragment).setCustomAnimations(R.anim.fade_out, R.anim.fade_in).addToBackStack(null).commit();
+                .addToBackStack(null)
+                .replace(R.id.home_container, fragment).setCustomAnimations(R.anim.fade_out, R.anim.fade_in).commit();
     }
 
     @Override
@@ -86,11 +86,17 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
+    }
+
+    public void hideKeyboard(){
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+        );
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -107,7 +108,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     @OnClick(R.id.gallerySwitchIcon)
     public void nextPhoto() {
-
         int position;
         for (int i = 0; i < photos.size(); i++) {
             if (gallery.getCurrentItem() == i) {

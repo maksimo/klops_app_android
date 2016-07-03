@@ -1,25 +1,25 @@
 package ru.klops.klops;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,16 +28,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.cutomfonts.TextViewProRegular;
+import ru.klops.klops.custom.TextViewProRegular;
+import ru.klops.klops.gcm.QuickstartPreferences;
+import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 
 public class SplashActivity extends AppCompatActivity {
     final String LOG = "SplashActivity";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     KlopsApplication myApp;
     @BindView(R.id.support)
     TextViewProRegular support;
     Unbinder unbinder;
+    private BroadcastReceiver registrationReceiver;
+    private boolean isReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         NetworkInfo wifiNwInfo = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         AlertDialog.Builder alertConnection = new AlertDialog.Builder(SplashActivity.this);
         if (mobileNwInfo.isConnected() || wifiNwInfo.isConnected()) {
+            startGoogleServices();
             startDataLoad();
         } else if (!mobileNwInfo.isConnected() || !wifiNwInfo.isConnected()) {
             alertConnection.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
@@ -73,6 +79,46 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }).show();
         }
+    }
+
+    private void startGoogleServices() {
+        Log.d(LOG, "startGoogleServices");
+        registrationReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+            }
+        };
+        registerReceiver();
+        if (checkPlayService()) {
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(registrationReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }
+
+    private boolean checkPlayService() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(LOG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     private void startDataLoad() {
@@ -113,12 +159,15 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(registrationReceiver);
+        isReceiverRegistered = false;
         super.onPause();
         Log.d(LOG, "onPause");
     }
 
     @Override
     protected void onResume() {
+        registerReceiver();
         super.onResume();
         Log.d(LOG, "onResume");
     }

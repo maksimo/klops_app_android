@@ -1,11 +1,11 @@
-package ru.klops.klops.cutomfonts.singletons;
+package ru.klops.klops.custom.singletons;
 
 import android.content.Context;
 import android.graphics.Typeface;
 
-import ru.klops.klops.cutomfonts.FontCache;
+import ru.klops.klops.custom.FontCache;
 
-public class ProMd {
+public class ProBoldEx {
     private static ProRegular INSTANCE;
     private static Typeface typeface;
 
@@ -13,7 +13,7 @@ public class ProMd {
         synchronized (ProRegular.class){
             if (INSTANCE == null){
                 INSTANCE = new ProRegular();
-                typeface = FontCache.get("fonts/akzidenzgroteskpro-md.ttf", context);
+                typeface = FontCache.get("fonts/akzidenzgroteskpro-boldex.ttf", context);
             }
         }
         return INSTANCE;
