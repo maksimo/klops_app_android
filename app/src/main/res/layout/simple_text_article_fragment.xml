@@ -17,9 +17,7 @@
                 android:id="@+id/simpleTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
                 android:paddingBottom="20dp"
-                android:minLines="1"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
                 android:paddingTop="15dp"
@@ -70,14 +68,14 @@
                 android:layout_below="@+id/splitterSimpleTextFirst"
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp"
-                android:paddingLeft="15dp"
+                android:layout_marginLeft="15dp"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="8sp"
                 android:paddingRight="5dp"
-                android:text=""
-                android:gravity="center" />
+                android:gravity="center"
+                android:minLines="1" />
 
             <TextView
                 android:id="@+id/simpleDate"
@@ -89,17 +87,16 @@
                 android:layout_toRightOf="@+id/simpleAuthor"
                 android:paddingTop="15dp"
                 android:textAllCaps="true"
-                android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="8sp"
                 android:paddingRight="2dp"/>
 
             <ImageView
                 android:id="@+id/simpleTextCameraIcon"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_below="@+id/splitterSimpleTextFirst"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="11dp"
                 android:layout_toRightOf="@+id/simpleDate"
                 android:background="@drawable/camera"
                 android:visibility="gone"/>
@@ -108,7 +105,7 @@
                 android:id="@+id/splitterSimpleTextSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
-                android:layout_below="@+id/simpleDate"
+                android:layout_below="@+id/simpleAuthor"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:background="@color/greyText"
@@ -120,10 +117,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleTextSecond"
                 android:lineSpacingExtra="1dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
-                android:paddingTop="20dp"
+                android:paddingTop="15dp"
                 android:minLines="1"
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />

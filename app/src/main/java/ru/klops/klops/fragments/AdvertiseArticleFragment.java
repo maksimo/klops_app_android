@@ -1,15 +1,10 @@
 package ru.klops.klops.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +13,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,17 +84,21 @@ public class AdvertiseArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        Picasso.with(getContext()).load(item.getImage()).into(advertisePhoto, new Callback() {
-            @Override
-            public void onSuccess() {
-                bar.setVisibility(View.GONE);
-            }
+        if (!item.getImage().equals("")) {
+            Picasso.with(getContext()).load(item.getImage()).into(advertisePhoto, new Callback() {
+                @Override
+                public void onSuccess() {
+                    bar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError() {
-                bar.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                public void onError() {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            });
+        }else {
+            advertisePhoto.setVisibility(View.GONE);
+        }
         megaphoneIcon.setVisibility(View.VISIBLE);
         if (!item.getUpdate_status().equals("")) {
             advertiseStatusIcon.setVisibility(View.VISIBLE);
@@ -171,6 +166,7 @@ public class AdvertiseArticleFragment extends Fragment {
     }
 
     public void shareToSocial() {
+
         item.getOg_image(); // image for share
     }
 

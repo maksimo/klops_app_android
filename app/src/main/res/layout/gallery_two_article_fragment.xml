@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
-                    android:paddingLeft="15dp"
+                    android:layout_marginLeft="15dp"
                     android:paddingRight="5dp"
                     android:paddingTop="15dp"
                     android:textAllCaps="true"
@@ -49,9 +49,9 @@
 
                 <ImageView
                     android:id="@+id/galleryCameraIconTwo"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="11dp"
                     android:layout_toRightOf="@+id/galleryTwoDate"
                     android:background="@drawable/camera"
                     android:visibility="gone" />
@@ -87,7 +87,7 @@
                     android:id="@+id/galleryTwoCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_below="@+id/galleryTwoDate"
+                    android:layout_below="@+id/galleryTwoAuthor"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="7dp"
                     android:background="@drawable/photo_cam" />
@@ -114,10 +114,10 @@
                 android:layout_below="@+id/galleryTitleLayoutTwo"
                 android:lineSpacingExtra="2dp"
                 android:minLines="1"
-                android:paddingBottom="20dp"
+                android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="30dp"
-                android:paddingTop="20dp"
+                android:paddingTop="15dp"
                 android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />

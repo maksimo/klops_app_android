@@ -1,15 +1,10 @@
 package ru.klops.klops.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +13,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +89,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        photoIcon.setVisibility(View.VISIBLE);
         switchPhoto.setVisibility(View.VISIBLE);
         if (!item.getUpdate_status().equals("")) {
             statusCircle.setVisibility(View.VISIBLE);

@@ -1,35 +1,18 @@
 package ru.klops.klops.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,7 +72,6 @@ public class SimpleTextArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        cameraIcon.setVisibility(View.VISIBLE);
         if (!item.getUpdate_status().equals("")) {
             statusCircle.setVisibility(View.VISIBLE);
         }
@@ -146,10 +128,6 @@ public class SimpleTextArticleFragment extends Fragment {
         shortdescription.setTextSize(15);
         matchArticles.setTextSize(33);
         textField.getSettings().setDefaultFontSize(15);
-    }
-
-    public void shareToSocial() {
-        item.getOg_image(); // image for share
     }
 
     @Override

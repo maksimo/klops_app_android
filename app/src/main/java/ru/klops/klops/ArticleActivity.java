@@ -1,5 +1,6 @@
 package ru.klops.klops;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +14,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.util.List;
 
@@ -33,8 +38,8 @@ import ru.klops.klops.fragments.NationalArticleFragment;
 import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
+import ru.klops.klops.fragments.TypelessArticleFragment;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.feed.News;
 import ru.klops.klops.utils.Constants;
 
 public class ArticleActivity extends AppCompatActivity {
@@ -48,7 +53,6 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.toolbarArticle)
     Toolbar toolbar;
     KlopsApplication app;
-    News received;
     String articleType;
     AlertDialog.Builder shareBuilder;
     AlertDialog shareDialog;
@@ -57,13 +61,12 @@ public class ArticleActivity extends AppCompatActivity {
     View shareLayout;
     RelativeLayout facebook;
     RelativeLayout vkontakte;
-    RelativeLayout twitter;
-    RelativeLayout instagram;
     View formatLayout;
     RelativeLayout increment;
     RelativeLayout middle;
     RelativeLayout decrement;
     Item item;
+    ShareDialog shareFacebookDialog;
     Animation alpha;
     Unbinder unbinder;
 
@@ -71,31 +74,17 @@ public class ArticleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.article_layers_activity);
+        Log.d(LOG, "onCreate");
         shareLayout = LayoutInflater.from(this).inflate(R.layout.share_dialog, null);
         formatLayout = LayoutInflater.from(this).inflate(R.layout.format_dialog, null);
         unbinder = ButterKnife.bind(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         setSupportActionBar(toolbar);
-//        initRequestData();
         setUpShare();
         setUpFormat();
         drawFragment();
-        Log.d(LOG, "onCreate");
-    }
-
-    private void initRequestData() {
-        Log.d(LOG, "initRequestData");
-        received = new News();
-        if (getIntent().getParcelableExtra(Constants.ARTICLE_FEED) != null) {
-            received = getIntent().getParcelableExtra(Constants.ARTICLE_FEED);
-            app.setRequestedArticle(received);
-        } else if (getIntent().getParcelableExtra(Constants.ARTICLE_SEARCH) != null) {
-            received = getIntent().getParcelableExtra(Constants.ARTICLE_SEARCH);
-            app.setRequestedArticle(received);
-        } else {
-            Toast.makeText(ArticleActivity.this, "Данная статья не существует...", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setUpShare() {
@@ -105,10 +94,21 @@ public class ArticleActivity extends AppCompatActivity {
         shareBuilder.setCancelable(true);
         shareDialog = shareBuilder.create();
         facebook = (RelativeLayout) shareLayout.findViewById(R.id.shareViaFB);
+        shareFacebookDialog = new ShareDialog(this);
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 facebook.startAnimation(alpha);
+                item = getIntent().getParcelableExtra(Constants.ITEM);
+               if (ShareDialog.canShow(ShareLinkContent.class)){
+                   ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                           .setContentTitle(item.getTitle())
+                           .setImageUrl(Uri.parse(item.getImage()))
+                           .setContentDescription(item.getShortdecription())
+                           .setContentUrl(Uri.parse(item.getUrl()))
+                           .build();
+                   shareFacebookDialog.show(linkContent, ShareDialog.Mode.NATIVE);
+               }
                 shareDialog.dismiss();
             }
         });
@@ -117,23 +117,6 @@ public class ArticleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 vkontakte.startAnimation(alpha);
-                shareDialog.dismiss();
-            }
-        });
-
-        twitter = (RelativeLayout) shareLayout.findViewById(R.id.shareViaTW);
-        twitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                twitter.startAnimation(alpha);
-                shareDialog.dismiss();
-            }
-        });
-        instagram = (RelativeLayout) shareLayout.findViewById(R.id.shareViaIN);
-        instagram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instagram.startAnimation(alpha);
                 shareDialog.dismiss();
             }
         });
@@ -176,6 +159,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((AdvertiseArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
+                    } else if (fragment instanceof TypelessArticleFragment){
+                        ((TypelessArticleFragment)fragment).formatIncrement();
                     }
                     formatDialog.dismiss();
                 }
@@ -210,7 +195,9 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof AdvertiseArticleFragment) {
                         ((AdvertiseArticleFragment) fragment).formatDefault();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
-                        ((SimpleWideArticleFragment) fragment).formatIncrement();
+                        ((SimpleWideArticleFragment) fragment).formatDefault();
+                    } else if (fragment instanceof TypelessArticleFragment){
+                        ((TypelessArticleFragment)fragment).formatDefault();
                     }
                     formatDialog.dismiss();
                 }
@@ -246,6 +233,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((AdvertiseArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
+                    } else if (fragment instanceof TypelessArticleFragment){
+                        ((TypelessArticleFragment)fragment).formatDecrement();
                     }
                     formatDialog.dismiss();
                 }
@@ -325,6 +314,11 @@ public class ArticleActivity extends AppCompatActivity {
                 simpleWideArticle.setArguments(bundle);
                 placeArticleFragment(simpleWideArticle);
                 break;
+            case Constants.SEARCH_RESULT:
+                TypelessArticleFragment typelessArticle = new TypelessArticleFragment();
+                bundle.putParcelable(Constants.ARTICLE, item);
+                typelessArticle.setArguments(bundle);
+                placeArticleFragment(typelessArticle);
         }
     }
 
@@ -361,6 +355,7 @@ public class ArticleActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
+        AppEventsLogger.activateApp(app);
         Log.d(LOG, "onResume");
         super.onResume();
     }

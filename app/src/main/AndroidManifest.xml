@@ -24,6 +24,10 @@
         android:label="Klops.ru"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider android:authorities="com.facebook.app.FacebookContentProvider153325391744263"
+        android:name="com.facebook.FacebookContentProvider"
+        android:exported="true"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"/>
@@ -38,6 +42,11 @@
         </activity>
         <activity android:name=".SettingsActivity"  android:screenOrientation="portrait"/>
         <activity android:name=".ArticleActivity"  android:screenOrientation="portrait"/>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
         <receiver android:name=".services.ReceiverArticle">
             <intent-filter>
                 <action android:name="ru.klops.klops.intent.action.requestArticle"/>

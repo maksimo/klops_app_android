@@ -20,7 +20,6 @@
             android:gravity="left|center"
             android:layout_toRightOf="@+id/longCardAuthor"
             android:textAllCaps="true"
-            android:text="asdadsad"
             android:textColor="@color/greyText"
             android:textSize="8sp" />
 
@@ -34,7 +33,6 @@
             android:textColor="@color/darkGreyText"
             android:textSize="8sp"
             android:paddingRight="5dp"
-            android:text="asdadasddas"
             android:gravity="center" />
 
         <TextView

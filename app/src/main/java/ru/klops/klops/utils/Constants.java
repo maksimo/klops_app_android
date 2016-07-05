@@ -33,9 +33,8 @@ public class Constants {
     public static final String ARTICLE = "ARTICLE";
     public static final String ARTICLE_ID = "ID";
     public static final String RECEIVE_ACTION = "ru.klops.klops.intent.action.requestArticle";
-    public static final String RECEIVE_SEARCH = "ru.klops.klops.intent.action.requestSearchArticle";
     public static final String ITEM = "ITEM";
-    public static final String SEARCH_RESULT = "SEARCH_RESULT";
+    public static final String SEARCH_RESULT = "";
     public static final String PLATFORM = "android";
 
 }

@@ -1,0 +1,183 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/typelessArticle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/typelessImageLayer"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/typelessPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:scaleType="centerCrop" />
+
+                <ProgressBar
+                    android:id="@+id/typelessProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/typelessTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/typelessImageLayer"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/blackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/typelessStatusIcon"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_below="@+id/splitterTypelessFirst"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="17dp"
+                android:layout_toLeftOf="@+id/typelessStatus"
+                android:background="@drawable/news_update_circle"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/typelessStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/splitterTypelessFirst"
+                android:gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/newsStatus"
+                android:textSize="8sp" />
+
+            <View
+                android:id="@+id/splitterTypelessFirst"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/typelessTitle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:alpha="1"
+                android:background="@color/greyText" />
+
+            <TextView
+                android:id="@+id/typelessAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterTypelessFirst"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/typelessDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterTypelessFirst"
+                android:layout_toRightOf="@+id/typelessAuthor"
+                android:gravity="center|left"
+                android:paddingBottom="15dp"
+                android:paddingRight="2dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="8sp" />
+
+            <ImageView
+                android:id="@+id/typelessCameraIcon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_below="@+id/splitterTypelessFirst"
+                android:layout_marginTop="11dp"
+                android:layout_toRightOf="@+id/typelessDate"
+                android:background="@drawable/camera"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/splitterTypelessSecond"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/typelessAuthor"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:alpha="1"
+                android:background="@color/greyText" />
+
+            <TextView
+                android:id="@+id/typelessDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterTypelessSecond"
+                android:lineSpacingExtra="1dp"
+                android:minLines="1"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="30dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/darkGreyText"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/splitterTypelessThird"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_below="@+id/typelessDescription"
+                android:layout_marginLeft="15dp"
+                android:alpha="0.4"
+                android:background="@color/greyText" />
+
+            <WebView
+                android:id="@+id/typelessField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterTypelessThird"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:paddingBottom="30dp"
+                android:paddingTop="15dp" />
+
+            <TextView
+                android:id="@+id/typelessMatch"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_below="@id/typelessField"
+                android:background="@color/recyclerBackground"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="Связанные статьи"
+                android:textColor="@color/blackText"
+                android:textSize="34sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

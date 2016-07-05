@@ -3,7 +3,6 @@ package ru.klops.klops.models.article;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Item implements Parcelable{

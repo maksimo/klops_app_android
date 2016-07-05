@@ -6,6 +6,8 @@ import android.app.Application;
 
 //import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -21,11 +23,7 @@ public class KlopsApplication extends Application {
     private static KlopsApplication INSTANCE;
 
     private Page firstPage;
-    private ArrayList<News> nextData;
-    private String searchQuery;
-    private ArrayList<News> searchData;
     private String token;
-    private News requestedArticle;
     private Item item;
 
     public static KlopsApplication getINSTANCE() {
@@ -44,36 +42,12 @@ public class KlopsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         INSTANCE = this;
+
     }
 
-    public ArrayList<News> getNextData() {
-        return nextData;
-    }
-
-    public void setNextData(ArrayList<News> nextData) {
-        this.nextData = nextData;
-    }
-
-    public String getSearchQuery() {
-        return searchQuery;
-    }
-
-    public void setSearchQuery(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
-
-    public ArrayList<News> getSearchData() {
-        return searchData;
-    }
-
-    public void setSearchData(ArrayList<News> searchData) {
-        this.searchData = searchData;
-    }
-
-    public int checkSize() {
-        return nextData.size();
-    }
 
     public void setToken(String token) {
         this.token = token;
@@ -81,14 +55,6 @@ public class KlopsApplication extends Application {
 
     public String getToken() {
         return token;
-    }
-
-    public void setRequestedArticle(News requestedArticle) {
-        this.requestedArticle = requestedArticle;
-    }
-
-    public News getRequestedArticle() {
-        return requestedArticle;
     }
 
     public void setItem(Item item) {
