@@ -35,6 +35,7 @@
         android:id="@+id/splitFacebookVkontakte"
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
+        android:alpha="0.4"
         android:layout_below="@+id/shareViaFB"
         android:background="@color/darkGreyText" />
 

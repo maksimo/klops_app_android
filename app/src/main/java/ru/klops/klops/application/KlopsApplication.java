@@ -1,6 +1,8 @@
 package ru.klops.klops.application;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 //import com.crashlytics.android.Crashlytics;
 
@@ -8,6 +10,9 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKAccessTokenTracker;
+import com.vk.sdk.VKSdk;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -19,7 +24,14 @@ import ru.klops.klops.models.feed.Page;
 
 public class KlopsApplication extends Application {
     private static final String LOG_TAG = "KlopsAppliction: ";
-
+    VKAccessTokenTracker accessTokenTracker = new VKAccessTokenTracker() {
+        @Override
+        public void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken) {
+            if (newToken == null) {
+                Log.d(LOG_TAG, "VK token is invalid");
+            }
+        }
+    };
     private static KlopsApplication INSTANCE;
 
     private Page firstPage;
@@ -42,8 +54,10 @@ public class KlopsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
+        VKSdk.initialize(getApplicationContext());
+        accessTokenTracker.startTracking();
         INSTANCE = this;
 
     }

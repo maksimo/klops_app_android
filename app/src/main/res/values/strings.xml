@@ -35,4 +35,5 @@
     <string name="bigFont">Крупный размер шрифта</string>
     <string name="middle">Средний размер шрифта</string>
     <string name="dec">Мелкий размер шрифта</string>
+        <integer name="com_vk_sdk_AppId">5536102</integer>
 </resources>
