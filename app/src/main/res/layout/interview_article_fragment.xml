@@ -153,38 +153,6 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />
 
-            <View
-                android:id="@+id/splitterInterviewThird"
-                android:layout_width="match_parent"
-                android:layout_height="0.6dp"
-                android:layout_below="@+id/interviewDescription"
-                android:layout_marginLeft="15dp"
-                android:alpha="0.4"
-                android:background="@color/greyText"
-                android:paddingLeft="15dp" />
-
-            <WebView
-                android:id="@+id/interviewField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/splitterInterviewThird"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="15dp"
-                android:paddingBottom="30dp"
-                android:paddingTop="15dp" />
-
-            <TextView
-                android:id="@+id/interviewMatch"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_below="@id/interviewField"
-                android:background="@color/recyclerBackground"
-                android:paddingLeft="15dp"
-                android:paddingTop="30dp"
-                android:text="Связанные статьи"
-                android:textColor="@color/blackText"
-                android:textSize="34sp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

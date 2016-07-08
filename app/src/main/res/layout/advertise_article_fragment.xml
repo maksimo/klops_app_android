@@ -157,22 +157,11 @@
                 android:alpha="0.4"
                 android:background="@color/greyText" />
 
-            <WebView
-                android:id="@+id/advertiseField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/splitterAdvertiseThird"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="15dp"
-                android:paddingBottom="30dp"
-                android:paddingTop="15dp" />
-
             <ImageView
                 android:id="@+id/advertiseMegaphone"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_below="@+id/advertiseField"
+                android:layout_below="@+id/splitterAdvertiseThird"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="6dp"
@@ -183,7 +172,7 @@
                 android:id="@+id/advertiseCommercial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/advertiseField"
+                android:layout_below="@+id/splitterAdvertiseThird"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
@@ -195,18 +184,6 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="8sp" />
 
-            <TextView
-                android:id="@+id/advertiseMatch"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_below="@id/advertiseCommercial"
-                android:background="@color/recyclerBackground"
-                android:paddingLeft="15dp"
-                android:paddingTop="30dp"
-                android:text="Связанные статьи"
-                android:textColor="@color/blackText"
-                android:textSize="34sp"
-                android:textStyle="bold" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

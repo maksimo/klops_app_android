@@ -6,10 +6,46 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/shareDialogToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/shareTitleImage"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/logo_int_settings"
+            android:layout_marginTop="17dp" />
+
+        <TextView
+            android:id="@+id/shareTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/shareTitleImage"
+            android:text="@string/shareTitle"
+            android:textColor="@color/darkGreyText"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/splitterTitleFB"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_below="@+id/shareDialogToolbar"
+        android:alpha="1"
+        android:elevation="2dp"
+        android:background="@color/darkGreyText" />
+    <RelativeLayout
         android:id="@+id/shareViaFB"
         android:layout_width="match_parent"
-        android:clickable="true"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:layout_below="@+id/splitterTitleFB"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/facebookIcon"
@@ -28,23 +64,24 @@
             android:layout_toRightOf="@+id/facebookIcon"
             android:text="@string/facebook"
             android:textColor="@color/darkGreyText"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <View
         android:id="@+id/splitFacebookVkontakte"
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
-        android:alpha="0.4"
         android:layout_below="@+id/shareViaFB"
-        android:background="@color/darkGreyText" />
+        android:alpha="0.4"
+        android:background="@color/darkGreyText"
+        android:elevation="1dp" />
 
     <RelativeLayout
         android:id="@+id/shareViaVK"
         android:layout_width="match_parent"
-        android:clickable="true"
+        android:layout_height="60dp"
         android:layout_below="@+id/splitFacebookVkontakte"
-        android:layout_height="60dp">
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/vkontakteIcon"
@@ -63,6 +100,14 @@
             android:layout_toRightOf="@+id/vkontakteIcon"
             android:text="@string/vkontakte"
             android:textColor="@color/darkGreyText"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
+    <View
+        android:id="@+id/splitVkontakte"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:elevation="2dp"
+        android:layout_below="@+id/shareViaVK"
+        android:alpha="0.4"
+        android:background="@color/darkGreyText" />
 </RelativeLayout>

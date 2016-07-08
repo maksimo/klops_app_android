@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="WebViewLayout">
+
+    <WebView
+        android:id="@+id/contentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="25dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/galleryAdapterLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/galleryCard"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/contentText">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/contentPhotos"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <RelativeLayout
+            android:id="@+id/contentPhotoSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gallery_switch_shape_dark"
+            android:clickable="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/contentPhotos"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/contentSwitchPhotoIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/gallery_dark"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/contentPhotoSwitchCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentRight="false"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="11dp"
+                android:layout_toRightOf="@+id/contentSwitchPhotoIcon"
+                android:textColor="@color/darkGreyText"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

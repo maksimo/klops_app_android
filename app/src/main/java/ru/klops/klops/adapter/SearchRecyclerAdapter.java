@@ -21,6 +21,7 @@ import ru.klops.klops.R;
 import ru.klops.klops.fragments.SearchFragment;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.search.News;
+import ru.klops.klops.services.ServiceArticleLoader;
 import ru.klops.klops.utils.Constants;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.ViewHolder> {
@@ -47,7 +48,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         TextView title;
         @BindView(R.id.articleText)
         TextView text;
-        @BindView(R.id.search_card)
+        @BindView(R.id.searchCard)
         RelativeLayout layout;
 
         public ViewHolder(View itemView) {
@@ -88,22 +89,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             @Override
             public void onClick(View v) {
                 viewHolder.layout.startAnimation(alpha);
-                Item openArticle = new Item();
-                openArticle.setId(models.get(viewHolder.getAdapterPosition()).getId());
-                openArticle.setDate(models.get(viewHolder.getAdapterPosition()).getDate());
-                openArticle.setTitle(models.get(viewHolder.getAdapterPosition()).getTitle());
-                openArticle.setShortdecription(models.get(viewHolder.getAdapterPosition()).getShortdecription());
-                openArticle.setImage(models.get(viewHolder.getAdapterPosition()).getImage());
-                openArticle.setUpdate_status(models.get(viewHolder.getAdapterPosition()).getUpdate_status());
-                openArticle.setPhotos(models.get(viewHolder.getAdapterPosition()).getPhotos());
-                openArticle.setArticle_type(models.get(viewHolder.getAdapterPosition()).getArticle_type());
-                openArticle.setUrl(models.get(viewHolder.getAdapterPosition()).getUrl());
-                openArticle.setOg_image(models.get(viewHolder.getAdapterPosition()).getOg_image());
-                openArticle.setText(models.get(viewHolder.getAdapterPosition()).getText());
-                openArticle.setAuthor(models.get(viewHolder.getAdapterPosition()).getAuthor());
-                Intent intentArticle = new Intent(context.getContext(), ArticleActivity.class);
-                intentArticle.putExtra(Constants.ITEM, openArticle);
-                context.startActivity(intentArticle);
+                context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(viewHolder.getAdapterPosition()).getId()));
             }
         });
     }

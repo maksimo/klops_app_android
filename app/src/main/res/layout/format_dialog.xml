@@ -6,12 +6,49 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/formatDialogToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/formatTitleImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/logo_int_settings"
+            android:layout_marginTop="17dp" />
+
+        <TextView
+            android:id="@+id/formatTitle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/formatTitleImage"
+            android:text="@string/formatTitle"
+            android:textColor="@color/darkGreyText"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:gravity="left|center" />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/splitterTitleInc"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_below="@+id/formatDialogToolbar"
+        android:alpha="1"
+        android:elevation="2dp"
+        android:background="@color/darkGreyText" />
+
+    <RelativeLayout
         android:id="@+id/increment"
         android:layout_width="match_parent"
         android:clickable="true"
+        android:layout_below="@+id/splitterTitleInc"
         android:layout_height="60dp">
 
-        <ru.klops.klops.custom.TextViewProRegular
+        <TextView
             android:id="@+id/incrementTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_below="@+id/increment"
-        android:background="@color/darkGreyText" />
+        android:background="@color/darkGreyText"
+        android:elevation="1dp" />
 
     <RelativeLayout
         android:id="@+id/middle"
@@ -36,7 +74,7 @@
         android:layout_below="@+id/splitIncMiddle"
         android:layout_height="60dp">
 
-        <ru.klops.klops.custom.TextViewProRegular
+        <TextView
             android:id="@+id/middleTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +90,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
         android:layout_below="@+id/middle"
-        android:background="@color/darkGreyText" />
+        android:background="@color/darkGreyText"
+        android:elevation="1dp" />
 
     <RelativeLayout
         android:id="@+id/decrement"
@@ -61,7 +100,7 @@
         android:layout_below="@+id/splitMiddleDec"
         android:layout_height="60dp">
 
-        <ru.klops.klops.custom.TextViewProRegular
+        <TextView
             android:id="@+id/decrementTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +20,6 @@ import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVNewDataAdapter;
-import ru.klops.klops.adapter.SearchRecyclerAdapter;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;

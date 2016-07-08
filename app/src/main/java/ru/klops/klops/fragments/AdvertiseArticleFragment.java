@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +15,25 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
+import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class AdvertiseArticleFragment extends Fragment {
@@ -47,14 +56,10 @@ public class AdvertiseArticleFragment extends Fragment {
     ImageView cameraIcon;
     @BindView(R.id.advertiseDescription)
     TextView advertiseDescription;
-    @BindView(R.id.advertiseField)
-    WebView textField;
     @BindView(R.id.advertiseMegaphone)
     ImageView megaphoneIcon;
     @BindView(R.id.advertiseCommercial)
     TextView advertiseCommercial;
-    @BindView(R.id.advertiseMatch)
-    TextView advertiseMatch;
     @BindView(R.id.advertiseProgress)
     ProgressBar bar;
     Unbinder unbinder;
@@ -78,7 +83,6 @@ public class AdvertiseArticleFragment extends Fragment {
         item = getArguments().getParcelable(Constants.ARTICLE);
         setUpImages();
         setUpView();
-        setUpWebViw();
         return fragmentView;
     }
 
@@ -96,7 +100,7 @@ public class AdvertiseArticleFragment extends Fragment {
                     bar.setVisibility(View.VISIBLE);
                 }
             });
-        }else {
+        } else {
             advertisePhoto.setVisibility(View.GONE);
         }
         megaphoneIcon.setVisibility(View.VISIBLE);
@@ -117,18 +121,8 @@ public class AdvertiseArticleFragment extends Fragment {
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         advertiseDescription.setText(item.getShortdecription());
         advertiseDescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        advertiseMatch.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
         advertiseCommercial.setText("материал размещен на коммерческой основе");
         advertiseCommercial.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-
-    }
-
-    private void setUpWebViw() {
-        textField.getSettings().setJavaScriptEnabled(true);
-        textField.loadData(item.getText(), "text/html; charset=utf-8", "UTF-8");
-        textField.getSettings().setDefaultFontSize(16);
-        textField.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        textField.getSettings().setLoadsImagesAutomatically(true);
     }
 
     public void formatDefault() {
@@ -137,9 +131,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseDate.setTextSize(8);
         advertiseDescription.setTextSize(16);
         advertiseCommercial.setTextSize(8);
-        advertiseMatch.setTextSize(34);
         author.setTextSize(8);
-        textField.getSettings().setDefaultFontSize(16);
     }
 
     public void formatIncrement() {
@@ -148,10 +140,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseDate.setTextSize(9);
         advertiseDescription.setTextSize(17);
         advertiseCommercial.setTextSize(9);
-        advertiseMatch.setTextSize(35);
         author.setTextSize(9);
-        textField.getSettings().setDefaultFontSize(17);
-
     }
 
     public void formatDecrement() {
@@ -160,14 +149,7 @@ public class AdvertiseArticleFragment extends Fragment {
         advertiseDate.setTextSize(7);
         advertiseDescription.setTextSize(15);
         advertiseCommercial.setTextSize(7);
-        advertiseMatch.setTextSize(33);
         author.setTextSize(7);
-        textField.getSettings().setDefaultFontSize(15);
-    }
-
-    public void shareToSocial() {
-
-        item.getOg_image(); // image for share
     }
 
     @Override
@@ -206,7 +188,6 @@ public class AdvertiseArticleFragment extends Fragment {
         Log.d(LOG, "onDestroyView");
         super.onDestroyView();
     }
-
 
 
     @Override

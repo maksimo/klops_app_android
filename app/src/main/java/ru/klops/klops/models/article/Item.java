@@ -16,31 +16,15 @@ public class Item implements Parcelable{
     public String article_type;
     public String url;
     public String og_image;
-    public String text;
+    public List<Content> content;
     public Integer timestamp;
     public String author;
 
     public Item() {
     }
 
-    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, String text, Integer timestamp, String author) {
-        this.id = id;
-        this.date = date;
-        this.title = title;
-        this.shortdecription = shortdecription;
-        this.image = image;
-        this.update_status = update_status;
-        this.photos = photos;
-        this.article_type = article_type;
-        this.url = url;
-        this.og_image = og_image;
-        this.text = text;
-        this.timestamp = timestamp;
-        this.author = author;
-    }
-
-
     protected Item(Parcel in) {
+        id = in.readInt();
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();
@@ -50,7 +34,7 @@ public class Item implements Parcelable{
         article_type = in.readString();
         url = in.readString();
         og_image = in.readString();
-        text = in.readString();
+        content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
     }
 
@@ -146,12 +130,12 @@ public class Item implements Parcelable{
         this.og_image = og_image;
     }
 
-    public String getText() {
-        return text;
+    public List<Content> getContent() {
+        return content;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(List<Content> content) {
+        this.content = content;
     }
 
     public Integer getTimestamp() {
@@ -183,12 +167,11 @@ public class Item implements Parcelable{
                 ", article_type='" + article_type + '\'' +
                 ", url='" + url + '\'' +
                 ", og_image='" + og_image + '\'' +
-                ", text=" + text +
+                ", content=" + content +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
                 '}';
     }
-
 
     @Override
     public int describeContents() {
@@ -197,6 +180,7 @@ public class Item implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(date);
         dest.writeString(title);
         dest.writeString(shortdecription);
@@ -206,7 +190,7 @@ public class Item implements Parcelable{
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(og_image);
-        dest.writeString(text);
+        dest.writeTypedList(content);
         dest.writeString(author);
     }
 }

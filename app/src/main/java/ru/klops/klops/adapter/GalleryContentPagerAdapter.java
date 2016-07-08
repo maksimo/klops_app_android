@@ -1,53 +1,60 @@
 package ru.klops.klops.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ru.klops.klops.R;
+import ru.klops.klops.models.article.Photos;
 
-public class GalleryPagerAdapter extends PagerAdapter {
+public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-    ArrayList<String> photos;
+    ArrayList<Photos> content;
 
-    public GalleryPagerAdapter(Context context, ArrayList<String> photos) {
+
+    public GalleryContentPagerAdapter(Context context, ArrayList<Photos> content) {
         super();
         this.context = context;
-        this.photos = photos;
+        this.content = content;
 
     }
 
     @Override
     public int getCount() {
-        return photos.size();
+        return content.size();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.gallery_item_simple, container, false);
-        final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerSimplePhoto);
-        Ion.with(context).load(photos.get(position)).withBitmap().intoImageView(photo);
+        View itemView = inflater.inflate(R.layout.gallery_item, container, false);
+        final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
+        final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
+        if (content.get(position).getImg_url().equals("")) {
+            photo.setVisibility(View.GONE);
+            descr.setVisibility(View.GONE);
+        } else {
+            Ion.with(context).load(content.get(position).getImg_url()).withBitmap().intoImageView(photo);
+            photo.setVisibility(View.VISIBLE);
+        }
+        if (content.get(position).getDescription().equals("")) {
+            descr.setVisibility(View.GONE);
+        } else {
+            descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+            descr.setText(content.get(position).getDescription());
+            descr.setVisibility(View.VISIBLE);
+        }
         container.addView(itemView);
         return itemView;
     }

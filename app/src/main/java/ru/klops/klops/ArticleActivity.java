@@ -2,13 +2,16 @@ package ru.klops.klops;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,19 +20,20 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.VKSdkVersion;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
@@ -37,17 +41,16 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 import com.vk.sdk.util.VKUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.klops.klops.adapter.CustomScrollLayoutManager;
+import ru.klops.klops.adapter.GalleryPagerAdapter;
+import ru.klops.klops.adapter.RVContentAdapter;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.AdvertiseArticleFragment;
 import ru.klops.klops.fragments.AuthorArticleFragment;
@@ -60,8 +63,9 @@ import ru.klops.klops.fragments.NationalArticleFragment;
 import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
-import ru.klops.klops.fragments.TypelessArticleFragment;
+import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
+import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class ArticleActivity extends AppCompatActivity {
@@ -81,18 +85,45 @@ public class ArticleActivity extends AppCompatActivity {
     AlertDialog.Builder formatBuilder;
     AlertDialog formatDialog;
     View shareLayout;
+    TextView shareTitle;
+    TextView facebookTitle;
+    TextView vkontakteTitle;
     RelativeLayout facebook;
     RelativeLayout vkontakte;
     View formatLayout;
+    TextView formatTitle;
+    TextView incrementTitle;
+    TextView middleTitle;
+    TextView decrementTitle;
     RelativeLayout increment;
     RelativeLayout middle;
     RelativeLayout decrement;
     Item item;
+    @BindView(R.id.textMatch)
+    TextView matchArticles;
+    @BindView(R.id.webView)
+    RecyclerView webField;
+    @BindView(R.id.littlePhotoSwitcher)
+    RelativeLayout littlePhotoSwitcher;
+    @BindView(R.id.littlePhotoSwitchCounter)
+    TextView littlePhotoSwitchCounter;
+    @BindView(R.id.galleryBackground)
+    RelativeLayout galleryBackground;
+    @BindView(R.id.splitterThird)
+    View splitterThird;
+    RVContentAdapter contentAdapter;
+    ViewPager littleGallery;
+    ArrayList<String> smallGallery;
+    GalleryPagerAdapter littleAdapter;
     ShareDialog shareFacebookDialog;
     VKShareDialogBuilder vkShareDialog;
+    ArrayList<Content> contents;
+    ArrayList<Content> copy;
     Animation alpha;
     Bitmap bmp;
     String text;
+    int count = 0;
+    private Target loadTarget;
     Unbinder unbinder;
 
     @Override
@@ -110,11 +141,79 @@ public class ArticleActivity extends AppCompatActivity {
         setUpShare();
         setUpFormat();
         drawFragment();
+        setUPPager();
+        setUPContent();
+    }
+
+    private void setUPContent() {
+        Log.d(LOG, "setUpTextField");
+        contents = new ArrayList<>();
+        contents.addAll(item.getContent());
+        copy = new ArrayList<>();
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
+                String copyString = "";
+                copy.add(new Content(copyString, contents.get(i).getPhotos()));
+            }else if (contents.get(i).getPhotos() == null ||contents.get(i).getPhotos().size() == 0){
+                ArrayList<Photos> copyList = new ArrayList<>();
+                copyList.add(new Photos("", ""));
+                copy.add(new Content(contents.get(i).getText(), copyList));
+            }
+        }
+        contentAdapter = new RVContentAdapter(this, copy);
+        CustomScrollLayoutManager manager = new CustomScrollLayoutManager(this);
+        webField.setLayoutManager(manager);
+        webField.setAdapter(contentAdapter);
+    }
+
+    private void setUPPager() {
+        item = getIntent().getParcelableExtra(Constants.ITEM);
+        matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
+        littleGallery = (ViewPager) findViewById(R.id.littleGallery);
+        smallGallery = new ArrayList<>();
+        if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
+            smallGallery.addAll(item.getPhotos());
+            littleAdapter = new GalleryPagerAdapter(this, smallGallery);
+            littleGallery.setAdapter(littleAdapter);
+            littleGallery.setCurrentItem(0);
+            littlePhotoSwitchCounter.setText("1/" + String.valueOf(item.getPhotos().size()));
+            splitterThird.setVisibility(View.GONE);
+            galleryBackground.setVisibility(View.VISIBLE);
+            littleGallery.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    littlePhotoSwitchCounter.setText(String.valueOf(littleGallery.getCurrentItem() + 1) + "/" + String.valueOf(item.getPhotos().size()));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        } else {
+            splitterThird.setVisibility(View.VISIBLE);
+            galleryBackground.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.littlePhotoSwitchCounter)
+    public void nextPhoto() {
+        count = littleGallery.getCurrentItem();
+        count++;
+        littleGallery.setCurrentItem(count);
+
     }
 
     private void initSocials() {
         item = getIntent().getParcelableExtra(Constants.ITEM);
-        bmp = bitmaping();
+        if (!item.getImage().equals("")) {
+            loadBitmap(item.getImage());
+        }
         text = item.getTitle() + "\n" + "\n" + item.getShortdecription();
         FacebookSdk.sdkInitialize(getApplicationContext());
         VKSdk.initialize(getApplicationContext());
@@ -127,6 +226,12 @@ public class ArticleActivity extends AppCompatActivity {
         shareBuilder.setView(shareLayout);
         shareBuilder.setCancelable(true);
         shareDialog = shareBuilder.create();
+        shareTitle = (TextView) shareLayout.findViewById(R.id.shareTitle);
+        shareTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+        facebookTitle = (TextView) shareLayout.findViewById(R.id.facebookTitle);
+        facebookTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        vkontakteTitle = (TextView) shareLayout.findViewById(R.id.vkontakteTitle);
+        vkontakteTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         facebook = (RelativeLayout) shareLayout.findViewById(R.id.shareViaFB);
         shareFacebookDialog = new ShareDialog(this);
         facebook.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +255,7 @@ public class ArticleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 vkontakte.startAnimation(alpha);
-                VKSdk.login(ArticleActivity.this, VKScope.FRIENDS,VKScope.WALL,VKScope.PHOTOS, VKScope.OFFLINE);
+                VKSdk.login(ArticleActivity.this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS, VKScope.OFFLINE);
                 VKPhotoArray photos = new VKPhotoArray();
 
                 vkShareDialog = new VKShareDialogBuilder()
@@ -183,20 +288,32 @@ public class ArticleActivity extends AppCompatActivity {
 
     }
 
-    private Bitmap bitmaping() {
-        try {
-            URL url = new URL(item.getImage());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            InputStream inputStream = connection.getInputStream();
-            Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-            return bmp;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
+
+    public void loadBitmap(String url) {
+        if (loadTarget == null) loadTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                handleBitmap(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        Picasso.with(this).load(url).into(loadTarget);
+    }
+
+    private void handleBitmap(Bitmap bitmap) {
+        setBmp(bitmap);
     }
 
     @Override
@@ -222,6 +339,14 @@ public class ArticleActivity extends AppCompatActivity {
         formatBuilder.setCancelable(true);
         formatDialog = formatBuilder.create();
         increment = (RelativeLayout) formatLayout.findViewById(R.id.increment);
+        formatTitle = (TextView) formatLayout.findViewById(R.id.formatTitle);
+        formatTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+        incrementTitle = (TextView) formatLayout.findViewById(R.id.incrementTitle);
+        incrementTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        middleTitle = (TextView) formatLayout.findViewById(R.id.middleTitle);
+        middleTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        decrementTitle = (TextView) formatLayout.findViewById(R.id.decrementTitle);
+        decrementTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,9 +376,10 @@ public class ArticleActivity extends AppCompatActivity {
                         ((AdvertiseArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof TypelessArticleFragment) {
-                        ((TypelessArticleFragment) fragment).formatIncrement();
                     }
+                    matchArticles.setTextSize(35);
+
+
                     formatDialog.dismiss();
                 }
             }
@@ -288,9 +414,9 @@ public class ArticleActivity extends AppCompatActivity {
                         ((AdvertiseArticleFragment) fragment).formatDefault();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof TypelessArticleFragment) {
-                        ((TypelessArticleFragment) fragment).formatDefault();
                     }
+                    matchArticles.setTextSize(34);
+
                     formatDialog.dismiss();
                 }
             }
@@ -325,9 +451,9 @@ public class ArticleActivity extends AppCompatActivity {
                         ((AdvertiseArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof TypelessArticleFragment) {
-                        ((TypelessArticleFragment) fragment).formatDecrement();
                     }
+                    matchArticles.setTextSize(33);
+
                     formatDialog.dismiss();
                 }
             }
@@ -406,11 +532,6 @@ public class ArticleActivity extends AppCompatActivity {
                 simpleWideArticle.setArguments(bundle);
                 placeArticleFragment(simpleWideArticle);
                 break;
-            case Constants.SEARCH_RESULT:
-                TypelessArticleFragment typelessArticle = new TypelessArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                typelessArticle.setArguments(bundle);
-                placeArticleFragment(typelessArticle);
         }
     }
 
@@ -476,6 +597,15 @@ public class ArticleActivity extends AppCompatActivity {
         unbinder.unbind();
         finish();
         super.onDestroy();
+    }
+
+    public interface FormatInterface {
+
+        void defaultFormat();
+
+        void bigFormat();
+
+        void smallFormat();
     }
 
 }

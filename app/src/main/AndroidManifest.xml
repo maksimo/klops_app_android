@@ -83,7 +83,11 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="86d6208cf2dfcae5658b951b4453c9d7f17d3d5a" />
+            android:value="86d6208cf2dfcae5658b951b4453c9d7f17d3d5a" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

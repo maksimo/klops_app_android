@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +15,25 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
+import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class InterviewArticleFragment extends Fragment {
@@ -47,10 +56,6 @@ public class InterviewArticleFragment extends Fragment {
     ImageView interviewImagePhoto;
     @BindView(R.id.interviewDescription)
     TextView shortdescription;
-    @BindView(R.id.interviewField)
-    WebView textField;
-    @BindView(R.id.interviewMatch)
-    TextView matchArticles;
     @BindView(R.id.interviewProgress)
     ProgressBar bar;
     Unbinder unbinder;
@@ -74,7 +79,6 @@ public class InterviewArticleFragment extends Fragment {
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
         setUpImages();
-        setUpWebViw();
         setUpView();
         return fragmentView;
     }
@@ -101,14 +105,6 @@ public class InterviewArticleFragment extends Fragment {
         }
     }
 
-    private void setUpWebViw() {
-        textField.getSettings().setJavaScriptEnabled(true);
-        textField.loadData(item.getText(), "text/html; charset=utf-8", "UTF-8");
-        textField.getSettings().setDefaultFontSize(16);
-        textField.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        textField.getSettings().setLoadsImagesAutomatically(true);
-    }
-
     private void setUpView() {
         Log.d(LOG, "setUpView");
         title.setText(item.getTitle());
@@ -121,7 +117,6 @@ public class InterviewArticleFragment extends Fragment {
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        matchArticles.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
 
     }
 
@@ -131,8 +126,6 @@ public class InterviewArticleFragment extends Fragment {
         date.setTextSize(8);
         author.setTextSize(8);
         shortdescription.setTextSize(16);
-        matchArticles.setTextSize(34);
-        textField.getSettings().setDefaultFontSize(16);
     }
 
     public void formatIncrement() {
@@ -141,8 +134,6 @@ public class InterviewArticleFragment extends Fragment {
         date.setTextSize(9);
         author.setTextSize(9);
         shortdescription.setTextSize(17);
-        matchArticles.setTextSize(35);
-        textField.getSettings().setDefaultFontSize(17);
     }
 
     public void formatDecrement() {
@@ -151,9 +142,7 @@ public class InterviewArticleFragment extends Fragment {
         date.setTextSize(7);
         author.setTextSize(7);
         shortdescription.setTextSize(15);
-        matchArticles.setTextSize(33);
-        textField.getSettings().setDefaultFontSize(15);
-    }
+      }
 
     @Override
     public void onStart() {

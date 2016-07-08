@@ -20,6 +20,9 @@ repositories {
 
 
 
+dependencies {
+    compile 'com.google.android.gms:play-services-appindexing:8.3.0'
+}
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -56,6 +59,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.vk:androidsdk:1.6.5'
+    compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'

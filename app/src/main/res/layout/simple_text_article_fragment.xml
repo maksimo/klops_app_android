@@ -125,37 +125,6 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />
 
-            <View
-                android:id="@+id/splitterSimpleTextThird"
-                android:layout_width="match_parent"
-                android:layout_height="0.6dp"
-                android:layout_below="@+id/simpleDescription"
-                android:layout_marginLeft="15dp"
-                android:background="@color/greyText"
-                android:alpha="0.4" />
-
-            <WebView
-                android:id="@+id/simpleTextField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/splitterSimpleTextThird"
-                android:paddingBottom="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="15dp"
-                android:paddingTop="15dp"/>
-
-            <TextView
-                android:id="@+id/simpleMatch"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_below="@id/simpleTextField"
-                android:background="@color/recyclerBackground"
-                android:paddingLeft="15dp"
-                android:paddingTop="30dp"
-                android:text="Связанные статьи"
-                android:textColor="@color/blackText"
-                android:textSize="34sp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
