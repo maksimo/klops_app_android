@@ -115,10 +115,14 @@ public class ArticleActivity extends AppCompatActivity {
     ViewPager littleGallery;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
+    @BindView(R.id.contentImageGallery)
+    ViewPager contentImageGallery;
+    GalleryPagerAdapter galleryMain;
     ShareDialog shareFacebookDialog;
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     ArrayList<Content> copy;
+    ArrayList<Photos> photoGallery;
     Animation alpha;
     Bitmap bmp;
     String text;
@@ -136,13 +140,14 @@ public class ArticleActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        item = getIntent().getParcelableExtra(Constants.ITEM);
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
         setUpFormat();
         drawFragment();
-        setUPPager();
         setUPContent();
+        setUPPager();
     }
 
     private void setUPContent() {
@@ -150,24 +155,36 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         copy = new ArrayList<>();
+        photoGallery = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
                 String copyString = "";
                 copy.add(new Content(copyString, contents.get(i).getPhotos()));
-            }else if (contents.get(i).getPhotos() == null ||contents.get(i).getPhotos().size() == 0){
+                photoGallery.addAll(contents.get(i).getPhotos());
+
+            } else if (contents.get(i).getPhotos() == null || contents.get(i).getPhotos().size() == 0) {
                 ArrayList<Photos> copyList = new ArrayList<>();
                 copyList.add(new Photos("", ""));
                 copy.add(new Content(contents.get(i).getText(), copyList));
             }
         }
-        contentAdapter = new RVContentAdapter(this, copy);
+        ArrayList<String> urls = new ArrayList<>();
+        for (Photos photo : photoGallery) {
+            urls.add("https://klops.ru".concat(photo.getImg_url()));
+        }
+        contentAdapter = new RVContentAdapter(this, copy, photoGallery, urls);
         CustomScrollLayoutManager manager = new CustomScrollLayoutManager(this);
         webField.setLayoutManager(manager);
         webField.setAdapter(contentAdapter);
+
+        if (urls.size() !=0 && !urls.isEmpty() ) {
+            galleryMain = new GalleryPagerAdapter(this, urls);
+            contentImageGallery.setAdapter(galleryMain);
+        }
+
     }
 
     private void setUPPager() {
-        item = getIntent().getParcelableExtra(Constants.ITEM);
         matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
         littleGallery = (ViewPager) findViewById(R.id.littleGallery);
         smallGallery = new ArrayList<>();
@@ -210,7 +227,6 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void initSocials() {
-        item = getIntent().getParcelableExtra(Constants.ITEM);
         if (!item.getImage().equals("")) {
             loadBitmap(item.getImage());
         }
@@ -222,6 +238,8 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void setUpShare() {
         Log.d(LOG, "setUpShare");
+        String url = item.getUrl();
+        final String newsOnWeb = url.replace("https://klops.ruhttps://klops.ru", "https://klops.ru");
         shareBuilder = new AlertDialog.Builder(this);
         shareBuilder.setView(shareLayout);
         shareBuilder.setCancelable(true);
@@ -243,7 +261,7 @@ public class ArticleActivity extends AppCompatActivity {
                             .setContentTitle(item.getTitle())
                             .setImageUrl(Uri.parse(item.getImage()))
                             .setContentDescription(item.getShortdecription())
-                            .setContentUrl(Uri.parse(item.getUrl()))
+                            .setContentUrl(Uri.parse(newsOnWeb))
                             .build();
                     shareFacebookDialog.show(linkContent, ShareDialog.Mode.NATIVE);
                 }
@@ -263,7 +281,7 @@ public class ArticleActivity extends AppCompatActivity {
                         .setUploadedPhotos(photos)
                         .setAttachmentImages(new VKUploadImage[]{
                                 new VKUploadImage(bmp, VKImageParameters.pngImage())
-                        })
+                        }).setAttachmentLink("Отправлено с помощью приложения Klops.ru", newsOnWeb)
                         .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                             @Override
                             public void onVkShareComplete(int postId) {
@@ -463,7 +481,6 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void drawFragment() {
         Log.d(LOG, "drawFragment");
-        item = getIntent().getParcelableExtra(Constants.ITEM);
         Bundle bundle = new Bundle();
         articleType = item.getArticle_type();
         switch (articleType) {
@@ -599,14 +616,6 @@ public class ArticleActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public interface FormatInterface {
-
-        void defaultFormat();
-
-        void bigFormat();
-
-        void smallFormat();
-    }
 
 }
 

@@ -78,7 +78,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/littleGallery"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="200dp"
                     android:visibility="visible" />
 
                 <RelativeLayout
@@ -133,16 +133,22 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/splitterThird" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/contentImageGallery"
+                android:layout_width="match_parent"
+                android:layout_below="@id/webView"
+                android:layout_height="200dp" />
 
             <TextView
                 android:id="@+id/textMatch"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:layout_below="@id/webView"
+                android:layout_below="@+id/contentImageGallery"
                 android:background="@color/recyclerBackground"
                 android:paddingLeft="15dp"
                 android:paddingTop="30dp"

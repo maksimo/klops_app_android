@@ -20,7 +20,7 @@
     <application
         android:name=".application.KlopsApplication"
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
+        android:icon="@drawable/app_icon_main"
         android:label="Klops.ru"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

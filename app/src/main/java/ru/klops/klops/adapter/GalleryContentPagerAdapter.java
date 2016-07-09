@@ -14,6 +14,7 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
+import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.models.article.Photos;
 
@@ -30,6 +31,7 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
 
     }
 
+
     @Override
     public int getCount() {
         return content.size();
@@ -45,7 +47,7 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
             photo.setVisibility(View.GONE);
             descr.setVisibility(View.GONE);
         } else {
-            Ion.with(context).load(content.get(position).getImg_url()).withBitmap().intoImageView(photo);
+            Ion.with(context).load("https://klops.ru".concat(content.get(position).getImg_url())).withBitmap().intoImageView(photo);
             photo.setVisibility(View.VISIBLE);
         }
         if (content.get(position).getDescription().equals("")) {

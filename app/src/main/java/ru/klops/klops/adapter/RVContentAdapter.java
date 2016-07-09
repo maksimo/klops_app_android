@@ -10,8 +10,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,27 +31,30 @@ public class RVContentAdapter extends RecyclerView.Adapter<RVContentAdapter.View
     ArrayList<Content> contents;
     GalleryContentPagerAdapter adapter;
     ArrayList<Photos> photos;
+    ArrayList<String> urls;
     String size;
     int counter = 0;
     Animation alpha;
 
-    public RVContentAdapter(ArticleActivity context, ArrayList<Content> contents) {
+    public RVContentAdapter(ArticleActivity context, ArrayList<Content> contents, ArrayList<Photos> photos, ArrayList<String> urls) {
         this.context = context;
         this.contents = contents;
+        this.photos = photos;
+        this.urls = urls;
         alpha = AnimationUtils.loadAnimation(context, R.anim.alpha);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.contentText)
         WebView contentText;
+        @BindView(R.id.galleryAdapterLayer)
+        RelativeLayout galleryAdapterLayer;
         @BindView(R.id.contentPhotos)
         ViewPager contentPhotos;
         @BindView(R.id.contentPhotoSwitcher)
         RelativeLayout contentPhotoSwitcher;
         @BindView(R.id.contentPhotoSwitchCounter)
         TextView contentPhotoSwitchCounter;
-        @BindView(R.id.galleryAdapterLayer)
-        RelativeLayout galleryAdapterLayer;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -75,47 +82,43 @@ public class RVContentAdapter extends RecyclerView.Adapter<RVContentAdapter.View
         if (contents.get(position).getPhotos()== null || contents.get(position).getPhotos().size() != 0) {
             holder.galleryAdapterLayer.setVisibility(View.GONE);
         } else {
-            photos = new ArrayList<>();
-            photos.addAll(contents.get(position).getPhotos());
-            adapter = new GalleryContentPagerAdapter(context, photos);
-            holder.contentPhotos.setAdapter(adapter);
+//            adapter = new GalleryContentPagerAdapter(context, photos);
+//            holder.contentPhotos.setAdapter(adapter);
         }
-        if (holder.galleryAdapterLayer.getVisibility() != View.GONE) {
-            size = String.valueOf(contents.get(position).getPhotos().size());
-            holder.contentPhotoSwitchCounter.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
-            holder.contentPhotoSwitchCounter.setText("1" + "/" + size);
-            holder.contentPhotoSwitcher.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.contentPhotoSwitcher.startAnimation(alpha);
-                    if (holder.contentPhotos.getCurrentItem() == 0) {
-                        counter++;
-                        holder.contentPhotos.setCurrentItem(counter);
-
-                    }
-                }
-            });
-        } else {
-            holder.galleryAdapterLayer.setVisibility(View.GONE);
-
-        }
-        holder.contentPhotos.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                holder.contentPhotoSwitchCounter.setText(String.valueOf(holder.contentPhotos.getCurrentItem()+1) + "/" + String.valueOf(contents.get(position).getPhotos().size()));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+//        if (holder.galleryAdapterLayer.getVisibility() != View.GONE) {
+//            size = String.valueOf(contents.get(position).getPhotos().size());
+//            holder.contentPhotoSwitchCounter.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
+//            holder.contentPhotoSwitchCounter.setText("1" + "/" + size);
+//            holder.contentPhotoSwitcher.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (holder.contentPhotos.getCurrentItem() == 0) {
+//                        counter++;
+//                        holder.contentPhotos.setCurrentItem(counter);
+//
+//                    }
+//                }
+//            });
+//        } else {
+//            holder.galleryAdapterLayer.setVisibility(View.GONE);
+//
+//        }
+//        holder.contentPhotos.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                holder.contentPhotoSwitchCounter.setText(String.valueOf(holder.contentPhotos.getCurrentItem()+1) + "/" + String.valueOf(contents.get(position).getPhotos().size()));
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
     }
 
     @Override
