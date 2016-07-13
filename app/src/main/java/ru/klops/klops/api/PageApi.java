@@ -15,44 +15,48 @@ import ru.klops.klops.models.search.Search;
 
 public interface PageApi {
     /**
-     * @param pageNumber by default page number is 0, by default call 1st
-     * @return
+     *
+     * @return Page with news
      */
     @Headers("Content-Type: application/json")
-    @GET("/api/get_news")
-    Call<Page> getAllNews(@Query("page") Integer pageNumber);
+    @GET("get_news")
+    Call<Page> getAllNews();
 
     /**
      * @param id page id
-     * @return
+     * @return Article data with current id
      */
     @Headers("Content-Type: application/json")
-    @GET("/api/get_news_item/{id}")
+    @GET("get_news_item/{id}")
     Call<Article> getItemById(@Path("id") Integer id);
 
     /**
      * @param searchValue value, which will be used as keyword in search request
      * @param pageNumber  number of page for searching
-     * @return
+     * @return Search results , contains list of articles
      */
     @Headers("Content-Type: application/json")
-    @GET("/api/search")
+    @GET("search")
     Call<Search> getSearchResult(@Query("search") String searchValue, @Query("page") Integer pageNumber);
 
 
     // @Body  use in tokens for pojo token
     /**
      * @param tokenValue   device token to register device in klops.ru database
+     * @param platform android platform
+     * @return 200 if request is success, 403 if failed
      */
     @Headers("Content-Type: application/json")
-    @POST("/api/subscribe_token")
+    @POST("subscribe_token")
     Call<ResponseBody> subscribeNotification(@Query("device_token") String tokenValue, @Query("platform") String platform);
 
     /**
      * @param deviceToken device token to unregister device in klops.ru database
+     * @param platform android platform
+     * @return 200 if request is success, 403 if failed
      */
     @Headers("Content-Type: application/json")
-    @POST("/api/unsubscribe_token")
+    @POST("unsubscribe_token")
     Call<ResponseBody> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
 
 }

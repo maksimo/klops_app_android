@@ -37,7 +37,7 @@ public class News implements Parcelable {
         this.author = author;
     }
 
-    protected News(Parcel in) {
+    public News(Parcel in) {
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();

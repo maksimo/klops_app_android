@@ -69,8 +69,8 @@
             <RelativeLayout
                 android:id="@+id/galleryBackground"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/articleContainer"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/articleContainer"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorPrimary"
                 android:visibility="visible">
@@ -85,14 +85,14 @@
                     android:id="@+id/littlePhotoSwitcher"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
+                    android:layout_below="@+id/littleGallery"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
                     android:alpha="0.7"
                     android:background="@drawable/gallery_switch_shape"
                     android:clickable="true"
-                    android:visibility="visible"
-                    android:layout_below="@+id/littleGallery">
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/littleSwitchPhotoIcon"
@@ -102,7 +102,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="12dp"
-                        android:background="@drawable/gallery"/>
+                        android:background="@drawable/gallery" />
 
                     <TextView
                         android:id="@+id/littlePhotoSwitchCounter"
@@ -127,28 +127,81 @@
                 android:layout_below="@+id/galleryBackground"
                 android:layout_marginLeft="15dp"
                 android:alpha="0.4"
+                android:background="@color/greyText"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/ViewsContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/splitterThird"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp" />
+
+            <RelativeLayout
+                android:id="@+id/contentGallery"
+                android:layout_width="match_parent"
+                android:layout_height="255dp"
+                android:background="@color/galleryCard"
                 android:visibility="gone"
-                android:background="@color/greyText" />
+                android:layout_below="@+id/ViewsContent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/webView"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/ViewsPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/littlePhotoSwitcherTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/ViewsPhotos"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:alpha="0.7"
+                    android:background="@drawable/gallery_switch_shape_dark"
+                    android:clickable="true"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/littleSwitchPhotoIconTwo"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/gallery_dark" />
+
+                    <TextView
+                        android:id="@+id/littlePhotoSwitchCounterTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentRight="false"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="11dp"
+                        android:layout_toRightOf="@+id/littleSwitchPhotoIconTwo"
+                        android:textColor="@color/darkGreyText"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+            <View
+                android:id="@+id/splitterFour"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/splitterThird" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/contentImageGallery"
-                android:layout_width="match_parent"
-                android:layout_below="@id/webView"
-                android:layout_height="200dp" />
-
+                android:layout_height="20dp"
+                android:layout_below="@+id/contentGallery"
+                android:background="@color/colorPrimary"/>
             <TextView
                 android:id="@+id/textMatch"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:layout_below="@+id/contentImageGallery"
+                android:layout_below="@+id/splitterFour"
                 android:background="@color/recyclerBackground"
                 android:paddingLeft="15dp"
                 android:paddingTop="30dp"
@@ -156,7 +209,6 @@
                 android:textColor="@color/blackText"
                 android:textSize="34sp" />
         </RelativeLayout>
-
     </ScrollView>
 </RelativeLayout>
 

@@ -31,6 +31,7 @@ import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
+import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 
@@ -124,7 +125,7 @@ public class SplashActivity extends AppCompatActivity {
     private void startDataLoad() {
         Log.d(LOG, "startDataLoad");
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Call<Page> call = api.getAllNews(1);
+        Call<Page> call = api.getAllNews();
         call.enqueue(new Callback<Page>() {
             @Override
             public void onResponse(Call<Page> call, Response<Page> response) {
@@ -136,9 +137,9 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Page> call, Throwable t) {
-                Log.d(LOG, "Ошибка доступа...");
-                Toast.makeText(SplashActivity.this, "Отсутствует подключение к интернету...", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
+                Log.d(LOG, "Ошибка доступа..." + t.getLocalizedMessage());
+                Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
+                final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
                 somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
                         .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
                     @Override

@@ -5,7 +5,7 @@
 <ImageView
     android:id="@+id/galleryPagerPhoto"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="200dp"
     android:scaleType="fitXY"/>
  <TextView
      android:id="@+id/photoDescription"

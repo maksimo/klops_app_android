@@ -11,13 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,11 +50,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import ru.klops.klops.adapter.CustomScrollLayoutManager;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
-import ru.klops.klops.adapter.RVContentAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.fragments.AdvertiseArticleFragment;
 import ru.klops.klops.fragments.AuthorArticleFragment;
 import ru.klops.klops.fragments.GalleryOneArticleFragment;
 import ru.klops.klops.fragments.GalleryTwoArticleFragment;
@@ -101,8 +100,6 @@ public class ArticleActivity extends AppCompatActivity {
     Item item;
     @BindView(R.id.textMatch)
     TextView matchArticles;
-    @BindView(R.id.webView)
-    RecyclerView webField;
     @BindView(R.id.littlePhotoSwitcher)
     RelativeLayout littlePhotoSwitcher;
     @BindView(R.id.littlePhotoSwitchCounter)
@@ -111,22 +108,32 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout galleryBackground;
     @BindView(R.id.splitterThird)
     View splitterThird;
-    RVContentAdapter contentAdapter;
+    @BindView(R.id.ViewsContent)
+    RelativeLayout viewsContent;
+    @BindView(R.id.ViewsPhotos)
+    ViewPager pager;
+    @BindView(R.id.contentGallery)
+    RelativeLayout contentGallery;
+    @BindView(R.id.littlePhotoSwitchCounterTwo)
+    TextView littlePhotoSwitchCounterTwo;
+    @BindView(R.id.littlePhotoSwitcherTwo)
+    RelativeLayout littlePhotoSwitcherTwo;
     ViewPager littleGallery;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
-    @BindView(R.id.contentImageGallery)
-    ViewPager contentImageGallery;
-    GalleryPagerAdapter galleryMain;
     ShareDialog shareFacebookDialog;
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     ArrayList<Content> copy;
     ArrayList<Photos> photoGallery;
+    ArrayList<WebView> viewsWeb;
+    ArrayList<String> urls;
     Animation alpha;
     Bitmap bmp;
     String text;
+    GalleryPagerAdapter gAdapter;
     int count = 0;
+    int countPager = 0;
     private Target loadTarget;
     Unbinder unbinder;
 
@@ -168,20 +175,64 @@ public class ArticleActivity extends AppCompatActivity {
                 copy.add(new Content(contents.get(i).getText(), copyList));
             }
         }
-        ArrayList<String> urls = new ArrayList<>();
-        for (Photos photo : photoGallery) {
-            urls.add("https://klops.ru".concat(photo.getImg_url()));
-        }
-        contentAdapter = new RVContentAdapter(this, copy, photoGallery, urls);
-        CustomScrollLayoutManager manager = new CustomScrollLayoutManager(this);
-        webField.setLayoutManager(manager);
-        webField.setAdapter(contentAdapter);
 
-        if (urls.size() !=0 && !urls.isEmpty() ) {
-            galleryMain = new GalleryPagerAdapter(this, urls);
-            contentImageGallery.setAdapter(galleryMain);
+        int previousID = 0;
+        viewsWeb = new ArrayList<>();
+        urls = new ArrayList<>();
+        WebView webView;
+          for (int n = 0; n < copy.size(); n++) {
+            if (!copy.get(n).getText().equals("")) {
+                webView = new WebView(this);
+                webView.getSettings().setDefaultFontSize(16);
+                webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                webView.loadData(copy.get(n).getText(), "text/html; charset=utf-8", "UTF-8");
+                int currentID = previousID + 1;
+                webView.setId(currentID);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.BELOW, previousID);
+                previousID = currentID;
+                webView.setLayoutParams(params);
+                viewsContent.addView(webView);
+                viewsWeb.add(webView);
+            }
         }
 
+        if (photoGallery.size() != 0 && !photoGallery.isEmpty()) {
+            contentGallery.setVisibility(View.VISIBLE);
+            urls = new ArrayList<>();
+            for (Photos photo : photoGallery) {
+                urls.add("https://klops.ru".concat(photo.getImg_url()));
+            }
+            gAdapter = new GalleryPagerAdapter(this, urls);
+            pager.setAdapter(gAdapter);
+            pager.setCurrentItem(0);
+            littlePhotoSwitchCounterTwo.setText((pager.getCurrentItem() + 1) + "/" + String.valueOf(urls.size()));
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(urls.size()));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        } else {
+            contentGallery.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.littlePhotoSwitcherTwo)
+    public void pagerClick(){
+        countPager = pager.getCurrentItem();
+        countPager++;
+        pager.setCurrentItem(countPager);
     }
 
     private void setUPPager() {
@@ -390,10 +441,11 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryOneArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof GalleryTwoArticleFragment) {
                         ((GalleryTwoArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof AdvertiseArticleFragment) {
-                        ((AdvertiseArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
+                    }
+                    for (WebView webs : viewsWeb) {
+                        webs.getSettings().setDefaultFontSize(17);
                     }
                     matchArticles.setTextSize(35);
 
@@ -428,10 +480,11 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryOneArticleFragment) fragment).formatDefault();
                     } else if (fragment instanceof GalleryTwoArticleFragment) {
                         ((GalleryTwoArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof AdvertiseArticleFragment) {
-                        ((AdvertiseArticleFragment) fragment).formatDefault();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDefault();
+                    }
+                    for (WebView webs : viewsWeb) {
+                        webs.getSettings().setDefaultFontSize(16);
                     }
                     matchArticles.setTextSize(34);
 
@@ -465,10 +518,11 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryOneArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof GalleryTwoArticleFragment) {
                         ((GalleryTwoArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof AdvertiseArticleFragment) {
-                        ((AdvertiseArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
+                    }
+                    for (WebView webs : viewsWeb) {
+                        webs.getSettings().setDefaultFontSize(15);
                     }
                     matchArticles.setTextSize(33);
 
@@ -536,12 +590,6 @@ public class ArticleActivity extends AppCompatActivity {
                 bundle.putParcelable(Constants.ARTICLE, item);
                 galleryTwoArticle.setArguments(bundle);
                 placeArticleFragment(galleryTwoArticle);
-                break;
-            case Constants.ADS_TEXT:
-                AdvertiseArticleFragment advertiseArticle = new AdvertiseArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                advertiseArticle.setArguments(bundle);
-                placeArticleFragment(advertiseArticle);
                 break;
             case Constants.SIMPLE_WIDE_TEXT:
                 SimpleWideArticleFragment simpleWideArticle = new SimpleWideArticleFragment();

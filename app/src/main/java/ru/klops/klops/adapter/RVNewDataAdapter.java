@@ -251,14 +251,16 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView image;
         @BindView(R.id.advertiseCardLoading)
         ProgressBar bar;
-        @BindView(R.id.advertiseCardDate)
-        TextView date;
-        @BindView(R.id.advertiseCardTitle)
-        TextView title;
-        @BindView(R.id.advertiseCardCommercial)
-        TextView commercial;
         @BindView(R.id.advertiseCard)
         RelativeLayout adsCard;
+        @BindView(R.id.closeAdsBtn)
+        ImageView closBtn;
+        @BindView(R.id.closableLayer)
+        RelativeLayout closableLayout;
+        @BindView(R.id.adsClose)
+        TextView adsClose;
+        @BindView(R.id.adsTitle)
+        TextView adsTitle;
 
         public AdvertiseHolder(View itemView) {
             super(itemView);
@@ -279,6 +281,47 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView author;
 
         public SimpleWideHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+    }
+
+    public class PopularMarkerViewHolder extends ViewHolder {
+        @BindView(R.id.popularMarkerTitle)
+        TextView popularMarkerTitle;
+
+        public PopularMarkerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+    }
+
+    public class SeparatorViewHolder extends ViewHolder {
+        public SeparatorViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+    }
+
+
+    public class ExchangeViewHolder extends ViewHolder {
+        @BindView(R.id.dollar)
+        TextView dollar;
+        @BindView(R.id.dollarPrice)
+        TextView dollarPrice;
+        @BindView(R.id.euro)
+        TextView euro;
+        @BindView(R.id.euroPrice)
+        TextView euroPrice;
+        @BindView(R.id.zlotiy)
+        TextView zlotiy;
+        @BindView(R.id.zlotiyPrice)
+        TextView zlotiyPrice;
+
+        public ExchangeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -320,7 +363,17 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         } else if (viewType == Constants.SIMPLE_WIDE) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_simple_wide, viewGroup, false);
             return new SimpleWideHolder(view);
+        } else if (viewType == Constants.POPULAR_MARKER) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_popular_marker, viewGroup, false);
+            return new PopularMarkerViewHolder(view);
+        } else if (viewType == Constants.SEPARATOR) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_separator, viewGroup, false);
+            return new SeparatorViewHolder(view);
+        } else if (viewType == Constants.EXCHANGE) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_exchange, viewGroup, false);
+            return new ExchangeViewHolder(view);
         }
+
         return null;
     }
 
@@ -342,9 +395,9 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     }
                 });
                 holder.date.setText(models.get(position).getDate());
-                holder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holder.title.setText(models.get(position).getTitle());
-                holder.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holder.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holder.simpleImageCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -357,9 +410,9 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.SIMPLE_TEXT_NEWS:
                 final SimpleTextNewsHolder holderSimple = (SimpleTextNewsHolder) viewHolder;
                 holderSimple.date.setText(models.get(position).getDate());
-                holderSimple.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderSimple.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderSimple.title.setText(models.get(position).getTitle());
-                holderSimple.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holderSimple.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderSimple.simpleCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -371,13 +424,13 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.LONG:
                 final LongNewsHolder holderLong = (LongNewsHolder) viewHolder;
                 holderLong.date.setText(models.get(position).getDate());
-                holderLong.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderLong.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderLong.author.setText(models.get(position).getAuthor());
-                holderLong.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-bold.ttf"));
+                holderLong.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderLong.title.setText(models.get(position).getTitle());
-                holderLong.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holderLong.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderLong.content.setText(models.get(position).getShortdecription());
-                holderLong.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderLong.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 holderLong.longCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -389,11 +442,11 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.INTERVIEW:
                 final InterviewNewsHolder holderInterview = (InterviewNewsHolder) viewHolder;
                 holderInterview.date.setText(models.get(position).getDate());
-                holderInterview.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderInterview.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderInterview.title.setText(models.get(position).getTitle());
-                holderInterview.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holderInterview.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderInterview.content.setText(models.get(position).getShortdecription());
-                holderInterview.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderInterview.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderInterview.image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -417,11 +470,11 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.AUTHORS:
                 final AuthorColumnsNewsHolder holderAuthors = (AuthorColumnsNewsHolder) viewHolder;
                 holderAuthors.date.setText(models.get(position).getDate());
-                holderAuthors.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderAuthors.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAuthors.title.setText(models.get(position).getTitle());
-                holderAuthors.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holderAuthors.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderAuthors.content.setText(models.get(position).getShortdecription());
-                holderAuthors.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderAuthors.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderAuthors.image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -436,7 +489,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 });
 
                 holderAuthors.contentAuthor.setText(models.get(position).getAuthor());
-                holderAuthors.contentAuthor.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-bold.ttf"));
+                holderAuthors.contentAuthor.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderAuthors.authorsCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -448,11 +501,11 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.NATIONAL:
                 final NationalNewsHolder holderNational = (NationalNewsHolder) viewHolder;
                 holderNational.author.setText(models.get(position).getAuthor());
-                holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-bold.ttf"));
+                holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderNational.dateOne.setText(models.get(position).getDate());
-                holderNational.dateOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderNational.dateOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderNational.titleOne.setText(models.get(position).getTitle());
-                holderNational.titleOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderNational.titleOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 holderNational.nationalCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -480,13 +533,13 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     });
                 }
                 holderImportant.date.setText(models.get(position).getDate());
-                holderImportant.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderImportant.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderImportant.status.setText(models.get(position).getUpdate_status());
-                holderImportant.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderImportant.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderImportant.title.setText(models.get(position).getTitle());
-                holderImportant.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));
+                holderImportant.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 holderImportant.content.setText(models.get(position).getShortdecription());
-                holderImportant.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderImportant.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 holderImportant.important.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -498,9 +551,9 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.GALLERY_ONE:
                 final GalleryNewsOneHolder holderGallerySmall = (GalleryNewsOneHolder) viewHolder;
                 holderGallerySmall.date.setText(models.get(position).getDate());
-                holderGallerySmall.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderGallerySmall.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderGallerySmall.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
-                holderGallerySmall.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));
+                holderGallerySmall.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderGallerySmall.image, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -524,9 +577,9 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
             case Constants.GALLERY_TWO:
                 final GalleryNewsTwoHolder holderGalleryBig = (GalleryNewsTwoHolder) viewHolder;
                 holderGalleryBig.date.setText(models.get(position).getDate());
-                holderGalleryBig.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderGalleryBig.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderGalleryBig.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
-                holderGalleryBig.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));
+                holderGalleryBig.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 if (models.get(position).getPhotos().size() == 0) {
                     holderGalleryBig.imageOnlyOne.setVisibility(View.VISIBLE);
                     holderGalleryBig.imageOne.setVisibility(View.GONE);
@@ -602,28 +655,26 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         holderAdvertise.bar.setVisibility(View.VISIBLE);
                     }
                 });
-                holderAdvertise.date.setText(models.get(position).getDate());
-                holderAdvertise.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.title.setText(models.get(position).getTitle());
-                holderAdvertise.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));
-                holderAdvertise.adsCard.setOnClickListener(new View.OnClickListener() {
+                holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                holderAdvertise.closBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        holderAdvertise.adsCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderAdvertise.getAdapterPosition()).getId()));
+                        holderAdvertise.closableLayout.startAnimation(alpha);
+                        remove(holderAdvertise.getAdapterPosition());
                     }
                 });
                 break;
             case Constants.SIMPLE_WIDE:
                 final SimpleWideHolder holderSimpleWide = (SimpleWideHolder) viewHolder;
                 holderSimpleWide.author.setText(models.get(position).getAuthor());
-                holderSimpleWide.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-bold.ttf"));
+                holderSimpleWide.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderSimpleWide.date.setText(models.get(position).getDate());
-                holderSimpleWide.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+                holderSimpleWide.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderSimpleWide.title.setText(models.get(position).getTitle());
-                holderSimpleWide.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-md.ttf"));
+                holderSimpleWide.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderSimpleWide.content.setText(models.get(position).getShortdecription());
-                holderSimpleWide.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(),"fonts/akzidenzgroteskpro-light.ttf"));
+                holderSimpleWide.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 holderSimpleWide.simpleWideCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -632,7 +683,31 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     }
                 });
                 break;
+            case Constants.POPULAR_MARKER:
+                final PopularMarkerViewHolder holderPopular = (PopularMarkerViewHolder) viewHolder;
+                holderPopular.popularMarkerTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
+                break;
+            case Constants.EXCHANGE:
+                final ExchangeViewHolder holderExchange = (ExchangeViewHolder)viewHolder;
+                holderExchange.dollar.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                holderExchange.euro.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                holderExchange.zlotiy.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                holderExchange.dollarPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                holderExchange.euroPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                holderExchange.zlotiyPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+             break;
         }
+    }
+
+    public void remove(int position) {
+        models.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, models.size());
+    }
+
+    public void insert(int position, News news) {
+        models.add(position, news);
+        notifyItemInserted(position);
     }
 
 

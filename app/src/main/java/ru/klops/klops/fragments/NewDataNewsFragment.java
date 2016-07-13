@@ -91,6 +91,12 @@ public class NewDataNewsFragment extends Fragment {
                         return 2;
                     case Constants.SIMPLE_WIDE:
                         return 2;
+                    case Constants.POPULAR_MARKER:
+                        return 2;
+                    case Constants.SEPARATOR:
+                        return 2;
+                    case Constants.EXCHANGE:
+                        return 2;
                     default:
                         return -1;
                 }
@@ -138,6 +144,15 @@ public class NewDataNewsFragment extends Fragment {
                     break;
                 case Constants.SIMPLE_WIDE_TEXT:
                     types.add(Constants.SIMPLE_WIDE);
+                    break;
+                case Constants.POPULAR_MARKER_TEXT:
+                    types.add(Constants.POPULAR_MARKER);
+                    break;
+                case Constants.SEPARATOR_TEXT:
+                    types.add(Constants.SEPARATOR);
+                    break;
+                case Constants.EXCHANGE_TEXT:
+                    types.add(Constants.EXCHANGE);
                     break;
             }
         }

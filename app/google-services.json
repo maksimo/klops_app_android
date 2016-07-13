@@ -1,20 +1,29 @@
 {
   "project_info": {
-    "project_number": "654255809422",
-    "project_id": "klops-1350"
+    "project_number": "937224364875",
+    "project_id": "klops-1367"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:654255809422:android:7b76b58c489688e6",
+        "mobilesdk_app_id": "1:937224364875:android:7b76b58c489688e6",
         "android_client_info": {
           "package_name": "ru.klops.klops"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "937224364875-3tko90s5j4tprm303ncvfniqac445sji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.klops.klops",
+            "certificate_hash": "47AB1CA1005E00619BB959D72D0359164DED9314"
+          }
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuW36vUSVYi-6q5BhWmZN8q1iqObgg_64"
+          "current_key": "AIzaSyCYgsBY0FxeCUwzya9xXrZLpDIjaHqfBws"
         }
       ],
       "services": {

@@ -37,5 +37,8 @@
     <string name="dec">Мелкий размер шрифта</string>
     <string name="shareTitle">Поделиться новостью:</string>
     <string name="formatTitle">Изменить размер шрифта:</string>
+    <string name="dollar">Доллар</string>
+    <string name="euro">Евро</string>
+    <string name="zlotiy">Злотый</string>
     <integer name="com_vk_sdk_AppId">5536102</integer>
 </resources>
