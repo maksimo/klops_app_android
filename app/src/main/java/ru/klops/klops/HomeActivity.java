@@ -1,7 +1,6 @@
 package ru.klops.klops;
 
 import android.app.ProgressDialog;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,12 @@ import android.view.WindowManager;
 
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.BaseFragment;
-import ru.klops.klops.services.ReceiverArticle;
-import ru.klops.klops.utils.Constants;
 
 
 public class HomeActivity extends AppCompatActivity {
     final String LOG = "HomeActivity";
     KlopsApplication app;
     ProgressDialog dialog;
-    ReceiverArticle receiver;
 
 
     @Override
@@ -76,9 +72,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        IntentFilter filter = new IntentFilter(Constants.RECEIVE_ACTION);
-        receiver = new ReceiverArticle();
-        registerReceiver(receiver, filter);
         Log.d(LOG, "onResume");
         super.onResume();
     }
@@ -108,7 +101,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
         Log.d(LOG, "onDestroy");
         super.onDestroy();
     }

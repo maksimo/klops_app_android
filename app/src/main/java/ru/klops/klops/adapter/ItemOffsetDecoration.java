@@ -38,8 +38,8 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.top = mItemOffset;
-        outRect.bottom = mItemOffset;
+        outRect.top = mItemOffset/5;
+        outRect.bottom = mItemOffset/5;
         outRect.right = 1;
         outRect.left = 1;
     }

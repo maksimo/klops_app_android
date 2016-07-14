@@ -3,6 +3,7 @@ package ru.klops.klops.adapter;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,25 +21,27 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.api.PageApi;
 import ru.klops.klops.custom.CircleImageView;
 import ru.klops.klops.fragments.NewDataNewsFragment;
+import ru.klops.klops.models.article.Article;
+import ru.klops.klops.models.feed.Currency;
 import ru.klops.klops.models.feed.News;
-import ru.klops.klops.services.ServiceArticleLoader;
+import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.ViewHolder> {
     NewDataNewsFragment context;
     ArrayList<News> models;
-    int[] cardTypes;
     ArrayList<Integer> dynamicTypes;
     Animation alpha;
 
-    public RVNewDataAdapter(NewDataNewsFragment context, ArrayList<News> models, int[] cardTypes) {
-        this.models = models;
-        this.context = context;
-        this.cardTypes = cardTypes;
-    }
 
     public RVNewDataAdapter(NewDataNewsFragment context, ArrayList<News> models, ArrayList<Integer> dynamicTypes) {
         this.models = models;
@@ -47,10 +50,11 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
+
         }
 
     }
@@ -62,7 +66,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView date;
         @BindView(R.id.simpleImageCardText)
         TextView title;
-        @BindView(R.id.simpleImageCard)
+        @BindView(R.id.simpleNewsLayer)
         RelativeLayout simpleImageCard;
         @BindView(R.id.simpleImageCardLoading)
         ProgressBar bar;
@@ -80,7 +84,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView date;
         @BindView(R.id.simpleCardText)
         TextView title;
-        @BindView(R.id.simpleCard)
+        @BindView(R.id.simpleTextLayer)
         RelativeLayout simpleCard;
 
         public SimpleTextNewsHolder(View itemView) {
@@ -99,7 +103,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView title;
         @BindView(R.id.longCardText)
         TextView content;
-        @BindView(R.id.longCard)
+        @BindView(R.id.longNewsLayer)
         RelativeLayout longCard;
 
         public LongNewsHolder(View itemView) {
@@ -119,7 +123,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView content;
         @BindView(R.id.interviewCardPhoto)
         CircleImageView image;
-        @BindView(R.id.interviewCard)
+        @BindView(R.id.interviewNewsLayer)
         RelativeLayout interviewCard;
         @BindView(R.id.interviewCardLoading)
         ProgressBar bar;
@@ -145,7 +149,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView name;
         @BindView(R.id.authorCardSubName)
         TextView contentAuthor;
-        @BindView(R.id.authorCard)
+        @BindView(R.id.authorNewsLayer)
         RelativeLayout authorsCard;
         @BindView(R.id.authorCardLoading)
         ProgressBar bar;
@@ -188,7 +192,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView title;
         @BindView(R.id.importantCardText)
         TextView content;
-        @BindView(R.id.importantCard)
+        @BindView(R.id.importantNewsLayer)
         RelativeLayout important;
 
         public ImportantNewsWithPhotoHolder(View itemView) {
@@ -207,7 +211,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ProgressBar bar;
         @BindView(R.id.galleryCardOnePhoto)
         ImageView image;
-        @BindView(R.id.galleryCardOne)
+        @BindView(R.id.galleryOneLayer)
         RelativeLayout galleryCard;
 
         public GalleryNewsOneHolder(View itemView) {
@@ -235,7 +239,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView imageTwo;
         @BindView(R.id.galleryCardTwoOneInTwo)
         ImageView imageOnlyOne;
-        @BindView(R.id.galleryCardTwo)
+        @BindView(R.id.galleryTwoLayer)
         RelativeLayout galleryCard;
 
         public GalleryNewsTwoHolder(View itemView) {
@@ -253,8 +257,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ProgressBar bar;
         @BindView(R.id.advertiseCard)
         RelativeLayout adsCard;
-        @BindView(R.id.closeAdsBtn)
-        ImageView closBtn;
         @BindView(R.id.closableLayer)
         RelativeLayout closableLayout;
         @BindView(R.id.adsClose)
@@ -275,7 +277,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView title;
         @BindView(R.id.simpleWideCardText)
         TextView content;
-        @BindView(R.id.simpleWideCard)
+        @BindView(R.id.simpleWideLayer)
         RelativeLayout simpleWideCard;
         @BindView(R.id.simpleWideCardAuthor)
         TextView author;
@@ -382,18 +384,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         switch (viewHolder.getItemViewType()) {
             case Constants.SIMPLE_WITH_IMG:
                 final SimpleNewsHolder holder = (SimpleNewsHolder) viewHolder;
-                Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holder.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.bar.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        holder.bar.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(models.get(position).getImage(), holder.image, holder.bar);
                 holder.date.setText(models.get(position).getDate());
                 holder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holder.title.setText(models.get(position).getTitle());
@@ -402,8 +393,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holder.simpleImageCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holder.getAdapterPosition()).getId()));
-
+                        loadArticle(models.get(holder.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -417,7 +407,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderSimple.simpleCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderSimple.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -435,7 +425,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderLong.longCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderLong.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderLong.getAdapterPosition()).getId());
+
                     }
                 });
                 break;
@@ -447,23 +438,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderInterview.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderInterview.content.setText(models.get(position).getShortdecription());
                 holderInterview.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderInterview.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holderInterview.bar.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        holderInterview.bar.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
                 holderInterview.interviewCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderInterview.interviewCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderInterview.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -475,26 +455,14 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderAuthors.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderAuthors.content.setText(models.get(position).getShortdecription());
                 holderAuthors.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderAuthors.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holderAuthors.bar.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        holderAuthors.bar.setVisibility(View.VISIBLE);
-                    }
-                });
-
+                loadPhoto(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
                 holderAuthors.contentAuthor.setText(models.get(position).getAuthor());
                 holderAuthors.contentAuthor.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderAuthors.authorsCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderAuthors.authorsCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderAuthors.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -510,7 +478,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderNational.nationalCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderNational.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderNational.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -519,18 +487,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getImage() == null) {
                     holderImportant.image.setVisibility(View.GONE);
                 } else {
-                    Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderImportant.image, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holderImportant.bar.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holderImportant.bar.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    loadPhoto(models.get(position).getImage(), holderImportant.image, holderImportant.bar);
                 }
                 holderImportant.date.setText(models.get(position).getDate());
                 holderImportant.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -544,7 +501,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderImportant.important.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderImportant.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -554,23 +511,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderGallerySmall.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderGallerySmall.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
                 holderGallerySmall.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
-                Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderGallerySmall.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holderGallerySmall.bar.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        holderGallerySmall.bar.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(models.get(position).getImage(), holderGallerySmall.image, holderGallerySmall.bar);
                 holderGallerySmall.galleryCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderGallerySmall.galleryCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderGallerySmall.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -588,18 +534,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderGalleryBig.barSecond.setVisibility(View.GONE);
                     holderGalleryBig.barOneBig.setVisibility(View.VISIBLE);
                     if (models.get(position).getImage() != null) {
-                        Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderGalleryBig.imageOnlyOne, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                holderGalleryBig.barOneBig.setVisibility(View.GONE);
-
-                            }
-
-                            @Override
-                            public void onError() {
-                                holderGalleryBig.barOneBig.setVisibility(View.VISIBLE);
-                            }
-                        });
+                        loadPhoto(models.get(position).getImage(), holderGalleryBig.imageOnlyOne, holderGalleryBig.barOneBig);
                     }
                 } else {
                     holderGalleryBig.imageOne.setVisibility(View.VISIBLE);
@@ -608,60 +543,30 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderGalleryBig.barSecond.setVisibility(View.VISIBLE);
                     holderGalleryBig.imageOnlyOne.setVisibility(View.GONE);
                     holderGalleryBig.barOneBig.setVisibility(View.GONE);
-                    Picasso.with(context.getActivity()).load(models.get(position).getPhotos().get(0)).into(holderGalleryBig.imageOne, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holderGalleryBig.barFirst.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holderGalleryBig.barFirst.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    Picasso.with(context.getActivity()).load(models.get(position).getPhotos().get(1)).into(holderGalleryBig.imageTwo, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holderGalleryBig.barSecond.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holderGalleryBig.barSecond.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    loadPhoto(models.get(position).getPhotos().get(0), holderGalleryBig.imageOne, holderGalleryBig.barFirst);
+                    loadPhoto(models.get(position).getPhotos().get(1), holderGalleryBig.imageTwo, holderGalleryBig.barSecond);
                 }
                 holderGalleryBig.galleryCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderGalleryBig.galleryCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderGalleryBig.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId());
                     }
                 });
                 break;
             case Constants.ADVERTISE:
                 final AdvertiseHolder holderAdvertise = (AdvertiseHolder) viewHolder;
-                Picasso.with(context.getActivity()).load(models.get(position).getImage()).into(holderAdvertise.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holderAdvertise.bar.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        holderAdvertise.bar.setVisibility(View.VISIBLE);
-                    }
-                });
+                if (!models.get(position).getImage().equals("")) {
+                    loadPhoto(models.get(position).getImage(), holderAdvertise.image, holderAdvertise.bar);
+                }
                 holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.closBtn.setOnClickListener(new View.OnClickListener() {
+                holderAdvertise.closableLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderAdvertise.closableLayout.startAnimation(alpha);
                         remove(holderAdvertise.getAdapterPosition());
+                        notifyDataSetChanged();
                     }
                 });
                 break;
@@ -679,7 +584,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderSimpleWide.simpleWideCard.startAnimation(alpha);
-                        context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(holderSimpleWide.getAdapterPosition()).getId()));
+                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId());
                     }
                 });
                 break;
@@ -688,28 +593,69 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderPopular.popularMarkerTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 break;
             case Constants.EXCHANGE:
-                final ExchangeViewHolder holderExchange = (ExchangeViewHolder)viewHolder;
+                final ExchangeViewHolder holderExchange = (ExchangeViewHolder) viewHolder;
                 holderExchange.dollar.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderExchange.euro.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderExchange.zlotiy.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                holderExchange.dollarPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderExchange.euroPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderExchange.zlotiyPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-             break;
+                holderExchange.dollarPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                holderExchange.dollarPrice.setText(models.get(position).getDate());
+                holderExchange.euroPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                holderExchange.euroPrice.setText(models.get(position).getTitle());
+                holderExchange.zlotiyPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                holderExchange.zlotiyPrice.setText(models.get(position).getShortdecription());
+                break;
         }
+    }
+
+    public void loadPhoto(String input, ImageView output, final ProgressBar loader) {
+        Picasso.with(context.getActivity()).load(input).into(output, new Callback() {
+            @Override
+            public void onSuccess() {
+                loader.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onError() {
+                loader.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void loadArticle(Integer id) {
+        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        Observable<Article> call = api.getItemById(id);
+        call.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Article>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("SearchAdapter", "Загружаю статью...");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("SearchAdapter", "Ошибка при открытии...");
+                    }
+
+                    @Override
+                    public void onNext(Article article) {
+                        Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
+                        articleIntent.putExtra(Constants.ITEM, article.getItem());
+                        context.startActivity(articleIntent);
+                    }
+                });
     }
 
     public void remove(int position) {
         models.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, models.size());
     }
 
     public void insert(int position, News news) {
         models.add(position, news);
         notifyItemInserted(position);
     }
-
 
     @Override
     public int getItemCount() {
@@ -718,52 +664,17 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
 
     @Override
     public int getItemViewType(int position) {
-        return dynamicTypes.get(position);
+            return dynamicTypes.get(position);
     }
 
-    public ArrayList<Integer> checkTypes(ArrayList<News> data) {
-        ArrayList<Integer> reloadedTypes = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            String article = data.get(i).getArticle_type();
-            switch (article) {
-                case Constants.SIMPLE_IMAGE_TEXT:
-                    reloadedTypes.add(Constants.SIMPLE_WITH_IMG);
-                    break;
-                case Constants.SIMPLE_TEXT:
-                    reloadedTypes.add(Constants.SIMPLE_TEXT_NEWS);
-                    break;
-                case Constants.LONG_TEXT:
-                    reloadedTypes.add(Constants.LONG);
-                    break;
-                case Constants.INTERVIEW_TEXT:
-                    reloadedTypes.add(Constants.INTERVIEW);
-                    break;
-                case Constants.AUTHORS_TEXT:
-                    reloadedTypes.add(Constants.AUTHORS);
-                    break;
-                case Constants.NATIONAL_TEXT:
-                    reloadedTypes.add(Constants.NATIONAL);
-                    break;
-                case Constants.IMPORTANT_TEXT:
-                    reloadedTypes.add(Constants.IMPORTANT);
-                    break;
-                case Constants.GALLERY_FIRST_TEXT:
-                    reloadedTypes.add(Constants.GALLERY_ONE);
-                    break;
-                case Constants.GALLERY_SECOND_TEXT:
-                    reloadedTypes.add(Constants.GALLERY_TWO);
-                    break;
-                case Constants.ADS_TEXT:
-                    reloadedTypes.add(Constants.ADVERTISE);
-                    break;
-                case Constants.SIMPLE_WIDE_TEXT:
-                    reloadedTypes.add(Constants.SIMPLE_WIDE);
-                    break;
-            }
-        }
-        dynamicTypes.clear();
-        dynamicTypes.addAll(reloadedTypes);
-        return reloadedTypes;
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
     }
 
+    public void updateData(ArrayList<News> updatedModel) {
+        models.clear();
+        models.addAll(updatedModel);
+        notifyDataSetChanged();
+    }
 }

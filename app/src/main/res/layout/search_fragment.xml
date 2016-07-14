@@ -52,7 +52,7 @@
                 android:layout_toRightOf="@+id/search"
                 android:layout_toLeftOf="@+id/cancel_button"
                 android:background="@android:color/transparent"
-                android:hint="Поиск"
+                android:hint="@string/search"
                 android:inputType="textCapWords"
                 android:text=""
                 android:textColor="@color/blackText"

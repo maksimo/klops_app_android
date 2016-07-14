@@ -14,27 +14,27 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
-import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.models.article.Photos;
 
 public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-    ArrayList<Photos> content;
+    ArrayList<String> urls;
+    ArrayList<String> description;
 
 
-    public GalleryContentPagerAdapter(Context context, ArrayList<Photos> content) {
+    public GalleryContentPagerAdapter(Context context, ArrayList<String> urls, ArrayList<String> description) {
         super();
         this.context = context;
-        this.content = content;
+        this.urls = urls;
+        this.description = description;
 
     }
 
 
     @Override
     public int getCount() {
-        return content.size();
+        return urls.size();
     }
 
     @Override
@@ -43,18 +43,18 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
         final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
-        if (content.get(position).getImg_url().equals("")) {
+        if (urls.get(position).equals("")) {
             photo.setVisibility(View.GONE);
             descr.setVisibility(View.GONE);
         } else {
-            Ion.with(context).load("https://klops.ru".concat(content.get(position).getImg_url())).withBitmap().intoImageView(photo);
+            Ion.with(context).load(urls.get(position)).withBitmap().intoImageView(photo);
             photo.setVisibility(View.VISIBLE);
         }
-        if (content.get(position).getDescription().equals("")) {
-            descr.setVisibility(View.GONE);
+        if (description.get(position).equals("")) {
+            descr.setText("Отсутствует описание к данному фото");
         } else {
             descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-            descr.setText(content.get(position).getDescription());
+            descr.setText(description.get(position));
             descr.setVisibility(View.VISIBLE);
         }
         container.addView(itemView);

@@ -3,10 +3,15 @@ package ru.klops.klops;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,6 +29,10 @@ import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SettingsActivity extends AppCompatActivity {
     final String LOG = "SettingsActivity";
@@ -56,20 +65,28 @@ public class SettingsActivity extends AppCompatActivity {
     Animation alpha;
     Unbinder unbinder;
     String tokenDevice;
-    ProgressDialog mProgressDialog;
     KlopsApplication app;
+    AlertDialog.Builder confirmBuilder;
+    AlertDialog confirmDialog;
+    View confirmLayout;
+    Button positiveBtn;
+    TextView confirmTitle;
+    TextView confirmText;
+    ProgressBar confirmProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         unbinder = ButterKnife.bind(this);
+        confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
         initFonts();
         initProgressDialog();
         Log.d(LOG, "onCreate");
     }
+    // TODO RVPopular adapter popularViewHolder to show only popular news
 
     private void initFonts() {
         confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
@@ -87,11 +104,25 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void initProgressDialog() {
-        mProgressDialog = new ProgressDialog(this, R.style.MyDialog);
-        mProgressDialog.setIcon(R.drawable.logo_int_settings);
-        mProgressDialog.setTitle("Подписка");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setIndeterminate(true);
+        confirmBuilder = new AlertDialog.Builder(this);
+        confirmBuilder.setView(confirmLayout);
+        confirmBuilder.setCancelable(false);
+        confirmDialog = confirmBuilder.create();
+        positiveBtn = (Button) confirmLayout.findViewById(R.id.confirmPositiveBtn);
+        confirmTitle = (TextView) confirmLayout.findViewById(R.id.confirmTitle);
+        confirmText = (TextView) confirmLayout.findViewById(R.id.confirmText);
+        confirmProgress = (ProgressBar) confirmLayout.findViewById(R.id.confirmProgress);
+        confirmTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+        confirmText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        confirmProgress.setIndeterminate(true);
+        positiveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                positiveBtn.startAnimation(alpha);
+                confirmDialog.dismiss();
+            }
+        });
+
     }
 
     @OnClick(R.id.confirm_button)
@@ -103,52 +134,70 @@ public class SettingsActivity extends AppCompatActivity {
     @OnCheckedChanged(R.id.switch_notifications)
     public void registerGms() {
         if (switchNotifications.isChecked()) {
-            mProgressDialog.setMessage("Подписываюсь на важные новости...");
-            mProgressDialog.show();
+            confirmProgress.setVisibility(View.VISIBLE);
+            confirmText.setText("Подписываюсь на уведомления");
+            confirmDialog.show();
             tokenDevice = app.getToken();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Call<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        mProgressDialog.dismiss();
-                        Log.d(LOG, "response code: " + response.code());
-                    } else {
-                        Log.d(LOG, "response code: " + response.code());
-                    }
-                }
+            Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
+            call.observeOn(Schedulers.newThread())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseBody>() {
+                        @Override
+                        public void onCompleted() {
+                            confirmDialog.dismiss();
+                            Log.d(LOG, "response code: 200");
+                        }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    mProgressDialog.dismiss();
-                    Log.d(LOG, "request failed... 403 forbidden" + t.getMessage());
-                    Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                }
-            });
+                        @Override
+                        public void onError(Throwable e) {
+                            confirmDialog.dismiss();
+                            Log.d(LOG, "response code: 403");
+                            Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNext(ResponseBody responseBody) {
+                            AndroidSchedulers.reset();
+                            confirmProgress.setVisibility(View.GONE);
+                            confirmText.setText("Вы подписались на уведомления");
+                            confirmDialog.show();
+                            AndroidSchedulers.reset();
+                        }
+                    });
+
         } else if (!switchNotifications.isChecked()) {
-            mProgressDialog.setMessage("Отписываюсь от важных новостей...");
-            mProgressDialog.show();
+            confirmText.setText("Отписываюсь от уведомлений");
+            confirmProgress.setVisibility(View.VISIBLE);
+            confirmDialog.show();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Call<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        mProgressDialog.dismiss();
-                        Log.d(LOG, "response code: " + response.code());
-                    } else {
-                        Log.d(LOG, "response code: " + response.code());
-                    }
-                }
+            Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
+            call.observeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseBody>() {
+                        @Override
+                        public void onCompleted() {
+                           confirmDialog.dismiss();
+                            Log.d(LOG, "response code: 200");
+                        }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d(LOG, "request failed... 403 forbidden" + t.getMessage());
-                    mProgressDialog.dismiss();
-                    Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                }
-            });
+                        @Override
+                        public void onError(Throwable e) {
+                            confirmDialog.dismiss();
+                            Log.d(LOG, "response code: 403");
+                            Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNext(ResponseBody responseBody) {
+                            AndroidSchedulers.reset();
+                            confirmDialog.dismiss();
+                            confirmProgress.setVisibility(View.GONE);
+                            confirmText.setText("Вы отписались от уведомлений");
+                            confirmDialog.show();
+                        }
+                    });
+
         }
     }
 

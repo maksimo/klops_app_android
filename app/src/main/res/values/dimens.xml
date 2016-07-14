@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="top_bottom">5dp</dimen>
+    <dimen name="popular">25dp</dimen>
     <dimen name="vertical">5dp</dimen>
     <dimen name="tab">120dp</dimen>
 </resources>

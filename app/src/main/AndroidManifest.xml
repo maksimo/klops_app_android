@@ -48,12 +48,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
         <activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
-        <receiver android:name=".services.ReceiverArticle">
-            <intent-filter>
-                <action android:name="ru.klops.klops.intent.action.requestArticle"/>
-            </intent-filter>
-        </receiver>
-        <service android:name=".services.ServiceArticleLoader"/>
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"

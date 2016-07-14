@@ -33,7 +33,12 @@ import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SplashActivity extends AppCompatActivity {
     final String LOG = "SplashActivity";
@@ -124,32 +129,65 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startDataLoad() {
         Log.d(LOG, "startDataLoad");
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Call<Page> call = api.getAllNews();
-        call.enqueue(new Callback<Page>() {
-            @Override
-            public void onResponse(Call<Page> call, Response<Page> response) {
-                if (response.isSuccessful()) {
-                    myApp.setFirstPage(response.body());
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Page> call, Throwable t) {
-                Log.d(LOG, "Ошибка доступа..." + t.getLocalizedMessage());
-                Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
-                final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
-                somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
-                        .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+        PageApi apiNew = RetrofitServiceGenerator.createService(PageApi.class);
+        Observable<Page> callNew = apiNew.getAllNews();
+        callNew.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Page>() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                    public void onCompleted() {
+                        Log.d(LOG, "Loading data complete...");
                     }
-                }).show();
-            }
-        });
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "Ошибка доступа..." + e.getLocalizedMessage());
+                        Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
+                        final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
+                        somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
+                                .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).show();
+                    }
+
+                    @Override
+                    public void onNext(Page page) {
+                        myApp.setFirstPage(page);
+                        PageApi apiPopular = RetrofitServiceGenerator.createService(PageApi.class);
+                        Observable<Popular> callPopular = apiPopular.getPopularNews();
+                        callPopular.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Popular>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(LOG, "Loading popular news complete...");
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.d(LOG, "Ошибка доступа..." + e.getLocalizedMessage());
+                                        Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
+                                        final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
+                                        somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
+                                                .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        }).show();
+                                    }
+
+                                    @Override
+                                    public void onNext(Popular popular) {
+                                        myApp.setPopularPage(popular);
+                                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override

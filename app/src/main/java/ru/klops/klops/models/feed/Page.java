@@ -5,14 +5,24 @@ import java.util.List;
 public class Page{
 
     private List<News> news;
-    private String page;
+    private Object page;
+    public Currency currency;
 
     public Page() {
     }
 
-    public Page(List<News> news, String page) {
+    public Page(List<News> news, Object page, Currency currency) {
         this.news = news;
         this.page = page;
+        this.currency = currency;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public List<News> getNews() {
@@ -23,11 +33,11 @@ public class Page{
         this.news = news;
     }
 
-    public String getPage() {
+    public Object getPage() {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(Object page) {
         this.page = page;
     }
 
@@ -35,7 +45,8 @@ public class Page{
     public String toString() {
         return "Page{" +
                 "news=" + news +
-                ", page='" + page + '\'' +
+                ", page=" + page +
+                ", currency=" + currency +
                 '}';
     }
 }

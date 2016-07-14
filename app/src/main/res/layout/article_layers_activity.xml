@@ -130,7 +130,7 @@
                 android:background="@color/greyText"
                 android:visibility="gone" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/ViewsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +138,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" />
 
             <RelativeLayout
                 android:id="@+id/contentGallery"

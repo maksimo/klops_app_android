@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.klops.klops.adapter.GalleryContentPagerAdapter;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.AuthorArticleFragment;
@@ -109,7 +111,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.splitterThird)
     View splitterThird;
     @BindView(R.id.ViewsContent)
-    RelativeLayout viewsContent;
+    LinearLayout viewsContent;
     @BindView(R.id.ViewsPhotos)
     ViewPager pager;
     @BindView(R.id.contentGallery)
@@ -118,6 +120,7 @@ public class ArticleActivity extends AppCompatActivity {
     TextView littlePhotoSwitchCounterTwo;
     @BindView(R.id.littlePhotoSwitcherTwo)
     RelativeLayout littlePhotoSwitcherTwo;
+    @BindView(R.id.littleGallery)
     ViewPager littleGallery;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
@@ -128,10 +131,11 @@ public class ArticleActivity extends AppCompatActivity {
     ArrayList<Photos> photoGallery;
     ArrayList<WebView> viewsWeb;
     ArrayList<String> urls;
+    ArrayList<String> description;
     Animation alpha;
     Bitmap bmp;
     String text;
-    GalleryPagerAdapter gAdapter;
+    GalleryContentPagerAdapter gAdapter;
     int count = 0;
     int countPager = 0;
     private Target loadTarget;
@@ -153,8 +157,8 @@ public class ArticleActivity extends AppCompatActivity {
         setUpShare();
         setUpFormat();
         drawFragment();
-        setUPContent();
         setUPPager();
+        setUPContent();
     }
 
     private void setUPContent() {
@@ -162,12 +166,10 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         copy = new ArrayList<>();
-        photoGallery = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
                 String copyString = "";
                 copy.add(new Content(copyString, contents.get(i).getPhotos()));
-                photoGallery.addAll(contents.get(i).getPhotos());
 
             } else if (contents.get(i).getPhotos() == null || contents.get(i).getPhotos().size() == 0) {
                 ArrayList<Photos> copyList = new ArrayList<>();
@@ -176,60 +178,42 @@ public class ArticleActivity extends AppCompatActivity {
             }
         }
 
-        int previousID = 0;
         viewsWeb = new ArrayList<>();
         urls = new ArrayList<>();
+        description = new ArrayList<>();
         WebView webView;
-          for (int n = 0; n < copy.size(); n++) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        for (int n = 0; n < copy.size(); n++) {
+            LinearLayout viewsLayout = new LinearLayout(this);
+            viewsLayout.setOrientation(LinearLayout.HORIZONTAL);
             if (!copy.get(n).getText().equals("")) {
                 webView = new WebView(this);
                 webView.getSettings().setDefaultFontSize(16);
                 webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
                 webView.loadData(copy.get(n).getText(), "text/html; charset=utf-8", "UTF-8");
-                int currentID = previousID + 1;
-                webView.setId(currentID);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.BELOW, previousID);
-                previousID = currentID;
+                webView.setId(n+1);
                 webView.setLayoutParams(params);
-                viewsContent.addView(webView);
+                viewsLayout.addView(webView);
                 viewsWeb.add(webView);
+            } else if (!copy.get(n).getPhotos().get(0).getImg_url().equals("")) {
+                for (int m = 0; m < copy.get(n).getPhotos().size(); m++) {
+                    urls.add(copy.get(n).getPhotos().get(m).getImg_url());
+                    description.add(copy.get(n).getPhotos().get(m).getDescription());
+                }
+                gAdapter = new GalleryContentPagerAdapter(this, urls, description);
+                pager.setAdapter(gAdapter);
+                pager.setCurrentItem(0);
+                pager.setId(n+1);
+                pager.setLayoutParams(params);
+                viewsLayout.addView(pager);
             }
+            viewsContent.addView(viewsLayout);
         }
 
-        if (photoGallery.size() != 0 && !photoGallery.isEmpty()) {
-            contentGallery.setVisibility(View.VISIBLE);
-            urls = new ArrayList<>();
-            for (Photos photo : photoGallery) {
-                urls.add("https://klops.ru".concat(photo.getImg_url()));
-            }
-            gAdapter = new GalleryPagerAdapter(this, urls);
-            pager.setAdapter(gAdapter);
-            pager.setCurrentItem(0);
-            littlePhotoSwitchCounterTwo.setText((pager.getCurrentItem() + 1) + "/" + String.valueOf(urls.size()));
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(urls.size()));
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        } else {
-            contentGallery.setVisibility(View.GONE);
-        }
     }
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
-    public void pagerClick(){
+    public void pagerClick() {
         countPager = pager.getCurrentItem();
         countPager++;
         pager.setCurrentItem(countPager);
@@ -237,7 +221,6 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void setUPPager() {
         matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
-        littleGallery = (ViewPager) findViewById(R.id.littleGallery);
         smallGallery = new ArrayList<>();
         if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
             smallGallery.addAll(item.getPhotos());
@@ -663,7 +646,6 @@ public class ArticleActivity extends AppCompatActivity {
         finish();
         super.onDestroy();
     }
-
 
 }
 

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.models.popular.Popular;
 
 public class KlopsApplication extends Application {
     private static final String LOG_TAG = "KlopsAppliction: ";
@@ -37,17 +38,10 @@ public class KlopsApplication extends Application {
     private Page firstPage;
     private String token;
     private Item item;
+    private Popular popularPage;
 
     public static KlopsApplication getINSTANCE() {
         return INSTANCE;
-    }
-
-    public Page getFirstPage() {
-        return firstPage;
-    }
-
-    public void setFirstPage(Page firstPage) {
-        this.firstPage = firstPage;
     }
 
     @Override
@@ -62,6 +56,21 @@ public class KlopsApplication extends Application {
 
     }
 
+    public Page getFirstPage() {
+        return firstPage;
+    }
+
+    public void setFirstPage(Page firstPage) {
+        this.firstPage = firstPage;
+    }
+
+    public Popular getPopularPage() {
+        return popularPage;
+    }
+
+    public void setPopularPage(Popular popularPage) {
+        this.popularPage = popularPage;
+    }
 
     public void setToken(String token) {
         this.token = token;

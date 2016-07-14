@@ -84,7 +84,7 @@ public class SimpleWithImageArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getImage().equals("")) {
+        if (!item.getImage().equals("")|| !item.getImage().isEmpty()) {
             Picasso.with(getContext()).load(item.getImage()).into(photo, new Callback() {
                 @Override
                 public void onSuccess() {

@@ -3,15 +3,16 @@
     android:id="@+id/interviewCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="2dp"
     android:orientation="vertical"
     android:background="@color/colorPrimary">
 
     <RelativeLayout
+        android:id="@+id/interviewNewsLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:elevation="1dp">
 
         <TextView
             android:id="@+id/interviewCardAuthor"
@@ -88,4 +89,10 @@
             android:textColor="@color/blackText"
             android:textSize="16sp" />
     </RelativeLayout>
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/interviewNewsLayer"
+        android:background="@color/recyclerBackground" />
 </RelativeLayout>

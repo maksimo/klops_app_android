@@ -1,9 +1,9 @@
 package ru.klops.klops.adapter;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +18,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.api.PageApi;
 import ru.klops.klops.fragments.SearchFragment;
-import ru.klops.klops.models.article.Item;
+import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.search.News;
-import ru.klops.klops.services.ServiceArticleLoader;
+import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.ViewHolder> {
     ArrayList<News> models;
     SearchFragment context;
     Animation alpha;
-    ProgressDialog mProgressDialog;
     String keyword;
 
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword) {
@@ -36,7 +40,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.context = context;
         this.keyword = keyword;
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
-        initProgressDialog();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,7 +51,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         TextView title;
         @BindView(R.id.articleText)
         TextView text;
-        @BindView(R.id.searchCard)
+        @BindView(R.id.resizedLayer)
         RelativeLayout layout;
 
         public ViewHolder(View itemView) {
@@ -62,17 +65,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_result_card, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
-        initProgressDialog();
         return holder;
-    }
-
-    public void initProgressDialog() {
-        mProgressDialog = new ProgressDialog(context.getContext(), R.style.MyDialog);
-        mProgressDialog.setIcon(R.drawable.logo_int_settings);
-        mProgressDialog.setMessage("Ожадание отклика сервера...");
-        mProgressDialog.setTitle("Открываю статью");
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setIndeterminate(true);
     }
 
     @Override
@@ -89,7 +82,28 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             @Override
             public void onClick(View v) {
                 viewHolder.layout.startAnimation(alpha);
-                context.getActivity().startService(new Intent(context.getContext(), ServiceArticleLoader.class).putExtra(Constants.ARTICLE_ID, models.get(viewHolder.getAdapterPosition()).getId()));
+                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+                Observable<Article> call = api.getItemById(models.get(viewHolder.getAdapterPosition()).getId());
+                call.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Article>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d("SearchAdapter", "Loading search article complete");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d("SearchAdapter", "Loading failed");
+                            }
+
+                            @Override
+                            public void onNext(Article article) {
+                                Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
+                                articleIntent.putExtra(Constants.ITEM, article.getItem());
+                                context.startActivity(articleIntent);
+                            }
+                        });
             }
         });
     }

@@ -3,13 +3,14 @@
     android:id="@+id/galleryCardTwo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="2dp"
     android:orientation="vertical"
     android:background="@color/colorPrimary">
 
     <RelativeLayout
+        android:id="@+id/galleryTwoLayer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="1dp">
 
         <View
             android:id="@+id/splitter"
@@ -49,7 +50,6 @@
             android:maxLines="3"
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
-            android:text="wrwrwrwrwrewrewrwr"
             android:textColor="@color/colorPrimary"
             android:textSize="26sp"
             android:paddingBottom="10dp" />
@@ -125,7 +125,11 @@
                     android:visibility="visible" />
             </RelativeLayout>
         </RelativeLayout>
-
     </RelativeLayout>
-
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/galleryTwoLayer"
+        android:background="@color/recyclerBackground" />
 </RelativeLayout>

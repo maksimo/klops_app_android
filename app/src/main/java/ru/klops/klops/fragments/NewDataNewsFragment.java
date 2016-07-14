@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,7 @@ import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVNewDataAdapter;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.models.feed.Currency;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.utils.Constants;
@@ -34,6 +36,8 @@ public class NewDataNewsFragment extends Fragment {
     KlopsApplication mApp;
     RVNewDataAdapter adapter;
     ArrayList<News> models;
+    ArrayList<News> copy;
+    ArrayList<Integer> typesAdapter;
 
     @Override
     public void onAttach(Context context) {
@@ -58,12 +62,19 @@ public class NewDataNewsFragment extends Fragment {
         Page loadedFirstPage = mApp.getFirstPage();
         models = new ArrayList<>();
         models.addAll(loadedFirstPage.getNews());
-        ArrayList<News> copy = new ArrayList<>(models);
-        ArrayList<Integer> typesAdapter = new ArrayList<>();
-        typesAdapter = addData(copy);
-        adapter = new RVNewDataAdapter(NewDataNewsFragment.this, models, typesAdapter);
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        copy = new ArrayList<>();
+        copy.addAll(models);
+        copy.add(25, new News(0, loadedFirstPage.getCurrency().getUsd(), loadedFirstPage.getCurrency().getEur(),
+                loadedFirstPage.getCurrency().getPln(), "", "", new ArrayList<String>(), Constants.EXCHANGE_TEXT, "", "", "", ""));
+        typesAdapter = new ArrayList<>();
+        typesAdapter.addAll(addData(copy));
+        adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter);
         ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
         newDataRecycler.addItemDecoration(decoration);
+        newDataRecycler.setItemAnimator(itemAnimator);
         final GridLayoutManager newManager = new GridLayoutManager(getContext(), 2);
         newManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -98,13 +109,13 @@ public class NewDataNewsFragment extends Fragment {
                     case Constants.EXCHANGE:
                         return 2;
                     default:
-                        return -1;
+                        return 0;
                 }
             }
         });
-        newDataRecycler.setSaveEnabled(true);
         newDataRecycler.setLayoutManager(newManager);
         newDataRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private ArrayList<Integer> addData(ArrayList<News> copy) {

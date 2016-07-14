@@ -10,17 +10,25 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.models.search.Search;
+import rx.Observable;
 
 
 public interface PageApi {
     /**
-     *
-     * @return Page with news
+     * @return Page with list of news inside
      */
     @Headers("Content-Type: application/json")
     @GET("get_news")
-    Call<Page> getAllNews();
+    Observable<Page> getAllNews();
+
+    /**
+     * @return Popular news with list of news inside
+     */
+    @Headers("Content-Type: application/json")
+    @GET("get_popular")
+    Observable<Popular> getPopularNews();
 
     /**
      * @param id page id
@@ -28,19 +36,16 @@ public interface PageApi {
      */
     @Headers("Content-Type: application/json")
     @GET("get_news_item/{id}")
-    Call<Article> getItemById(@Path("id") Integer id);
+    Observable<Article> getItemById(@Path("id") Integer id);
 
     /**
      * @param searchValue value, which will be used as keyword in search request
-     * @param pageNumber  number of page for searching
      * @return Search results , contains list of articles
      */
     @Headers("Content-Type: application/json")
     @GET("search")
-    Call<Search> getSearchResult(@Query("search") String searchValue, @Query("page") Integer pageNumber);
+    Observable<Search> getSearchResult(@Query("search") String searchValue);
 
-
-    // @Body  use in tokens for pojo token
     /**
      * @param tokenValue   device token to register device in klops.ru database
      * @param platform android platform
@@ -48,7 +53,7 @@ public interface PageApi {
      */
     @Headers("Content-Type: application/json")
     @POST("subscribe_token")
-    Call<ResponseBody> subscribeNotification(@Query("device_token") String tokenValue, @Query("platform") String platform);
+    Observable<ResponseBody> subscribeNotification(@Query("device_token") String tokenValue, @Query("platform") String platform);
 
     /**
      * @param deviceToken device token to unregister device in klops.ru database
@@ -57,7 +62,7 @@ public interface PageApi {
      */
     @Headers("Content-Type: application/json")
     @POST("unsubscribe_token")
-    Call<ResponseBody> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
+    Observable<ResponseBody> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
 
 }
 

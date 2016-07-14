@@ -1,11 +1,11 @@
-package ru.klops.klops.models.feed;
+package ru.klops.klops.models.popular;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
-public class News implements Parcelable {
+public class News implements Parcelable{
     private Integer id;
     private String date;
     private String title;
@@ -16,13 +16,12 @@ public class News implements Parcelable {
     private String article_type;
     private String url;
     private String og_image;
-    private Object timestamp;
+    private List<Content> content;
+    private Integer timestamp;
     private String author;
+    private List<ConnectedItem> connected_items;
 
-    public News() {
-    }
-
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<ConnectedItem> connected_items) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -33,11 +32,13 @@ public class News implements Parcelable {
         this.article_type = article_type;
         this.url = url;
         this.og_image = og_image;
+        this.content = content;
         this.timestamp = timestamp;
         this.author = author;
+        this.connected_items = connected_items;
     }
 
-    public News(Parcel in) {
+    protected News(Parcel in) {
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();
@@ -47,6 +48,7 @@ public class News implements Parcelable {
         article_type = in.readString();
         url = in.readString();
         og_image = in.readString();
+        content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
     }
 
@@ -142,11 +144,19 @@ public class News implements Parcelable {
         this.og_image = og_image;
     }
 
-    public Object getTimestamp() {
+    public List<Content> getContent() {
+        return content;
+    }
+
+    public void setContent(List<Content> content) {
+        this.content = content;
+    }
+
+    public Integer getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Object timestamp) {
+    public void setTimestamp(Integer timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -156,6 +166,34 @@ public class News implements Parcelable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<ConnectedItem> getConnected_items() {
+        return connected_items;
+    }
+
+    public void setConnected_items(List<ConnectedItem> connected_items) {
+        this.connected_items = connected_items;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", title='" + title + '\'' +
+                ", shortdecription='" + shortdecription + '\'' +
+                ", image='" + image + '\'' +
+                ", update_status='" + update_status + '\'' +
+                ", photos=" + photos +
+                ", article_type='" + article_type + '\'' +
+                ", url='" + url + '\'' +
+                ", og_image='" + og_image + '\'' +
+                ", content=" + content +
+                ", timestamp=" + timestamp +
+                ", author='" + author + '\'' +
+                ", connected_items=" + connected_items +
+                '}';
     }
 
     @Override
@@ -174,6 +212,7 @@ public class News implements Parcelable {
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(og_image);
+        dest.writeTypedList(content);
         dest.writeString(author);
     }
 }

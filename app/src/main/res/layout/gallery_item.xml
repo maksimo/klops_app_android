@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="300dp">
 <ImageView
     android:id="@+id/galleryPagerPhoto"
     android:layout_width="match_parent"
@@ -10,11 +10,12 @@
  <TextView
      android:id="@+id/photoDescription"
      android:layout_width="match_parent"
-     android:layout_height="wrap_content"
+     android:layout_height="100dp"
      android:layout_below="@+id/galleryPagerPhoto"
      android:textColor="@color/greyText"
      android:background="@color/galleryCard"
-     android:maxLines="4"
+     android:maxLines="3"
+     android:text=""
      android:textSize="16sp"
      android:visibility="visible"
      android:gravity="center"

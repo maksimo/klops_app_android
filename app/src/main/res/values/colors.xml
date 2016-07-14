@@ -15,4 +15,5 @@
     <color name="darkGreyText">#565656</color>
     <color name="linkColor">#3476cc</color>
     <color name="colorprimary">#F7F6F6</color>
+    <color name="logoColor">#eaebec</color>
 </resources>
