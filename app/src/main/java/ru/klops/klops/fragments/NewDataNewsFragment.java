@@ -115,7 +115,6 @@ public class NewDataNewsFragment extends Fragment {
         });
         newDataRecycler.setLayoutManager(newManager);
         newDataRecycler.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     private ArrayList<Integer> addData(ArrayList<News> copy) {

@@ -54,9 +54,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
-
         }
-
     }
 
     public class SimpleNewsHolder extends ViewHolder {
@@ -649,6 +647,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
 
     public void remove(int position) {
         models.remove(position);
+        dynamicTypes.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -665,11 +664,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
     @Override
     public int getItemViewType(int position) {
             return dynamicTypes.get(position);
-    }
-
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        super.onViewRecycled(holder);
     }
 
     public void updateData(ArrayList<News> updatedModel) {

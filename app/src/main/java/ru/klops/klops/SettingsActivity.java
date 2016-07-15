@@ -1,8 +1,9 @@
 package ru.klops.klops;
 
-import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +22,6 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.services.RetrofitServiceGenerator;
@@ -69,11 +66,11 @@ public class SettingsActivity extends AppCompatActivity {
     AlertDialog.Builder confirmBuilder;
     AlertDialog confirmDialog;
     View confirmLayout;
-    Button positiveBtn;
     TextView confirmTitle;
     TextView confirmText;
     ProgressBar confirmProgress;
-
+    SharedPreferences preferences;
+    boolean btnState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +79,12 @@ public class SettingsActivity extends AppCompatActivity {
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
+        preferences = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         initFonts();
         initProgressDialog();
         Log.d(LOG, "onCreate");
     }
-    // TODO RVPopular adapter popularViewHolder to show only popular news
+
 
     private void initFonts() {
         confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
@@ -107,22 +105,12 @@ public class SettingsActivity extends AppCompatActivity {
         confirmBuilder = new AlertDialog.Builder(this);
         confirmBuilder.setView(confirmLayout);
         confirmBuilder.setCancelable(false);
-        confirmDialog = confirmBuilder.create();
-        positiveBtn = (Button) confirmLayout.findViewById(R.id.confirmPositiveBtn);
         confirmTitle = (TextView) confirmLayout.findViewById(R.id.confirmTitle);
         confirmText = (TextView) confirmLayout.findViewById(R.id.confirmText);
         confirmProgress = (ProgressBar) confirmLayout.findViewById(R.id.confirmProgress);
         confirmTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         confirmText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        confirmProgress.setIndeterminate(true);
-        positiveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                positiveBtn.startAnimation(alpha);
-                confirmDialog.dismiss();
-            }
-        });
-
+        confirmDialog = confirmBuilder.create();
     }
 
     @OnClick(R.id.confirm_button)
@@ -133,72 +121,84 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnCheckedChanged(R.id.switch_notifications)
     public void registerGms() {
-        if (switchNotifications.isChecked()) {
-            confirmProgress.setVisibility(View.VISIBLE);
-            confirmText.setText("Подписываюсь на уведомления");
+        btnState = loadState();
+        tokenDevice = app.getToken();
+        if (!btnState) {
+            saveState(true);
+            switchNotifications.setChecked(true);
+            confirmTitle.setText("Подписка на уведомления...");
             confirmDialog.show();
-            tokenDevice = app.getToken();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
             Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.observeOn(Schedulers.newThread())
-                    .subscribeOn(AndroidSchedulers.mainThread())
+            call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<ResponseBody>() {
                         @Override
                         public void onCompleted() {
-                            confirmDialog.dismiss();
                             Log.d(LOG, "response code: 200");
+                            Toast.makeText(SettingsActivity.this, "Подписка оформлена...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
                             confirmDialog.dismiss();
-                            Log.d(LOG, "response code: 403");
                             Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onNext(ResponseBody responseBody) {
+                            Log.d(LOG, "response code: 200" + responseBody.toString());
                             AndroidSchedulers.reset();
-                            confirmProgress.setVisibility(View.GONE);
-                            confirmText.setText("Вы подписались на уведомления");
-                            confirmDialog.show();
-                            AndroidSchedulers.reset();
+                            confirmDialog.dismiss();
                         }
                     });
 
-        } else if (!switchNotifications.isChecked()) {
-            confirmText.setText("Отписываюсь от уведомлений");
-            confirmProgress.setVisibility(View.VISIBLE);
+
+        } else if (btnState) {
+            saveState(false);
+            switchNotifications.setChecked(false);
+            confirmTitle.setText("Отмена подписки...");
             confirmDialog.show();
             PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.observeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
+            final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
+            call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<ResponseBody>() {
                         @Override
                         public void onCompleted() {
-                           confirmDialog.dismiss();
                             Log.d(LOG, "response code: 200");
+                            Toast.makeText(SettingsActivity.this, "Подписка отменена...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
                             confirmDialog.dismiss();
-                            Log.d(LOG, "response code: 403");
                             Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onNext(ResponseBody responseBody) {
+                            Log.d(LOG, "response code: 200" + responseBody.toString());
                             AndroidSchedulers.reset();
                             confirmDialog.dismiss();
-                            confirmProgress.setVisibility(View.GONE);
-                            confirmText.setText("Вы отписались от уведомлений");
-                            confirmDialog.show();
                         }
                     });
-
         }
+    }
+
+   public void saveState(boolean value){
+       SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+       SharedPreferences.Editor editor = sharedPreferences.edit();
+       editor.putBoolean(Constants.GCM_AVAILABLE, value);
+       editor.commit();
+   }
+
+    public boolean loadState() {
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        boolean state = sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, true);
+        return state;
     }
 
     @Override

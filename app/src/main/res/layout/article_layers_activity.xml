@@ -145,24 +145,23 @@
                 android:id="@+id/contentGallery"
                 android:layout_width="match_parent"
                 android:layout_height="255dp"
+                android:layout_below="@+id/ViewsContent"
                 android:background="@color/galleryCard"
-                android:visibility="gone"
-                android:layout_below="@+id/ViewsContent">
+                android:visibility="gone">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/ViewsPhotos"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    />
+                    android:layout_height="200dp" />
 
                 <RelativeLayout
                     android:id="@+id/littlePhotoSwitcherTwo"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_below="@+id/ViewsPhotos"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"
                     android:alpha="0.7"
                     android:background="@drawable/gallery_switch_shape_dark"
                     android:clickable="true"
@@ -192,23 +191,155 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
             </RelativeLayout>
+
             <View
                 android:id="@+id/splitterFour"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@+id/contentGallery"
-                android:background="@color/colorPrimary"/>
-            <TextView
-                android:id="@+id/textMatch"
+                android:background="@color/colorPrimary"
+                android:elevation="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/matchLayout"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterFour"
-                android:background="@color/recyclerBackground"
-                android:paddingLeft="15dp"
-                android:paddingTop="30dp"
-                android:text="Связанные статьи"
-                android:textColor="@color/blackText"
-                android:textSize="34sp" />
+                android:background="@color/recyclerBackground">
+
+                <TextView
+                    android:id="@+id/textMatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/recyclerBackground"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="30dp"
+                    android:text="Связанные статьи"
+                    android:textColor="@color/blackText"
+                    android:textSize="34sp" />
+
+                <RelativeLayout
+                    android:id="@+id/connectedNewsOne"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/textMatch"
+                    android:elevation="1dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/connectedNewsOneImageLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary">
+
+                        <ImageView
+                            android:id="@+id/connectedNewsOnePhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="125dp"
+                            android:scaleType="centerCrop" />
+
+
+                        <ProgressBar
+                            android:id="@+id/connectedNewsOneImageLoading"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/connectedNewsOneDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/connectedNewsOneImageLayout"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greyText"
+                        android:textSize="8sp" />
+
+                    <TextView
+                        android:id="@+id/connectedNewsOneText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/connectedNewsOneDate"
+                        android:maxLines="5"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@color/blackText"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/connectedNewsTwoLayer"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/textMatch"
+                    android:elevation="1dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/connectedNewsTwoImageLayout"
+                        android:layout_width="190dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary">
+
+                        <ImageView
+                            android:id="@+id/connectedNewsTwoPhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="125dp"
+                            android:scaleType="centerCrop" />
+
+
+                        <ProgressBar
+                            android:id="@+id/connectedNewsTwoLoading"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/connectedNewsTwoDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/connectedNewsTwoImageLayout"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textColor="@color/greyText"
+                        android:textSize="8sp" />
+
+                    <TextView
+                        android:id="@+id/connectedNewsTwoText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/connectedNewsTwoDate"
+                        android:maxLines="5"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@color/blackText"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

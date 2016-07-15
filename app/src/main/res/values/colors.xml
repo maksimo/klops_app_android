@@ -5,7 +5,7 @@
     <color name="colorAccent">#ec008c</color>
     <color name="baseLayout">#f8f7f7</color>
     <color name="greyText">#808080</color>
-    <color name="recyclerBackground">#f3f2f2</color>
+    <color name="recyclerBackground">#edecec</color>
     <color name="exchange">#f6f6f6</color>
     <color name="blackText">#000000</color>
     <color name="greySplitter">#c2c2c2</color>

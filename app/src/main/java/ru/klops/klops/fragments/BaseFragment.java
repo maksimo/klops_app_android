@@ -72,8 +72,8 @@ public class BaseFragment extends Fragment {
 
     private void setUpTab() {
         Log.d(LOG, "setUpTab");
-        layout.addTab(layout.newTab().setText("Новое"));
-        layout.addTab(layout.newTab().setText("Популярное"));
+        layout.addTab(layout.newTab().setText(" Новое "));
+        layout.addTab(layout.newTab().setText(" Популярное "));
         changeTabsFont();
         layout.setSelectedTabIndicatorHeight(0);
         adapter = new SlideAdapter(getFragmentManager(), 2);

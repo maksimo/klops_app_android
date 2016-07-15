@@ -1,14 +1,18 @@
-package ru.klops.klops.models.popular;
+package ru.klops.klops.models.article;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ConnectedItem implements Parcelable{
+public class ConnectedItem implements Parcelable {
 
-    public ConnectedItem() {
+    private DocList docList;
+
+    public ConnectedItem(DocList docList) {
+        this.docList = docList;
     }
 
     protected ConnectedItem(Parcel in) {
+        docList = in.readParcelable(DocList.class.getClassLoader());
     }
 
     public static final Creator<ConnectedItem> CREATOR = new Creator<ConnectedItem>() {
@@ -23,6 +27,21 @@ public class ConnectedItem implements Parcelable{
         }
     };
 
+    public DocList getDocList() {
+        return docList;
+    }
+
+    public void setDocList(DocList docList) {
+        this.docList = docList;
+    }
+
+    @Override
+    public String toString() {
+        return "ConnectedItem{" +
+                "docList=" + docList +
+                '}';
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -30,5 +49,6 @@ public class ConnectedItem implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(docList, flags);
     }
 }

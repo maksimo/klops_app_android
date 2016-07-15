@@ -22,6 +22,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.vk.sdk.VKAccessToken;
@@ -53,6 +55,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.adapter.GalleryContentPagerAdapter;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
+import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.AuthorArticleFragment;
 import ru.klops.klops.fragments.GalleryOneArticleFragment;
@@ -64,10 +67,17 @@ import ru.klops.klops.fragments.NationalArticleFragment;
 import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
+import ru.klops.klops.models.article.Article;
+import ru.klops.klops.models.article.ConnectedItem;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.article.Photos;
+import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ArticleActivity extends AppCompatActivity {
     final String LOG = "ArticleActivity";
@@ -122,13 +132,34 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout littlePhotoSwitcherTwo;
     @BindView(R.id.littleGallery)
     ViewPager littleGallery;
+
+    @BindView(R.id.connectedNewsOne)
+    RelativeLayout connectedNewsOne;
+    @BindView(R.id.connectedNewsOnePhoto)
+    ImageView connectedNewsOnePhoto;
+    @BindView(R.id.connectedNewsOneImageLoading)
+    ProgressBar connectedNewsOneImageLoading;
+    @BindView(R.id.connectedNewsOneDate)
+    TextView connectedNewsOneDate;
+    @BindView(R.id.connectedNewsOneText)
+    TextView connectedNewsOneText;
+    @BindView(R.id.connectedNewsTwoLayer)
+    RelativeLayout connectedNewsTwoLayer;
+    @BindView(R.id.connectedNewsTwoPhoto)
+    ImageView connectedNewsTwoPhoto;
+    @BindView(R.id.connectedNewsTwoLoading)
+    ProgressBar connectedNewsTwoLoading;
+    @BindView(R.id.connectedNewsTwoDate)
+    TextView connectedNewsTwoDate;
+    @BindView(R.id.connectedNewsTwoText)
+    TextView connectedNewsTwoText;
+    ArrayList<ConnectedItem> connectedItems;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
     ShareDialog shareFacebookDialog;
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     ArrayList<Content> copy;
-    ArrayList<Photos> photoGallery;
     ArrayList<WebView> viewsWeb;
     ArrayList<String> urls;
     ArrayList<String> description;
@@ -140,6 +171,7 @@ public class ArticleActivity extends AppCompatActivity {
     int countPager = 0;
     private Target loadTarget;
     Unbinder unbinder;
+    Intent newMatchArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +184,7 @@ public class ArticleActivity extends AppCompatActivity {
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         item = getIntent().getParcelableExtra(Constants.ITEM);
+        newMatchArticle = getIntent();
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
@@ -159,6 +192,86 @@ public class ArticleActivity extends AppCompatActivity {
         drawFragment();
         setUPPager();
         setUPContent();
+        setUpMatchNews();
+    }
+
+    private void setUpMatchNews() {
+        connectedItems = new ArrayList<>();
+        for (int a = 0; a < item.getConnected_items().size(); a++) {
+            connectedItems.add(new ConnectedItem(item.getConnected_items().get(a).getDocList()));
+        }
+        if (!connectedItems.get(0).getDocList().getImage().equals("") || !connectedItems.get(0).getDocList().getImage().isEmpty()) {
+            loadPhoto(this, connectedItems.get(0).getDocList().getImage(), connectedNewsOnePhoto, connectedNewsOneImageLoading);
+            connectedNewsOnePhoto.setVisibility(View.VISIBLE);
+        } else {
+            connectedNewsOnePhoto.setVisibility(View.GONE);
+        }
+        connectedNewsOneDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        connectedNewsOneDate.setText(connectedItems.get(0).getDocList().getDate());
+        connectedNewsOneText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        connectedNewsOneText.setText(connectedItems.get(1).getDocList().getTitle());
+
+        if (!connectedItems.get(1).getDocList().getImage().equals("") || !connectedItems.get(1).getDocList().getImage().isEmpty()) {
+            loadPhoto(this, connectedItems.get(1).getDocList().getImage(), connectedNewsTwoPhoto, connectedNewsTwoLoading);
+            connectedNewsTwoPhoto.setVisibility(View.VISIBLE);
+        } else {
+            connectedNewsTwoPhoto.setVisibility(View.GONE);
+        }
+        connectedNewsTwoDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        connectedNewsTwoDate.setText(connectedItems.get(1).getDocList().getDate());
+        connectedNewsTwoText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        connectedNewsTwoDate.setText(connectedItems.get(1).getDocList().getTitle());
+    }
+
+    @OnClick(R.id.connectedNewsOne)
+    public void openFirstMatchNews(){
+        connectedNewsOne.startAnimation(alpha);
+        loadArticle(connectedItems.get(0).getDocList().getId());
+    }
+
+    @OnClick(R.id.connectedNewsTwoLayer)
+    public void openSecondMatchNews(){
+        connectedNewsOne.startAnimation(alpha);
+        loadArticle(connectedItems.get(1).getDocList().getId());
+    }
+
+    private void loadArticle(Integer id) {
+        PageApi articleApi = RetrofitServiceGenerator.createService(PageApi.class);
+        Observable<Article> callArticle = articleApi.getItemById(id);
+        callArticle.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Article>() {
+                    @Override
+                    public void onCompleted() {
+                    Log.d(LOG, "completeTask");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "Error: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Article article) {
+                        newMatchArticle.putExtra(Constants.ITEM, article.getItem());
+                        finish();
+                        startActivity(newMatchArticle);
+                    }
+                });
+    }
+
+    private void loadPhoto(ArticleActivity context, String imageUrl, ImageView imView, final ProgressBar bar) {
+        Picasso.with(context).load(imageUrl).into(imView, new Callback() {
+            @Override
+            public void onSuccess() {
+                bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                bar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void setUPContent() {
@@ -191,7 +304,7 @@ public class ArticleActivity extends AppCompatActivity {
                 webView.getSettings().setDefaultFontSize(16);
                 webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
                 webView.loadData(copy.get(n).getText(), "text/html; charset=utf-8", "UTF-8");
-                webView.setId(n+1);
+                webView.setId(n + 1);
                 webView.setLayoutParams(params);
                 viewsLayout.addView(webView);
                 viewsWeb.add(webView);
@@ -203,7 +316,7 @@ public class ArticleActivity extends AppCompatActivity {
                 gAdapter = new GalleryContentPagerAdapter(this, urls, description);
                 pager.setAdapter(gAdapter);
                 pager.setCurrentItem(0);
-                pager.setId(n+1);
+                pager.setId(n + 1);
                 pager.setLayoutParams(params);
                 viewsLayout.addView(pager);
             }

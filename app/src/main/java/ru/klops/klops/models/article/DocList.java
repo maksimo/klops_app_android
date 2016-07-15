@@ -5,26 +5,36 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class Item implements Parcelable{
-    public Integer id;
-    public String date;
-    public String title;
-    public String shortdecription;
-    public String image;
-    public String update_status;
-    public List<String> photos;
-    public String article_type;
-    public String url;
-    public String og_image;
-    public List<Content> content;
-    public Integer timestamp;
-    public String author;
-    public List<ConnectedItem> connected_items;
+public class DocList implements Parcelable{
+    private Integer id;
+    private String date;
+    private String title;
+    private String shortdecription;
+    private String image;
+    private String update_status;
+    private List<String> photos;
+    private String article_type;
+    private String url;
+    private String og_image;
+    private Integer timestamp;
+    private String author;
 
-    public Item() {
+    public DocList(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author) {
+        this.id = id;
+        this.date = date;
+        this.title = title;
+        this.shortdecription = shortdecription;
+        this.image = image;
+        this.update_status = update_status;
+        this.photos = photos;
+        this.article_type = article_type;
+        this.url = url;
+        this.og_image = og_image;
+        this.timestamp = timestamp;
+        this.author = author;
     }
 
-    protected Item(Parcel in) {
+    protected DocList(Parcel in) {
         id = in.readInt();
         date = in.readString();
         title = in.readString();
@@ -35,20 +45,19 @@ public class Item implements Parcelable{
         article_type = in.readString();
         url = in.readString();
         og_image = in.readString();
-        content = in.createTypedArrayList(Content.CREATOR);
+        timestamp = in.readInt();
         author = in.readString();
-        connected_items = in.createTypedArrayList(ConnectedItem.CREATOR);
     }
 
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
+    public static final Creator<DocList> CREATOR = new Creator<DocList>() {
         @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
+        public DocList createFromParcel(Parcel in) {
+            return new DocList(in);
         }
 
         @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
+        public DocList[] newArray(int size) {
+            return new DocList[size];
         }
     };
 
@@ -132,14 +141,6 @@ public class Item implements Parcelable{
         this.og_image = og_image;
     }
 
-    public List<Content> getContent() {
-        return content;
-    }
-
-    public void setContent(List<Content> content) {
-        this.content = content;
-    }
-
     public Integer getTimestamp() {
         return timestamp;
     }
@@ -156,17 +157,9 @@ public class Item implements Parcelable{
         this.author = author;
     }
 
-    public List<ConnectedItem> getConnected_items() {
-        return connected_items;
-    }
-
-    public void setConnected_items(List<ConnectedItem> connected_items) {
-        this.connected_items = connected_items;
-    }
-
     @Override
     public String toString() {
-        return "Item{" +
+        return "DocList{" +
                 "id=" + id +
                 ", date='" + date + '\'' +
                 ", title='" + title + '\'' +
@@ -177,11 +170,11 @@ public class Item implements Parcelable{
                 ", article_type='" + article_type + '\'' +
                 ", url='" + url + '\'' +
                 ", og_image='" + og_image + '\'' +
-                ", content=" + content +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
                 '}';
     }
+
 
     @Override
     public int describeContents() {
@@ -200,8 +193,7 @@ public class Item implements Parcelable{
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(og_image);
-        dest.writeTypedList(content);
+        dest.writeInt(timestamp);
         dest.writeString(author);
-        dest.writeTypedList(connected_items);
     }
 }

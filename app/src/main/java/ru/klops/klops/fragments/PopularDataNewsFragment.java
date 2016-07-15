@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +20,8 @@ import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVPopularDataAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.feed.News;
-import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.models.popular.News;
+import ru.klops.klops.utils.Constants;
 
 public class PopularDataNewsFragment extends Fragment {
     final String LOG = "PopularDataFragment";
@@ -31,6 +31,8 @@ public class PopularDataNewsFragment extends Fragment {
     KlopsApplication mApp;
     RVPopularDataAdapter adapter;
     ArrayList<News> models;
+    ArrayList<Integer> dataTypes;
+    ArrayList<News> copy;
     Unbinder unbinder;
 
     @Override
@@ -44,24 +46,114 @@ public class PopularDataNewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.popular_data_fragment, container, false);
-        unbinder = ButterKnife.bind(fragmentView);
-//        initRecyclerView();
+        unbinder = ButterKnife.bind(this, fragmentView);
+        initRecyclerView();
         Log.d(LOG, "onCreateView");
         return fragmentView;
     }
 
     private void initRecyclerView() {
         Log.d(LOG, "initRecyclerView");
-        Page loadedFirstPage = mApp.getFirstPage();
         models = new ArrayList<>();
-        models.addAll(loadedFirstPage.getNews());
-        ArrayList<News> copy = new ArrayList<>(models);
-        adapter = new RVPopularDataAdapter(PopularDataNewsFragment.this, copy);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.popular);
+        models.addAll(mApp.getPopularPage().getNews());
+        copy = new ArrayList<>(models);
+        dataTypes = new ArrayList<>();
+        dataTypes.addAll(addData(copy));
+        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
         newPopularRecycler.addItemDecoration(decoration);
-        newPopularRecycler.setLayoutManager(manager);
+        adapter = new RVPopularDataAdapter(PopularDataNewsFragment.this, copy, dataTypes);
+        GridLayoutManager popularManager = new GridLayoutManager(getContext(), 2);
+        popularManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (adapter.getItemViewType(position)) {
+                    case Constants.SIMPLE_WITH_IMG:
+                        return 1;
+                    case Constants.SIMPLE_TEXT_NEWS:
+                        return 1;
+                    case Constants.LONG:
+                        return 2;
+                    case Constants.INTERVIEW:
+                        return 2;
+                    case Constants.AUTHORS:
+                        return 2;
+                    case Constants.NATIONAL:
+                        return 2;
+                    case Constants.IMPORTANT:
+                        return 2;
+                    case Constants.GALLERY_ONE:
+                        return 2;
+                    case Constants.GALLERY_TWO:
+                        return 2;
+                    case Constants.ADVERTISE:
+                        return 2;
+                    case Constants.SIMPLE_WIDE:
+                        return 2;
+                    case Constants.POPULAR_MARKER:
+                        return 2;
+                    case Constants.SEPARATOR:
+                        return 2;
+                    case Constants.EXCHANGE:
+                        return 2;
+                    default:
+                        return 0;
+                }
+            }
+        });
+        newPopularRecycler.setLayoutManager(popularManager);
         newPopularRecycler.setAdapter(adapter);
+    }
+
+    private ArrayList<Integer> addData(ArrayList<News> copy) {
+        ArrayList<Integer> types = new ArrayList<>();
+        for (int i = 0; i < copy.size(); i++) {
+            String article = copy.get(i).getArticle_type();
+            switch (article) {
+                case Constants.SIMPLE_IMAGE_TEXT:
+                    types.add(Constants.SIMPLE_WITH_IMG);
+                    break;
+                case Constants.SIMPLE_TEXT:
+                    types.add(Constants.SIMPLE_TEXT_NEWS);
+                    break;
+                case Constants.LONG_TEXT:
+                    types.add(Constants.LONG);
+                    break;
+                case Constants.INTERVIEW_TEXT:
+                    types.add(Constants.INTERVIEW);
+                    break;
+                case Constants.AUTHORS_TEXT:
+                    types.add(Constants.AUTHORS);
+                    break;
+                case Constants.NATIONAL_TEXT:
+                    types.add(Constants.NATIONAL);
+                    break;
+                case Constants.IMPORTANT_TEXT:
+                    types.add(Constants.IMPORTANT);
+                    break;
+                case Constants.GALLERY_FIRST_TEXT:
+                    types.add(Constants.GALLERY_ONE);
+                    break;
+                case Constants.GALLERY_SECOND_TEXT:
+                    types.add(Constants.GALLERY_TWO);
+                    break;
+                case Constants.ADS_TEXT:
+                    types.add(Constants.ADVERTISE);
+                    break;
+                case Constants.SIMPLE_WIDE_TEXT:
+                    types.add(Constants.SIMPLE_WIDE);
+                    break;
+                case Constants.POPULAR_MARKER_TEXT:
+                    types.add(Constants.POPULAR_MARKER);
+                    break;
+                case Constants.SEPARATOR_TEXT:
+                    types.add(Constants.SEPARATOR);
+                    break;
+                case Constants.EXCHANGE_TEXT:
+                    types.add(Constants.EXCHANGE);
+                    break;
+            }
+        }
+        return types;
     }
 
     @Override
