@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class DocList implements Parcelable{
+public class Doc_list implements Parcelable{
     private Integer id;
     private String date;
     private String title;
@@ -19,7 +19,7 @@ public class DocList implements Parcelable{
     private Integer timestamp;
     private String author;
 
-    public DocList(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author) {
+    public Doc_list(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -34,7 +34,8 @@ public class DocList implements Parcelable{
         this.author = author;
     }
 
-    protected DocList(Parcel in) {
+
+    protected Doc_list(Parcel in) {
         id = in.readInt();
         date = in.readString();
         title = in.readString();
@@ -45,19 +46,18 @@ public class DocList implements Parcelable{
         article_type = in.readString();
         url = in.readString();
         og_image = in.readString();
-        timestamp = in.readInt();
         author = in.readString();
     }
 
-    public static final Creator<DocList> CREATOR = new Creator<DocList>() {
+    public static final Creator<Doc_list> CREATOR = new Creator<Doc_list>() {
         @Override
-        public DocList createFromParcel(Parcel in) {
-            return new DocList(in);
+        public Doc_list createFromParcel(Parcel in) {
+            return new Doc_list(in);
         }
 
         @Override
-        public DocList[] newArray(int size) {
-            return new DocList[size];
+        public Doc_list[] newArray(int size) {
+            return new Doc_list[size];
         }
     };
 
@@ -159,7 +159,7 @@ public class DocList implements Parcelable{
 
     @Override
     public String toString() {
-        return "DocList{" +
+        return "Doc_list{" +
                 "id=" + id +
                 ", date='" + date + '\'' +
                 ", title='" + title + '\'' +
@@ -174,7 +174,6 @@ public class DocList implements Parcelable{
                 ", author='" + author + '\'' +
                 '}';
     }
-
 
     @Override
     public int describeContents() {
@@ -193,7 +192,6 @@ public class DocList implements Parcelable{
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(og_image);
-        dest.writeInt(timestamp);
         dest.writeString(author);
     }
 }

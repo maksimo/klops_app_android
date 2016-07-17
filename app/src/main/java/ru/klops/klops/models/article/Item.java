@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class Item implements Parcelable{
+public class Item implements Parcelable {
     public Integer id;
     public String date;
     public String title;
@@ -19,9 +19,27 @@ public class Item implements Parcelable{
     public List<Content> content;
     public Integer timestamp;
     public String author;
-    public List<ConnectedItem> connected_items;
+    public List<Connected_items> connected_items;
 
     public Item() {
+    }
+
+
+    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<Connected_items> connected_items) {
+        this.id = id;
+        this.date = date;
+        this.title = title;
+        this.shortdecription = shortdecription;
+        this.image = image;
+        this.update_status = update_status;
+        this.photos = photos;
+        this.article_type = article_type;
+        this.url = url;
+        this.og_image = og_image;
+        this.content = content;
+        this.timestamp = timestamp;
+        this.author = author;
+        this.connected_items = connected_items;
     }
 
     protected Item(Parcel in) {
@@ -37,7 +55,7 @@ public class Item implements Parcelable{
         og_image = in.readString();
         content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
-        connected_items = in.createTypedArrayList(ConnectedItem.CREATOR);
+        connected_items = in.createTypedArrayList(Connected_items.CREATOR);
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -156,11 +174,11 @@ public class Item implements Parcelable{
         this.author = author;
     }
 
-    public List<ConnectedItem> getConnected_items() {
+    public List<Connected_items> getConnected_items() {
         return connected_items;
     }
 
-    public void setConnected_items(List<ConnectedItem> connected_items) {
+    public void setConnected_items(List<Connected_items> connected_items) {
         this.connected_items = connected_items;
     }
 
@@ -180,6 +198,7 @@ public class Item implements Parcelable{
                 ", content=" + content +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
+                ", connected_items=" + connected_items +
                 '}';
     }
 

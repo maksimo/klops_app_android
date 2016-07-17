@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
@@ -68,7 +67,7 @@ import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
 import ru.klops.klops.models.article.Article;
-import ru.klops.klops.models.article.ConnectedItem;
+import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.article.Photos;
@@ -133,8 +132,8 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.littleGallery)
     ViewPager littleGallery;
 
-    @BindView(R.id.connectedNewsOne)
-    RelativeLayout connectedNewsOne;
+    @BindView(R.id.connectedNewsOneLayer)
+    RelativeLayout connectedNewsOneLayer;
     @BindView(R.id.connectedNewsOnePhoto)
     ImageView connectedNewsOnePhoto;
     @BindView(R.id.connectedNewsOneImageLoading)
@@ -153,7 +152,7 @@ public class ArticleActivity extends AppCompatActivity {
     TextView connectedNewsTwoDate;
     @BindView(R.id.connectedNewsTwoText)
     TextView connectedNewsTwoText;
-    ArrayList<ConnectedItem> connectedItems;
+    ArrayList<Connected_items> connectedItemses;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
     ShareDialog shareFacebookDialog;
@@ -171,7 +170,7 @@ public class ArticleActivity extends AppCompatActivity {
     int countPager = 0;
     private Target loadTarget;
     Unbinder unbinder;
-    Intent newMatchArticle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +183,6 @@ public class ArticleActivity extends AppCompatActivity {
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         item = getIntent().getParcelableExtra(Constants.ITEM);
-        newMatchArticle = getIntent();
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
@@ -196,43 +194,43 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void setUpMatchNews() {
-        connectedItems = new ArrayList<>();
+        connectedItemses = new ArrayList<>();
         for (int a = 0; a < item.getConnected_items().size(); a++) {
-            connectedItems.add(new ConnectedItem(item.getConnected_items().get(a).getDocList()));
+            connectedItemses.add(new Connected_items(item.getConnected_items().get(a).getDoc_list()));
         }
-        if (!connectedItems.get(0).getDocList().getImage().equals("") || !connectedItems.get(0).getDocList().getImage().isEmpty()) {
-            loadPhoto(this, connectedItems.get(0).getDocList().getImage(), connectedNewsOnePhoto, connectedNewsOneImageLoading);
+        if (!connectedItemses.get(0).getDoc_list().getImage().equals("") || !connectedItemses.get(0).getDoc_list().getImage().isEmpty()) {
+            loadPhoto(this, connectedItemses.get(0).getDoc_list().getImage(), connectedNewsOnePhoto, connectedNewsOneImageLoading);
             connectedNewsOnePhoto.setVisibility(View.VISIBLE);
         } else {
             connectedNewsOnePhoto.setVisibility(View.GONE);
         }
         connectedNewsOneDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        connectedNewsOneDate.setText(connectedItems.get(0).getDocList().getDate());
+        connectedNewsOneDate.setText(connectedItemses.get(0).getDoc_list().getDate());
         connectedNewsOneText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        connectedNewsOneText.setText(connectedItems.get(1).getDocList().getTitle());
+        connectedNewsOneText.setText(connectedItemses.get(0).getDoc_list().getTitle());
 
-        if (!connectedItems.get(1).getDocList().getImage().equals("") || !connectedItems.get(1).getDocList().getImage().isEmpty()) {
-            loadPhoto(this, connectedItems.get(1).getDocList().getImage(), connectedNewsTwoPhoto, connectedNewsTwoLoading);
+        if (!connectedItemses.get(1).getDoc_list().getImage().equals("") || !connectedItemses.get(1).getDoc_list().getImage().isEmpty()) {
+            loadPhoto(this, connectedItemses.get(1).getDoc_list().getImage(), connectedNewsTwoPhoto, connectedNewsTwoLoading);
             connectedNewsTwoPhoto.setVisibility(View.VISIBLE);
         } else {
             connectedNewsTwoPhoto.setVisibility(View.GONE);
         }
         connectedNewsTwoDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        connectedNewsTwoDate.setText(connectedItems.get(1).getDocList().getDate());
+        connectedNewsTwoDate.setText(connectedItemses.get(1).getDoc_list().getDate());
         connectedNewsTwoText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        connectedNewsTwoDate.setText(connectedItems.get(1).getDocList().getTitle());
+        connectedNewsTwoText.setText(connectedItemses.get(1).getDoc_list().getTitle());
     }
 
-    @OnClick(R.id.connectedNewsOne)
+    @OnClick(R.id.connectedNewsOneLayer)
     public void openFirstMatchNews(){
-        connectedNewsOne.startAnimation(alpha);
-        loadArticle(connectedItems.get(0).getDocList().getId());
+        connectedNewsOneLayer.startAnimation(alpha);
+        loadArticle(connectedItemses.get(0).getDoc_list().getId());
     }
 
     @OnClick(R.id.connectedNewsTwoLayer)
     public void openSecondMatchNews(){
-        connectedNewsOne.startAnimation(alpha);
-        loadArticle(connectedItems.get(1).getDocList().getId());
+        connectedNewsTwoLayer.startAnimation(alpha);
+        loadArticle(connectedItemses.get(1).getDoc_list().getId());
     }
 
     private void loadArticle(Integer id) {
@@ -243,7 +241,7 @@ public class ArticleActivity extends AppCompatActivity {
                 .subscribe(new Observer<Article>() {
                     @Override
                     public void onCompleted() {
-                    Log.d(LOG, "completeTask");
+                    Log.d(LOG, "Task completed");
                     }
 
                     @Override
@@ -253,6 +251,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Article article) {
+                        Intent newMatchArticle = getIntent();
                         newMatchArticle.putExtra(Constants.ITEM, article.getItem());
                         finish();
                         startActivity(newMatchArticle);
@@ -543,7 +542,7 @@ public class ArticleActivity extends AppCompatActivity {
                     for (WebView webs : viewsWeb) {
                         webs.getSettings().setDefaultFontSize(17);
                     }
-                    matchArticles.setTextSize(35);
+                    matchArticles.setTextSize(33);
 
 
                     formatDialog.dismiss();
@@ -582,7 +581,7 @@ public class ArticleActivity extends AppCompatActivity {
                     for (WebView webs : viewsWeb) {
                         webs.getSettings().setDefaultFontSize(16);
                     }
-                    matchArticles.setTextSize(34);
+                    matchArticles.setTextSize(32);
 
                     formatDialog.dismiss();
                 }
@@ -620,7 +619,7 @@ public class ArticleActivity extends AppCompatActivity {
                     for (WebView webs : viewsWeb) {
                         webs.getSettings().setDefaultFontSize(15);
                     }
-                    matchArticles.setTextSize(33);
+                    matchArticles.setTextSize(31);
 
                     formatDialog.dismiss();
                 }

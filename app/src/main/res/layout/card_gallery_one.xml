@@ -26,7 +26,7 @@
             android:layout_height="30dp"
             android:layout_marginTop="7dp"
             android:gravity="center"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:textAllCaps="true"
             android:text=""
             android:textColor="@color/greyText"
@@ -37,7 +37,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_below="@+id/galleryCardOneDate"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/photo_cam" />
 
@@ -48,7 +48,7 @@
             android:layout_below="@+id/galleryCardOneDate"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text=""
             android:textColor="@color/colorPrimary"

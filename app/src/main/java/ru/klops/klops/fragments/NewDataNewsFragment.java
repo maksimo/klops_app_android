@@ -63,8 +63,7 @@ public class NewDataNewsFragment extends Fragment {
         models = new ArrayList<>();
         models.addAll(loadedFirstPage.getNews());
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
+        itemAnimator.setRemoveDuration(1500);
         copy = new ArrayList<>();
         copy.addAll(models);
         copy.add(25, new News(0, loadedFirstPage.getCurrency().getUsd(), loadedFirstPage.getCurrency().getEur(),

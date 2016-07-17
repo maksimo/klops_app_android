@@ -38,6 +38,9 @@ public class Constants {
     public static final String ITEM = "ITEM";
     public static final String PLATFORM = "android";
 
-    public static final String GCM_AVAILABLE = "gcm available";
+    public static final String GCM_AVAILABLE = "gcm state";
     public static final String PATH = "ru.klops.gcm";
+    public static final String SUBSCRIBED = "subscribed";
+    public static final String UNSUBSCRIBED = "unsubscribed";
+    public static final String SUBSCRIPTION = "subscription";
 }

@@ -19,9 +19,9 @@ public class News implements Parcelable{
     private List<Content> content;
     private Integer timestamp;
     private String author;
-    private List<ConnectedItem> connected_items;
+    private List<Connected_items> connected_items;
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<ConnectedItem> connected_items) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<Connected_items> connected_items) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -50,6 +50,7 @@ public class News implements Parcelable{
         og_image = in.readString();
         content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
+        connected_items = in.createTypedArrayList(Connected_items.CREATOR);
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -168,11 +169,11 @@ public class News implements Parcelable{
         this.author = author;
     }
 
-    public List<ConnectedItem> getConnected_items() {
+    public List<Connected_items> getConnected_items() {
         return connected_items;
     }
 
-    public void setConnected_items(List<ConnectedItem> connected_items) {
+    public void setConnected_items(List<Connected_items> connected_items) {
         this.connected_items = connected_items;
     }
 
@@ -214,5 +215,6 @@ public class News implements Parcelable{
         dest.writeString(og_image);
         dest.writeTypedList(content);
         dest.writeString(author);
+        dest.writeTypedList(connected_items);
     }
 }

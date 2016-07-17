@@ -564,7 +564,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     public void onClick(View v) {
                         holderAdvertise.closableLayout.startAnimation(alpha);
                         remove(holderAdvertise.getAdapterPosition());
-                        notifyDataSetChanged();
                     }
                 });
                 break;

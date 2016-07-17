@@ -203,7 +203,7 @@
             <RelativeLayout
                 android:id="@+id/matchLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="380dp"
                 android:layout_below="@+id/splitterFour"
                 android:background="@color/recyclerBackground">
 
@@ -212,27 +212,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/recyclerBackground"
-                    android:paddingBottom="20dp"
+                    android:paddingBottom="15dp"
                     android:paddingLeft="15dp"
-                    android:paddingTop="30dp"
+                    android:paddingTop="35dp"
                     android:text="Связанные статьи"
                     android:textColor="@color/blackText"
-                    android:textSize="34sp" />
+                    android:textSize="32sp" />
 
                 <RelativeLayout
-                    android:id="@+id/connectedNewsOne"
-                    android:layout_width="190dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/connectedNewsOneLayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="275dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/textMatch"
+                    android:layout_toLeftOf="@+id/connectedSeparator"
                     android:elevation="1dp"
-                    android:orientation="vertical">
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
 
                     <RelativeLayout
                         android:id="@+id/connectedNewsOneImageLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary">
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/connectedNewsOnePhoto"
@@ -256,7 +258,7 @@
                         android:layout_height="30dp"
                         android:layout_below="@+id/connectedNewsOneImageLayout"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:maxLines="1"
@@ -270,29 +272,40 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsOneDate"
                         android:maxLines="5"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingBottom="15dp" />
 
                 </RelativeLayout>
 
+                <View
+                    android:id="@+id/connectedSeparator"
+                    android:layout_width="2dp"
+                    android:layout_height="275dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/textMatch"
+                    android:background="@color/recyclerBackground"/>
+
                 <RelativeLayout
                     android:id="@+id/connectedNewsTwoLayer"
-                    android:layout_width="190dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="275dp"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/textMatch"
+                    android:layout_toRightOf="@+id/connectedSeparator"
                     android:elevation="1dp"
-                    android:orientation="vertical">
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
 
                     <RelativeLayout
                         android:id="@+id/connectedNewsTwoImageLayout"
                         android:layout_width="190dp"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary">
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/connectedNewsTwoPhoto"
@@ -315,7 +328,7 @@
                         android:layout_height="30dp"
                         android:layout_below="@+id/connectedNewsTwoImageLayout"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:maxLines="1"
@@ -329,12 +342,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsTwoDate"
                         android:maxLines="5"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingBottom="15dp" />
 
                 </RelativeLayout>
             </RelativeLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     final String LOG = "SettingsActivity";
     @BindView(R.id.confirm_button)
     TextView confirm;
@@ -70,7 +71,8 @@ public class SettingsActivity extends AppCompatActivity {
     TextView confirmText;
     ProgressBar confirmProgress;
     SharedPreferences preferences;
-    boolean btnState;
+    String subscription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,9 @@ public class SettingsActivity extends AppCompatActivity {
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
-        preferences = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+        switchNotifications.setOnCheckedChangeListener(this);
+        subscription = loadStatement();
+        loadState();
         initFonts();
         initProgressDialog();
         Log.d(LOG, "onCreate");
@@ -119,86 +123,101 @@ public class SettingsActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    @OnCheckedChanged(R.id.switch_notifications)
-    public void registerGms() {
-        btnState = loadState();
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         tokenDevice = app.getToken();
-        if (!btnState) {
-            saveState(true);
-            switchNotifications.setChecked(true);
-            confirmTitle.setText("Подписка на уведомления...");
-            confirmDialog.show();
-            PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ResponseBody>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(LOG, "response code: 200");
-                            Toast.makeText(SettingsActivity.this, "Подписка оформлена...", Toast.LENGTH_SHORT).show();
-                        }
+        if (isChecked) {
+            if (!subscription.equals(Constants.SUBSCRIBED)) {
+                saveState(true);
+                confirmTitle.setText("Подписка на уведомления...");
+                confirmDialog.show();
+                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+                Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
+                call.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(LOG, "response code: 200");
+                                saveStatement(Constants.SUBSCRIBED);
+                                Toast.makeText(SettingsActivity.this, "Подписка оформлена...", Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
-                            confirmDialog.dismiss();
-                            Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
+                                confirmDialog.dismiss();
+                                Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onNext(ResponseBody responseBody) {
-                            Log.d(LOG, "response code: 200" + responseBody.toString());
-                            AndroidSchedulers.reset();
-                            confirmDialog.dismiss();
-                        }
-                    });
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                Log.d(LOG, "response code: 200" + responseBody.toString());
+                                AndroidSchedulers.reset();
+                                confirmDialog.dismiss();
+                            }
+                        });
+            } else {
+
+            }
+        } else {
+            if (!subscription.equals(Constants.UNSUBSCRIBED)) {
+                saveState(false);
+                confirmTitle.setText("Отмена подписки...");
+                confirmDialog.show();
+                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+                final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
+                call.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(LOG, "response code: 200");
+                                saveStatement(Constants.UNSUBSCRIBED);
+                                Toast.makeText(SettingsActivity.this, "Подписка отменена...", Toast.LENGTH_SHORT).show();
+                            }
 
 
-        } else if (btnState) {
-            saveState(false);
-            switchNotifications.setChecked(false);
-            confirmTitle.setText("Отмена подписки...");
-            confirmDialog.show();
-            PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-            final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
-            call.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ResponseBody>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(LOG, "response code: 200");
-                            Toast.makeText(SettingsActivity.this, "Подписка отменена...", Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
+                                confirmDialog.dismiss();
+                                Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
-                            confirmDialog.dismiss();
-                            Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onNext(ResponseBody responseBody) {
-                            Log.d(LOG, "response code: 200" + responseBody.toString());
-                            AndroidSchedulers.reset();
-                            confirmDialog.dismiss();
-                        }
-                    });
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                Log.d(LOG, "response code: 200" + responseBody.toString());
+                                AndroidSchedulers.reset();
+                                confirmDialog.dismiss();
+                            }
+                        });
+            }
         }
     }
 
-   public void saveState(boolean value){
-       SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-       SharedPreferences.Editor editor = sharedPreferences.edit();
-       editor.putBoolean(Constants.GCM_AVAILABLE, value);
-       editor.commit();
-   }
+    public void saveStatement(String subscription) {
+        SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+        editor.putString(Constants.SUBSCRIPTION, subscription);
+        editor.commit();
+    }
 
-    public boolean loadState() {
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        boolean state = sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, true);
-        return state;
+    public String loadStatement() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        String subscription = sharedPreferences.getString(Constants.SUBSCRIPTION, Constants.UNSUBSCRIBED);
+        return subscription;
+    }
+
+
+    public void saveState(boolean value) {
+        SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+        editor.putBoolean(Constants.GCM_AVAILABLE, value);
+        editor.commit();
+    }
+
+    public void loadState() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        switchNotifications.setChecked(sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, false));
     }
 
     @Override

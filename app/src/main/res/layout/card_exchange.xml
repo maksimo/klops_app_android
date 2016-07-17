@@ -14,7 +14,7 @@
         android:fillViewport="true"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginRight="2dp">
+        android:layout_marginRight="1dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -60,8 +60,8 @@
             android:layout_height="80dp"
             android:background="@color/exchange"
             android:elevation="1dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp">
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp">
 
             <TextView
                 android:id="@+id/euro"
@@ -95,7 +95,7 @@
         android:layout_weight="0.34"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginLeft="2dp">
+        android:layout_marginLeft="1dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
