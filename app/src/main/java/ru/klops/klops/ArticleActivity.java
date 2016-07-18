@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
@@ -120,7 +121,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.splitterThird)
     View splitterThird;
     @BindView(R.id.ViewsContent)
-    LinearLayout viewsContent;
+    WebView viewsContent;
     @BindView(R.id.ViewsPhotos)
     ViewPager pager;
     @BindView(R.id.contentGallery)
@@ -131,7 +132,8 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout littlePhotoSwitcherTwo;
     @BindView(R.id.littleGallery)
     ViewPager littleGallery;
-
+    @BindView(R.id.matchLayout)
+    RelativeLayout matchLayout;
     @BindView(R.id.connectedNewsOneLayer)
     RelativeLayout connectedNewsOneLayer;
     @BindView(R.id.connectedNewsOnePhoto)
@@ -159,12 +161,14 @@ public class ArticleActivity extends AppCompatActivity {
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     ArrayList<Content> copy;
-    ArrayList<WebView> viewsWeb;
     ArrayList<String> urls;
     ArrayList<String> description;
+    ArrayList<String> contentsText;
+    StringBuilder contentText;
     Animation alpha;
     Bitmap bmp;
     String text;
+    ArrayList<Photos> photoGallery;
     GalleryContentPagerAdapter gAdapter;
     int count = 0;
     int countPager = 0;
@@ -194,41 +198,47 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void setUpMatchNews() {
-        connectedItemses = new ArrayList<>();
-        for (int a = 0; a < item.getConnected_items().size(); a++) {
-            connectedItemses.add(new Connected_items(item.getConnected_items().get(a).getDoc_list()));
-        }
-        if (!connectedItemses.get(0).getDoc_list().getImage().equals("") || !connectedItemses.get(0).getDoc_list().getImage().isEmpty()) {
-            loadPhoto(this, connectedItemses.get(0).getDoc_list().getImage(), connectedNewsOnePhoto, connectedNewsOneImageLoading);
-            connectedNewsOnePhoto.setVisibility(View.VISIBLE);
-        } else {
-            connectedNewsOnePhoto.setVisibility(View.GONE);
-        }
-        connectedNewsOneDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        connectedNewsOneDate.setText(connectedItemses.get(0).getDoc_list().getDate());
-        connectedNewsOneText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        connectedNewsOneText.setText(connectedItemses.get(0).getDoc_list().getTitle());
+        if (item.getConnected_items() != null && item.getConnected_items().size() != 0 && !item.getConnected_items().isEmpty()) {
+            connectedItemses = new ArrayList<>();
+            for (int a = 0; a < item.getConnected_items().size(); a++) {
+                connectedItemses.add(new Connected_items(item.getConnected_items().get(a).getDoc_list()));
+            }
+            if (!connectedItemses.get(0).getDoc_list().getImage().equals("") || !connectedItemses.get(0).getDoc_list().getImage().isEmpty()) {
+                loadPhoto(this, connectedItemses.get(0).getDoc_list().getImage(), connectedNewsOnePhoto, connectedNewsOneImageLoading);
+                connectedNewsOnePhoto.setVisibility(View.VISIBLE);
+            } else {
+                connectedNewsOnePhoto.setVisibility(View.GONE);
+            }
+            connectedNewsOneDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+            connectedNewsOneDate.setText(connectedItemses.get(0).getDoc_list().getDate());
+            connectedNewsOneText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+            connectedNewsOneText.setText(connectedItemses.get(0).getDoc_list().getTitle());
 
-        if (!connectedItemses.get(1).getDoc_list().getImage().equals("") || !connectedItemses.get(1).getDoc_list().getImage().isEmpty()) {
-            loadPhoto(this, connectedItemses.get(1).getDoc_list().getImage(), connectedNewsTwoPhoto, connectedNewsTwoLoading);
-            connectedNewsTwoPhoto.setVisibility(View.VISIBLE);
+            if (!connectedItemses.get(1).getDoc_list().getImage().equals("") || !connectedItemses.get(1).getDoc_list().getImage().isEmpty()) {
+                loadPhoto(this, connectedItemses.get(1).getDoc_list().getImage(), connectedNewsTwoPhoto, connectedNewsTwoLoading);
+                connectedNewsTwoPhoto.setVisibility(View.VISIBLE);
+            } else {
+                connectedNewsTwoPhoto.setVisibility(View.GONE);
+            }
+            connectedNewsTwoDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+            connectedNewsTwoDate.setText(connectedItemses.get(1).getDoc_list().getDate());
+            connectedNewsTwoText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+            connectedNewsTwoText.setText(connectedItemses.get(1).getDoc_list().getTitle());
         } else {
-            connectedNewsTwoPhoto.setVisibility(View.GONE);
+            connectedNewsOneLayer.setVisibility(View.GONE);
+            connectedNewsTwoLayer.setVisibility(View.GONE);
+            matchLayout.setVisibility(View.GONE);
         }
-        connectedNewsTwoDate.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        connectedNewsTwoDate.setText(connectedItemses.get(1).getDoc_list().getDate());
-        connectedNewsTwoText.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        connectedNewsTwoText.setText(connectedItemses.get(1).getDoc_list().getTitle());
     }
 
     @OnClick(R.id.connectedNewsOneLayer)
-    public void openFirstMatchNews(){
+    public void openFirstMatchNews() {
         connectedNewsOneLayer.startAnimation(alpha);
         loadArticle(connectedItemses.get(0).getDoc_list().getId());
     }
 
     @OnClick(R.id.connectedNewsTwoLayer)
-    public void openSecondMatchNews(){
+    public void openSecondMatchNews() {
         connectedNewsTwoLayer.startAnimation(alpha);
         loadArticle(connectedItemses.get(1).getDoc_list().getId());
     }
@@ -241,7 +251,7 @@ public class ArticleActivity extends AppCompatActivity {
                 .subscribe(new Observer<Article>() {
                     @Override
                     public void onCompleted() {
-                    Log.d(LOG, "Task completed");
+                        Log.d(LOG, "Task completed");
                     }
 
                     @Override
@@ -278,6 +288,7 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         copy = new ArrayList<>();
+        ArrayList<Photos> adapterPhotos = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
                 String copyString = "";
@@ -288,41 +299,61 @@ public class ArticleActivity extends AppCompatActivity {
                 copyList.add(new Photos("", ""));
                 copy.add(new Content(contents.get(i).getText(), copyList));
             }
+
         }
 
-        viewsWeb = new ArrayList<>();
+        for (Content photo : copy) {
+            adapterPhotos.addAll(photo.getPhotos());
+        }
+        contentsText = new ArrayList<>();
+        for (Content cont : copy) {
+            contentsText.add(cont.getText());
+        }
+
+        contentText = new StringBuilder();
+        for (String s : contentsText) {
+            contentText.append(s);
+
+        }
         urls = new ArrayList<>();
         description = new ArrayList<>();
-        WebView webView;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        for (int n = 0; n < copy.size(); n++) {
-            LinearLayout viewsLayout = new LinearLayout(this);
-            viewsLayout.setOrientation(LinearLayout.HORIZONTAL);
-            if (!copy.get(n).getText().equals("")) {
-                webView = new WebView(this);
-                webView.getSettings().setDefaultFontSize(16);
-                webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-                webView.loadData(copy.get(n).getText(), "text/html; charset=utf-8", "UTF-8");
-                webView.setId(n + 1);
-                webView.setLayoutParams(params);
-                viewsLayout.addView(webView);
-                viewsWeb.add(webView);
-            } else if (!copy.get(n).getPhotos().get(0).getImg_url().equals("")) {
-                for (int m = 0; m < copy.get(n).getPhotos().size(); m++) {
-                    urls.add(copy.get(n).getPhotos().get(m).getImg_url());
-                    description.add(copy.get(n).getPhotos().get(m).getDescription());
-                }
-                gAdapter = new GalleryContentPagerAdapter(this, urls, description);
-                pager.setAdapter(gAdapter);
-                pager.setCurrentItem(0);
-                pager.setId(n + 1);
-                pager.setLayoutParams(params);
-                viewsLayout.addView(pager);
+        viewsContent.getSettings().setDefaultFontSize(16);
+        viewsContent.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        viewsContent.loadData(contentText.toString(), "text/html; charset=utf-8", "UTF-8");
+          photoGallery = new ArrayList<>();
+        for (Photos links : adapterPhotos) {
+            if (!links.getImg_url().equals("")) {
+                photoGallery.add(new Photos(links.getImg_url(),links.getDescription()));
             }
-            viewsContent.addView(viewsLayout);
         }
 
+        if (photoGallery.size() != 0 || !photoGallery.isEmpty()) {
+            pager = new ViewPager(this);
+            gAdapter = new GalleryContentPagerAdapter(this, photoGallery);
+            pager.setAdapter(gAdapter);
+            pager.setCurrentItem(0);
+            contentGallery.setVisibility(View.VISIBLE);
+            littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(photoGallery.size()));
+            final int count = photoGallery.size();
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(count));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
+
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
     public void pagerClick() {
@@ -539,12 +570,8 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
                     }
-                    for (WebView webs : viewsWeb) {
-                        webs.getSettings().setDefaultFontSize(17);
-                    }
-                    matchArticles.setTextSize(33);
-
-
+                    viewsContent.getSettings().setDefaultFontSize(17);
+                    matchArticles.setTextSize(30);
                     formatDialog.dismiss();
                 }
             }
@@ -578,11 +605,8 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDefault();
                     }
-                    for (WebView webs : viewsWeb) {
-                        webs.getSettings().setDefaultFontSize(16);
-                    }
-                    matchArticles.setTextSize(32);
-
+                    viewsContent.getSettings().setDefaultFontSize(17);
+                    matchArticles.setTextSize(29);
                     formatDialog.dismiss();
                 }
             }
@@ -616,11 +640,8 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
                     }
-                    for (WebView webs : viewsWeb) {
-                        webs.getSettings().setDefaultFontSize(15);
-                    }
-                    matchArticles.setTextSize(31);
-
+                    viewsContent.getSettings().setDefaultFontSize(15);
+                    matchArticles.setTextSize(28);
                     formatDialog.dismiss();
                 }
             }

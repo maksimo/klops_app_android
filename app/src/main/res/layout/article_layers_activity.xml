@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/articleContainer"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/colorPrimary"
                 android:visibility="visible">
 
@@ -130,7 +130,7 @@
                 android:background="@color/greyText"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <WebView
                 android:id="@+id/ViewsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,8 +138,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal" />
+                android:layout_marginTop="10dp"/>
 
             <RelativeLayout
                 android:id="@+id/contentGallery"
@@ -152,7 +151,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/ViewsPhotos"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="300dp" />
 
                 <RelativeLayout
                     android:id="@+id/littlePhotoSwitcherTwo"
@@ -217,7 +216,7 @@
                     android:paddingTop="35dp"
                     android:text="Связанные статьи"
                     android:textColor="@color/blackText"
-                    android:textSize="32sp" />
+                    android:textSize="29sp" />
 
                 <RelativeLayout
                     android:id="@+id/connectedNewsOneLayer"

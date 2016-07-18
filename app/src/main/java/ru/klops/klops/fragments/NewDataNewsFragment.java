@@ -56,7 +56,6 @@ public class NewDataNewsFragment extends Fragment {
         return fragmentView;
     }
 
-
     private void setUpRecycler() {
         Log.d(LOG, "setUpRecycler");
         Page loadedFirstPage = mApp.getFirstPage();
