@@ -22,7 +22,7 @@
             android:textAllCaps="true"
             android:layout_marginLeft="15dp"
             android:textColor="@color/greyText"
-            android:textSize="8sp"
+            android:textSize="10sp"
             android:layout_marginTop="5dp" />
 
         <TextView

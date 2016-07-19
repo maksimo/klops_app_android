@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/interviewStatusIcon"
-                android:layout_width="7dp"
-                android:layout_height="7dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_below="@+id/splitterInterviewFirst"
                 android:layout_marginRight="2dp"
                 android:layout_marginTop="17dp"
@@ -52,7 +52,7 @@
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="@color/newsStatus"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <View
                 android:id="@+id/splitterInterviewFirst"
@@ -77,7 +77,7 @@
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/interviewCameraIcon"
@@ -121,7 +121,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_below="@+id/splitterInterviewSecond"
-                android:paddingLeft="15dp" >
+                android:paddingLeft="15dp"
+                android:layout_marginTop="15dp">
 
                 <ru.klops.klops.custom.CircleImageView
                     android:id="@+id/interviewImagePhoto"

@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/simpleStatusIcon"
-                android:layout_width="7dp"
-                android:layout_height="7dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_below="@+id/splitterSimpleTextFirst"
                 android:layout_marginRight="2dp"
                 android:layout_marginTop="17dp"
@@ -49,7 +49,7 @@
                 android:textAllCaps="true"
                 android:text=""
                 android:textColor="@color/newsStatus"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <View
                 android:id="@+id/splitterSimpleTextFirst"
@@ -72,7 +72,7 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp"
+                android:textSize="10sp"
                 android:paddingRight="5dp"
                 android:gravity="center"
                 android:minLines="1" />
@@ -88,7 +88,7 @@
                 android:paddingTop="15dp"
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="8sp"
+                android:textSize="10sp"
                 android:paddingRight="2dp"/>
 
             <ImageView

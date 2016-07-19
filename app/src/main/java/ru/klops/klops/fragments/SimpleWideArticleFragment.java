@@ -98,25 +98,25 @@ public class SimpleWideArticleFragment extends Fragment {
 
     public void formatDefault() {
         title.setTextSize(16);
-        status.setTextSize(8);
-        date.setTextSize(8);
-        author.setTextSize(8);
+        status.setTextSize(10);
+        date.setTextSize(10);
+        author.setTextSize(10);
         shortdescription.setTextSize(16);
     }
 
     public void formatIncrement() {
         title.setTextSize(17);
-        status.setTextSize(9);
-        date.setTextSize(9);
-        author.setTextSize(9);
+        status.setTextSize(11);
+        date.setTextSize(11);
+        author.setTextSize(11);
         shortdescription.setTextSize(17);
     }
 
     public void formatDecrement() {
         title.setTextSize(15);
-        status.setTextSize(7);
-        date.setTextSize(7);
-        author.setTextSize(7);
+        status.setTextSize(9);
+        date.setTextSize(9);
+        author.setTextSize(9);
         shortdescription.setTextSize(15);
     }
 

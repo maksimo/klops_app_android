@@ -30,7 +30,7 @@
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:textColor="@color/darkGreyText"
-                    android:textSize="8sp"
+                    android:textSize="10sp"
                     android:text=""
                     android:gravity="center" />
 
@@ -45,7 +45,7 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="@color/darkGreyText"
-                    android:textSize="8sp"/>
+                    android:textSize="10sp"/>
 
                 <ImageView
                     android:id="@+id/galleryCameraIconTwo"
@@ -59,8 +59,8 @@
 
                 <ImageView
                     android:id="@+id/galleryTwoStatusIcon"
-                    android:layout_width="7dp"
-                    android:layout_height="7dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_marginRight="3dp"
                     android:layout_marginTop="17dp"
                     android:layout_toLeftOf="@+id/galleryTwoStatus"
@@ -80,7 +80,7 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="@color/newsStatus"
-                    android:textSize="8sp"/>
+                    android:textSize="10sp"/>
 
 
                 <ImageView

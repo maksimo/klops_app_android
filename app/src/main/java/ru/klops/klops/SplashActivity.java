@@ -156,36 +156,37 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Page page) {
                         myApp.setFirstPage(page);
-                        PageApi apiPopular = RetrofitServiceGenerator.createService(PageApi.class);
-                        Observable<Popular> callPopular = apiPopular.getPopularNews();
-                        callPopular.subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<Popular>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        Log.d(LOG, "Loading popular news complete...");
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Log.d(LOG, "Ошибка доступа..." + e.getLocalizedMessage());
-                                        Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
-                                        final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
-                                        somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
-                                                .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        }).show();
-                                    }
-
-                                    @Override
-                                    public void onNext(Popular popular) {
-                                        myApp.setPopularPage(popular);
-                                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                                    }
-                                });
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+//                        PageApi apiPopular = RetrofitServiceGenerator.createService(PageApi.class);
+//                        Observable<Popular> callPopular = apiPopular.getPopularNews();
+//                        callPopular.subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                                .subscribe(new Observer<Popular>() {
+//                                    @Override
+//                                    public void onCompleted() {
+//                                        Log.d(LOG, "Loading popular news complete...");
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+//                                        Log.d(LOG, "Ошибка доступа..." + e.getLocalizedMessage());
+//                                        Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
+//                                        final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
+//                                        somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
+//                                                .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                finish();
+//                                            }
+//                                        }).show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onNext(Popular popular) {
+//                                        myApp.setPopularPage(popular);
+//                                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+//                                    }
+//                                });
                     }
                 });
     }

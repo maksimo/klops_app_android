@@ -24,7 +24,7 @@
             android:text=""
             android:textAllCaps="true"
             android:textColor="@color/greyText"
-            android:textSize="8sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/authorCardTitle"

@@ -130,7 +130,7 @@
                 android:background="@color/greyText"
                 android:visibility="gone" />
 
-            <WebView
+            <LinearLayout
                 android:id="@+id/ViewsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,56 +138,60 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" />
+
 
             <RelativeLayout
                 android:id="@+id/contentGallery"
                 android:layout_width="match_parent"
-                android:layout_height="255dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ViewsContent"
-                android:background="@color/galleryCard"
                 android:visibility="gone">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/ViewsPhotos"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="300dp"
+                    android:visibility="visible" />
 
                 <RelativeLayout
-                    android:id="@+id/littlePhotoSwitcherTwo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
+                    android:layout_width="match_parent"
                     android:layout_below="@+id/ViewsPhotos"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.7"
-                    android:background="@drawable/gallery_switch_shape_dark"
-                    android:clickable="true"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content"
+                    android:background="@color/galleryCard">
 
-                    <ImageView
-                        android:id="@+id/littleSwitchPhotoIconTwo"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/gallery_dark" />
-
-                    <TextView
-                        android:id="@+id/littlePhotoSwitchCounterTwo"
+                    <RelativeLayout
+                        android:id="@+id/littlePhotoSwitcherTwo"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="false"
-                        android:layout_alignParentRight="false"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginTop="11dp"
-                        android:layout_toRightOf="@+id/littleSwitchPhotoIconTwo"
-                        android:textColor="@color/darkGreyText"
-                        android:textSize="12sp" />
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:alpha="0.7"
+                        android:background="@drawable/gallery_switch_shape_dark"
+                        android:clickable="true"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/littleSwitchPhotoIconTwo"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="12dp"
+                            android:background="@drawable/gallery_dark" />
+
+                        <TextView
+                            android:id="@+id/littlePhotoSwitchCounterTwo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginTop="11dp"
+                            android:layout_toRightOf="@+id/littleSwitchPhotoIconTwo"
+                            android:textColor="@color/darkGreyText"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -202,9 +206,10 @@
             <RelativeLayout
                 android:id="@+id/matchLayout"
                 android:layout_width="match_parent"
-                android:layout_height="380dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterFour"
-                android:background="@color/recyclerBackground">
+                android:background="@color/recyclerBackground"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/textMatch"
@@ -216,7 +221,7 @@
                     android:paddingTop="35dp"
                     android:text="Связанные статьи"
                     android:textColor="@color/blackText"
-                    android:textSize="29sp" />
+                    android:textSize="26sp" />
 
                 <RelativeLayout
                     android:id="@+id/connectedNewsOneLayer"
@@ -225,10 +230,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/textMatch"
                     android:layout_toLeftOf="@+id/connectedSeparator"
-                    android:elevation="1dp"
+                    android:background="@color/colorPrimary"
                     android:clickable="true"
-                    android:orientation="vertical"
-                    android:background="@color/colorPrimary">
+                    android:elevation="1dp"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/connectedNewsOneImageLayout"
@@ -271,13 +276,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsOneDate"
                         android:maxLines="5"
+                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:paddingBottom="15dp" />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -285,9 +290,9 @@
                     android:id="@+id/connectedSeparator"
                     android:layout_width="2dp"
                     android:layout_height="275dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_below="@+id/textMatch"
-                    android:background="@color/recyclerBackground"/>
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/recyclerBackground" />
 
                 <RelativeLayout
                     android:id="@+id/connectedNewsTwoLayer"
@@ -296,10 +301,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/textMatch"
                     android:layout_toRightOf="@+id/connectedSeparator"
-                    android:elevation="1dp"
+                    android:background="@color/colorPrimary"
                     android:clickable="true"
-                    android:orientation="vertical"
-                    android:background="@color/colorPrimary">
+                    android:elevation="1dp"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/connectedNewsTwoImageLayout"
@@ -341,13 +346,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsTwoDate"
                         android:maxLines="5"
+                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
                         android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:paddingBottom="15dp" />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
             </RelativeLayout>

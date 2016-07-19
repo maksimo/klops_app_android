@@ -24,18 +24,7 @@ import ru.klops.klops.models.article.Photos;
 public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-    ArrayList<String> urls;
-    ArrayList<String> description;
     ArrayList<Photos> adapterPhotos;
-
-
-    public GalleryContentPagerAdapter(Context context, ArrayList<String> urls, ArrayList<String> description) {
-        super();
-        this.context = context;
-        this.urls = urls;
-        this.description = description;
-
-    }
 
     public GalleryContentPagerAdapter(Context context, ArrayList<Photos> adapterPhotos) {
         super();
@@ -55,23 +44,13 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
         final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
-        final ProgressBar bar = (ProgressBar) itemView.findViewById(R.id.galleryItemProgress);
-        Picasso.with(context).load(adapterPhotos.get(position).getImg_url()).into(photo, new Callback() {
-            @Override
-            public void onSuccess() {
-               bar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError() {
-                bar.setVisibility(View.VISIBLE);
-            }
-        });
+        Ion.with(context).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
         descr.setText(adapterPhotos.get(position).getDescription());
         if (adapterPhotos.get(position).getDescription().equals("")) {
             descr.setText("Отсутствует описание к данному фото");
         } else {
             descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+            descr.setText(adapterPhotos.get(position).getDescription());
         }
         container.addView(itemView);
         return itemView;

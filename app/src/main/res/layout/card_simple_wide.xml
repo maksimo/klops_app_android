@@ -21,7 +21,7 @@
             android:textAllCaps="true"
             android:textStyle="bold"
             android:textColor="@color/darkGreyText"
-            android:textSize="8sp"
+            android:textSize="9sp"
             android:paddingRight="5dp"
             android:text=""
             android:gravity="center" />
@@ -35,7 +35,7 @@
             android:layout_toRightOf="@+id/simpleWideCardAuthor"
             android:text=""
             android:textColor="@color/greyText"
-            android:textSize="8sp" />
+            android:textSize="10sp" />
 
 
         <ImageView
@@ -69,7 +69,7 @@
             android:textAllCaps="true"
             android:text="я"
             android:textColor="@color/newsStatus"
-            android:textSize="8sp"
+            android:textSize="10sp"
             android:visibility="gone"/>
 
         <TextView

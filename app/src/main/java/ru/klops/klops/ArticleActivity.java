@@ -8,11 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -70,6 +73,7 @@ import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
+import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.services.RetrofitServiceGenerator;
@@ -121,7 +125,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.splitterThird)
     View splitterThird;
     @BindView(R.id.ViewsContent)
-    WebView viewsContent;
+    LinearLayout viewsContent;
     @BindView(R.id.ViewsPhotos)
     ViewPager pager;
     @BindView(R.id.contentGallery)
@@ -161,15 +165,14 @@ public class ArticleActivity extends AppCompatActivity {
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     ArrayList<Content> copy;
-    ArrayList<String> urls;
-    ArrayList<String> description;
-    ArrayList<String> contentsText;
-    StringBuilder contentText;
     Animation alpha;
     Bitmap bmp;
     String text;
-    ArrayList<Photos> photoGallery;
     GalleryContentPagerAdapter gAdapter;
+    ArrayList<Gallery> galleries;
+    ArrayList<Photos> adapterPhotos;
+    WebView webView;
+    TextView description;
     int count = 0;
     int countPager = 0;
     private Target loadTarget;
@@ -288,53 +291,74 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         copy = new ArrayList<>();
-        ArrayList<Photos> adapterPhotos = new ArrayList<>();
         for (int i = 0; i < contents.size(); i++) {
             if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
                 String copyString = "";
-                copy.add(new Content(copyString, contents.get(i).getPhotos()));
+                copy.add(new Content(copyString, contents.get(i).getPhotos(), contents.get(i).getGallery()));
 
             } else if (contents.get(i).getPhotos() == null || contents.get(i).getPhotos().size() == 0) {
                 ArrayList<Photos> copyList = new ArrayList<>();
                 copyList.add(new Photos("", ""));
-                copy.add(new Content(contents.get(i).getText(), copyList));
+                copy.add(new Content(contents.get(i).getText(), copyList, contents.get(i).getGallery()));
+            } else if (contents.get(i).getGallery() == null || contents.get(i).getGallery().size() == 0) {
+                ArrayList<Gallery> copyGallery = new ArrayList<>();
+                copyGallery.add(new Gallery("", ""));
+                copy.add(new Content(contents.get(i).getText(), contents.get(i).getPhotos(), copyGallery));
             }
 
         }
+        int prevID = 0;
+        adapterPhotos = new ArrayList<>();
+        galleries = new ArrayList<>();
+        for (Content content : copy) {
+            if (!content.getText().equals("") || content.getText() != null) {
+                webView = new WebView(this);
+                WebSettings settings = webView.getSettings();
+                settings.setDefaultFontSize(18);
+                settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                webView.setId(prevID + 1);
+                webView.loadData(content.getText(), "text/html; charset=utf-8", "UTF-8");
+                viewsContent.addView(webView);
+            } else if (content.getPhotos().size() != 0) {
+                for (Photos photo : content.getPhotos()) {
+                    if (!photo.getImg_url().equals("") || photo.getImg_url() != null) {
+                        ImageView imageView = new ImageView(this);
+                        imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
+                        imageView.setId(prevID + 12);
+                        Ion.with(this).load(photo.getImg_url()).withBitmap().fitXY().intoImageView(imageView);
+                        viewsContent.addView(imageView);
+                        description = new TextView(this);
+                        description.setTextSize(16);
+                        description.setId(prevID + 3);
+                        description.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+                        description.setGravity(Gravity.CENTER);
+                        description.setText(photo.getDescription());
+                        description.setPadding(0, 10, 0, 10);
+                        description.setMaxLines(3);
+                        viewsContent.addView(description);
 
-        for (Content photo : copy) {
-            adapterPhotos.addAll(photo.getPhotos());
-        }
-        contentsText = new ArrayList<>();
-        for (Content cont : copy) {
-            contentsText.add(cont.getText());
-        }
+                    }
 
-        contentText = new StringBuilder();
-        for (String s : contentsText) {
-            contentText.append(s);
+                }
 
-        }
-        urls = new ArrayList<>();
-        description = new ArrayList<>();
-        viewsContent.getSettings().setDefaultFontSize(16);
-        viewsContent.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        viewsContent.loadData(contentText.toString(), "text/html; charset=utf-8", "UTF-8");
-          photoGallery = new ArrayList<>();
-        for (Photos links : adapterPhotos) {
-            if (!links.getImg_url().equals("")) {
-                photoGallery.add(new Photos(links.getImg_url(),links.getDescription()));
+            }else if (content.getGallery().size() != 0) {
+                galleries.addAll(content.getGallery());
+                for (int i = 0; i < galleries.size(); i++) {
+                    adapterPhotos.add(new Photos(galleries.get(i).getImg_url(), galleries.get(i).getDescription()));
+                }
+
             }
+            prevID++;
         }
 
-        if (photoGallery.size() != 0 || !photoGallery.isEmpty()) {
+        if (adapterPhotos.size() != 0 || !adapterPhotos.isEmpty()) {
             pager = new ViewPager(this);
-            gAdapter = new GalleryContentPagerAdapter(this, photoGallery);
+            gAdapter = new GalleryContentPagerAdapter(this, adapterPhotos);
             pager.setAdapter(gAdapter);
             pager.setCurrentItem(0);
             contentGallery.setVisibility(View.VISIBLE);
-            littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(photoGallery.size()));
-            final int count = photoGallery.size();
+            littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(adapterPhotos.size()));
+            final int count = adapterPhotos.size();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -354,7 +378,6 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-
     @OnClick(R.id.littlePhotoSwitcherTwo)
     public void pagerClick() {
         countPager = pager.getCurrentItem();
@@ -366,33 +389,39 @@ public class ArticleActivity extends AppCompatActivity {
         matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
         smallGallery = new ArrayList<>();
         if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
-            smallGallery.addAll(item.getPhotos());
-            littleAdapter = new GalleryPagerAdapter(this, smallGallery);
-            littleGallery.setAdapter(littleAdapter);
-            littleGallery.setCurrentItem(0);
-            littlePhotoSwitchCounter.setText("1/" + String.valueOf(item.getPhotos().size()));
-            splitterThird.setVisibility(View.GONE);
-            galleryBackground.setVisibility(View.VISIBLE);
-            littleGallery.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (item.getPhotos().size() > 1) {
+                smallGallery.addAll(item.getPhotos());
+                littleAdapter = new GalleryPagerAdapter(this, smallGallery);
+                littleGallery.setAdapter(littleAdapter);
+                littleGallery.setCurrentItem(0);
+                littlePhotoSwitchCounter.setText("1/" + String.valueOf(item.getPhotos().size()));
+                splitterThird.setVisibility(View.GONE);
+                galleryBackground.setVisibility(View.VISIBLE);
+                littleGallery.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                }
+                    }
 
-                @Override
-                public void onPageSelected(int position) {
-                    littlePhotoSwitchCounter.setText(String.valueOf(littleGallery.getCurrentItem() + 1) + "/" + String.valueOf(item.getPhotos().size()));
-                }
+                    @Override
+                    public void onPageSelected(int position) {
+                        littlePhotoSwitchCounter.setText(String.valueOf(littleGallery.getCurrentItem() + 1) + "/" + String.valueOf(item.getPhotos().size()));
+                    }
 
-                @Override
-                public void onPageScrollStateChanged(int state) {
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
 
-                }
-            });
+                    }
+                });
+            } else {
+                splitterThird.setVisibility(View.VISIBLE);
+                galleryBackground.setVisibility(View.GONE);
+            }
         } else {
             splitterThird.setVisibility(View.VISIBLE);
             galleryBackground.setVisibility(View.GONE);
         }
+
     }
 
     @OnClick(R.id.littlePhotoSwitchCounter)
@@ -570,8 +599,7 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
                     }
-                    viewsContent.getSettings().setDefaultFontSize(17);
-                    matchArticles.setTextSize(30);
+                    matchArticles.setTextSize(27);
                     formatDialog.dismiss();
                 }
             }
@@ -605,8 +633,7 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDefault();
                     }
-                    viewsContent.getSettings().setDefaultFontSize(17);
-                    matchArticles.setTextSize(29);
+                    matchArticles.setTextSize(26);
                     formatDialog.dismiss();
                 }
             }
@@ -640,8 +667,7 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
                     }
-                    viewsContent.getSettings().setDefaultFontSize(15);
-                    matchArticles.setTextSize(28);
+                    matchArticles.setTextSize(25);
                     formatDialog.dismiss();
                 }
             }
@@ -779,7 +805,6 @@ public class ArticleActivity extends AppCompatActivity {
         finish();
         super.onDestroy();
     }
-
 }
 
 

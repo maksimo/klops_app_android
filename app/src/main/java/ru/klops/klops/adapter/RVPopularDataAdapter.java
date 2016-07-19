@@ -562,7 +562,6 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     public void onClick(View v) {
                         holderAdvertise.closableLayout.startAnimation(alpha);
                         remove(holderAdvertise.getAdapterPosition());
-                        notifyDataSetChanged();
                     }
                 });
                 break;
@@ -645,6 +644,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
 
     public void remove(int position) {
         models.remove(position);
+        dataTypes.remove(position);
         notifyItemRemoved(position);
     }
 
