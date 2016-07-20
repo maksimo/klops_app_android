@@ -38,10 +38,6 @@ public class SimpleWideArticleFragment extends Fragment {
 
     @BindView(R.id.simpleWideTitle)
     TextView title;
-    @BindView(R.id.simpleWideStatusIcon)
-    ImageView statusCircle;
-    @BindView(R.id.simpleWideStatus)
-    TextView status;
     @BindView(R.id.simpleWideAuthor)
     TextView author;
     @BindView(R.id.simpleWideDate)
@@ -70,27 +66,19 @@ public class SimpleWideArticleFragment extends Fragment {
         unbinder = ButterKnife.bind(this, fragmentView);
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
-        setUpImages();
         setUpView();
         return fragmentView;
     }
 
-    private void setUpImages() {
-        Log.d(LOG, "setUpImages");
-        if (!item.getUpdate_status().equals("")) {
-            statusCircle.setVisibility(View.VISIBLE);
-        }
-    }
+
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        status.setText(item.getUpdate_status());
-        status.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        author.setText(item.getAuthor());
+        author.setText(item.getAuthor().replace("Источник: Клопс. Ru",""));
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
@@ -98,7 +86,6 @@ public class SimpleWideArticleFragment extends Fragment {
 
     public void formatDefault() {
         title.setTextSize(16);
-        status.setTextSize(10);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);
@@ -106,7 +93,6 @@ public class SimpleWideArticleFragment extends Fragment {
 
     public void formatIncrement() {
         title.setTextSize(17);
-        status.setTextSize(11);
         date.setTextSize(11);
         author.setTextSize(11);
         shortdescription.setTextSize(17);
@@ -114,7 +100,6 @@ public class SimpleWideArticleFragment extends Fragment {
 
     public void formatDecrement() {
         title.setTextSize(15);
-        status.setTextSize(9);
         date.setTextSize(9);
         author.setTextSize(9);
         shortdescription.setTextSize(15);

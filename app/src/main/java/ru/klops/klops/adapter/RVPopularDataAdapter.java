@@ -66,6 +66,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         RelativeLayout simpleImageCard;
         @BindView(R.id.simpleImageCardLoading)
         ProgressBar bar;
+        @BindView(R.id.simpleImageCardStatusIcon)
+        ImageView simpleImageCardStatusIcon;
+        @BindView(R.id.simpleImageCardStatus)
+        TextView simpleImageCardStatus;
 
         public SimpleNewsHolder(View itemView) {
             super(itemView);
@@ -82,6 +86,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         TextView title;
         @BindView(R.id.simpleTextLayer)
         RelativeLayout simpleCard;
+        @BindView(R.id.simpleCardStatusIcon)
+        ImageView simpleCardStatusIcon;
+        @BindView(R.id.simpleCardStatus)
+        TextView simpleCardStatus;
 
         public SimpleTextNewsHolder(View itemView) {
             super(itemView);
@@ -101,6 +109,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         TextView content;
         @BindView(R.id.longNewsLayer)
         RelativeLayout longCard;
+        @BindView(R.id.longCardStatusIcon)
+        ImageView longCardStatusIcon;
+        @BindView(R.id.longCardStatus)
+        TextView longCardStatus;
 
         public LongNewsHolder(View itemView) {
             super(itemView);
@@ -123,6 +135,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         RelativeLayout interviewCard;
         @BindView(R.id.interviewCardLoading)
         ProgressBar bar;
+        @BindView(R.id.interviewCardStatusIcon)
+        ImageView interviewCardStatusIcon;
+        @BindView(R.id.interviewCardStatus)
+        TextView interviewCardStatus;
+
 
         public InterviewNewsHolder(View itemView) {
             super(itemView);
@@ -149,6 +166,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         RelativeLayout authorsCard;
         @BindView(R.id.authorCardLoading)
         ProgressBar bar;
+        @BindView(R.id.authorCardStatusIcon)
+        ImageView authorCardStatusIcon;
+        @BindView(R.id.authorCardStatus)
+        TextView authorCardStatus;
 
         public AuthorColumnsNewsHolder(View itemView) {
             super(itemView);
@@ -166,6 +187,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         TextView titleOne;
         @BindView(R.id.nationalCard)
         RelativeLayout nationalCard;
+        @BindView(R.id.nationalCardStatusIcon)
+        ImageView nationalCardStatusIcon;
+        @BindView(R.id.nationalCardStatus)
+        TextView nationalCardStatus;
 
         public NationalNewsHolder(View itemView) {
             super(itemView);
@@ -182,6 +207,8 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         ProgressBar bar;
         @BindView(R.id.importantCardDate)
         TextView date;
+        @BindView(R.id.importantCardStatusIcon)
+        ImageView importantCardStatusIcon;
         @BindView(R.id.importantCardStatus)
         TextView status;
         @BindView(R.id.importantCardTitle)
@@ -209,6 +236,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         ImageView image;
         @BindView(R.id.galleryOneLayer)
         RelativeLayout galleryCard;
+        @BindView(R.id.galleryCardStatusIcon)
+        ImageView galleryCardStatusIcon;
+        @BindView(R.id.galleryCardStatus)
+        TextView galleryCardStatus;
 
         public GalleryNewsOneHolder(View itemView) {
             super(itemView);
@@ -237,6 +268,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         ImageView imageOnlyOne;
         @BindView(R.id.galleryTwoLayer)
         RelativeLayout galleryCard;
+        @BindView(R.id.galleryCardTwoStatusIcon)
+        ImageView galleryCardTwoStatusIcon;
+        @BindView(R.id.galleryCardTwoStatus)
+        TextView galleryCardTwoStatus;
 
         public GalleryNewsTwoHolder(View itemView) {
             super(itemView);
@@ -277,6 +312,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         RelativeLayout simpleWideCard;
         @BindView(R.id.simpleWideCardAuthor)
         TextView author;
+        @BindView(R.id.simpleWideCardStatusIcon)
+        ImageView simpleWideCardStatusIcon;
+        @BindView(R.id.simpleWideCardStatus)
+        TextView simpleWideCardStatus;
 
         public SimpleWideHolder(View itemView) {
             super(itemView);
@@ -385,6 +424,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holder.title.setText(models.get(position).getTitle());
                 holder.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holder.simpleImageCardStatus.setText(models.get(position).getUpdate_status());
+                    holder.simpleImageCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holder.simpleImageCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holder.simpleImageCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -399,6 +443,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderSimple.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderSimple.title.setText(models.get(position).getTitle());
                 holderSimple.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderSimple.simpleCardStatus.setText(models.get(position).getUpdate_status());
+                    holderSimple.simpleCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderSimple.simpleCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holderSimple.simpleCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -417,6 +466,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderLong.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderLong.content.setText(models.get(position).getShortdecription());
                 holderLong.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderLong.longCardStatus.setText(models.get(position).getUpdate_status());
+                    holderLong.longCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderLong.longCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holderLong.longCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -434,6 +488,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderInterview.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderInterview.content.setText(models.get(position).getShortdecription());
                 holderInterview.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderInterview.interviewCardStatus.setText(models.get(position).getUpdate_status());
+                    holderInterview.interviewCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderInterview.interviewCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 loadPhoto(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
                 holderInterview.interviewCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -451,6 +510,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderAuthors.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderAuthors.content.setText(models.get(position).getShortdecription());
                 holderAuthors.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderAuthors.authorCardStatus.setText(models.get(position).getUpdate_status());
+                    holderAuthors.authorCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderAuthors.authorCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 loadPhoto(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
                 holderAuthors.contentAuthor.setText(models.get(position).getAuthor());
                 holderAuthors.contentAuthor.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
@@ -470,6 +534,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderNational.dateOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderNational.titleOne.setText(models.get(position).getTitle());
                 holderNational.titleOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderNational.nationalCardStatus.setText(models.get(position).getUpdate_status());
+                    holderNational.nationalCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderNational.nationalCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holderNational.nationalCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -487,8 +556,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 }
                 holderImportant.date.setText(models.get(position).getDate());
                 holderImportant.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderImportant.status.setText(models.get(position).getUpdate_status());
-                holderImportant.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderImportant.status.setText(models.get(position).getUpdate_status());
+                    holderImportant.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderImportant.importantCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holderImportant.title.setText(models.get(position).getTitle());
                 holderImportant.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 holderImportant.content.setText(models.get(position).getShortdecription());
@@ -507,6 +579,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderGallerySmall.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderGallerySmall.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
                 holderGallerySmall.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderGallerySmall.galleryCardStatus.setText(models.get(position).getUpdate_status());
+                    holderGallerySmall.galleryCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderGallerySmall.galleryCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 loadPhoto(models.get(position).getImage(), holderGallerySmall.image, holderGallerySmall.bar);
                 holderGallerySmall.galleryCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -522,6 +599,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderGalleryBig.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderGalleryBig.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
                 holderGalleryBig.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderGalleryBig.galleryCardTwoStatus.setText(models.get(position).getUpdate_status());
+                    holderGalleryBig.galleryCardTwoStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderGalleryBig.galleryCardTwoStatusIcon.setVisibility(View.VISIBLE);
+                }
                 if (models.get(position).getPhotos().size() == 0) {
                     holderGalleryBig.imageOnlyOne.setVisibility(View.VISIBLE);
                     holderGalleryBig.imageOne.setVisibility(View.GONE);
@@ -575,6 +657,11 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderSimpleWide.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderSimpleWide.content.setText(models.get(position).getShortdecription());
                 holderSimpleWide.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderSimpleWide.simpleWideCardStatus.setText(models.get(position).getUpdate_status());
+                    holderSimpleWide.simpleWideCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderSimpleWide.simpleWideCardStatusIcon.setVisibility(View.VISIBLE);
+                }
                 holderSimpleWide.simpleWideCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

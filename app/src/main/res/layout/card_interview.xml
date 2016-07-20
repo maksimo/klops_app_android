@@ -40,6 +40,31 @@
             android:textColor="@color/greyText"
             android:textSize="10sp" />
 
+        <ImageView
+            android:id="@+id/interviewCardStatusIcon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="17dp"
+            android:layout_toLeftOf="@+id/interviewCardStatus"
+            android:background="@drawable/news_update_circle"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/interviewCardStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:paddingBottom="15dp"
+            android:paddingRight="30dp"
+            android:paddingTop="15dp"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp" />
+
         <RelativeLayout
             android:id="@+id/interviewCardPhotoImageLayout"
             android:layout_width="wrap_content"

@@ -39,10 +39,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     @BindView(R.id.galleryTwoTitle)
     TextView title;
-    @BindView(R.id.galleryTwoStatusIcon)
-    ImageView statusCircle;
-    @BindView(R.id.galleryTwoStatus)
-    TextView status;
     @BindView(R.id.galleryTwoAuthor)
     TextView author;
     @BindView(R.id.galleryTwoDate)
@@ -79,7 +75,6 @@ public class GalleryTwoArticleFragment extends Fragment {
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
         if (!item.getUpdate_status().equals("")) {
-            statusCircle.setVisibility(View.VISIBLE);
         }
     }
 
@@ -87,11 +82,9 @@ public class GalleryTwoArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         title.setText(String.format("%1$" + 5 + "s", item.getTitle()));
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
-        status.setText(item.getUpdate_status());
-        status.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        author.setText(item.getAuthor());
+        author.setText(item.getAuthor().replace("Источник: Клопс. Ru",""));
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
@@ -100,7 +93,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     public void formatDefault() {
         title.setTextSize(28);
-        status.setTextSize(10);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);
@@ -108,7 +100,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     public void formatIncrement() {
         title.setTextSize(29);
-        status.setTextSize(11);
         date.setTextSize(11);
         author.setTextSize(11);
         shortdescription.setTextSize(17);
@@ -116,7 +107,6 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     public void formatDecrement() {
         title.setTextSize(27);
-        status.setTextSize(9);
         date.setTextSize(9);
         author.setTextSize(9);
         shortdescription.setTextSize(15);

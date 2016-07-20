@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/simpleTextArticle"
@@ -17,39 +14,12 @@
                 android:id="@+id/simpleTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
                 android:textColor="@color/blackText"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/simpleStatusIcon"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_below="@+id/splitterSimpleTextFirst"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="17dp"
-                android:layout_toLeftOf="@+id/simpleStatus"
-                android:background="@drawable/news_update_circle"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/simpleStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/splitterSimpleTextFirst"
-                android:gravity="right"
-                android:paddingBottom="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
-                android:textAllCaps="true"
-                android:text=""
-                android:textColor="@color/newsStatus"
-                android:textSize="10sp" />
+                android:textSize="16sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp" />
 
             <View
                 android:id="@+id/splitterSimpleTextFirst"
@@ -66,37 +36,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleTextFirst"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
                 android:layout_marginLeft="15dp"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
-                android:paddingRight="5dp"
-                android:gravity="center"
-                android:minLines="1" />
+                android:minLines="1"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:id="@+id/simpleDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleTextFirst"
-                android:gravity="center|left"
-                android:paddingBottom="15dp"
-                android:layout_toRightOf="@+id/simpleAuthor"
-                android:paddingTop="15dp"
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
-                android:paddingRight="2dp"/>
+                android:layout_toRightOf="@+id/simpleAuthor"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp" />
 
             <ImageView
                 android:id="@+id/simpleTextCameraIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_below="@+id/splitterSimpleTextFirst"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/simpleDate"
                 android:background="@drawable/camera"
                 android:visibility="gone"/>
@@ -117,14 +86,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleTextSecond"
                 android:lineSpacingExtra="1dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
                 android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
                 android:minLines="1"
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />
 
         </RelativeLayout>
-    </ScrollView>
 </RelativeLayout>

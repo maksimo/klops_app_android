@@ -85,6 +85,7 @@ import rx.schedulers.Schedulers;
 
 public class ArticleActivity extends AppCompatActivity {
     final String LOG = "ArticleActivity";
+
     @BindView(R.id.backButton)
     ImageView back;
     @BindView(R.id.buttonFormat)
@@ -124,8 +125,6 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout galleryBackground;
     @BindView(R.id.splitterThird)
     View splitterThird;
-    @BindView(R.id.ViewsContent)
-    LinearLayout viewsContent;
     @BindView(R.id.ViewsPhotos)
     ViewPager pager;
     @BindView(R.id.contentGallery)
@@ -158,6 +157,130 @@ public class ArticleActivity extends AppCompatActivity {
     TextView connectedNewsTwoDate;
     @BindView(R.id.connectedNewsTwoText)
     TextView connectedNewsTwoText;
+
+    @BindView(R.id.firstContent)
+    RelativeLayout firstContent;
+    @BindView(R.id.firstWeb)
+    WebView firstWeb;
+    @BindView(R.id.firstImage)
+    ImageView firstImage;
+    @BindView(R.id.firstDescription)
+    TextView firstDescription;
+    @BindView(R.id.secondContent)
+    RelativeLayout secondContent;
+    @BindView(R.id.secondWeb)
+    WebView secondWeb;
+    @BindView(R.id.secondImage)
+    ImageView secondImage;
+    @BindView(R.id.secondDescription)
+    TextView secondDescription;
+    @BindView(R.id.thirdContent)
+    RelativeLayout thirdContent;
+    @BindView(R.id.thirdWeb)
+    WebView thirdWeb;
+    @BindView(R.id.thirdImage)
+    ImageView thirdImage;
+    @BindView(R.id.thirdDescription)
+    TextView thirdDescription;
+    @BindView(R.id.fourthContent)
+    RelativeLayout fourthContent;
+    @BindView(R.id.fourthWeb)
+    WebView fourthWeb;
+    @BindView(R.id.fourthImage)
+    ImageView fourthImage;
+    @BindView(R.id.fourthDescription)
+    TextView fourthDescription;
+    @BindView(R.id.fifthContent)
+    RelativeLayout fifthContent;
+    @BindView(R.id.fifthWeb)
+    WebView fifthWeb;
+    @BindView(R.id.fifthImage)
+    ImageView fifthImage;
+    @BindView(R.id.fifthDescription)
+    TextView fifthDescription;
+    @BindView(R.id.sixContent)
+    RelativeLayout sixContent;
+    @BindView(R.id.sixWeb)
+    WebView sixWeb;
+    @BindView(R.id.sixImage)
+    ImageView sixImage;
+    @BindView(R.id.sixDescription)
+    TextView sixDescription;
+    @BindView(R.id.sevenContent)
+    RelativeLayout sevenContent;
+    @BindView(R.id.sevenWeb)
+    WebView sevenWeb;
+    @BindView(R.id.sevenImage)
+    ImageView sevenImage;
+    @BindView(R.id.sevenDescription)
+    TextView sevenDescription;
+    @BindView(R.id.eightContent)
+    RelativeLayout eightContent;
+    @BindView(R.id.eightWeb)
+    WebView eightWeb;
+    @BindView(R.id.eightImage)
+    ImageView eightImage;
+    @BindView(R.id.eightDescription)
+    TextView eightDescription;
+    @BindView(R.id.nineContent)
+    RelativeLayout nineContent;
+    @BindView(R.id.nineWeb)
+    WebView nineWeb;
+    @BindView(R.id.nineImage)
+    ImageView nineImage;
+    @BindView(R.id.nineDescription)
+    TextView nineDescription;
+    @BindView(R.id.tenContent)
+    RelativeLayout tenContent;
+    @BindView(R.id.tenWeb)
+    WebView tenWeb;
+    @BindView(R.id.tenImage)
+    ImageView tenImage;
+    @BindView(R.id.tenDescription)
+    TextView tenDescription;
+    @BindView(R.id.elevenContent)
+    RelativeLayout elevenContent;
+    @BindView(R.id.elevenWeb)
+    WebView elevenWeb;
+    @BindView(R.id.elevenImage)
+    ImageView elevenImage;
+    @BindView(R.id.elevenDescription)
+    TextView elevenDescription;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+
+    @BindView(R.id.oneProgress)
+    ProgressBar barOne;
+    @BindView(R.id.twoProgress)
+    ProgressBar barTwo;
+    @BindView(R.id.threeProgress)
+    ProgressBar barThree;
+    @BindView(R.id.fourProgress)
+    ProgressBar barFour;
+    @BindView(R.id.fiveProgress)
+    ProgressBar barFive;
+    @BindView(R.id.sixProgress)
+    ProgressBar barSix;
+    @BindView(R.id.sevenProgress)
+    ProgressBar barSeven;
+    @BindView(R.id.eightProgress)
+    ProgressBar barEight;
+    @BindView(R.id.nineProgress)
+    ProgressBar barNine;
+    @BindView(R.id.tenProgress)
+    ProgressBar barTen;
+    @BindView(R.id.elevenProgress)
+    ProgressBar barEleven;
+    @BindView(R.id.twelveProgress)
+    ProgressBar barTwelve;
+    ArrayList<WebView> contentViews;
+    ArrayList<TextView> contentDescriptions;
     ArrayList<Connected_items> connectedItemses;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
@@ -170,9 +293,6 @@ public class ArticleActivity extends AppCompatActivity {
     String text;
     GalleryContentPagerAdapter gAdapter;
     ArrayList<Gallery> galleries;
-    ArrayList<Photos> adapterPhotos;
-    WebView webView;
-    TextView description;
     int count = 0;
     int countPager = 0;
     private Target loadTarget;
@@ -195,9 +315,40 @@ public class ArticleActivity extends AppCompatActivity {
         setUpShare();
         setUpFormat();
         drawFragment();
-        setUPPager();
         setUPContent();
+        getAllContents();
+        setUpGalleries();
         setUpMatchNews();
+    }
+
+    private void setUpGalleries() {
+        if (galleries.size() != 0) {
+            gAdapter = new GalleryContentPagerAdapter(this, galleries);
+            pager.setAdapter(gAdapter);
+            pager.setCurrentItem(0);
+            contentGallery.setVisibility(View.VISIBLE);
+            splitterThird.setVisibility(View.VISIBLE);
+            littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(galleries.size()));
+            final int count = galleries.size();
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(count));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        } else {
+            setUPPager();
+        }
     }
 
     private void setUpMatchNews() {
@@ -288,6 +439,10 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void setUPContent() {
         Log.d(LOG, "setUpTextField");
+        matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
+        contentViews = new ArrayList<>();
+        contentDescriptions = new ArrayList<>();
+        galleries = new ArrayList<>();
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         copy = new ArrayList<>();
@@ -307,75 +462,538 @@ public class ArticleActivity extends AppCompatActivity {
             }
 
         }
-        int prevID = 0;
-        adapterPhotos = new ArrayList<>();
-        galleries = new ArrayList<>();
-        for (Content content : copy) {
-            if (!content.getText().equals("") || content.getText() != null) {
-                webView = new WebView(this);
-                WebSettings settings = webView.getSettings();
-                settings.setDefaultFontSize(18);
-                settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-                webView.setId(prevID + 1);
-                webView.loadData(content.getText(), "text/html; charset=utf-8", "UTF-8");
-                viewsContent.addView(webView);
-            } else if (content.getPhotos().size() != 0) {
-                for (Photos photo : content.getPhotos()) {
-                    if (!photo.getImg_url().equals("") || photo.getImg_url() != null) {
-                        ImageView imageView = new ImageView(this);
-                        imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
-                        imageView.setId(prevID + 12);
-                        Ion.with(this).load(photo.getImg_url()).withBitmap().fitXY().intoImageView(imageView);
-                        viewsContent.addView(imageView);
-                        description = new TextView(this);
-                        description.setTextSize(16);
-                        description.setId(prevID + 3);
-                        description.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-                        description.setGravity(Gravity.CENTER);
-                        description.setText(photo.getDescription());
-                        description.setPadding(0, 10, 0, 10);
-                        description.setMaxLines(3);
-                        viewsContent.addView(description);
 
+        for (int n = 0; n < contents.size(); n++) {
+            if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
+                galleries.addAll(contents.get(n).getGallery());
+            }
+        }
+
+    }
+
+    public void getAllContents() {
+        switch (contents.size()) {
+            case 1:
+                checkFirst();
+                break;
+            case 2:
+                checkFirst();
+                checkSecond();
+                break;
+            case 3:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                break;
+            case 4:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                break;
+            case 5:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                break;
+            case 6:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                break;
+            case 7:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                break;
+            case 8:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                checkEight();
+                break;
+            case 9:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                checkEight();
+                checkNinth();
+                break;
+            case 10:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                checkEight();
+                checkNinth();
+                checkTenth();
+                break;
+            case 11:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                checkEight();
+                checkNinth();
+                checkTenth();
+                checkEleventh();
+                break;
+            case 12:
+                checkFirst();
+                checkSecond();
+                checkThird();
+                checkFourth();
+                checkFifth();
+                checkSixth();
+                checkSeventh();
+                checkEight();
+                checkNinth();
+                checkTenth();
+                checkEleventh();
+                checkTwelve();
+                break;
+        }
+
+    }
+
+    private void checkTwelve() {
+        if (contents.get(11) != null) {
+            if (contents.get(11).getText() != null) {
+                twelveContent.setVisibility(View.VISIBLE);
+                twelveWeb.setVisibility(View.VISIBLE);
+                twelveWeb.getSettings().setDefaultFontSize(16);
+                twelveWeb.loadData(contents.get(9).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(twelveWeb);
+            } else if (contents.get(11).getPhotos() != null) {
+                twelveContent.setVisibility(View.VISIBLE);
+                twelveImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(11).getPhotos().get(0).getImg_url()).into(twelveImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barTwelve.setVisibility(View.GONE);
                     }
 
+                    @Override
+                    public void onError() {
+                        barTwelve.setVisibility(View.GONE);
+                    }
+                });
+                if (!contents.get(11).getPhotos().get(0).getDescription().equals("")) {
+                    twelveDescription.setText(contents.get(11).getPhotos().get(0).getDescription());
+                } else {
+                    twelveDescription.setText("Отсутствует описание к данному фото");
                 }
+                twelveDescription.setVisibility(View.VISIBLE);
+                twelveDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(twelveDescription);
+            }
+        }
+    }
 
-            }else if (content.getGallery().size() != 0) {
-                galleries.addAll(content.getGallery());
-                for (int i = 0; i < galleries.size(); i++) {
-                    adapterPhotos.add(new Photos(galleries.get(i).getImg_url(), galleries.get(i).getDescription()));
+    private void checkEleventh() {
+        if (contents.get(10) != null) {
+            if (contents.get(10).getText() != null) {
+                elevenContent.setVisibility(View.VISIBLE);
+                elevenWeb.setVisibility(View.VISIBLE);
+                elevenWeb.getSettings().setDefaultFontSize(16);
+                elevenWeb.loadData(contents.get(10).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(elevenWeb);
+            } else if (contents.get(10).getPhotos() != null) {
+                elevenContent.setVisibility(View.VISIBLE);
+                elevenImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(10).getPhotos().get(0).getImg_url()).into(elevenImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barEleven.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barEleven.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(10).getPhotos().get(0).getDescription().equals("")) {
+                    elevenDescription.setText(contents.get(10).getPhotos().get(0).getDescription());
+                } else {
+                    elevenDescription.setText("Отсутствует описание к данному фото");
                 }
+                elevenDescription.setVisibility(View.VISIBLE);
+                elevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(elevenDescription);
+            }
+        }
+    }
+
+    private void checkTenth() {
+        if (contents.get(9) != null) {
+            if (contents.get(9).getText() != null) {
+                tenContent.setVisibility(View.VISIBLE);
+                tenWeb.setVisibility(View.VISIBLE);
+                tenWeb.getSettings().setDefaultFontSize(16);
+                tenWeb.loadData(Constants.HARDCODED_BODY + contents.get(9).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(tenWeb);
+            } else if (contents.get(9).getPhotos() != null) {
+                tenContent.setVisibility(View.VISIBLE);
+                tenImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(9).getPhotos().get(0).getImg_url()).into(tenImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barTen.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barTen.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(9).getPhotos().get(0).getDescription().equals("")) {
+                    tenDescription.setText(contents.get(9).getPhotos().get(0).getDescription());
+                } else {
+                    tenDescription.setText("Отсутствует описание к данному фото");
+                }
+                tenDescription.setVisibility(View.VISIBLE);
+                tenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(tenDescription);
+            }
+        }
+    }
+
+    private void checkNinth() {
+        if (contents.get(8) != null) {
+            if (contents.get(8).getText() != null) {
+                nineContent.setVisibility(View.VISIBLE);
+                nineWeb.setVisibility(View.VISIBLE);
+                nineWeb.getSettings().setDefaultFontSize(16);
+                nineWeb.loadData(Constants.HARDCODED_BODY + contents.get(8).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(nineWeb);
+            } else if (contents.get(8).getPhotos() != null) {
+                nineContent.setVisibility(View.VISIBLE);
+                nineImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(8).getPhotos().get(0).getImg_url()).into(nineImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barNine.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barNine.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(8).getPhotos().get(0).getDescription().equals("")) {
+                    nineDescription.setText(contents.get(8).getPhotos().get(0).getDescription());
+                } else {
+                    nineDescription.setText("Отсутствует описание к данному фото");
+                }
+                nineDescription.setVisibility(View.VISIBLE);
+                nineDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(nineDescription);
+            }
+        }
+    }
+
+    private void checkEight() {
+        if (contents.get(7) != null) {
+            if (contents.get(7).getText() != null) {
+                eightContent.setVisibility(View.VISIBLE);
+                eightWeb.setVisibility(View.VISIBLE);
+                eightWeb.getSettings().setDefaultFontSize(16);
+                eightWeb.loadData(Constants.HARDCODED_BODY + contents.get(7).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(eightWeb);
+            } else if (contents.get(7).getPhotos() != null) {
+                eightContent.setVisibility(View.VISIBLE);
+                eightImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(7).getPhotos().get(0).getImg_url()).into(eightImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barEight.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barEight.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(7).getPhotos().get(0).getDescription().equals("")) {
+                    eightDescription.setText(contents.get(7).getPhotos().get(0).getDescription());
+                } else {
+                    eightDescription.setText("Отсутствует описание к данному фото");
+                }
+                eightDescription.setVisibility(View.VISIBLE);
+                eightDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(eightDescription);
+            }
+        }
+    }
+
+    private void checkSeventh() {
+        if (contents.get(6) != null) {
+            if (contents.get(6).getText() != null) {
+                sevenContent.setVisibility(View.VISIBLE);
+                sevenWeb.setVisibility(View.VISIBLE);
+                sevenWeb.getSettings().setDefaultFontSize(16);
+                sevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(6).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(sevenWeb);
+            } else if (contents.get(6).getPhotos() != null) {
+                sevenContent.setVisibility(View.VISIBLE);
+                sevenImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(6).getPhotos().get(0).getImg_url()).into(sevenImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barSeven.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barSeven.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(6).getPhotos().get(0).getDescription().equals("")) {
+                    sevenDescription.setText(contents.get(6).getPhotos().get(0).getDescription());
+                } else {
+                    sevenDescription.setText("Отсутствует описание к данному фото");
+                }
+                sevenDescription.setVisibility(View.VISIBLE);
+                sevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(sevenDescription);
 
             }
-            prevID++;
+        }
+    }
+
+    private void checkSixth() {
+        if (contents.get(5) != null) {
+            if (contents.get(5).getText() != null) {
+                sixContent.setVisibility(View.VISIBLE);
+                sixWeb.setVisibility(View.VISIBLE);
+                sixWeb.getSettings().setDefaultFontSize(16);
+                sixWeb.loadData(Constants.HARDCODED_BODY + contents.get(5).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(sixWeb);
+            } else if (contents.get(5).getPhotos() != null) {
+                sixContent.setVisibility(View.VISIBLE);
+                sixImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(5).getPhotos().get(0).getImg_url()).into(sixImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barSix.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barSix.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(5).getPhotos().get(0).getDescription().equals("")) {
+                    sixDescription.setText(contents.get(5).getPhotos().get(0).getDescription());
+                } else {
+                    sixDescription.setText("Отсутствует описание к данному фото");
+                }
+                sixDescription.setVisibility(View.VISIBLE);
+                sixDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(sixDescription);
+
+            }
+        }
+    }
+
+    private void checkFifth() {
+        if (contents.get(4) != null) {
+            if (contents.get(4).getText() != null) {
+                fifthContent.setVisibility(View.VISIBLE);
+                fifthWeb.setVisibility(View.VISIBLE);
+                fifthWeb.getSettings().setDefaultFontSize(16);
+                fifthWeb.loadData(Constants.HARDCODED_BODY + contents.get(4).getText(), "text/html; charset=utf-8", "UTF-8");
+                contentViews.add(fifthWeb);
+            } else if (contents.get(4).getPhotos() != null) {
+                fourthContent.setVisibility(View.VISIBLE);
+                fifthImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(4).getPhotos().get(0).getImg_url()).into(fifthImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barFive.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barFive.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(4).getPhotos().get(0).getDescription().equals("")) {
+                    fifthDescription.setText(contents.get(4).getPhotos().get(0).getDescription());
+                } else {
+                    fifthDescription.setText("Отсутствует описание к данному фото");
+                }
+                fifthDescription.setVisibility(View.VISIBLE);
+                fifthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(fifthDescription);
+            } else if (contents.get(4).getGallery() != null) {
+                for (int i = 0; i < contents.get(4).getGallery().size(); i++) {
+                    galleries.add(contents.get(4).getGallery().get(i));
+                }
+            }
+        }
+    }
+
+    private void checkFourth() {
+        if (contents.get(3) != null) {
+            if (contents.get(3).getText() != null) {
+                fourthContent.setVisibility(View.VISIBLE);
+                fourthWeb.setVisibility(View.VISIBLE);
+                fourthWeb.getSettings().setDefaultFontSize(16);
+                fourthWeb.loadData(Constants.HARDCODED_BODY + contents.get(3).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(fourthWeb);
+            } else if (contents.get(3).getPhotos() != null) {
+                fourthContent.setVisibility(View.VISIBLE);
+                fourthImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(3).getPhotos().get(0).getImg_url()).into(fourthImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barFour.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barFour.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(3).getPhotos().get(0).getDescription().equals("")) {
+                    fourthDescription.setText(contents.get(3).getPhotos().get(0).getDescription());
+                } else {
+                    fourthDescription.setText("Отсутствует описание к данному фото");
+                }
+                fourthDescription.setVisibility(View.VISIBLE);
+                fourthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(fourthDescription);
+
+            }
+        }
+    }
+
+    private void checkThird() {
+        if (contents.get(2) != null) {
+            if (contents.get(2).getText() != null) {
+                thirdContent.setVisibility(View.VISIBLE);
+                thirdWeb.setVisibility(View.VISIBLE);
+                thirdWeb.getSettings().setDefaultFontSize(16);
+                thirdWeb.loadData(Constants.HARDCODED_BODY + contents.get(2).getText(), "text/html; charset=utf-8", "UTF-8");
+                contentViews.add(thirdWeb);
+            } else if (contents.get(2).getPhotos() != null) {
+                thirdContent.setVisibility(View.VISIBLE);
+                thirdImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(2).getPhotos().get(0).getImg_url()).into(thirdImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barThree.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barThree.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(2).getPhotos().get(0).getDescription().equals("")) {
+                    thirdDescription.setText(contents.get(2).getPhotos().get(0).getDescription());
+                } else {
+                    thirdDescription.setText("Отсутствует описание к данному фото");
+                }
+                thirdDescription.setVisibility(View.VISIBLE);
+                thirdDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(thirdDescription);
+            }
+        }
+    }
+
+    private void checkSecond() {
+        if (contents.get(1) != null) {
+            if (contents.get(1).getText() != null) {
+                secondContent.setVisibility(View.VISIBLE);
+                secondWeb.setVisibility(View.VISIBLE);
+                secondWeb.getSettings().setDefaultFontSize(16);
+                secondWeb.loadData(Constants.HARDCODED_BODY + contents.get(1).getText(), "text/html; charset=utf-8", "UTF-8");
+                contentViews.add(secondWeb);
+            } else if (contents.get(1).getPhotos() != null) {
+                secondContent.setVisibility(View.VISIBLE);
+                secondImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(1).getPhotos().get(0).getImg_url()).into(secondImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barTwo.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barTwo.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(1).getPhotos().get(0).getDescription().equals("")) {
+                    secondDescription.setText(contents.get(1).getPhotos().get(0).getDescription());
+                } else {
+                    secondDescription.setText("Отсутствует описание к данному фото");
+                }
+                secondDescription.setVisibility(View.VISIBLE);
+                secondDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(secondDescription);
+
+            }
+        }
+    }
+
+    private void checkFirst() {
+        if (contents.get(0) != null) {
+            if (contents.get(0).getText() != null) {
+                firstContent.setVisibility(View.VISIBLE);
+                firstWeb.setVisibility(View.VISIBLE);
+                firstWeb.getSettings().setDefaultFontSize(16);
+                firstWeb.loadData(contents.get(0).getText(), "text/html; charset=utf-8", "UTF-8");
+                contentViews.add(firstWeb);
+            } else if (contents.get(0).getPhotos() != null) {
+                firstContent.setVisibility(View.VISIBLE);
+                firstImage.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(contents.get(0).getPhotos().get(0).getImg_url()).into(firstImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        barOne.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        barOne.setVisibility(View.VISIBLE);
+                    }
+                });
+                if (!contents.get(0).getPhotos().get(0).getDescription().equals("")) {
+                    firstDescription.setText(contents.get(0).getPhotos().get(0).getDescription());
+                } else {
+                    firstDescription.setText("Отсутствует описание к данному фото");
+                }
+                fifthDescription.setVisibility(View.VISIBLE);
+                firstDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(firstDescription);
+            }
         }
 
-        if (adapterPhotos.size() != 0 || !adapterPhotos.isEmpty()) {
-            pager = new ViewPager(this);
-            gAdapter = new GalleryContentPagerAdapter(this, adapterPhotos);
-            pager.setAdapter(gAdapter);
-            pager.setCurrentItem(0);
-            contentGallery.setVisibility(View.VISIBLE);
-            littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(adapterPhotos.size()));
-            final int count = adapterPhotos.size();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(count));
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }
     }
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
@@ -386,7 +1004,6 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void setUPPager() {
-        matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
         smallGallery = new ArrayList<>();
         if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
             if (item.getPhotos().size() > 1) {
@@ -599,6 +1216,12 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
                     }
+                    for (WebView web : contentViews) {
+                        web.getSettings().setDefaultFontSize(17);
+                    }
+                    for (TextView text : contentDescriptions) {
+                        text.setTextSize(17);
+                    }
                     matchArticles.setTextSize(27);
                     formatDialog.dismiss();
                 }
@@ -633,6 +1256,12 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDefault();
                     }
+                    for (WebView web : contentViews) {
+                        web.getSettings().setDefaultFontSize(16);
+                    }
+                    for (TextView text : contentDescriptions) {
+                        text.setTextSize(16);
+                    }
                     matchArticles.setTextSize(26);
                     formatDialog.dismiss();
                 }
@@ -666,6 +1295,13 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryTwoArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
+                    }
+
+                    for (WebView web : contentViews) {
+                        web.getSettings().setDefaultFontSize(15);
+                    }
+                    for (TextView text : contentDescriptions) {
+                        text.setTextSize(15);
                     }
                     matchArticles.setTextSize(25);
                     formatDialog.dismiss();

@@ -4,10 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <RelativeLayout
             android:id="@+id/interviewArticle"
             android:layout_width="match_parent"
@@ -19,40 +15,13 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
                 android:minLines="1"
-                android:paddingBottom="20dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
                 android:text=""
                 android:textColor="@color/blackText"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/interviewStatusIcon"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_below="@+id/splitterInterviewFirst"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="17dp"
-                android:layout_toLeftOf="@+id/interviewStatus"
-                android:background="@drawable/news_update_circle"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/interviewStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/splitterInterviewFirst"
-                android:gravity="right"
-                android:paddingBottom="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
-                android:text=""
-                android:textAllCaps="true"
-                android:textColor="@color/newsStatus"
-                android:textSize="10sp" />
+                android:textSize="16sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp" />
 
             <View
                 android:id="@+id/splitterInterviewFirst"
@@ -69,16 +38,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewFirst"
-                android:gravity="center"
-                android:paddingBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:paddingRight="5dp"
-                android:paddingTop="15dp"
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:id="@+id/interviewDate"
@@ -86,21 +54,20 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewFirst"
                 android:layout_toRightOf="@+id/interviewAuthor"
-                android:gravity="center|left"
-                android:paddingBottom="15dp"
-                android:paddingRight="2dp"
-                android:paddingTop="15dp"
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="2dp" />
 
             <ImageView
                 android:id="@+id/interviewCameraIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_below="@+id/splitterInterviewFirst"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/interviewDate"
                 android:background="@drawable/camera"
                 android:visibility="gone" />
@@ -121,8 +88,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_below="@+id/splitterInterviewSecond"
-                android:paddingLeft="15dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp">
 
                 <ru.klops.klops.custom.CircleImageView
                     android:id="@+id/interviewImagePhoto"
@@ -147,13 +114,13 @@
                 android:lineSpacingExtra="1dp"
                 android:minLines="1"
                 android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
                 android:text=""
                 android:textColor="@color/darkGreyText"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
 
         </RelativeLayout>
-    </ScrollView>
 </RelativeLayout>

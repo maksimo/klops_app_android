@@ -76,7 +76,7 @@
             android:paddingRight="20dp"
             android:textAllCaps="true"
             android:text=""
-            android:textColor="@color/newsStatus"
+            android:textColor="@color/colorAccent"
             android:textSize="10sp"
             android:visibility="gone"/>
 

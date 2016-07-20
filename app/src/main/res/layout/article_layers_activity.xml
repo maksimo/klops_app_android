@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/klops/klops"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
@@ -73,7 +74,7 @@
                 android:layout_below="@+id/articleContainer"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorPrimary"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/littleGallery"
@@ -128,26 +129,627 @@
                 android:layout_marginLeft="15dp"
                 android:alpha="0.4"
                 android:background="@color/greyText"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
-            <LinearLayout
-                android:id="@+id/ViewsContent"
+            <RelativeLayout
+                android:id="@+id/firstContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterThird"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical" />
+                android:visibility="visible">
 
+                <WebView
+                    android:id="@+id/firstWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/firstImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/firstWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/oneProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/firstDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/firstImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/secondContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/secondWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/secondImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/secondWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/twoProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/secondDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/secondImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/thirdContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/thirdWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/thirdImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/thirdWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/threeProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/thirdDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/thirdImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fourthContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/thirdContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/fourthWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/fourthImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/fourthWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/fourProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/fourthDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fourthImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fifthContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fourthContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/fifthWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/fifthImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/fifthWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/fiveProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/fifthDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fifthImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sixContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fifthContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/sixWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/sixImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/sixWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/sixProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/sixDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sixImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sevenContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sixContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/sevenWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/sevenImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/sevenWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/sevenProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/sevenDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sevenImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/eightContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sevenContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/eightWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/eightImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/eightWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/eightProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/eightDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/eightImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/nineContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/eightContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/nineWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/nineImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/nineWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/nineProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/nineDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nineImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tenContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nineContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/tenWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/tenImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/tenWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/tenProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tenDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tenImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/elevenContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tenContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/elevenWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/elevenImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/elevenWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/elevenProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/elevenDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/elevenImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/twelveContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/elevenContent"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/twelveWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                <ImageView
+                    android:id="@+id/twelveImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/twelveWeb"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/twelveProgress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/twelveDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/twelveImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:textColor="@color/greyText"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/contentGallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ViewsContent"
-                android:visibility="gone">
+                android:layout_below="@+id/twelveContent"
+                android:visibility="visible">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/ViewsPhotos"
@@ -157,8 +759,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_height="55dp"
                     android:layout_below="@+id/ViewsPhotos"
-                    android:layout_height="wrap_content"
                     android:background="@color/galleryCard">
 
                     <RelativeLayout
@@ -185,36 +787,38 @@
                             android:id="@+id/littlePhotoSwitchCounterTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginTop="11dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="12dp"
                             android:layout_toRightOf="@+id/littleSwitchPhotoIconTwo"
-                            android:textColor="@color/darkGreyText"
-                            android:textSize="12sp" />
+                            android:paddingLeft="5dp"
+                            android:paddingRight="12dp"
+                            android:text="1/22"
+                            android:textColor="@color/darkGreyText" />
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
-            <View
-                android:id="@+id/splitterFour"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_below="@+id/contentGallery"
-                android:background="@color/colorPrimary"
-                android:elevation="1dp" />
 
             <RelativeLayout
                 android:id="@+id/matchLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/splitterFour"
+                android:layout_below="@+id/contentGallery"
                 android:background="@color/recyclerBackground"
                 android:visibility="visible">
+
+                <View
+                    android:id="@+id/splitterFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary"
+                    android:elevation="2dp" />
 
                 <TextView
                     android:id="@+id/textMatch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/splitterFour"
                     android:background="@color/recyclerBackground"
                     android:paddingBottom="15dp"
                     android:paddingLeft="15dp"

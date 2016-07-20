@@ -21,6 +21,9 @@ public class News implements Parcelable{
     private String author;
     private List<Connected_items> connected_items;
 
+    public News() {
+    }
+
     public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<Connected_items> connected_items) {
         this.id = id;
         this.date = date;
@@ -39,6 +42,7 @@ public class News implements Parcelable{
     }
 
     protected News(Parcel in) {
+        id = in.readInt();
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();
@@ -204,6 +208,7 @@ public class News implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(date);
         dest.writeString(title);
         dest.writeString(shortdecription);

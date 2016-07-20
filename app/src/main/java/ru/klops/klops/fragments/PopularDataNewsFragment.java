@@ -47,7 +47,7 @@ public class PopularDataNewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.popular_data_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-//        initRecyclerView();
+        initRecyclerView();
         Log.d(LOG, "onCreateView");
         return fragmentView;
     }

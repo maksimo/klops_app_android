@@ -39,7 +39,7 @@
 
 
         <ImageView
-            android:id="@+id/importantCardCamera"
+            android:id="@+id/simpleWideCardCamera"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_marginLeft="2dp"
@@ -49,7 +49,7 @@
             android:visibility="visible"/>
 
         <ImageView
-            android:id="@+id/importantCardStatusIcon"
+            android:id="@+id/simpleWideCardStatusIcon"
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_marginRight="2dp"
@@ -68,7 +68,7 @@
             android:paddingRight="20dp"
             android:textAllCaps="true"
             android:text="я"
-            android:textColor="@color/newsStatus"
+            android:textColor="@color/colorAccent"
             android:textSize="10sp"
             android:visibility="gone"/>
 

@@ -19,14 +19,15 @@ import java.util.ArrayList;
 
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Photos;
 
 public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-    ArrayList<Photos> adapterPhotos;
+    ArrayList<Gallery> adapterPhotos;
 
-    public GalleryContentPagerAdapter(Context context, ArrayList<Photos> adapterPhotos) {
+    public GalleryContentPagerAdapter(Context context, ArrayList<Gallery> adapterPhotos) {
         super();
         this.context = context;
         this.adapterPhotos = adapterPhotos;
@@ -44,13 +45,12 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
         final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
-        Ion.with(context).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
-        descr.setText(adapterPhotos.get(position).getDescription());
-        if (adapterPhotos.get(position).getDescription().equals("")) {
-            descr.setText("Отсутствует описание к данному фото");
-        } else {
-            descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        Ion.with(context.getApplicationContext()).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
+        if (!adapterPhotos.get(position).getDescription().equals("")) {
             descr.setText(adapterPhotos.get(position).getDescription());
+        }else {
+            descr.setText("Отсутствует описание к данному фото");
         }
         container.addView(itemView);
         return itemView;

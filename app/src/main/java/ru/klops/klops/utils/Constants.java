@@ -43,4 +43,5 @@ public class Constants {
     public static final String SUBSCRIBED = "subscribed";
     public static final String UNSUBSCRIBED = "unsubscribed";
     public static final String SUBSCRIPTION = "subscription";
+    public static final String HARDCODED_BODY = "<style>body { color: #565656; font-family: \"AkzidenzGroteskPro-Regular\"; font-size:18px; }</style>";
 }
