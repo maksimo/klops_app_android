@@ -19,13 +19,15 @@ public class Item implements Parcelable {
     public List<Content> content;
     public Integer timestamp;
     public String author;
+    public String source;
     public List<Connected_items> connected_items;
+    public Integer promoted;
 
     public Item() {
     }
 
 
-    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<Connected_items> connected_items) {
+    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, String source,List<Connected_items> connected_items, Integer promoted) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -39,7 +41,9 @@ public class Item implements Parcelable {
         this.content = content;
         this.timestamp = timestamp;
         this.author = author;
+        this.source = source;
         this.connected_items = connected_items;
+        this.promoted = promoted;
     }
 
     protected Item(Parcel in) {
@@ -55,7 +59,9 @@ public class Item implements Parcelable {
         og_image = in.readString();
         content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
+        source = in.readString();
         connected_items = in.createTypedArrayList(Connected_items.CREATOR);
+        promoted = in.readInt();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -182,6 +188,22 @@ public class Item implements Parcelable {
         this.connected_items = connected_items;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public Integer getPromoted() {
+        return promoted;
+    }
+
+    public void setPromoted(Integer promoted) {
+        this.promoted = promoted;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -198,7 +220,9 @@ public class Item implements Parcelable {
                 ", content=" + content +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
+                ", source='" + source + '\'' +
                 ", connected_items=" + connected_items +
+                ", promoted=" + promoted +
                 '}';
     }
 
@@ -222,5 +246,7 @@ public class Item implements Parcelable {
         dest.writeTypedList(content);
         dest.writeString(author);
         dest.writeTypedList(connected_items);
+        dest.writeString(source);
+        dest.writeInt(promoted);
     }
 }

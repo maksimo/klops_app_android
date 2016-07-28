@@ -11,25 +11,16 @@
         android:layout_height="60dp"
         android:background="@color/colorPrimary">
 
-        <ImageView
-            android:id="@+id/shareTitleImage"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/logo_int_settings"
-            android:layout_marginTop="17dp" />
-
         <TextView
             android:id="@+id/shareTitle"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/shareTitleImage"
             android:text="@string/shareTitle"
             android:textColor="@color/darkGreyText"
             android:textSize="18sp"
             android:layout_centerVertical="true"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginLeft="15dp" />
 
     </RelativeLayout>
     <View

@@ -105,32 +105,25 @@ public class GalleryOneArticleFragment extends Fragment {
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        author.setText(item.getAuthor().replace("Источник: Клопс. Ru",""));
+        author.setText(item.getSource().concat(item.getAuthor()));
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
 
     }
 
-    public void formatDefault() {
+    public void formatIncrement() {
+        title.setTextSize(30);
+        date.setTextSize(12);
+        author.setTextSize(12);
+        shortdescription.setTextSize(18);
+    }
+
+    public void formatDecrement() {
         title.setTextSize(28);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);
-    }
-
-    public void formatIncrement() {
-        title.setTextSize(29);
-        date.setTextSize(11);
-        author.setTextSize(11);
-        shortdescription.setTextSize(17);
-    }
-
-    public void formatDecrement() {
-        title.setTextSize(27);
-        date.setTextSize(9);
-        author.setTextSize(9);
-        shortdescription.setTextSize(15);
     }
 
     @Override

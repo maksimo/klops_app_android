@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
@@ -50,7 +51,7 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         if (!adapterPhotos.get(position).getDescription().equals("")) {
             descr.setText(adapterPhotos.get(position).getDescription());
         }else {
-            descr.setText("Отсутствует описание к данному фото");
+            photo.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250));
         }
         container.addView(itemView);
         return itemView;

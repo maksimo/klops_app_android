@@ -8,5 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/recyclerBackground"/>
-
+    <TextView
+        android:id="@+id/popularError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textColor="@color/darkGreyText"
+        android:text="Не удалось загрузить данные"
+        android:visibility="gone"
+        android:gravity="center" />
 </RelativeLayout>

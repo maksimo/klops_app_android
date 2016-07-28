@@ -12,11 +12,11 @@
     <TextView
         android:id="@+id/photoDescription"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/galleryPagerPhoto"
         android:background="@color/galleryCard"
         android:gravity="center"
         android:maxLines="3"
         android:textColor="@color/greyText"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 </RelativeLayout>

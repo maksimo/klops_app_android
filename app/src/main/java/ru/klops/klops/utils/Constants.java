@@ -18,6 +18,7 @@ public class Constants {
     public static final int POPULAR_MARKER = 11;
     public static final int SEPARATOR = 12;
     public static final int EXCHANGE = 13;
+    public static final int URGENT = 14;
     // articles String types
     public static final String SIMPLE_IMAGE_TEXT = "simpleWithImage";
     public static final String SIMPLE_TEXT = "simple";
@@ -32,7 +33,8 @@ public class Constants {
     public static final String SIMPLE_WIDE_TEXT = "simple_wide";
     public static final String POPULAR_MARKER_TEXT= "popularMarker";
     public static final String SEPARATOR_TEXT = "seporator";
-    public static final String EXCHANGE_TEXT = "exchange";
+    public static final String EXCHANGE_TEXT = "currency";
+    public static final String URGENT_TEXT = "urgent";
     // Intents to Article Activity
     public static final String ARTICLE = "ARTICLE";
     public static final String ITEM = "ITEM";
@@ -44,4 +46,6 @@ public class Constants {
     public static final String UNSUBSCRIBED = "unsubscribed";
     public static final String SUBSCRIPTION = "subscription";
     public static final String HARDCODED_BODY = "<style>body { color: #565656; font-family: \"AkzidenzGroteskPro-Regular\"; font-size:18px; }</style>";
+
+    public static final String NEW_URL = "NEW_BASE";
 }

@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/baseLayout">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/baseLayout"
+    tools:context=".SplashActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -10,9 +12,10 @@
         android:layout_height="400dp"
         android:background="@drawable/big_logo"
         android:layout_alignBottom="@+id/mercedes_logo"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="170dp" />
+        android:layout_marginBottom="170dp"
+        android:layout_alignParentTop="true" />
 
     <ru.klops.klops.custom.TextViewProRegular
         android:id="@+id/support"

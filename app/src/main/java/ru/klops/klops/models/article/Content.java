@@ -9,18 +9,22 @@ public class Content implements Parcelable{
     public String text;
     public List<Photos> photos;
     public List<Gallery> gallery;
+    public Associate associate;
 
 
-    public Content(String text, List<Photos> photos, List<Gallery> gallery) {
+    public Content(String text, List<Photos> photos, List<Gallery> gallery, Associate associate) {
         this.text = text;
         this.photos = photos;
         this.gallery = gallery;
+        this.associate = associate;
     }
+
 
     protected Content(Parcel in) {
         text = in.readString();
         photos = in.createTypedArrayList(Photos.CREATOR);
         gallery = in.createTypedArrayList(Gallery.CREATOR);
+        associate = in.readParcelable(Associate.class.getClassLoader());
     }
 
     public static final Creator<Content> CREATOR = new Creator<Content>() {
@@ -59,12 +63,21 @@ public class Content implements Parcelable{
         this.photos = photos;
     }
 
+    public Associate getAssociate() {
+        return associate;
+    }
+
+    public void setAssociate(Associate associate) {
+        this.associate = associate;
+    }
+
     @Override
     public String toString() {
         return "Content{" +
                 "text='" + text + '\'' +
                 ", photos=" + photos +
                 ", gallery=" + gallery +
+                ", associate=" + associate +
                 '}';
     }
 
@@ -78,5 +91,6 @@ public class Content implements Parcelable{
         dest.writeString(text);
         dest.writeTypedList(photos);
         dest.writeTypedList(gallery);
+        dest.writeParcelable(associate, flags);
     }
 }

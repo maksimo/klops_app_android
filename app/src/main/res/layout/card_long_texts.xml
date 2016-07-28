@@ -14,27 +14,67 @@
         android:background="@color/colorPrimary"
         android:elevation="1dp">
 
+        <RelativeLayout
+            android:id="@+id/longCardAuthors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/longCardSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/longCardAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:layout_toRightOf="@+id/longCardSource"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </RelativeLayout>
         <TextView
             android:id="@+id/longCardDate"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:gravity="left|center"
-            android:layout_toRightOf="@+id/longCardAuthor"
+            android:layout_below="@+id/longCardAuthors"
             android:textAllCaps="true"
             android:textColor="@color/greyText"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/longCardAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingLeft="15dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/darkGreyText"
             android:textSize="10sp"
-            android:paddingRight="5dp"
-            android:gravity="center" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp" />
+
+        <ImageView
+            android:id="@+id/longCardCamera"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/longCardAuthors"
+            android:layout_toRightOf="@+id/longCardDate"
+            android:background="@drawable/camera"
+            android:visibility="gone"/>
+
 
         <ImageView
             android:id="@+id/longCardStatusIcon"
@@ -42,6 +82,7 @@
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="17dp"
+            android:layout_below="@+id/longCardAuthors"
             android:layout_toLeftOf="@+id/longCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
@@ -53,13 +94,14 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:paddingBottom="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
             android:text=""
             android:textAllCaps="true"
+            android:layout_below="@+id/longCardAuthors"
             android:textColor="@color/colorAccent"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:id="@+id/longCardTitle"

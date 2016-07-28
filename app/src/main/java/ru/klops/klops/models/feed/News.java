@@ -18,11 +18,13 @@ public class News implements Parcelable {
     private String og_image;
     private Object timestamp;
     private String author;
+    private String source;
+    private Integer promoted;
 
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author, String source, Integer promoted) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -35,9 +37,12 @@ public class News implements Parcelable {
         this.og_image = og_image;
         this.timestamp = timestamp;
         this.author = author;
+        this.source = source;
+        this.promoted = promoted;
     }
 
-    public News(Parcel in) {
+    protected News(Parcel in) {
+        id = in.readInt();
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();
@@ -48,6 +53,8 @@ public class News implements Parcelable {
         url = in.readString();
         og_image = in.readString();
         author = in.readString();
+        source = in.readString();
+        promoted = in.readInt();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -158,6 +165,43 @@ public class News implements Parcelable {
         this.author = author;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public Integer getPromoted() {
+        return promoted;
+    }
+
+    public void setPromoted(Integer promoted) {
+        this.promoted = promoted;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", title='" + title + '\'' +
+                ", shortdecription='" + shortdecription + '\'' +
+                ", image='" + image + '\'' +
+                ", update_status='" + update_status + '\'' +
+                ", photos=" + photos +
+                ", article_type='" + article_type + '\'' +
+                ", url='" + url + '\'' +
+                ", og_image='" + og_image + '\'' +
+                ", timestamp=" + timestamp +
+                ", author='" + author + '\'' +
+                ", source='" + source + '\'' +
+                ", promoted=" + promoted +
+                '}';
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -165,6 +209,7 @@ public class News implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(date);
         dest.writeString(title);
         dest.writeString(shortdecription);
@@ -175,5 +220,7 @@ public class News implements Parcelable {
         dest.writeString(url);
         dest.writeString(og_image);
         dest.writeString(author);
+        dest.writeString(source);
+        dest.writeInt(promoted);
     }
 }

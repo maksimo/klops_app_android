@@ -13,36 +13,75 @@
         android:background="@color/colorPrimary"
         android:elevation="1dp">
 
-        <TextView
-            android:id="@+id/nationalCardAuthor"
+        <RelativeLayout
+            android:id="@+id/nationalCardAuthors"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingLeft="15dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/darkGreyText"
-            android:textSize="10sp"
-            android:paddingRight="5dp"
-            android:text=""
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/nationalCardSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/nationalCardAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:layout_toRightOf="@+id/nationalCardSource"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/nationalCardDate"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/nationalCardAuthor"
+            android:layout_below="@+id/nationalCardAuthors"
             android:textAllCaps="true"
             android:gravity="center|left"
             android:text=""
             android:textColor="@color/greyText"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp" />
+
+        <ImageView
+            android:id="@+id/nationalCardCamera"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/nationalCardAuthors"
+            android:layout_toRightOf="@+id/nationalCardDate"
+            android:background="@drawable/camera"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/nationalCardStatusIcon"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
+            android:layout_below="@+id/nationalCardAuthors"
             android:layout_marginTop="17dp"
             android:layout_toLeftOf="@+id/nationalCardStatus"
             android:background="@drawable/news_update_circle"
@@ -55,13 +94,14 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:paddingBottom="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
             android:text=""
             android:textAllCaps="true"
+            android:layout_below="@+id/nationalCardAuthors"
             android:textColor="@color/colorAccent"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:id="@+id/nationalCardTitle"

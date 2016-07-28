@@ -5,47 +5,35 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
-public class GalleryTwoArticleFragment extends Fragment {
-    final String LOG = "GalleryTwoArticle";
+public class UrgentArticleFragment extends Fragment{
+    final String LOG = "ImportantWideArticle";
     View fragmentView;
 
-    @BindView(R.id.galleryTwoTitle)
+    @BindView(R.id.urgentTitle)
     TextView title;
-    @BindView(R.id.galleryTwoAuthor)
+    @BindView(R.id.urgentAuthor)
     TextView author;
-    @BindView(R.id.galleryTwoDate)
+    @BindView(R.id.urgentDate)
     TextView date;
-    @BindView(R.id.galleryCameraIconTwo)
-    ImageView photoIcon;
-    @BindView(R.id.galleryTwoDescription)
+    @BindView(R.id.urgentCameraIcon)
+    ImageView cameraIcon;
+    @BindView(R.id.urgentDescription)
     TextView shortdescription;
     Unbinder unbinder;
     Item item;
@@ -63,24 +51,19 @@ public class GalleryTwoArticleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.gallery_two_article_fragment, container, false);
+        fragmentView = inflater.inflate(R.layout.urgent_article_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
-        setUpImages();
         setUpView();
         return fragmentView;
     }
 
-    private void setUpImages() {
-        Log.d(LOG, "setUpImages");
-        if (!item.getUpdate_status().equals("")) {
-        }
-    }
+
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
-        title.setText(String.format("%1$" + 5 + "s", item.getTitle()));
+        title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -88,22 +71,17 @@ public class GalleryTwoArticleFragment extends Fragment {
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-
-    }
-
-    public void formatDefault() {
-
     }
 
     public void formatIncrement() {
-        title.setTextSize(30);
+        title.setTextSize(28);
         date.setTextSize(12);
         author.setTextSize(12);
         shortdescription.setTextSize(18);
-      }
+    }
 
     public void formatDecrement() {
-        title.setTextSize(28);
+        title.setTextSize(26);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);

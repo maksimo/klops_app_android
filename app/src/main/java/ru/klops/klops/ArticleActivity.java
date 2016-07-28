@@ -70,6 +70,7 @@ import ru.klops.klops.fragments.NationalArticleFragment;
 import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
+import ru.klops.klops.fragments.UrgentArticleFragment;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
@@ -98,22 +99,12 @@ public class ArticleActivity extends AppCompatActivity {
     String articleType;
     AlertDialog.Builder shareBuilder;
     AlertDialog shareDialog;
-    AlertDialog.Builder formatBuilder;
-    AlertDialog formatDialog;
     View shareLayout;
     TextView shareTitle;
     TextView facebookTitle;
     TextView vkontakteTitle;
     RelativeLayout facebook;
     RelativeLayout vkontakte;
-    View formatLayout;
-    TextView formatTitle;
-    TextView incrementTitle;
-    TextView middleTitle;
-    TextView decrementTitle;
-    RelativeLayout increment;
-    RelativeLayout middle;
-    RelativeLayout decrement;
     Item item;
     @BindView(R.id.textMatch)
     TextView matchArticles;
@@ -166,6 +157,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView firstImage;
     @BindView(R.id.firstDescription)
     TextView firstDescription;
+    @BindView(R.id.firstTitle)
+    TextView firstTitle;
+    @BindView(R.id.firstUrl)
+    TextView firstUrl;
     @BindView(R.id.secondContent)
     RelativeLayout secondContent;
     @BindView(R.id.secondWeb)
@@ -174,6 +169,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView secondImage;
     @BindView(R.id.secondDescription)
     TextView secondDescription;
+    @BindView(R.id.secondTitle)
+    TextView secondTitle;
+    @BindView(R.id.secondUrl)
+    TextView secondUrl;
     @BindView(R.id.thirdContent)
     RelativeLayout thirdContent;
     @BindView(R.id.thirdWeb)
@@ -182,6 +181,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView thirdImage;
     @BindView(R.id.thirdDescription)
     TextView thirdDescription;
+    @BindView(R.id.thirdTitle)
+    TextView thirdTitle;
+    @BindView(R.id.thirdUrl)
+    TextView thirdUrl;
     @BindView(R.id.fourthContent)
     RelativeLayout fourthContent;
     @BindView(R.id.fourthWeb)
@@ -190,6 +193,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView fourthImage;
     @BindView(R.id.fourthDescription)
     TextView fourthDescription;
+    @BindView(R.id.fourthTitle)
+    TextView fourthTitle;
+    @BindView(R.id.fourthUrl)
+    TextView fourthUrl;
     @BindView(R.id.fifthContent)
     RelativeLayout fifthContent;
     @BindView(R.id.fifthWeb)
@@ -198,6 +205,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView fifthImage;
     @BindView(R.id.fifthDescription)
     TextView fifthDescription;
+    @BindView(R.id.fifthTitle)
+    TextView fifthTitle;
+    @BindView(R.id.fifthUrl)
+    TextView fifthUrl;
     @BindView(R.id.sixContent)
     RelativeLayout sixContent;
     @BindView(R.id.sixWeb)
@@ -206,6 +217,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView sixImage;
     @BindView(R.id.sixDescription)
     TextView sixDescription;
+    @BindView(R.id.sixTitle)
+    TextView sixTitle;
+    @BindView(R.id.sixUrl)
+    TextView sixUrl;
     @BindView(R.id.sevenContent)
     RelativeLayout sevenContent;
     @BindView(R.id.sevenWeb)
@@ -214,6 +229,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView sevenImage;
     @BindView(R.id.sevenDescription)
     TextView sevenDescription;
+    @BindView(R.id.sevenTitle)
+    TextView sevenTitle;
+    @BindView(R.id.sevenUrl)
+    TextView sevenUrl;
     @BindView(R.id.eightContent)
     RelativeLayout eightContent;
     @BindView(R.id.eightWeb)
@@ -222,6 +241,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView eightImage;
     @BindView(R.id.eightDescription)
     TextView eightDescription;
+    @BindView(R.id.eightTitle)
+    TextView eightTitle;
+    @BindView(R.id.eightUrl)
+    TextView eightUrl;
     @BindView(R.id.nineContent)
     RelativeLayout nineContent;
     @BindView(R.id.nineWeb)
@@ -230,6 +253,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView nineImage;
     @BindView(R.id.nineDescription)
     TextView nineDescription;
+    @BindView(R.id.nineTitle)
+    TextView nineTitle;
+    @BindView(R.id.nineUrl)
+    TextView nineUrl;
     @BindView(R.id.tenContent)
     RelativeLayout tenContent;
     @BindView(R.id.tenWeb)
@@ -238,6 +265,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView tenImage;
     @BindView(R.id.tenDescription)
     TextView tenDescription;
+    @BindView(R.id.tenTitle)
+    TextView tenTitle;
+    @BindView(R.id.tenUrl)
+    TextView tenUrl;
     @BindView(R.id.elevenContent)
     RelativeLayout elevenContent;
     @BindView(R.id.elevenWeb)
@@ -246,6 +277,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView elevenImage;
     @BindView(R.id.elevenDescription)
     TextView elevenDescription;
+    @BindView(R.id.elevenTitle)
+    TextView elevenTitle;
+    @BindView(R.id.elevenUrl)
+    TextView elevenUrl;
     @BindView(R.id.twelveContent)
     RelativeLayout twelveContent;
     @BindView(R.id.twelveWeb)
@@ -254,6 +289,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView twelveImage;
     @BindView(R.id.twelveDescription)
     TextView twelveDescription;
+    @BindView(R.id.twelveTitle)
+    TextView twelveTitle;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
 
     @BindView(R.id.oneProgress)
     ProgressBar barOne;
@@ -287,7 +326,6 @@ public class ArticleActivity extends AppCompatActivity {
     ShareDialog shareFacebookDialog;
     VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
-    ArrayList<Content> copy;
     Animation alpha;
     Bitmap bmp;
     String text;
@@ -295,6 +333,7 @@ public class ArticleActivity extends AppCompatActivity {
     ArrayList<Gallery> galleries;
     int count = 0;
     int countPager = 0;
+    int formatCount = 0;
     private Target loadTarget;
     Unbinder unbinder;
 
@@ -302,10 +341,12 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.article_layers_activity);
         Log.d(LOG, "onCreate");
         shareLayout = LayoutInflater.from(this).inflate(R.layout.share_dialog, null);
-        formatLayout = LayoutInflater.from(this).inflate(R.layout.format_dialog, null);
         unbinder = ButterKnife.bind(this);
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
@@ -445,23 +486,6 @@ public class ArticleActivity extends AppCompatActivity {
         galleries = new ArrayList<>();
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
-        copy = new ArrayList<>();
-        for (int i = 0; i < contents.size(); i++) {
-            if (contents.get(i).getText() == null || contents.get(i).getText().length() == 0) {
-                String copyString = "";
-                copy.add(new Content(copyString, contents.get(i).getPhotos(), contents.get(i).getGallery()));
-
-            } else if (contents.get(i).getPhotos() == null || contents.get(i).getPhotos().size() == 0) {
-                ArrayList<Photos> copyList = new ArrayList<>();
-                copyList.add(new Photos("", ""));
-                copy.add(new Content(contents.get(i).getText(), copyList, contents.get(i).getGallery()));
-            } else if (contents.get(i).getGallery() == null || contents.get(i).getGallery().size() == 0) {
-                ArrayList<Gallery> copyGallery = new ArrayList<>();
-                copyGallery.add(new Gallery("", ""));
-                copy.add(new Content(contents.get(i).getText(), contents.get(i).getPhotos(), copyGallery));
-            }
-
-        }
 
         for (int n = 0; n < contents.size(); n++) {
             if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
@@ -590,6 +614,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(11).getPhotos() != null) {
                 twelveContent.setVisibility(View.VISIBLE);
                 twelveImage.setVisibility(View.VISIBLE);
+                barTwelve.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(11).getPhotos().get(0).getImg_url()).into(twelveImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -598,7 +623,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                     @Override
                     public void onError() {
-                        barTwelve.setVisibility(View.GONE);
+                        barTwelve.setVisibility(View.VISIBLE);
                     }
                 });
                 if (!contents.get(11).getPhotos().get(0).getDescription().equals("")) {
@@ -624,6 +649,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(10).getPhotos() != null) {
                 elevenContent.setVisibility(View.VISIBLE);
                 elevenImage.setVisibility(View.VISIBLE);
+                barEleven.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(10).getPhotos().get(0).getImg_url()).into(elevenImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -658,6 +684,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(9).getPhotos() != null) {
                 tenContent.setVisibility(View.VISIBLE);
                 tenImage.setVisibility(View.VISIBLE);
+                barTen.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(9).getPhotos().get(0).getImg_url()).into(tenImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -692,6 +719,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(8).getPhotos() != null) {
                 nineContent.setVisibility(View.VISIBLE);
                 nineImage.setVisibility(View.VISIBLE);
+                barNine.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(8).getPhotos().get(0).getImg_url()).into(nineImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -726,6 +754,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(7).getPhotos() != null) {
                 eightContent.setVisibility(View.VISIBLE);
                 eightImage.setVisibility(View.VISIBLE);
+                barEight.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(7).getPhotos().get(0).getImg_url()).into(eightImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -760,6 +789,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(6).getPhotos() != null) {
                 sevenContent.setVisibility(View.VISIBLE);
                 sevenImage.setVisibility(View.VISIBLE);
+                barSeven.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(6).getPhotos().get(0).getImg_url()).into(sevenImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -795,6 +825,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(5).getPhotos() != null) {
                 sixContent.setVisibility(View.VISIBLE);
                 sixImage.setVisibility(View.VISIBLE);
+                barSix.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(5).getPhotos().get(0).getImg_url()).into(sixImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -830,6 +861,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(4).getPhotos() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
                 fifthImage.setVisibility(View.VISIBLE);
+                barFive.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(4).getPhotos().get(0).getImg_url()).into(fifthImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -868,6 +900,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(3).getPhotos() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
                 fourthImage.setVisibility(View.VISIBLE);
+                barFour.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(3).getPhotos().get(0).getImg_url()).into(fourthImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -903,6 +936,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(2).getPhotos() != null) {
                 thirdContent.setVisibility(View.VISIBLE);
                 thirdImage.setVisibility(View.VISIBLE);
+                barThree.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(2).getPhotos().get(0).getImg_url()).into(thirdImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -937,6 +971,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(1).getPhotos() != null) {
                 secondContent.setVisibility(View.VISIBLE);
                 secondImage.setVisibility(View.VISIBLE);
+                barTwo.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(1).getPhotos().get(0).getImg_url()).into(secondImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -972,6 +1007,7 @@ public class ArticleActivity extends AppCompatActivity {
             } else if (contents.get(0).getPhotos() != null) {
                 firstContent.setVisibility(View.VISIBLE);
                 firstImage.setVisibility(View.VISIBLE);
+                barOne.setVisibility(View.VISIBLE);
                 Picasso.with(this).load(contents.get(0).getPhotos().get(0).getImg_url()).into(firstImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -1050,7 +1086,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void initSocials() {
-        if (!item.getImage().equals("")) {
+        if (!item.getOg_image().equals("")) {
             loadBitmap(item.getImage());
         }
         text = item.getTitle() + "\n" + "\n" + item.getShortdecription();
@@ -1061,8 +1097,6 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void setUpShare() {
         Log.d(LOG, "setUpShare");
-        String url = item.getUrl();
-        final String newsOnWeb = url.replace("https://klops.ruhttps://klops.ru", "https://klops.ru");
         shareBuilder = new AlertDialog.Builder(this);
         shareBuilder.setView(shareLayout);
         shareBuilder.setCancelable(true);
@@ -1082,9 +1116,9 @@ public class ArticleActivity extends AppCompatActivity {
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle(item.getTitle())
-                            .setImageUrl(Uri.parse(item.getImage()))
+                            .setImageUrl(Uri.parse(item.getOg_image()))
                             .setContentDescription(item.getShortdecription())
-                            .setContentUrl(Uri.parse(newsOnWeb))
+                            .setContentUrl(Uri.parse(item.getUrl()))
                             .build();
                     shareFacebookDialog.show(linkContent, ShareDialog.Mode.NATIVE);
                 }
@@ -1104,7 +1138,7 @@ public class ArticleActivity extends AppCompatActivity {
                         .setUploadedPhotos(photos)
                         .setAttachmentImages(new VKUploadImage[]{
                                 new VKUploadImage(bmp, VKImageParameters.pngImage())
-                        }).setAttachmentLink("Отправлено с помощью приложения Klops.ru", newsOnWeb)
+                        }).setAttachmentLink("Отправлено с помощью приложения Klops.ru", item.getUrl())
                         .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                             @Override
                             public void onVkShareComplete(int postId) {
@@ -1173,27 +1207,22 @@ public class ArticleActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @OnClick(R.id.buttonFormat)
+    public void openFormatDialog() {
+        format.startAnimation(alpha);
+    }
+
+
     private void setUpFormat() {
         Log.d(LOG, "setUpFormat");
-        formatBuilder = new AlertDialog.Builder(this);
-        formatBuilder.setView(formatLayout);
-        formatBuilder.setCancelable(true);
-        formatDialog = formatBuilder.create();
-        increment = (RelativeLayout) formatLayout.findViewById(R.id.increment);
-        formatTitle = (TextView) formatLayout.findViewById(R.id.formatTitle);
-        formatTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        incrementTitle = (TextView) formatLayout.findViewById(R.id.incrementTitle);
-        incrementTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        middleTitle = (TextView) formatLayout.findViewById(R.id.middleTitle);
-        middleTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        decrementTitle = (TextView) formatLayout.findViewById(R.id.decrementTitle);
-        decrementTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        increment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increment.startAnimation(alpha);
-                FragmentManager fm = getSupportFragmentManager();
-                List<Fragment> fragments = fm.getFragments();
+        format.startAnimation(alpha);
+        FragmentManager fm = getSupportFragmentManager();
+        List<Fragment> fragments = fm.getFragments();
+        switch (formatCount) {
+            case 0:
+                formatCount++;
+
                 for (Fragment fragment : fragments) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatIncrement();
@@ -1215,65 +1244,17 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryTwoArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
+                    } else if (fragment instanceof UrgentArticleFragment){
+                        ((UrgentArticleFragment)fragment).formatIncrement();
                     }
-                    for (WebView web : contentViews) {
-                        web.getSettings().setDefaultFontSize(17);
-                    }
+
                     for (TextView text : contentDescriptions) {
-                        text.setTextSize(17);
+                        text.setTextSize(18);
                     }
-                    matchArticles.setTextSize(27);
-                    formatDialog.dismiss();
+                    matchArticles.setTextSize(28);
                 }
-            }
-        });
-        middle = (RelativeLayout) formatLayout.findViewById(R.id.middle);
-        middle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                middle.startAnimation(alpha);
-                FragmentManager fm = getSupportFragmentManager();
-                List<Fragment> fragments = fm.getFragments();
-                for (Fragment fragment : fragments) {
-                    if (fragment instanceof SimpleTextArticleFragment) {
-                        ((SimpleTextArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof SimpleWithImageArticleFragment) {
-                        ((SimpleWithImageArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof LongArticleFragment) {
-                        ((LongArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof InterviewArticleFragment) {
-                        ((InterviewArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof AuthorArticleFragment) {
-                        ((AuthorArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof NationalArticleFragment) {
-                        ((NationalArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof ImportantArticleFragment) {
-                        ((ImportantArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof GalleryOneArticleFragment) {
-                        ((GalleryOneArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof GalleryTwoArticleFragment) {
-                        ((GalleryTwoArticleFragment) fragment).formatDefault();
-                    } else if (fragment instanceof SimpleWideArticleFragment) {
-                        ((SimpleWideArticleFragment) fragment).formatDefault();
-                    }
-                    for (WebView web : contentViews) {
-                        web.getSettings().setDefaultFontSize(16);
-                    }
-                    for (TextView text : contentDescriptions) {
-                        text.setTextSize(16);
-                    }
-                    matchArticles.setTextSize(26);
-                    formatDialog.dismiss();
-                }
-            }
-        });
-        decrement = (RelativeLayout) formatLayout.findViewById(R.id.decrement);
-        decrement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrement.startAnimation(alpha);
-                FragmentManager fm = getSupportFragmentManager();
-                List<Fragment> fragments = fm.getFragments();
+            case 1:
+                formatCount = 0;
                 for (Fragment fragment : fragments) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatDecrement();
@@ -1295,19 +1276,16 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryTwoArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
+                    } else if (fragment instanceof UrgentArticleFragment){
+                        ((UrgentArticleFragment)fragment).formatDecrement();
                     }
 
-                    for (WebView web : contentViews) {
-                        web.getSettings().setDefaultFontSize(15);
-                    }
                     for (TextView text : contentDescriptions) {
-                        text.setTextSize(15);
+                        text.setTextSize(16);
                     }
-                    matchArticles.setTextSize(25);
-                    formatDialog.dismiss();
+                    matchArticles.setTextSize(26);
                 }
-            }
-        });
+        }
 
     }
 
@@ -1375,6 +1353,11 @@ public class ArticleActivity extends AppCompatActivity {
                 simpleWideArticle.setArguments(bundle);
                 placeArticleFragment(simpleWideArticle);
                 break;
+            case Constants.URGENT_TEXT:
+                UrgentArticleFragment urgentArticleFragment = new UrgentArticleFragment();
+                bundle.putParcelable(Constants.ARTICLE, item);
+                urgentArticleFragment.setArguments(bundle);
+                placeArticleFragment(urgentArticleFragment);
         }
     }
 
@@ -1382,12 +1365,6 @@ public class ArticleActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.articleContainer, fragment)
                 .commit();
-    }
-
-    @OnClick(R.id.buttonFormat)
-    public void openFormatDialog() {
-        format.startAnimation(alpha);
-        formatDialog.show();
     }
 
     @OnClick(R.id.backButton)

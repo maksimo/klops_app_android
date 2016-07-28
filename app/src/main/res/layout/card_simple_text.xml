@@ -14,22 +14,73 @@
         android:background="@color/colorPrimary"
         android:elevation="1dp">
 
+        <RelativeLayout
+            android:id="@+id/simpleCardAuthors"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/simpleCardSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/simpleCardAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:layout_toRightOf="@+id/simpleCardSource"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </RelativeLayout>
         <TextView
             android:id="@+id/simpleCardDate"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:gravity="left|center"
+            android:layout_below="@+id/simpleCardAuthors"
             android:textAllCaps="true"
             android:layout_marginLeft="15dp"
             android:textColor="@color/greyText"
             android:textSize="10sp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp" />
+
+        <ImageView
+            android:id="@+id/simpleCardCamera"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/simpleCardAuthors"
+            android:layout_toRightOf="@+id/simpleCardDate"
+            android:background="@drawable/camera"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/simpleCardStatusIcon"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
+            android:layout_below="@+id/simpleCardAuthors"
             android:layout_marginTop="17dp"
             android:layout_toLeftOf="@+id/simpleCardStatus"
             android:background="@drawable/news_update_circle"
@@ -42,13 +93,14 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:paddingBottom="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
             android:text=""
+            android:layout_below="@+id/simpleCardAuthors"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:id="@+id/simpleCardText"

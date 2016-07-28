@@ -41,7 +41,6 @@
                 android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
-                android:minLines="1"
                 android:layout_alignParentLeft="true"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp" />

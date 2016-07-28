@@ -64,5 +64,8 @@ public interface PageApi {
     @POST("unsubscribe_token")
     Observable<ResponseBody> unSubscribeNotification(@Query("device_token") String deviceToken, @Query("platform") String platform);
 
+    @Headers("Content-Type: application/json")
+    @POST("give_me_push")
+    Observable<ResponseBody> giveMeTestPush(@Query("token") String token);
 }
 

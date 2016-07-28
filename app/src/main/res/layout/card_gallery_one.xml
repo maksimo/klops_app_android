@@ -12,31 +12,80 @@
         android:textColor="@color/colorPrimary"
         android:elevation="1dp">
 
-        <View
+        <RelativeLayout
             android:id="@+id/splitter"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:background="@color/galleryCard">
 
-        </View>
+        <RelativeLayout
+            android:id="@+id/galleryCardAuthors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/galleryCardSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/galleryCardAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text=""
+                android:textAllCaps="true"
+                android:layout_toRightOf="@+id/galleryCardSource"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/galleryCardOneDate"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="7dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center"
-            android:paddingLeft="15dp"
+            android:layout_below="@+id/galleryCardAuthors"
             android:textAllCaps="true"
             android:text=""
             android:textColor="@color/greyText"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp" />
+
+        <ImageView
+            android:id="@+id/galleryCardCamera"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_below="@+id/galleryCardAuthors"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/galleryCardOneDate"
+            android:background="@drawable/camera"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/galleryCardStatusIcon"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
+            android:layout_below="@+id/galleryCardAuthors"
             android:layout_marginTop="17dp"
             android:layout_toLeftOf="@+id/galleryCardStatus"
             android:background="@drawable/news_update_circle"
@@ -49,13 +98,13 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:paddingBottom="15dp"
-            android:paddingRight="30dp"
-            android:paddingTop="15dp"
-            android:text=""
             android:textAllCaps="true"
+            android:layout_below="@+id/galleryCardAuthors"
             android:textColor="@color/colorAccent"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp" />
 
         <ImageView
             android:id="@+id/galleryCardOneCam"
@@ -78,7 +127,9 @@
             android:text=""
             android:textColor="@color/colorPrimary"
             android:textSize="26sp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:lines="3" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

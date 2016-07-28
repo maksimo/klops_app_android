@@ -38,6 +38,7 @@ public class NewDataNewsFragment extends Fragment {
     ArrayList<News> models;
     ArrayList<News> copy;
     ArrayList<Integer> typesAdapter;
+    Currency currency;
 
     @Override
     public void onAttach(Context context) {
@@ -63,13 +64,15 @@ public class NewDataNewsFragment extends Fragment {
         models.addAll(loadedFirstPage.getNews());
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setRemoveDuration(1500);
+        currency = new Currency();
+        currency.setEur(loadedFirstPage.getCurrency().getEur());
+        currency.setUsd(loadedFirstPage.getCurrency().getUsd());
+        currency.setPln(loadedFirstPage.getCurrency().getPln());
         copy = new ArrayList<>();
         copy.addAll(models);
-        copy.add(25, new News(0, loadedFirstPage.getCurrency().getUsd(), loadedFirstPage.getCurrency().getEur(),
-                loadedFirstPage.getCurrency().getPln(), "", "", new ArrayList<String>(), Constants.EXCHANGE_TEXT, "", "", "", ""));
         typesAdapter = new ArrayList<>();
         typesAdapter.addAll(addData(copy));
-        adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter);
+        adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter, currency);
         ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
         newDataRecycler.addItemDecoration(decoration);
         newDataRecycler.setItemAnimator(itemAnimator);
@@ -105,6 +108,8 @@ public class NewDataNewsFragment extends Fragment {
                     case Constants.SEPARATOR:
                         return 2;
                     case Constants.EXCHANGE:
+                        return 2;
+                    case Constants.URGENT:
                         return 2;
                     default:
                         return 0;
@@ -161,6 +166,9 @@ public class NewDataNewsFragment extends Fragment {
                     break;
                 case Constants.EXCHANGE_TEXT:
                     types.add(Constants.EXCHANGE);
+                    break;
+                case Constants.URGENT_TEXT:
+                    types.add(Constants.URGENT);
                     break;
             }
         }

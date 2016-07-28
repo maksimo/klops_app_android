@@ -93,7 +93,8 @@
                 <ru.klops.klops.custom.CircleImageView
                     android:id="@+id/authorsPhoto"
                     android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_height="80dp"
+                    android:scaleType="fitCenter"/>
 
                 <ProgressBar
                     android:id="@+id/authorsProgress"

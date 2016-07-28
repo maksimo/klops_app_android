@@ -1,17 +1,25 @@
 package ru.klops.klops;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +68,15 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView advertise;
     @BindView(R.id.advertisePhone)
     TextView advertisePhone;
+    @BindView(R.id.joinTestBaseUrl)
+    EditText joinTestBaseUrl;
+    @BindView(R.id.changeURLOk)
+    Button changeURLOk;
+    @BindView(R.id.logo)
+    ImageView logo;
+    @BindView(R.id.toolbarSettings)
+    Toolbar toolbarSettings;
+    int clickChecker =0;
     Animation alpha;
     Unbinder unbinder;
     String tokenDevice;
@@ -76,6 +93,9 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.settings_activity);
         unbinder = ButterKnife.bind(this);
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
@@ -91,6 +111,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
 
     private void initFonts() {
+        setSupportActionBar(toolbarSettings);
         confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         notifications.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         quickly.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
@@ -99,6 +120,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         email.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         join.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         joinPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+        joinTestBaseUrl.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         social.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         socialPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         advertise.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
@@ -122,6 +144,87 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirm.startAnimation(alpha);
         onBackPressed();
     }
+
+//    @OnClick(R.id.join)
+//    public void checkBaseUrl(){
+//        switch(clickChecker){
+//            case 0:
+//                clickChecker++;
+//                join.startAnimation(alpha);
+//                Toast.makeText(this, "1й клик", Toast.LENGTH_SHORT).show();
+//                break;
+//            case 1:
+//                clickChecker++;
+//                join.startAnimation(alpha);
+//                Toast.makeText(this, "2й клик", Toast.LENGTH_SHORT).show();
+//                break;
+//            case 2:
+//                clickChecker++;
+//                join.startAnimation(alpha);
+//                Toast.makeText(this, "3й клик", Toast.LENGTH_SHORT).show();
+//                break;
+//            case 3:
+//                clickChecker++;
+//                join.startAnimation(alpha);
+//                Toast.makeText(this, "4й клик", Toast.LENGTH_SHORT).show();
+//                break;
+//            case 4:
+//                clickChecker= 0;
+//                join.startAnimation(alpha);
+//                Toast.makeText(this, "5й клик", Toast.LENGTH_SHORT).show();
+//                joinPhone.setVisibility(View.GONE);
+//                joinTestBaseUrl.setVisibility(View.VISIBLE);
+//                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                joinTestBaseUrl.requestFocus();
+//                inputMethodManager.showSoftInput(joinTestBaseUrl, 0);
+//                changeURLOk.setVisibility(View.VISIBLE);
+//                break;
+//        }
+//
+//    }
+
+//    @OnClick(R.id.changeURLOk)
+//    public void submitNewUrl(){
+//        joinTestBaseUrl.setFocusable(false);
+//        changeURLOk.setVisibility(View.GONE);
+//        joinTestBaseUrl.setVisibility(View.GONE);
+//        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(joinTestBaseUrl.getWindowToken(), 0);
+//        saveNewUrl(joinTestBaseUrl.getText().toString());
+//        Toast.makeText(this, joinTestBaseUrl.getText().toString(), Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void saveNewUrl(String url) {
+//        SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+//        editor.putString(Constants.NEW_URL, url);
+//        editor.commit();
+//    }
+
+//    @OnClick(R.id.logo)
+//    public void testPush(){
+//        logo.startAnimation(alpha);
+//        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+//        Observable<ResponseBody> call = api.giveMeTestPush(app.getToken());
+//        call.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<ResponseBody>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Log.d(LOG, "response code: 200");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.d(LOG, "response code: 403");
+//                    }
+//
+//                    @Override
+//                    public void onNext(ResponseBody responseBody) {
+//                        Log.d(LOG, "response code: 200");
+//                    }
+//                });
+//    }
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

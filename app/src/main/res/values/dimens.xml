@@ -6,4 +6,5 @@
     <dimen name="popular">25dp</dimen>
     <dimen name="vertical">5dp</dimen>
     <dimen name="tab">120dp</dimen>
+    <dimen name="search">75dp</dimen>
 </resources>

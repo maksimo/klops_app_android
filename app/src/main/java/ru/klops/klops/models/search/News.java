@@ -15,11 +15,13 @@ public class News implements Parcelable{
     public String url;
     public Integer timestamp;
     public String author;
+    public String source;
 
     public News() {
     }
 
     protected News(Parcel in) {
+        id = in.readInt();
         date = in.readString();
         title = in.readString();
         shortdecription = in.readString();
@@ -27,6 +29,7 @@ public class News implements Parcelable{
         article_type = in.readString();
         url = in.readString();
         author = in.readString();
+        source = in.readString();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -113,6 +116,14 @@ public class News implements Parcelable{
         this.author = author;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     @Override
     public String toString() {
         return "News{" +
@@ -125,6 +136,7 @@ public class News implements Parcelable{
                 ", url='" + url + '\'' +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
+                ", source='" + source + '\'' +
                 '}';
     }
 
@@ -135,6 +147,7 @@ public class News implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(date);
         dest.writeString(title);
         dest.writeString(shortdecription);
@@ -142,5 +155,6 @@ public class News implements Parcelable{
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(author);
+        dest.writeString(source);
     }
 }

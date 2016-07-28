@@ -65,8 +65,6 @@
                 android:layout_marginBottom="15dp"
                 android:nestedScrollingEnabled="false"
                 android:layout_alignParentLeft="false"
-                android:lines="1"
-                android:maxLines="1"
                 android:layout_marginRight="5dp" />
 
             <TextView

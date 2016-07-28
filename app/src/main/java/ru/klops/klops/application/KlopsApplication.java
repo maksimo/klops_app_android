@@ -1,6 +1,7 @@
 package ru.klops.klops.application;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
+import ru.klops.klops.utils.Constants;
 
 public class KlopsApplication extends Application {
     private static final String LOG_TAG = "KlopsAppliction: ";
@@ -47,7 +49,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         VKSdk.initialize(getApplicationContext());
@@ -56,6 +58,11 @@ public class KlopsApplication extends Application {
 
     }
 
+    public String loadBaseURL() {
+        SharedPreferences sharedPreferences =  getINSTANCE().getSharedPreferences(Constants.PATH, getINSTANCE().MODE_PRIVATE);
+        String subscription = sharedPreferences.getString(Constants.NEW_URL, Constants.BASE_API_URL);
+        return subscription;
+    }
     public Page getFirstPage() {
         return firstPage;
     }

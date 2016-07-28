@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,8 @@ public class BaseFragment extends Fragment {
     ImageView btnSettings;
     @BindView(R.id.search_action)
     ImageView btnSearch;
+    @BindView(R.id.baseToolbar)
+    Toolbar baseToolbar;
     SlideAdapter adapter;
     Animation alpha;
     Animation fadeIn;
@@ -57,6 +60,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.base_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
+        ((HomeActivity)getActivity()).setSupportActionBar(baseToolbar);
         Log.d(LOG, "onCreateView");
         setUpAnim();
         setUpTab();

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,8 @@ public class PopularDataNewsFragment extends Fragment {
     View fragmentView;
     @BindView(R.id.recyclerPopular)
     RecyclerView newPopularRecycler;
+    @BindView(R.id.popularError)
+    TextView popularError;
     KlopsApplication mApp;
     RVPopularDataAdapter adapter;
     ArrayList<News> models;
@@ -55,55 +58,61 @@ public class PopularDataNewsFragment extends Fragment {
     private void initRecyclerView() {
         Log.d(LOG, "initRecyclerView");
         models = new ArrayList<>();
-        models.addAll(mApp.getPopularPage().getNews());
-        copy = new ArrayList<>(models);
-        dataTypes = new ArrayList<>();
-        dataTypes.addAll(addData(copy));
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
-        newPopularRecycler.addItemDecoration(decoration);
-        adapter = new RVPopularDataAdapter(PopularDataNewsFragment.this, copy, dataTypes);
-        GridLayoutManager popularManager = new GridLayoutManager(getContext(), 2);
-        popularManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (adapter.getItemViewType(position)) {
-                    case Constants.SIMPLE_WITH_IMG:
-                        return 1;
-                    case Constants.SIMPLE_TEXT_NEWS:
-                        return 1;
-                    case Constants.LONG:
-                        return 2;
-                    case Constants.INTERVIEW:
-                        return 2;
-                    case Constants.AUTHORS:
-                        return 2;
-                    case Constants.NATIONAL:
-                        return 2;
-                    case Constants.IMPORTANT:
-                        return 2;
-                    case Constants.GALLERY_ONE:
-                        return 2;
-                    case Constants.GALLERY_TWO:
-                        return 2;
-                    case Constants.ADVERTISE:
-                        return 2;
-                    case Constants.SIMPLE_WIDE:
-                        return 2;
-                    case Constants.POPULAR_MARKER:
-                        return 2;
-                    case Constants.SEPARATOR:
-                        return 2;
-                    case Constants.EXCHANGE:
-                        return 2;
-                    default:
-                        return 0;
+        if (mApp.getPopularPage() != null) {
+            models.addAll(mApp.getPopularPage().getNews());
+            copy = new ArrayList<>(models);
+            dataTypes = new ArrayList<>();
+            dataTypes.addAll(addData(copy));
+            ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
+            newPopularRecycler.addItemDecoration(decoration);
+            adapter = new RVPopularDataAdapter(PopularDataNewsFragment.this, copy, dataTypes);
+            GridLayoutManager popularManager = new GridLayoutManager(getContext(), 2);
+            popularManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    switch (adapter.getItemViewType(position)) {
+                        case Constants.SIMPLE_WITH_IMG:
+                            return 1;
+                        case Constants.SIMPLE_TEXT_NEWS:
+                            return 1;
+                        case Constants.LONG:
+                            return 2;
+                        case Constants.INTERVIEW:
+                            return 2;
+                        case Constants.AUTHORS:
+                            return 2;
+                        case Constants.NATIONAL:
+                            return 2;
+                        case Constants.IMPORTANT:
+                            return 2;
+                        case Constants.GALLERY_ONE:
+                            return 2;
+                        case Constants.GALLERY_TWO:
+                            return 2;
+                        case Constants.ADVERTISE:
+                            return 2;
+                        case Constants.SIMPLE_WIDE:
+                            return 2;
+                        case Constants.POPULAR_MARKER:
+                            return 2;
+                        case Constants.SEPARATOR:
+                            return 2;
+                        case Constants.EXCHANGE:
+                            return 2;
+                        case Constants.URGENT:
+                            return 2;
+                        default:
+                            return 0;
+                    }
                 }
-            }
-        });
-        newPopularRecycler.setLayoutManager(popularManager);
-        newPopularRecycler.setAdapter(adapter);
+            });
+            newPopularRecycler.setLayoutManager(popularManager);
+            newPopularRecycler.setAdapter(adapter);
+        }else {
+            newPopularRecycler.setVisibility(View.GONE);
+            popularError.setVisibility(View.VISIBLE);
+        }
     }
-
     private ArrayList<Integer> addData(ArrayList<News> copy) {
         ArrayList<Integer> types = new ArrayList<>();
         for (int i = 0; i < copy.size(); i++) {
@@ -150,6 +159,9 @@ public class PopularDataNewsFragment extends Fragment {
                     break;
                 case Constants.EXCHANGE_TEXT:
                     types.add(Constants.EXCHANGE);
+                    break;
+                case Constants.URGENT_TEXT:
+                    types.add(Constants.URGENT);
                     break;
             }
         }

@@ -1,14 +1,11 @@
 package ru.klops.klops.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,10 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
@@ -76,13 +71,6 @@ public class SearchFragment extends Fragment {
     KlopsApplication mApp;
     List<News> news;
     String requestedWord;
-    AlertDialog.Builder confirmBuilder;
-    AlertDialog confirmDialog;
-    View confirmLayout;
-    Button positiveBtn;
-    TextView confirmTitle;
-    TextView confirmText;
-    ProgressBar confirmProgress;
 
     @Override
     public void onAttach(Context context) {
@@ -95,11 +83,9 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.search_fragment, container, false);
-        confirmLayout = inflater.inflate(R.layout.confirm_dialog,container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         alpha = AnimationUtils.loadAnimation(getContext(), R.anim.alpha);
         initFonts();
-        initProgressDialog();
         Log.d(LOG, "onCreateView");
         return fragmentView;
     }
@@ -110,40 +96,32 @@ public class SearchFragment extends Fragment {
         searchField.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
     }
 
-    private void initProgressDialog() {
-        confirmBuilder = new AlertDialog.Builder(getContext());
-        confirmBuilder.setView(confirmLayout);
-        confirmBuilder.setCancelable(false);
-        confirmDialog = confirmBuilder.create();
-        positiveBtn = (Button) confirmLayout.findViewById(R.id.confirmPositiveBtn);
-        confirmTitle = (TextView) confirmLayout.findViewById(R.id.confirmTitle);
-        confirmText = (TextView) confirmLayout.findViewById(R.id.confirmText);
-        confirmProgress = (ProgressBar) confirmLayout.findViewById(R.id.confirmProgress);
-        confirmTitle.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        confirmText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        positiveBtn.setVisibility(View.GONE);
-        confirmProgress.setIndeterminate(true);
-        confirmTitle.setText("Поиск статей");
-        confirmProgress.setVisibility(View.VISIBLE);
-    }
-
-
     @OnFocusChange(R.id.search_title)
     public void hideHints() {
         searchField.setHintTextColor(Color.TRANSPARENT);
-        searchOne.setVisibility(View.GONE);
-        searchTwo.setVisibility(View.GONE);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
+
+    @OnTextChanged(R.id.search_title)
+    public void inputSearchListener(){
+        if (searchField.getText().toString().length() > 2){
+            searchOne.setVisibility(View.GONE);
+            searchTwo.setVisibility(View.GONE);
+            startSearch(searchField.getText().toString());
+        }else if (searchField.getText().toString().length() == 0){
+            searchOne.setVisibility(View.VISIBLE);
+            searchTwo.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.search)
     public void search() {
         btnSearch.startAnimation(alpha);
-        searchOne.setVisibility(View.GONE);
-        searchTwo.setVisibility(View.GONE);
         requestedWord = searchField.getText().toString();
         if (requestedWord.equals("") || requestedWord.isEmpty()) {
             searchField.setError(getResources().getString(R.string.search_error));
+            searchOne.setVisibility(View.VISIBLE);
+            searchTwo.setVisibility(View.VISIBLE);
         } else {
             InputMethodManager imm = (InputMethodManager) fragmentView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
@@ -156,7 +134,6 @@ public class SearchFragment extends Fragment {
     public void startSearch(final String requestedWord) {
         ((HomeActivity) getActivity()).hideKeyboard();
         news = new ArrayList<>();
-        confirmDialog.show();
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<Search> call = api.getSearchResult(requestedWord);
         call.subscribeOn(Schedulers.io())
@@ -169,13 +146,13 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        confirmDialog.dismiss();
                         Log.d(LOG, "Ошибка доступа к данным...");
+                        searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
+                        searchTwo.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onNext(Search search) {
-                        confirmDialog.dismiss();
                         news.addAll(search.getNews());
                         setUpRecycler(news);
                     }
@@ -187,7 +164,7 @@ public class SearchFragment extends Fragment {
         copy.addAll(news);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         viewSearch.setLayoutManager(manager);
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
+        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.search);
         viewSearch.addItemDecoration(decoration);
         adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord);
         viewSearch.setAdapter(adapter);

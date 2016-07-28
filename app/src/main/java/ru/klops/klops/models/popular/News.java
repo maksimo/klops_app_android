@@ -16,15 +16,15 @@ public class News implements Parcelable{
     private String article_type;
     private String url;
     private String og_image;
-    private List<Content> content;
     private Integer timestamp;
     private String author;
-    private List<Connected_items> connected_items;
+    private String source;
+    private Integer promoted;
 
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, List<Connected_items> connected_items) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author, String source, Integer promoted) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -35,10 +35,10 @@ public class News implements Parcelable{
         this.article_type = article_type;
         this.url = url;
         this.og_image = og_image;
-        this.content = content;
         this.timestamp = timestamp;
         this.author = author;
-        this.connected_items = connected_items;
+        this.source = source;
+        this.promoted = promoted;
     }
 
     protected News(Parcel in) {
@@ -52,9 +52,9 @@ public class News implements Parcelable{
         article_type = in.readString();
         url = in.readString();
         og_image = in.readString();
-        content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
-        connected_items = in.createTypedArrayList(Connected_items.CREATOR);
+        source = in.readString();
+        promoted = in.readInt();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -149,14 +149,6 @@ public class News implements Parcelable{
         this.og_image = og_image;
     }
 
-    public List<Content> getContent() {
-        return content;
-    }
-
-    public void setContent(List<Content> content) {
-        this.content = content;
-    }
-
     public Integer getTimestamp() {
         return timestamp;
     }
@@ -173,12 +165,20 @@ public class News implements Parcelable{
         this.author = author;
     }
 
-    public List<Connected_items> getConnected_items() {
-        return connected_items;
+    public String getSource() {
+        return source;
     }
 
-    public void setConnected_items(List<Connected_items> connected_items) {
-        this.connected_items = connected_items;
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public Integer getPromoted() {
+        return promoted;
+    }
+
+    public void setPromoted(Integer promoted) {
+        this.promoted = promoted;
     }
 
     @Override
@@ -194,10 +194,10 @@ public class News implements Parcelable{
                 ", article_type='" + article_type + '\'' +
                 ", url='" + url + '\'' +
                 ", og_image='" + og_image + '\'' +
-                ", content=" + content +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
-                ", connected_items=" + connected_items +
+                ", source='" + source + '\'' +
+                ", promoted=" + promoted +
                 '}';
     }
 
@@ -218,8 +218,8 @@ public class News implements Parcelable{
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeString(og_image);
-        dest.writeTypedList(content);
         dest.writeString(author);
-        dest.writeTypedList(connected_items);
+        dest.writeString(source);
+        dest.writeInt(promoted);
     }
 }
