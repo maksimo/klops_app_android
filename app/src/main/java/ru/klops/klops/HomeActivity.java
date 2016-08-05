@@ -15,7 +15,6 @@ import ru.klops.klops.fragments.BaseFragment;
 public class HomeActivity extends AppCompatActivity {
     final String LOG = "HomeActivity";
     KlopsApplication app;
-    ProgressDialog dialog;
 
 
     @Override
@@ -28,16 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(LOG, "onCreate");
         app = KlopsApplication.getINSTANCE();
         hideKeyboard();
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setTitle("Klops.Ru");
-        dialog.setCancelable(false);
-        dialog.setIcon(R.drawable.app_logo);
-        dialog.setMessage("Загрузка данных");
-        dialog.setIndeterminate(false);
-        dialog.show();
         placeBaseFragment();
-        dialog.dismiss();
     }
 
 
@@ -83,11 +73,15 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1){
+            finish();
+        }else{
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_container, new BaseFragment()).setCustomAnimations(R.anim.fade_out, R.anim.fade_in).commit();
             super.onBackPressed();
-        } else {
-            getSupportFragmentManager().popBackStack();
         }
+
     }
 
     public void hideKeyboard(){

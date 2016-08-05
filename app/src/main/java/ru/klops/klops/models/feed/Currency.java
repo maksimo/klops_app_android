@@ -36,6 +36,9 @@ public class Currency implements Parcelable {
     };
 
     public String getUsd() {
+        if (usd == null){
+            setUsd("0,00");
+        }
         return usd;
     }
 
@@ -44,6 +47,9 @@ public class Currency implements Parcelable {
     }
 
     public String getEur() {
+        if (eur == null){
+            setEur("0,00");
+        }
         return eur;
     }
 
@@ -52,6 +58,9 @@ public class Currency implements Parcelable {
     }
 
     public String getPln() {
+        if (pln == null){
+            setPln("0,00");
+        }
         return pln;
     }
 

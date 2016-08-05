@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,8 @@ public class NewDataNewsFragment extends Fragment {
     View fragmentView;
     @BindView(R.id.recycler_new)
     RecyclerView newDataRecycler;
+    @BindView(R.id.newError)
+    TextView newError;
     Unbinder unbinder;
     KlopsApplication mApp;
     RVNewDataAdapter adapter;
@@ -59,6 +62,7 @@ public class NewDataNewsFragment extends Fragment {
 
     private void setUpRecycler() {
         Log.d(LOG, "setUpRecycler");
+        if (mApp.getFirstPage() != null) {
         Page loadedFirstPage = mApp.getFirstPage();
         models = new ArrayList<>();
         models.addAll(loadedFirstPage.getNews());
@@ -118,6 +122,13 @@ public class NewDataNewsFragment extends Fragment {
         });
         newDataRecycler.setLayoutManager(newManager);
         newDataRecycler.setAdapter(adapter);
+        }else {
+            newDataRecycler.setVisibility(View.GONE);
+            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+                newError.setText("Настройки приложения были изменены");
+            }
+            newError.setVisibility(View.VISIBLE);
+        }
     }
 
     private ArrayList<Integer> addData(ArrayList<News> copy) {

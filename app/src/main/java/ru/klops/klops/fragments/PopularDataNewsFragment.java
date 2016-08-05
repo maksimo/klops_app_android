@@ -110,6 +110,9 @@ public class PopularDataNewsFragment extends Fragment {
             newPopularRecycler.setAdapter(adapter);
         }else {
             newPopularRecycler.setVisibility(View.GONE);
+            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+                popularError.setText("Настройки приложения были изменены");
+            }
             popularError.setVisibility(View.VISIBLE);
         }
     }

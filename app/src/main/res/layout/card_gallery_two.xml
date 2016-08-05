@@ -10,6 +10,7 @@
         android:id="@+id/galleryTwoLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:elevation="1dp">
 
         <RelativeLayout
@@ -25,30 +26,13 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/galleryCardTwoSource"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text=""
-                android:textAllCaps="true"
-                android:textColor="@color/darkGreyText"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-            <TextView
                 android:id="@+id/galleryCardTwoAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:gravity="center"
                 android:text=""
                 android:textAllCaps="true"
-                android:layout_toRightOf="@+id/galleryCardTwoSource"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:textStyle="bold"
@@ -60,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/galleryCardTwoAuthors"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:paddingLeft="15dp"
             android:textAllCaps="true"
@@ -91,6 +75,32 @@
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
 
+            <ImageView
+                android:id="@+id/galleryCardTwoViewsIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_below="@+id/galleryCardTwoAuthors"
+                android:layout_toLeftOf="@+id/galleryCardTwoViews"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/view_count"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/galleryCardTwoViews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:layout_toLeftOf="@+id/galleryCardTwoStatusIcon"
+                android:layout_below="@+id/galleryCardTwoAuthors"
+                android:textColor="@color/greyText"
+                android:textSize="10sp"
+                android:visibility="visible"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp" />
+
         <TextView
             android:id="@+id/galleryCardTwoStatus"
             android:layout_width="wrap_content"
@@ -103,7 +113,7 @@
             android:layout_below="@+id/galleryCardTwoAuthors"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp" />
 
@@ -122,16 +132,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/galleryCardTwoDate"
             android:inputType="textMultiLine"
-            android:lines="3"
-            android:maxLines="3"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingRight="5dp"
             android:textColor="@color/colorPrimary"
             android:textSize="26sp"
             android:paddingBottom="10dp" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/galleryTwoImageLayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/splitter">
@@ -151,8 +160,7 @@
                     android:id="@+id/galleryCardTwoLoadingFirst"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
+                    android:layout_centerInParent="true"/>
             </RelativeLayout>
 
             <View
@@ -177,8 +185,7 @@
                     android:id="@+id/galleryCardTwoLoadingSecond"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
+                    android:layout_centerInParent="true"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -198,9 +205,35 @@
                     android:id="@+id/galleryCardTwoLoadingBig"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
+                    android:layout_centerInParent="true"/>
             </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/galleryCardTwoPromotionLayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/galleryTwoImageLayer"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/promotionIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/megaphone"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ru.klops.klops.custom.TextViewProRegular
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textAllCaps="true"
+                android:textColor="@color/greyText"
+                android:layout_toRightOf="@+id/promotionIcon"
+                android:layout_marginLeft="2dp"
+                android:text="Материал размещен на коммерческой основе"
+                android:layout_centerVertical="true" />
         </RelativeLayout>
     </RelativeLayout>
     <View

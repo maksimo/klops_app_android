@@ -5,19 +5,19 @@ import android.os.Parcelable;
 
 public class Associate implements Parcelable{
     public String title;
-    public String url;
+    public Integer url;
 
     public Associate() {
     }
 
-    public Associate(String title, String url) {
+    public Associate(String title, Integer url) {
         this.title = title;
         this.url = url;
     }
 
     protected Associate(Parcel in) {
         title = in.readString();
-        url = in.readString();
+        url = in.readInt();
     }
 
     public static final Creator<Associate> CREATOR = new Creator<Associate>() {
@@ -33,6 +33,7 @@ public class Associate implements Parcelable{
     };
 
     public String getTitle() {
+
         return title;
     }
 
@@ -40,11 +41,11 @@ public class Associate implements Parcelable{
         this.title = title;
     }
 
-    public String getUrl() {
+    public Integer getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(Integer url) {
         this.url = url;
     }
 
@@ -64,6 +65,6 @@ public class Associate implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(url);
+        dest.writeInt(url);
     }
 }

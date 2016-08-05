@@ -1,9 +1,12 @@
 package ru.klops.klops.models.popular;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class News implements Parcelable{
     private Integer id;
@@ -20,11 +23,12 @@ public class News implements Parcelable{
     private String author;
     private String source;
     private Integer promoted;
+    private Integer views_count;
 
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author, String source, Integer promoted) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author, String source, Integer promoted, Integer views_count) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -39,6 +43,7 @@ public class News implements Parcelable{
         this.author = author;
         this.source = source;
         this.promoted = promoted;
+        this.views_count = views_count;
     }
 
     protected News(Parcel in) {
@@ -55,6 +60,7 @@ public class News implements Parcelable{
         author = in.readString();
         source = in.readString();
         promoted = in.readInt();
+        views_count = in.readInt();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -78,6 +84,9 @@ public class News implements Parcelable{
     }
 
     public String getDate() {
+        if (date == null){
+            setDate("");
+        }
         return date;
     }
 
@@ -86,6 +95,9 @@ public class News implements Parcelable{
     }
 
     public String getTitle() {
+        if (title == null){
+            setTitle("");
+        }
         return title;
     }
 
@@ -94,6 +106,9 @@ public class News implements Parcelable{
     }
 
     public String getShortdecription() {
+        if (shortdecription == null){
+            setShortdecription("");
+        }
         return shortdecription;
     }
 
@@ -102,6 +117,9 @@ public class News implements Parcelable{
     }
 
     public String getImage() {
+        if (image == null){
+            setImage("");
+        }
         return image;
     }
 
@@ -110,6 +128,9 @@ public class News implements Parcelable{
     }
 
     public String getUpdate_status() {
+        if (update_status == null){
+            setUpdate_status("");
+        }
         return update_status;
     }
 
@@ -118,6 +139,9 @@ public class News implements Parcelable{
     }
 
     public List<String> getPhotos() {
+        if (photos== null){
+            setPhotos(new ArrayList<String>());
+        }
         return photos;
     }
 
@@ -126,6 +150,9 @@ public class News implements Parcelable{
     }
 
     public String getArticle_type() {
+        if (article_type == null){
+            setArticle_type("");
+        }
         return article_type;
     }
 
@@ -134,6 +161,9 @@ public class News implements Parcelable{
     }
 
     public String getUrl() {
+        if (url == null){
+            setUrl("");
+        }
         return url;
     }
 
@@ -158,6 +188,9 @@ public class News implements Parcelable{
     }
 
     public String getAuthor() {
+        if (author == null){
+            setAuthor("");
+        }
         return author;
     }
 
@@ -166,6 +199,9 @@ public class News implements Parcelable{
     }
 
     public String getSource() {
+        if (source == null){
+            setSource("");
+        }
         return source;
     }
 
@@ -174,11 +210,25 @@ public class News implements Parcelable{
     }
 
     public Integer getPromoted() {
+        if (promoted == null){
+            setPromoted(0);
+        }
         return promoted;
     }
 
     public void setPromoted(Integer promoted) {
         this.promoted = promoted;
+    }
+
+    public Integer getViews_count() {
+        if (views_count == null){
+            setViews_count(0);
+        }
+        return views_count;
+    }
+
+    public void setViews_count(Integer views_count) {
+        this.views_count = views_count;
     }
 
     @Override
@@ -198,6 +248,7 @@ public class News implements Parcelable{
                 ", author='" + author + '\'' +
                 ", source='" + source + '\'' +
                 ", promoted=" + promoted +
+                ", views_count=" + views_count +
                 '}';
     }
 
@@ -221,5 +272,6 @@ public class News implements Parcelable{
         dest.writeString(author);
         dest.writeString(source);
         dest.writeInt(promoted);
+        dest.writeInt(views_count);
     }
 }

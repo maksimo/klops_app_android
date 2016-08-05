@@ -1,8 +1,10 @@
 package ru.klops.klops.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.loader.StreamLoader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -22,11 +25,13 @@ import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Photos;
+import ru.klops.klops.utils.Constants;
 
 public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<Gallery> adapterPhotos;
+    String photoView;
 
     public GalleryContentPagerAdapter(Context context, ArrayList<Gallery> adapterPhotos) {
         super();
@@ -41,17 +46,27 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
         final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
         descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         Ion.with(context.getApplicationContext()).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoActivity.class);
+                intent.putExtra(Constants.PHOTO, adapterPhotos.get(position).getImg_url());
+                intent.putExtra(Constants.TEXT, adapterPhotos.get(position).getDescription());
+                intent.putExtra(Constants.NUMBER, String.valueOf(position + 1) + "/" + String.valueOf(adapterPhotos.size()));
+                context.startActivity(intent);
+            }
+        });
         if (!adapterPhotos.get(position).getDescription().equals("")) {
             descr.setText(adapterPhotos.get(position).getDescription());
         }else {
-            photo.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250));
+            descr.setVisibility(View.INVISIBLE);
         }
         container.addView(itemView);
         return itemView;
@@ -75,4 +90,5 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
     public Parcelable saveState() {
         return null;
     }
+
 }

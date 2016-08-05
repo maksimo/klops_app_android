@@ -2,18 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/advertiseCard"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
+    android:layout_height="275dp"
     android:background="@color/recyclerBackground"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="260dp"
         android:background="@color/colorPrimary"
         android:elevation="3dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginRight="15dp">
 
         <RelativeLayout
             android:id="@+id/adsTitleClosable"
@@ -69,21 +68,21 @@
             android:id="@+id/advertiseImageLayer"
             android:layout_width="match_parent"
             android:layout_below="@+id/adsTitleClosable"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/advertiseCardPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
             <ProgressBar
                 android:id="@+id/advertiseCardLoading"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:visibility="visible" />
+                android:layout_centerInParent="true"/>
 
             <TextView
                 android:id="@+id/adsUrl"
@@ -94,7 +93,8 @@
                 android:layout_below="@+id/advertiseCardPhoto"
                 android:text="Нажмите, чтобы узнать подробнее"
                 android:gravity="center"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:paddingBottom="15dp" />
         </RelativeLayout>
 
     </RelativeLayout>

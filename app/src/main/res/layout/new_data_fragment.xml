@@ -12,37 +12,13 @@
         android:layout_alignParentStart="true"
         android:background="@color/recyclerBackground"/>
 
-    <RelativeLayout
-        android:id="@+id/search_layer"
+    <TextView
+        android:id="@+id/newError"
         android:layout_width="match_parent"
-        android:layout_height="580dp"
-        android:layout_below="@+id/toolbar_search_layer"
-        android:visibility="invisible">
-
-        <TextView
-            android:id="@+id/search_text_visible_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="180dp"
-            android:gravity="center"
-            android:text="@string/searchByNews"
-            android:textColor="@color/blackText"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/search_text_visible_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="220dp"
-            android:gravity="center"
-            android:text="@string/search_input"
-            android:textColor="@color/blackText"
-            android:textSize="18sp" />
-</RelativeLayout>
-
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textColor="@color/darkGreyText"
+        android:text="Не удалось загрузить данные"
+        android:visibility="gone"
+        android:gravity="center" />
     </RelativeLayout>

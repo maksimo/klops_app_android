@@ -74,6 +74,13 @@ public class SimpleWideArticleFragment extends Fragment {
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        relativeParams.addRule(RelativeLayout.BELOW, author.getId());
+        String fullAuthor = item.getSource().concat(item.getAuthor());
+        if (fullAuthor.length() > 35) {
+            date.setLayoutParams(relativeParams);
+            date.setPadding(15,0,0,15);
+        }
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         date.setText(item.getDate());

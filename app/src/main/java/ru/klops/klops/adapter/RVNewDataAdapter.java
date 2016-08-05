@@ -15,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -75,10 +78,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView simpleImageCardStatusIcon;
         @BindView(R.id.simpleImageCardStatus)
         TextView simpleImageCardStatus;
-        @BindView(R.id.simpleImageCardCamera)
-        ImageView promoted;
-        @BindView(R.id.simpleImageCardSource)
-        TextView source;
+        @BindView(R.id.simpleImagePromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.simpleImageCardAuthor)
         TextView author;
         @BindView(R.id.simpleImageCardAuthors)
@@ -103,10 +104,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView simpleCardStatusIcon;
         @BindView(R.id.simpleCardStatus)
         TextView simpleCardStatus;
-        @BindView(R.id.simpleCardCamera)
-        ImageView promoted;
-        @BindView(R.id.simpleCardSource)
-        TextView source;
+        @BindView(R.id.simpleCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.simpleCardAuthor)
         TextView author;
         @BindView(R.id.simpleCardAuthors)
@@ -132,10 +131,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView longCardStatusIcon;
         @BindView(R.id.longCardStatus)
         TextView longCardStatus;
-        @BindView(R.id.longCardCamera)
-        ImageView promoted;
-        @BindView(R.id.longCardSource)
-        TextView source;
+        @BindView(R.id.longCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.longCardAuthor)
         TextView author;
         @BindView(R.id.longCardAuthors)
@@ -166,10 +163,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView interviewCardStatusIcon;
         @BindView(R.id.interviewCardStatus)
         TextView interviewCardStatus;
-        @BindView(R.id.interviewCardCamera)
-        ImageView promoted;
-        @BindView(R.id.interviewCardSource)
-        TextView source;
+        @BindView(R.id.interviewCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.interviewCardAuthor)
         TextView author;
         @BindView(R.id.interviewCardAuthors)
@@ -193,10 +188,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView content;
         @BindView(R.id.authorCardPhoto)
         CircleImageView image;
-        @BindView(R.id.authorCardName)
-        TextView name;
-        @BindView(R.id.authorCardSubName)
-        TextView contentAuthor;
         @BindView(R.id.authorNewsLayer)
         RelativeLayout authorsCard;
         @BindView(R.id.authorCardLoading)
@@ -205,14 +196,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView authorCardStatusIcon;
         @BindView(R.id.authorCardStatus)
         TextView authorCardStatus;
-        @BindView(R.id.authorCardCamera)
-        ImageView promoted;
-        @BindView(R.id.authorCardSource)
-        TextView source;
-        @BindView(R.id.authorCardAuthor)
-        TextView author;
-        @BindView(R.id.authorCardAuthors)
-        RelativeLayout authorCardAuthors;
+        @BindView(R.id.authorCardPromotionLayer)
+        RelativeLayout promoted;
+        @BindView(R.id.authorCardName)
+        TextView authorName;
+        @BindView(R.id.authorCardSubName)
+        TextView authorCardSubName;
 
         public AuthorColumnsNewsHolder(View itemView) {
             super(itemView);
@@ -232,10 +221,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView nationalCardStatusIcon;
         @BindView(R.id.nationalCardStatus)
         TextView nationalCardStatus;
-        @BindView(R.id.nationalCardCamera)
-        ImageView promoted;
-        @BindView(R.id.nationalCardSource)
-        TextView source;
+        @BindView(R.id.nationalCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.nationalCardAuthor)
         TextView author;
         @BindView(R.id.nationalCardAuthors)
@@ -266,10 +253,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView importantCardStatusIcon;
         @BindView(R.id.importantCardStatus)
         TextView status;
-        @BindView(R.id.importantCardCamera)
-        ImageView promoted;
-        @BindView(R.id.importantCardSource)
-        TextView source;
+        @BindView(R.id.importantCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.importantCardAuthor)
         TextView author;
         @BindView(R.id.importantCardAuthors)
@@ -298,10 +283,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView galleryCardStatusIcon;
         @BindView(R.id.galleryCardStatus)
         TextView galleryCardStatus;
-        @BindView(R.id.galleryCardCamera)
-        ImageView promoted;
-        @BindView(R.id.galleryCardSource)
-        TextView source;
+        @BindView(R.id.galleryCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.galleryCardAuthor)
         TextView author;
         @BindView(R.id.galleryCardAuthors)
@@ -338,10 +321,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView galleryCardTwoStatusIcon;
         @BindView(R.id.galleryCardTwoStatus)
         TextView galleryCardTwoStatus;
-        @BindView(R.id.galleryCardTwoCamera)
-        ImageView promoted;
-        @BindView(R.id.galleryCardTwoSource)
-        TextView source;
+        @BindView(R.id.galleryCardTwoPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.galleryCardTwoAuthor)
         TextView author;
         @BindView(R.id.galleryCardTwoAuthors)
@@ -390,10 +371,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         ImageView simpleWideCardStatusIcon;
         @BindView(R.id.simpleWideCardStatus)
         TextView simpleWideCardStatus;
-        @BindView(R.id.simpleWideCardCamera)
-        ImageView promoted;
-        @BindView(R.id.simpleWideCardSource)
-        TextView source;
+        @BindView(R.id.simpleWideCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.simpleWideCardAuthor)
         TextView author;
         @BindView(R.id.simpleWideCardAuthors)
@@ -454,14 +433,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView status;
         @BindView(R.id.urgentCardStatusIcon)
         ImageView statusIcon;
-        @BindView(R.id.urgentCardCamera)
-        ImageView promoted;
+        @BindView(R.id.urgentCardPromotionLayer)
+        RelativeLayout promoted;
         @BindView(R.id.urgentCardTitle)
         TextView title;
         @BindView(R.id.urgentCardLayer)
         RelativeLayout urgentCardLayer;
-        @BindView(R.id.urgentCardSource)
-        TextView source;
         @BindView(R.id.urgentCardAuthor)
         TextView author;
         @BindView(R.id.urgentCardAuthors)
@@ -542,21 +519,22 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holder.promoted.setVisibility(View.VISIBLE);
-                }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holder.simpleImageCardAuthors.setVisibility(View.GONE);
                 }else {
-                    if (!models.get(position).getSource().equals("")) {
-                        holder.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holder.source.setText(models.get(position).getSource());
-                        holder.source.setVisibility(View.VISIBLE);
-                    }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holder.author.setText(models.get(position).getSource());
-                        holder.author.setVisibility(View.VISIBLE);
-                    }
+                    holder.title.setMaxLines(5);
                 }
+//
+//                if (!models.get(position).getSource().equals("")) {
+//                    holder.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+//                    holder.source.setText(models.get(position).getSource());
+//                    holder.source.setVisibility(View.VISIBLE);
+//                    holder.simpleImageCardAuthors.setVisibility(View.VISIBLE);
+//                }
+//                if (!models.get(position).getAuthor().equals("")) {
+//                    holder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+//                    holder.author.setText(models.get(position).getSource());
+//                    holder.author.setVisibility(View.VISIBLE);
+//                    holder.simpleImageCardAuthors.setVisibility(View.VISIBLE);
+//                }
                 holder.simpleImageCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -579,20 +557,19 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderSimple.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderSimple.simpleCardAuthors.setVisibility(View.GONE);
-                }else {
-                    if (!models.get(position).getSource().equals("")) {
-                        holderSimple.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderSimple.source.setText(models.get(position).getSource());
-                        holderSimple.source.setVisibility(View.VISIBLE);
-                    }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderSimple.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderSimple.author.setText(models.get(position).getSource());
-                        holderSimple.author.setVisibility(View.VISIBLE);
-                    }
-                }
+
+//                if (!models.get(position).getSource().equals("")) {
+//                    holderSimple.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+//                    holderSimple.source.setText(models.get(position).getSource());
+//                    holderSimple.source.setVisibility(View.VISIBLE);
+//                    holderSimple.simpleCardAuthors.setVisibility(View.VISIBLE);
+//                }
+//                if (!models.get(position).getAuthor().equals("")) {
+//                    holderSimple.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+//                    holderSimple.author.setText(models.get(position).getAuthor());
+//                    holderSimple.author.setVisibility(View.VISIBLE);
+//                    holderSimple.simpleCardAuthors.setVisibility(View.VISIBLE);
+//                }
                 holderSimple.simpleCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -618,20 +595,18 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderLong.promoted.setVisibility(View.VISIBLE);
-                }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderLong.longCardAuthors.setVisibility(View.GONE);
                 }else {
+                    holderLong.content.setMaxLines(7);
+                }
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderLong.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderLong.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderLong.source.setText(models.get(position).getSource());
-                        holderLong.source.setVisibility(View.VISIBLE);
+                        holderLong.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderLong.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderLong.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderLong.author.setText(models.get(position).getSource());
-                        holderLong.author.setVisibility(View.VISIBLE);
-                    }
+                    holderLong.author.setVisibility(View.VISIBLE);
+                    holderLong.longCardAuthors.setVisibility(View.VISIBLE);
                 }
                 holderLong.longCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -658,21 +633,18 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderInterview.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderInterview.interviewCardAuthors.setVisibility(View.GONE);
-                }else {
+
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderInterview.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderInterview.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderInterview.source.setText(models.get(position).getSource());
-                        holderInterview.source.setVisibility(View.VISIBLE);
+                        holderInterview.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderInterview.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderInterview.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderInterview.author.setText(models.get(position).getSource());
-                        holderInterview.author.setVisibility(View.VISIBLE);
-                    }
+                    holderInterview.author.setVisibility(View.VISIBLE);
+                    holderInterview.interviewCardAuthors.setVisibility(View.VISIBLE);
                 }
-                loadPhoto(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
+                loadPicasso(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
                 holderInterview.interviewCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -689,31 +661,30 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderAuthors.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderAuthors.content.setText(models.get(position).getShortdecription());
                 holderAuthors.content.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                holderAuthors.authorName.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderAuthors.authorName.setText(models.get(position).getAuthor());
+                }else {
+                    holderAuthors.authorName.setVisibility(View.GONE);
+                }
                 if (!models.get(position).getUpdate_status().equals("")) {
                     holderAuthors.authorCardStatus.setText(models.get(position).getUpdate_status());
                     holderAuthors.authorCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderAuthors.authorCardStatusIcon.setVisibility(View.VISIBLE);
                 }
+                if (!models.get(position).getSource().equals("")) {
+                    holderAuthors.authorCardSubName.setText(models.get(position).getSource());
+                }else {
+                    holderAuthors.authorCardSubName.setVisibility(View.GONE);
+                }
+                holderAuthors.authorCardSubName.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 if (models.get(position).getPromoted() == 1) {
                     holderAuthors.promoted.setVisibility(View.VISIBLE);
-                }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderAuthors.authorCardAuthors.setVisibility(View.GONE);
                 }else {
-                    if (!models.get(position).getSource().equals("")) {
-                        holderAuthors.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderAuthors.source.setText(models.get(position).getSource());
-                        holderAuthors.source.setVisibility(View.VISIBLE);
-                    }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderAuthors.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderAuthors.author.setText(models.get(position).getSource());
-                        holderAuthors.author.setVisibility(View.VISIBLE);
-                    }
+                    holderAuthors.title.setMaxLines(7);
                 }
-                loadPhoto(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
-                holderAuthors.contentAuthor.setText(models.get(position).getAuthor());
-                holderAuthors.contentAuthor.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+
+                loadPicasso(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
                 holderAuthors.authorsCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -724,8 +695,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 break;
             case Constants.NATIONAL:
                 final NationalNewsHolder holderNational = (NationalNewsHolder) viewHolder;
-                holderNational.author.setText(models.get(position).getAuthor());
-                holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderNational.dateOne.setText(models.get(position).getDate());
                 holderNational.dateOne.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderNational.titleOne.setText(models.get(position).getTitle());
@@ -738,19 +707,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderNational.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderNational.nationalCardAuthors.setVisibility(View.GONE);
-                }else {
-                    if (!models.get(position).getSource().equals("")) {
-                        holderNational.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderNational.source.setText(models.get(position).getSource());
-                        holderNational.source.setVisibility(View.VISIBLE);
-                    }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderNational.author.setText(models.get(position).getSource());
-                        holderNational.author.setVisibility(View.VISIBLE);
-                    }
+
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                    holderNational.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    holderNational.author.setVisibility(View.VISIBLE);
+                    holderNational.nationalCardAuthors.setVisibility(View.VISIBLE);
                 }
                 holderNational.nationalCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -777,19 +739,15 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderImportant.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderImportant.importantCardAuthors.setVisibility(View.GONE);
-                }else {
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderImportant.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderImportant.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderImportant.source.setText(models.get(position).getSource());
-                        holderImportant.source.setVisibility(View.VISIBLE);
+                        holderImportant.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderImportant.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderImportant.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderImportant.author.setText(models.get(position).getSource());
-                        holderImportant.author.setVisibility(View.VISIBLE);
-                    }
+                    holderImportant.author.setVisibility(View.VISIBLE);
+                    holderImportant.importantCardAuthors.setVisibility(View.VISIBLE);
                 }
                 holderImportant.title.setText(models.get(position).getTitle());
                 holderImportant.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
@@ -807,7 +765,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 final GalleryNewsOneHolder holderGallerySmall = (GalleryNewsOneHolder) viewHolder;
                 holderGallerySmall.date.setText(models.get(position).getDate());
                 holderGallerySmall.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderGallerySmall.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
+                holderGallerySmall.title.setText("     " + models.get(position).getTitle());
                 holderGallerySmall.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 if (!models.get(position).getUpdate_status().equals("")) {
                     holderGallerySmall.galleryCardStatus.setText(models.get(position).getUpdate_status());
@@ -817,19 +775,15 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderGallerySmall.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderGallerySmall.galleryCardAuthors.setVisibility(View.GONE);
-                }else {
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderGallerySmall.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderGallerySmall.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderGallerySmall.source.setText(models.get(position).getSource());
-                        holderGallerySmall.source.setVisibility(View.VISIBLE);
+                        holderGallerySmall.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderGallerySmall.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderGallerySmall.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderGallerySmall.author.setText(models.get(position).getSource());
-                        holderGallerySmall.author.setVisibility(View.VISIBLE);
-                    }
+                    holderGallerySmall.author.setVisibility(View.VISIBLE);
+                    holderGallerySmall.galleryCardAuthors.setVisibility(View.VISIBLE);
                 }
                 loadPhoto(models.get(position).getImage(), holderGallerySmall.image, holderGallerySmall.bar);
                 holderGallerySmall.galleryCard.setOnClickListener(new View.OnClickListener() {
@@ -844,7 +798,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 final GalleryNewsTwoHolder holderGalleryBig = (GalleryNewsTwoHolder) viewHolder;
                 holderGalleryBig.date.setText(models.get(position).getDate());
                 holderGalleryBig.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderGalleryBig.title.setText(String.format("%1$" + 5 + "s", models.get(position).getTitle()));
+                holderGalleryBig.title.setText("     " + models.get(position).getTitle());
                 holderGalleryBig.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 if (!models.get(position).getUpdate_status().equals("")) {
                     holderGalleryBig.galleryCardTwoStatus.setText(models.get(position).getUpdate_status());
@@ -874,19 +828,16 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderGalleryBig.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderGalleryBig.galleryCardTwoAuthors.setVisibility(View.GONE);
-                }else {
+
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderGalleryBig.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderGalleryBig.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderGalleryBig.source.setText(models.get(position).getSource());
-                        holderGalleryBig.source.setVisibility(View.VISIBLE);
+                        holderGalleryBig.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderGalleryBig.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderGalleryBig.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderGalleryBig.author.setText(models.get(position).getSource());
-                        holderGalleryBig.author.setVisibility(View.VISIBLE);
-                    }
+                    holderGalleryBig.author.setVisibility(View.VISIBLE);
+                    holderGalleryBig.galleryCardTwoAuthors.setVisibility(View.VISIBLE);
                 }
                 holderGalleryBig.galleryCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -904,9 +855,14 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.url.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                Uri uri = Uri.parse(models.get(position).getUrl());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                context.startActivity(intent);
+                holderAdvertise.url.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(models.get(holderAdvertise.getAdapterPosition()).getUrl());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        context.startActivity(intent);
+                    }
+                });
                 holderAdvertise.closableLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -933,19 +889,16 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderSimpleWide.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderSimpleWide.simpleWideCardAuthors.setVisibility(View.GONE);
-                }else {
+
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderSimpleWide.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderSimpleWide.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderSimpleWide.source.setText(models.get(position).getSource());
-                        holderSimpleWide.source.setVisibility(View.VISIBLE);
+                        holderSimpleWide.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderSimpleWide.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderSimpleWide.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderSimpleWide.author.setText(models.get(position).getSource());
-                        holderSimpleWide.author.setVisibility(View.VISIBLE);
-                    }
+                    holderSimpleWide.author.setVisibility(View.VISIBLE);
+                    holderSimpleWide.simpleWideCardAuthors.setVisibility(View.VISIBLE);
                 }
                 holderSimpleWide.simpleWideCard.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -965,14 +918,14 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 holderExchange.euro.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderExchange.zlotiy.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderExchange.dollarPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                holderExchange.dollarPrice.setText(currency.getUsd());
+                holderExchange.dollarPrice.setText(currency.getUsd().replace(".",","));
                 holderExchange.euroPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                holderExchange.euroPrice.setText(currency.getEur());
+                holderExchange.euroPrice.setText(currency.getEur().replace(".",","));
                 holderExchange.zlotiyPrice.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-                holderExchange.zlotiyPrice.setText(currency.getPln());
+                holderExchange.zlotiyPrice.setText(currency.getPln().replace(".",","));
                 break;
             case Constants.URGENT:
-                final UrgentNewsViewHolder holderUrgent = (UrgentNewsViewHolder)viewHolder;
+                final UrgentNewsViewHolder holderUrgent = (UrgentNewsViewHolder) viewHolder;
                 holderUrgent.date.setText(models.get(position).getDate());
                 holderUrgent.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderUrgent.status.setText("Срочно");
@@ -983,19 +936,15 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 if (models.get(position).getPromoted() == 1) {
                     holderUrgent.promoted.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getAuthor().equals("") || models.get(position).getSource().equals("")){
-                    holderUrgent.urgentCardAuthors.setVisibility(View.GONE);
-                }else {
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderUrgent.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
-                        holderUrgent.source.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderUrgent.source.setText(models.get(position).getSource());
-                        holderUrgent.source.setVisibility(View.VISIBLE);
+                        holderUrgent.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    }else {
+                        holderUrgent.author.setText(models.get(position).getAuthor());
                     }
-                    if (!models.get(position).getAuthor().equals("")) {
-                        holderUrgent.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                        holderUrgent.author.setText(models.get(position).getSource());
-                        holderUrgent.author.setVisibility(View.VISIBLE);
-                    }
+                    holderUrgent.author.setVisibility(View.VISIBLE);
+                    holderUrgent.urgentCardAuthors.setVisibility(View.VISIBLE);
                 }
                 holderUrgent.urgentCardLayer.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1009,6 +958,20 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
     }
 
     public void loadPhoto(String input, ImageView output, final ProgressBar loader) {
+        Ion.with(context.getActivity()).load(input).progressHandler(new ProgressCallback() {
+            @Override
+            public void onProgress(long downloaded, long total) {
+                loader.setVisibility(View.VISIBLE);
+            }
+        }).intoImageView(output).setCallback(new FutureCallback<ImageView>() {
+            @Override
+            public void onCompleted(Exception e, ImageView result) {
+                loader.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void loadPicasso(String input, ImageView output, final ProgressBar loader){
         Picasso.with(context.getActivity()).load(input).fit().into(output, new Callback() {
             @Override
             public void onSuccess() {

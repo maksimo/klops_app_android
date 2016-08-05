@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clickable="true"
+    android:id="@+id/photoLayers"
+    android:background="@color/galleryCard"
+    tools:context=".adapter.PhotoActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/bigPhoto"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/colorPrimary"
+        android:scaleType="fitXY"/>
+
+    <ProgressBar
+        android:id="@+id/bigProgress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"/>
+
+    <ru.klops.klops.custom.TextViewProMd
+        android:id="@+id/bigDescription"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/bigPhoto"
+        android:layout_marginTop="15dp"
+        android:background="@color/galleryCard"
+        android:gravity="center"
+        android:textColor="@color/greyText"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/bigDescription"
+        android:background="@color/galleryCard">
+
+        <RelativeLayout
+            android:id="@+id/bigSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/gallery_switch_shape_dark"
+            android:clickable="true"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/bigSwitcherIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/gallery_dark" />
+
+            <ru.klops.klops.custom.TextViewProRegular
+                android:id="@+id/bigSwitcherCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/bigSwitcherIcon"
+                android:paddingLeft="5dp"
+                android:paddingRight="12dp"
+                android:textColor="@color/darkGreyText" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

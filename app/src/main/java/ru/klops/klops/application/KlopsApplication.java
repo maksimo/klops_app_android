@@ -49,7 +49,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         VKSdk.initialize(getApplicationContext());
@@ -60,7 +60,7 @@ public class KlopsApplication extends Application {
 
     public String loadBaseURL() {
         SharedPreferences sharedPreferences =  getINSTANCE().getSharedPreferences(Constants.PATH, getINSTANCE().MODE_PRIVATE);
-        String subscription = sharedPreferences.getString(Constants.NEW_URL, Constants.BASE_API_URL);
+        String subscription = sharedPreferences.getString(Constants.NEW_URL, "https://klops.ru/api/");
         return subscription;
     }
     public Page getFirstPage() {

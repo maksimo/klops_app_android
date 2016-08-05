@@ -42,6 +42,7 @@ import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.models.search.News;
 import ru.klops.klops.models.search.Search;
 import ru.klops.klops.services.RetrofitServiceGenerator;
+import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -107,10 +108,12 @@ public class SearchFragment extends Fragment {
         if (searchField.getText().toString().length() > 2){
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
-            startSearch(searchField.getText().toString());
+            requestedWord = searchField.getText().toString();
+            startSearch(requestedWord);
         }else if (searchField.getText().toString().length() == 0){
             searchOne.setVisibility(View.VISIBLE);
             searchTwo.setVisibility(View.VISIBLE);
+            viewSearch.setVisibility(View.GONE);
         }
     }
 
@@ -147,6 +150,9 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(LOG, "Ошибка доступа к данным...");
+                        if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+                            searchTwo.setText("Настройки приложения были изменены");
+                        }
                         searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
                         searchTwo.setVisibility(View.VISIBLE);
                     }
@@ -164,8 +170,6 @@ public class SearchFragment extends Fragment {
         copy.addAll(news);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         viewSearch.setLayoutManager(manager);
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.search);
-        viewSearch.addItemDecoration(decoration);
         adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord);
         viewSearch.setAdapter(adapter);
         viewSearch.setVisibility(View.VISIBLE);
@@ -177,7 +181,7 @@ public class SearchFragment extends Fragment {
         btnCancel.startAnimation(alpha);
         InputMethodManager imm = (InputMethodManager) fragmentView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
-        ((HomeActivity) getActivity()).popBackWithFadeOut(new BaseFragment());
+        ((HomeActivity) getActivity()).onBackPressed();
     }
 
 

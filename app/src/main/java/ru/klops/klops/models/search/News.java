@@ -53,6 +53,9 @@ public class News implements Parcelable{
     }
 
     public String getDate() {
+        if (date == null){
+            setDate("");
+        }
         return date;
     }
 
@@ -61,6 +64,9 @@ public class News implements Parcelable{
     }
 
     public String getTitle() {
+        if (title == null){
+            setTitle("");
+        }
         return title;
     }
 
@@ -69,6 +75,9 @@ public class News implements Parcelable{
     }
 
     public String getShortdecription() {
+        if (shortdecription == null){
+            setShortdecription("");
+        }
         return shortdecription;
     }
 
@@ -77,6 +86,9 @@ public class News implements Parcelable{
     }
 
     public String getUpdate_status() {
+        if (update_status == null){
+            setUpdate_status("");
+        }
         return update_status;
     }
 
@@ -85,6 +97,9 @@ public class News implements Parcelable{
     }
 
     public String getArticle_type() {
+        if (article_type == null){
+            setArticle_type("");
+        }
         return article_type;
     }
 
@@ -93,6 +108,9 @@ public class News implements Parcelable{
     }
 
     public String getUrl() {
+        if (url == null){
+            setUrl("");
+        }
         return url;
     }
 
@@ -109,6 +127,9 @@ public class News implements Parcelable{
     }
 
     public String getAuthor() {
+        if (author == null){
+            setAuthor("");
+        }
         return author;
     }
 
@@ -117,6 +138,9 @@ public class News implements Parcelable{
     }
 
     public String getSource() {
+        if (source == null){
+            setSource("");
+        }
         return source;
     }
 

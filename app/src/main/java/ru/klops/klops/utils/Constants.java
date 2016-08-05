@@ -48,4 +48,8 @@ public class Constants {
     public static final String HARDCODED_BODY = "<style>body { color: #565656; font-family: \"AkzidenzGroteskPro-Regular\"; font-size:18px; }</style>";
 
     public static final String NEW_URL = "NEW_BASE";
+    public static final String INNER_PREFS = "inner statement";
+    public static final String PHOTO = "PHOTO";
+    public static final String TEXT = "TEXT";
+    public static final String NUMBER = "NUMBER";
 }

@@ -1,18 +1,15 @@
 package ru.klops.klops.fragments;
 
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,44 +18,35 @@ import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
-public class ImportantArticleFragment extends Fragment {
-    final String LOG = "ImportantArticle";
+public class AdsArticleFragment extends Fragment{
+    final String LOG = "AdsArticleFragment";
     View fragmentView;
-
-    @BindView(R.id.importantPhoto)
+    @BindView(R.id.advsPhoto)
     ImageView photo;
-    @BindView(R.id.importantTitle)
+    @BindView(R.id.advsTitle)
     TextView title;
-    @BindView(R.id.importantAuthor)
+    @BindView(R.id.advsAuthor)
     TextView author;
-    @BindView(R.id.importantDate)
+    @BindView(R.id.advsDate)
     TextView date;
-    @BindView(R.id.importantCameraIcon)
+    @BindView(R.id.advsCameraIcon)
     ImageView cameraIcon;
-    @BindView(R.id.importantDescription)
+    @BindView(R.id.advsDescription)
     TextView shortdescription;
-    @BindView(R.id.importantProgress)
+    @BindView(R.id.advsProgress)
     ProgressBar bar;
-    Unbinder unbinder;
     Item item;
+    Unbinder unbinder;
     KlopsApplication app;
     ArticleActivity activity;
 
@@ -73,10 +61,10 @@ public class ImportantArticleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.important_article_fragment, container, false);
+        fragmentView = inflater.inflate(R.layout.advs_article_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-        item = getArguments().getParcelable(Constants.ARTICLE);
         Log.d(LOG, "onCreateView");
+        item = getArguments().getParcelable(Constants.ARTICLE);
         setUpImages();
         setUpView();
         return fragmentView;
@@ -84,7 +72,7 @@ public class ImportantArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getImage().equals("")) {
+        if (!item.getImage().equals("")||!item.getImage().isEmpty()) {
             Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
@@ -96,7 +84,7 @@ public class ImportantArticleFragment extends Fragment {
                     bar.setVisibility(View.GONE);
                 }
             });
-        }else {
+        } else {
             photo.setVisibility(View.GONE);
         }
     }
@@ -111,25 +99,24 @@ public class ImportantArticleFragment extends Fragment {
             date.setPadding(15,0,0,15);
         }
         title.setText(item.getTitle());
-        title.setTypeface(Typeface.createFromAsset(getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));
+        title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         date.setText(item.getDate());
-        date.setTypeface(Typeface.createFromAsset(getContext().getAssets(),"fonts/akzidenzgroteskpro-regular.ttf"));
+        date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         author.setText(item.getSource().concat(item.getAuthor()));
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-
     }
 
     public void formatIncrement() {
-        title.setTextSize(30);
+        title.setTextSize(18);
         date.setTextSize(12);
         author.setTextSize(12);
         shortdescription.setTextSize(18);
     }
 
     public void formatDecrement() {
-        title.setTextSize(28);
+        title.setTextSize(16);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);

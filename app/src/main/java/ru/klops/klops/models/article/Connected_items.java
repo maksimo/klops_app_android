@@ -7,6 +7,9 @@ public class Connected_items implements Parcelable{
 
     private Doc_list doc_list;
 
+    public Connected_items() {
+    }
+
     public Connected_items(Doc_list doc_list) {
         this.doc_list = doc_list;
     }

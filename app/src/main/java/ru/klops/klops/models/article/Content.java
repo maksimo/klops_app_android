@@ -10,13 +10,15 @@ public class Content implements Parcelable{
     public List<Photos> photos;
     public List<Gallery> gallery;
     public Associate associate;
+    public String video_url;
 
 
-    public Content(String text, List<Photos> photos, List<Gallery> gallery, Associate associate) {
+    public Content(String text, List<Photos> photos, List<Gallery> gallery, Associate associate, String video_url) {
         this.text = text;
         this.photos = photos;
         this.gallery = gallery;
         this.associate = associate;
+        this.video_url = video_url;
     }
 
 
@@ -25,6 +27,7 @@ public class Content implements Parcelable{
         photos = in.createTypedArrayList(Photos.CREATOR);
         gallery = in.createTypedArrayList(Gallery.CREATOR);
         associate = in.readParcelable(Associate.class.getClassLoader());
+        video_url = in.readString();
     }
 
     public static final Creator<Content> CREATOR = new Creator<Content>() {
@@ -71,6 +74,14 @@ public class Content implements Parcelable{
         this.associate = associate;
     }
 
+    public String getVideo_url() {
+        return video_url;
+    }
+
+    public void setVideo_url(String video_url) {
+        this.video_url = video_url;
+    }
+
     @Override
     public String toString() {
         return "Content{" +
@@ -78,6 +89,7 @@ public class Content implements Parcelable{
                 ", photos=" + photos +
                 ", gallery=" + gallery +
                 ", associate=" + associate +
+                ", video_url='" + video_url + '\'' +
                 '}';
     }
 
@@ -92,5 +104,6 @@ public class Content implements Parcelable{
         dest.writeTypedList(photos);
         dest.writeTypedList(gallery);
         dest.writeParcelable(associate, flags);
+        dest.writeString(video_url);
     }
 }

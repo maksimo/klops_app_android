@@ -7,8 +7,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -43,9 +45,9 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     ArrayList<News> models;
     SearchFragment context;
     Animation alpha;
-    String keyword;
     Spannable searchWord;
     Spannable searchInDescr;
+    String keyword;
 
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword) {
         this.models = models;
@@ -83,39 +85,51 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, viewHolder.author.getId());
-        viewHolder.author.setText(models.get(position).getAuthor());
         viewHolder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         String fullAuthor = models.get(position).getSource().concat(models.get(position).getAuthor());
-        if (fullAuthor.length() > 45) {
+        if (fullAuthor.length() == 0) {
+            viewHolder.author.setVisibility(View.GONE);
+            viewHolder.date.setPadding(25, 0, 0, 0);
+        } else {
+            viewHolder.author.setVisibility(View.VISIBLE);
+        }
+        viewHolder.author.setText(fullAuthor);
+        if (fullAuthor.length() > 35) {
             viewHolder.date.setLayoutParams(relativeParams);
-            viewHolder.date.setPadding(25,0,0,15);
+            viewHolder.date.setPadding(25, 0, 0, 15);
+        } else {
         }
         viewHolder.date.setText(models.get(position).getDate());
         viewHolder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         viewHolder.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        String text = models.get(position).getTitle();
+        searchWord = new SpannableString(models.get(position).getTitle());
+        if (keyword == null){
+            keyword = "";
+        }
         Pattern word = Pattern.compile(keyword);
-        Matcher matcher = word.matcher(text);
-        searchWord = new SpannableString(text);
+        Matcher matcher = word.matcher(searchWord);
         if (matcher.find()) {
-            searchWord.setSpan(new BackgroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            searchWord.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorPrimary)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            searchWord.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            searchWord.setSpan(new UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.title.setText(searchWord);
-        }else{
+        } else {
             viewHolder.title.setText(models.get(position).getTitle());
         }
         viewHolder.text.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-        String description = models.get(position).getShortdecription();
-        Pattern descrWord = Pattern.compile(keyword);
-        Matcher descrMatch = descrWord.matcher(description);
-        searchInDescr = new SpannableString(description);
-        if (descrMatch.find()) {
-            searchInDescr.setSpan(new BackgroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            searchInDescr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorPrimary)), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            viewHolder.text.setText(searchInDescr);
-        }else {
-            viewHolder.text.setText(models.get(position).getShortdecription());
+            searchInDescr = new SpannableString(models.get(position).getShortdecription());
+        if (keyword == null){
+            keyword = "";
         }
+            Pattern descrWord = Pattern.compile(keyword);
+            Matcher descrMatch = descrWord.matcher(searchInDescr);
+            if (descrMatch.find()) {
+                searchInDescr.setSpan(new UnderlineSpan(), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                searchInDescr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                viewHolder.text.setText(searchInDescr);
+            } else {
+                viewHolder.text.setText(models.get(position).getShortdecription());
+            }
+
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

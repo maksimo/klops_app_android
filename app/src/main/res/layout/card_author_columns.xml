@@ -11,44 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:elevation="1dp">
-
-        <RelativeLayout
-            android:id="@+id/authorCardAuthors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/authorCardSource"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="105dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text=""
-                android:textAllCaps="true"
-                android:textColor="@color/darkGreyText"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/authorCardAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text=""
-                android:textAllCaps="true"
-                android:layout_toRightOf="@+id/authorCardSource"
-                android:textColor="@color/darkGreyText"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-        </RelativeLayout>
+        android:elevation="1dp"
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/authorCardDate"
@@ -56,9 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center"
-            android:text=""
             android:textAllCaps="true"
-            android:layout_below="@+id/authorCardAuthors"
             android:textColor="@color/greyText"
             android:textSize="10sp"
             android:layout_marginBottom="10dp"
@@ -70,7 +32,6 @@
             android:layout_height="17dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="12dp"
-            android:layout_below="@+id/authorCardAuthors"
             android:layout_toRightOf="@+id/authorCardDate"
             android:background="@drawable/camera"
             android:visibility="gone"/>
@@ -80,11 +41,34 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
-            android:layout_below="@+id/authorCardAuthors"
             android:layout_marginTop="17dp"
             android:layout_toLeftOf="@+id/authorCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/authorCardViewsIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@+id/authorCardViews"
+            android:background="@drawable/view_count"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/authorCardViews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_toLeftOf="@+id/authorCardStatusIcon"
+            android:textColor="@color/greyText"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/authorCardStatus"
@@ -93,14 +77,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:text=""
-            android:layout_below="@+id/authorCardAuthors"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="5dp" />
 
         <TextView
             android:id="@+id/authorCardTitle"
@@ -110,7 +92,7 @@
             android:layout_marginBottom="2dp"
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
-            android:paddingRight="30dp"
+            android:paddingRight="5dp"
             android:maxLines="2"
             android:text=""
             android:textColor="@color/blackText"
@@ -122,9 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/authorCardTitle"
             android:lineSpacingExtra="1dp"
-            android:paddingBottom="20dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingRight="5dp"
             android:maxLines="3"
             android:text=""
             android:textColor="@color/blackText"
@@ -135,7 +116,9 @@
             android:layout_width="match_parent"
             android:layout_height="0.6dp"
             android:layout_below="@+id/authorCardText"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
             android:background="@color/greySplitter"
             android:alpha="0.6" />
@@ -144,7 +127,7 @@
             android:id="@+id/authorImageLayer"
             android:layout_width="wrap_content"
             android:layout_below="@+id/splitter"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp">
 
@@ -158,20 +141,17 @@
                 android:id="@+id/authorCardLoading"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:visibility="visible" />
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
 
         <TextView
             android:id="@+id/authorCardName"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/splitter"
             android:paddingBottom="5dp"
             android:paddingLeft="95dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:text=""
+            android:paddingRight="5dp"
             android:textColor="@color/blackText"
             android:textSize="16sp" />
 
@@ -183,11 +163,39 @@
             android:lineSpacingExtra="1dp"
             android:paddingBottom="20dp"
             android:paddingLeft="95dp"
-            android:paddingRight="30dp"
+            android:paddingRight="5dp"
             android:maxLines="2"
-            android:text=""
             android:textColor="@color/blackText"
             android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/authorCardPromotionLayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/authorImageLayer"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/promotionIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/megaphone"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ru.klops.klops.custom.TextViewProRegular
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textAllCaps="true"
+                android:textColor="@color/greyText"
+                android:layout_toRightOf="@+id/promotionIcon"
+                android:layout_marginLeft="2dp"
+                android:text="Материал размещен на коммерческой основе"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
     </RelativeLayout>
     <View
         android:id="@+id/separator"

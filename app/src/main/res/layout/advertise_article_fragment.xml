@@ -52,7 +52,7 @@
                 android:layout_below="@+id/splitterAdvertiseFirst"
                 android:layout_marginRight="2dp"
                 android:layout_marginTop="17dp"
-                android:layout_toLeftOf="@+id/importantStatus"
+                android:layout_toLeftOf="@+id/advertiseStatus"
                 android:background="@drawable/news_update_circle"
                 android:visibility="gone" />
 

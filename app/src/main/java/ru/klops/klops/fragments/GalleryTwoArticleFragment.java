@@ -1,5 +1,6 @@
 package ru.klops.klops.fragments;
 
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,8 +15,13 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +57,10 @@ public class GalleryTwoArticleFragment extends Fragment {
     Item item;
     KlopsApplication app;
     ArticleActivity activity;
+    @BindView(R.id.imageGalleryTwoBig)
+    ImageView photo;
+    @BindView(R.id.galleryTwoProgress)
+    ProgressBar bar;
 
     @Override
     public void onAttach(Context context) {
@@ -74,13 +84,33 @@ public class GalleryTwoArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getUpdate_status().equals("")) {
+        if (!item.getImage().equals("")) {
+            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            photo.setVisibility(View.GONE);
         }
     }
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
-        title.setText(String.format("%1$" + 5 + "s", item.getTitle()));
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        relativeParams.addRule(RelativeLayout.BELOW, author.getId());
+        String fullAuthor = item.getSource().concat(item.getAuthor());
+        if (fullAuthor.length() > 35) {
+            date.setLayoutParams(relativeParams);
+            date.setPadding(15, 0, 0, 15);
+        }
+        title.setText(String.format("     " + item.getTitle()));
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -88,10 +118,6 @@ public class GalleryTwoArticleFragment extends Fragment {
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-
-    }
-
-    public void formatDefault() {
 
     }
 

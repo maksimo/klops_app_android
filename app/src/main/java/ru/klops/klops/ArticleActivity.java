@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,7 +36,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -51,6 +56,8 @@ import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +67,8 @@ import ru.klops.klops.adapter.GalleryContentPagerAdapter;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.custom.TextViewProRegular;
+import ru.klops.klops.fragments.AdsArticleFragment;
 import ru.klops.klops.fragments.AuthorArticleFragment;
 import ru.klops.klops.fragments.GalleryOneArticleFragment;
 import ru.klops.klops.fragments.GalleryTwoArticleFragment;
@@ -157,8 +166,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView firstImage;
     @BindView(R.id.firstDescription)
     TextView firstDescription;
-    @BindView(R.id.firstTitle)
-    TextView firstTitle;
+    @BindView(R.id.firstMore)
+    TextView firstMore;
     @BindView(R.id.firstUrl)
     TextView firstUrl;
     @BindView(R.id.secondContent)
@@ -169,8 +178,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView secondImage;
     @BindView(R.id.secondDescription)
     TextView secondDescription;
-    @BindView(R.id.secondTitle)
-    TextView secondTitle;
+    @BindView(R.id.secondMore)
+    TextView secondMore;
     @BindView(R.id.secondUrl)
     TextView secondUrl;
     @BindView(R.id.thirdContent)
@@ -181,8 +190,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView thirdImage;
     @BindView(R.id.thirdDescription)
     TextView thirdDescription;
-    @BindView(R.id.thirdTitle)
-    TextView thirdTitle;
+    @BindView(R.id.thirdMore)
+    TextView thirdMore;
     @BindView(R.id.thirdUrl)
     TextView thirdUrl;
     @BindView(R.id.fourthContent)
@@ -193,8 +202,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView fourthImage;
     @BindView(R.id.fourthDescription)
     TextView fourthDescription;
-    @BindView(R.id.fourthTitle)
-    TextView fourthTitle;
+    @BindView(R.id.fourthMore)
+    TextView fourthMore;
     @BindView(R.id.fourthUrl)
     TextView fourthUrl;
     @BindView(R.id.fifthContent)
@@ -205,8 +214,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView fifthImage;
     @BindView(R.id.fifthDescription)
     TextView fifthDescription;
-    @BindView(R.id.fifthTitle)
-    TextView fifthTitle;
+    @BindView(R.id.fifthMore)
+    TextView fifthMore;
     @BindView(R.id.fifthUrl)
     TextView fifthUrl;
     @BindView(R.id.sixContent)
@@ -217,8 +226,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView sixImage;
     @BindView(R.id.sixDescription)
     TextView sixDescription;
-    @BindView(R.id.sixTitle)
-    TextView sixTitle;
+    @BindView(R.id.sixMore)
+    TextView sixMore;
     @BindView(R.id.sixUrl)
     TextView sixUrl;
     @BindView(R.id.sevenContent)
@@ -229,8 +238,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView sevenImage;
     @BindView(R.id.sevenDescription)
     TextView sevenDescription;
-    @BindView(R.id.sevenTitle)
-    TextView sevenTitle;
+    @BindView(R.id.sevenMore)
+    TextView sevenMore;
     @BindView(R.id.sevenUrl)
     TextView sevenUrl;
     @BindView(R.id.eightContent)
@@ -241,8 +250,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView eightImage;
     @BindView(R.id.eightDescription)
     TextView eightDescription;
-    @BindView(R.id.eightTitle)
-    TextView eightTitle;
+    @BindView(R.id.eightMore)
+    TextView eightMore;
     @BindView(R.id.eightUrl)
     TextView eightUrl;
     @BindView(R.id.nineContent)
@@ -253,8 +262,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView nineImage;
     @BindView(R.id.nineDescription)
     TextView nineDescription;
-    @BindView(R.id.nineTitle)
-    TextView nineTitle;
+    @BindView(R.id.nineMore)
+    TextView nineMore;
     @BindView(R.id.nineUrl)
     TextView nineUrl;
     @BindView(R.id.tenContent)
@@ -265,8 +274,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView tenImage;
     @BindView(R.id.tenDescription)
     TextView tenDescription;
-    @BindView(R.id.tenTitle)
-    TextView tenTitle;
+    @BindView(R.id.tenMore)
+    TextView tenMore;
     @BindView(R.id.tenUrl)
     TextView tenUrl;
     @BindView(R.id.elevenContent)
@@ -277,8 +286,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView elevenImage;
     @BindView(R.id.elevenDescription)
     TextView elevenDescription;
-    @BindView(R.id.elevenTitle)
-    TextView elevenTitle;
+    @BindView(R.id.elevenMore)
+    TextView elevenMore;
     @BindView(R.id.elevenUrl)
     TextView elevenUrl;
     @BindView(R.id.twelveContent)
@@ -289,8 +298,8 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView twelveImage;
     @BindView(R.id.twelveDescription)
     TextView twelveDescription;
-    @BindView(R.id.twelveTitle)
-    TextView twelveTitle;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
     @BindView(R.id.twelveUrl)
     TextView twelveUrl;
 
@@ -318,9 +327,23 @@ public class ArticleActivity extends AppCompatActivity {
     ProgressBar barEleven;
     @BindView(R.id.twelveProgress)
     ProgressBar barTwelve;
+    @BindView(R.id.promotionLayer)
+    RelativeLayout promotionLayer;
+    @BindView(R.id.promotionIcon)
+    ImageView promotionIcon;
+    @BindView(R.id.promotionText)
+    TextViewProRegular promotionText;
+    @BindView(R.id.fullArticleLayer)
+    RelativeLayout fullArticleLayer;
+    @BindView(R.id.splitterFour)
+    View splitterFour;
+    @BindView(R.id.littleSwitchPhotoIcon)
+    ImageView littleSwitchPhotoIcon;
     ArrayList<WebView> contentViews;
     ArrayList<TextView> contentDescriptions;
     ArrayList<Connected_items> connectedItemses;
+    ArrayList<TextView> contentMore;
+    ArrayList<TextView> contentUrl;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
     ShareDialog shareFacebookDialog;
@@ -354,7 +377,6 @@ public class ArticleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
-        setUpFormat();
         drawFragment();
         setUPContent();
         getAllContents();
@@ -465,15 +487,15 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void loadPhoto(ArticleActivity context, String imageUrl, ImageView imView, final ProgressBar bar) {
-        Picasso.with(context).load(imageUrl).into(imView, new Callback() {
+        Ion.with(context).load(imageUrl).progressHandler(new ProgressCallback() {
             @Override
-            public void onSuccess() {
-                bar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError() {
+            public void onProgress(long downloaded, long total) {
                 bar.setVisibility(View.VISIBLE);
+            }
+        }).intoImageView(imView).setCallback(new FutureCallback<ImageView>() {
+            @Override
+            public void onCompleted(Exception e, ImageView result) {
+                bar.setVisibility(View.GONE);
             }
         });
     }
@@ -483,9 +505,15 @@ public class ArticleActivity extends AppCompatActivity {
         matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
         contentViews = new ArrayList<>();
         contentDescriptions = new ArrayList<>();
+        contentMore = new ArrayList<>();
+        contentUrl = new ArrayList<>();
         galleries = new ArrayList<>();
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
+
+        if (item.getPromoted() == 1) {
+            promotionLayer.setVisibility(View.VISIBLE);
+        }
 
         for (int n = 0; n < contents.size(); n++) {
             if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
@@ -607,33 +635,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(11) != null) {
             if (contents.get(11).getText() != null) {
                 twelveContent.setVisibility(View.VISIBLE);
-                twelveWeb.setVisibility(View.VISIBLE);
                 twelveWeb.getSettings().setDefaultFontSize(16);
-                twelveWeb.loadData(contents.get(9).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                twelveWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barTwelve.setVisibility(View.VISIBLE);
+                        twelveWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barTwelve.setVisibility(View.GONE);
+                        twelveWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                twelveWeb.getSettings().setJavaScriptEnabled(true);
+                twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                twelveWeb.setWebChromeClient(new WebChromeClient());
+                twelveWeb.loadData(Constants.HARDCODED_BODY + contents.get(11).getText(), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(twelveWeb);
             } else if (contents.get(11).getPhotos() != null) {
                 twelveContent.setVisibility(View.VISIBLE);
                 twelveImage.setVisibility(View.VISIBLE);
                 barTwelve.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(11).getPhotos().get(0).getImg_url()).into(twelveImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barTwelve.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barTwelve.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(11).getPhotos().get(0).getImg_url(), twelveImage, barTwelve);
                 if (!contents.get(11).getPhotos().get(0).getDescription().equals("")) {
                     twelveDescription.setText(contents.get(11).getPhotos().get(0).getDescription());
+                    twelveDescription.setVisibility(View.VISIBLE);
                 } else {
-                    twelveDescription.setText("Отсутствует описание к данному фото");
+                    twelveDescription.setText("");
+                    twelveDescription.setVisibility(View.GONE);
                 }
-                twelveDescription.setVisibility(View.VISIBLE);
                 twelveDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(twelveDescription);
+            } else if (contents.get(11).getAssociate() != null) {
+                twelveContent.setVisibility(View.VISIBLE);
+                twelveMore.setVisibility(View.VISIBLE);
+                twelveUrl.setVisibility(View.VISIBLE);
+                twelveMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                twelveUrl.setText(contents.get(11).getAssociate().getTitle());
+                twelveUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                twelveUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(11).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(twelveMore);
+                contentUrl.add(twelveUrl);
+            }else  if (contents.get(11).getVideo_url() != null) {
+                twelveContent.setVisibility(View.VISIBLE);
+                twelveWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                twelveWeb.setWebViewClient(new WebViewClient());
+                twelveWeb.loadUrl(contents.get(11).getVideo_url());
+                twelveWeb.getSettings().setJavaScriptEnabled(true);
+                twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                twelveWeb.setWebChromeClient(new WebChromeClient());
+                twelveWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -642,33 +707,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(10) != null) {
             if (contents.get(10).getText() != null) {
                 elevenContent.setVisibility(View.VISIBLE);
-                elevenWeb.setVisibility(View.VISIBLE);
                 elevenWeb.getSettings().setDefaultFontSize(16);
-                elevenWeb.loadData(contents.get(10).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                elevenWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barEleven.setVisibility(View.VISIBLE);
+                        elevenWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barEleven.setVisibility(View.GONE);
+                        elevenWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                elevenWeb.getSettings().setJavaScriptEnabled(true);
+                elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                elevenWeb.setWebChromeClient(new WebChromeClient());
+                elevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(10).getText(), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(elevenWeb);
             } else if (contents.get(10).getPhotos() != null) {
                 elevenContent.setVisibility(View.VISIBLE);
                 elevenImage.setVisibility(View.VISIBLE);
                 barEleven.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(Constants.HARDCODED_BODY + contents.get(10).getPhotos().get(0).getImg_url()).into(elevenImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barEleven.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barEleven.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(10).getPhotos().get(0).getImg_url(), elevenImage, barEleven);
                 if (!contents.get(10).getPhotos().get(0).getDescription().equals("")) {
                     elevenDescription.setText(contents.get(10).getPhotos().get(0).getDescription());
+                    elevenDescription.setVisibility(View.VISIBLE);
                 } else {
-                    elevenDescription.setText("Отсутствует описание к данному фото");
+                    elevenDescription.setText("");
+                    elevenDescription.setVisibility(View.GONE);
                 }
-                elevenDescription.setVisibility(View.VISIBLE);
                 elevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(elevenDescription);
+            } else if (contents.get(10).getAssociate() != null) {
+                elevenContent.setVisibility(View.VISIBLE);
+                elevenMore.setVisibility(View.VISIBLE);
+                elevenUrl.setVisibility(View.VISIBLE);
+                elevenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                elevenUrl.setText(contents.get(10).getAssociate().getTitle());
+                elevenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                elevenUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(10).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(elevenMore);
+                contentUrl.add(elevenUrl);
+            }else  if (contents.get(10).getVideo_url() != null) {
+                elevenContent.setVisibility(View.VISIBLE);
+                elevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                elevenWeb.setWebViewClient(new WebViewClient());
+                elevenWeb.loadUrl(contents.get(10).getVideo_url());
+                elevenWeb.getSettings().setJavaScriptEnabled(true);
+                elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                elevenWeb.setWebChromeClient(new WebChromeClient());
+                elevenWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -677,33 +779,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(9) != null) {
             if (contents.get(9).getText() != null) {
                 tenContent.setVisibility(View.VISIBLE);
-                tenWeb.setVisibility(View.VISIBLE);
                 tenWeb.getSettings().setDefaultFontSize(16);
-                tenWeb.loadData(Constants.HARDCODED_BODY + contents.get(9).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                tenWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barTen.setVisibility(View.VISIBLE);
+                        tenWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barTen.setVisibility(View.GONE);
+                        tenWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                tenWeb.getSettings().setJavaScriptEnabled(true);
+                tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                tenWeb.setWebChromeClient(new WebChromeClient());
+                tenWeb.loadData(Constants.HARDCODED_BODY + contents.get(9).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(tenWeb);
             } else if (contents.get(9).getPhotos() != null) {
                 tenContent.setVisibility(View.VISIBLE);
                 tenImage.setVisibility(View.VISIBLE);
                 barTen.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(9).getPhotos().get(0).getImg_url()).into(tenImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barTen.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barTen.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(9).getPhotos().get(0).getImg_url(), tenImage, barTen);
                 if (!contents.get(9).getPhotos().get(0).getDescription().equals("")) {
                     tenDescription.setText(contents.get(9).getPhotos().get(0).getDescription());
+                    tenDescription.setVisibility(View.VISIBLE);
+
                 } else {
-                    tenDescription.setText("Отсутствует описание к данному фото");
+                    tenDescription.setVisibility(View.GONE);
                 }
-                tenDescription.setVisibility(View.VISIBLE);
                 tenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(tenDescription);
+            } else if (contents.get(9).getAssociate() != null) {
+                tenContent.setVisibility(View.VISIBLE);
+                tenMore.setVisibility(View.VISIBLE);
+                tenUrl.setVisibility(View.VISIBLE);
+                tenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                tenUrl.setText(contents.get(9).getAssociate().getTitle());
+                tenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                tenUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(9).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(tenMore);
+                contentUrl.add(tenUrl);
+            }else  if (contents.get(9).getVideo_url() != null) {
+                tenContent.setVisibility(View.VISIBLE);
+                tenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                tenWeb.setWebViewClient(new WebViewClient());
+                tenWeb.loadUrl(contents.get(9).getVideo_url());
+                tenWeb.getSettings().setJavaScriptEnabled(true);
+                tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                tenWeb.setWebChromeClient(new WebChromeClient());
+                tenWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -712,33 +851,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(8) != null) {
             if (contents.get(8).getText() != null) {
                 nineContent.setVisibility(View.VISIBLE);
-                nineWeb.setVisibility(View.VISIBLE);
                 nineWeb.getSettings().setDefaultFontSize(16);
-                nineWeb.loadData(Constants.HARDCODED_BODY + contents.get(8).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                nineWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barNine.setVisibility(View.VISIBLE);
+                        nineWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barNine.setVisibility(View.GONE);
+                        nineWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                nineWeb.getSettings().setJavaScriptEnabled(true);
+                nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                nineWeb.setWebChromeClient(new WebChromeClient());
+                nineWeb.loadData(Constants.HARDCODED_BODY + contents.get(8).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(nineWeb);
             } else if (contents.get(8).getPhotos() != null) {
                 nineContent.setVisibility(View.VISIBLE);
                 nineImage.setVisibility(View.VISIBLE);
                 barNine.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(8).getPhotos().get(0).getImg_url()).into(nineImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barNine.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barNine.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(8).getPhotos().get(0).getImg_url(), nineImage, barNine);
                 if (!contents.get(8).getPhotos().get(0).getDescription().equals("")) {
                     nineDescription.setText(contents.get(8).getPhotos().get(0).getDescription());
+                    nineDescription.setVisibility(View.VISIBLE);
                 } else {
                     nineDescription.setText("Отсутствует описание к данному фото");
+                    nineDescription.setVisibility(View.GONE);
                 }
-                nineDescription.setVisibility(View.VISIBLE);
                 nineDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(nineDescription);
+            } else if (contents.get(8).getAssociate() != null) {
+                nineContent.setVisibility(View.VISIBLE);
+                nineMore.setVisibility(View.VISIBLE);
+                nineUrl.setVisibility(View.VISIBLE);
+                nineMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                nineUrl.setText(contents.get(8).getAssociate().getTitle());
+                nineUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                nineUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(8).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(nineMore);
+                contentUrl.add(nineUrl);
+            }else  if (contents.get(8).getVideo_url() != null) {
+                nineContent.setVisibility(View.VISIBLE);
+                nineWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                nineWeb.setWebViewClient(new WebViewClient());
+                nineWeb.loadUrl(contents.get(8).getVideo_url());
+                nineWeb.getSettings().setJavaScriptEnabled(true);
+                nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                nineWeb.setWebChromeClient(new WebChromeClient());
+                nineWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -747,33 +923,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(7) != null) {
             if (contents.get(7).getText() != null) {
                 eightContent.setVisibility(View.VISIBLE);
-                eightWeb.setVisibility(View.VISIBLE);
                 eightWeb.getSettings().setDefaultFontSize(16);
-                eightWeb.loadData(Constants.HARDCODED_BODY + contents.get(7).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                eightWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barEight.setVisibility(View.VISIBLE);
+                        eightWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barEight.setVisibility(View.GONE);
+                        eightWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                eightWeb.getSettings().setJavaScriptEnabled(true);
+                eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                eightWeb.setWebChromeClient(new WebChromeClient());
+                eightWeb.loadData(Constants.HARDCODED_BODY + contents.get(7).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(eightWeb);
             } else if (contents.get(7).getPhotos() != null) {
                 eightContent.setVisibility(View.VISIBLE);
                 eightImage.setVisibility(View.VISIBLE);
                 barEight.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(7).getPhotos().get(0).getImg_url()).into(eightImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barEight.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barEight.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(7).getPhotos().get(0).getImg_url(), eightImage, barEight);
                 if (!contents.get(7).getPhotos().get(0).getDescription().equals("")) {
                     eightDescription.setText(contents.get(7).getPhotos().get(0).getDescription());
+                    eightDescription.setVisibility(View.VISIBLE);
                 } else {
                     eightDescription.setText("Отсутствует описание к данному фото");
+                    eightDescription.setVisibility(View.GONE);
                 }
-                eightDescription.setVisibility(View.VISIBLE);
                 eightDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(eightDescription);
+            } else if (contents.get(7).getAssociate() != null) {
+                eightContent.setVisibility(View.VISIBLE);
+                eightMore.setVisibility(View.VISIBLE);
+                eightUrl.setVisibility(View.VISIBLE);
+                eightMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                eightUrl.setText(contents.get(7).getAssociate().getTitle());
+                eightUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                eightUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(7).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(eightMore);
+                contentUrl.add(eightUrl);
+            }else  if (contents.get(7).getVideo_url() != null) {
+                eightContent.setVisibility(View.VISIBLE);
+                eightWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                eightWeb.setWebViewClient(new WebViewClient());
+                eightWeb.loadUrl(contents.get(7).getVideo_url());
+                eightWeb.getSettings().setJavaScriptEnabled(true);
+                eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                eightWeb.setWebChromeClient(new WebChromeClient());
+                eightWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -782,34 +995,72 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(6) != null) {
             if (contents.get(6).getText() != null) {
                 sevenContent.setVisibility(View.VISIBLE);
-                sevenWeb.setVisibility(View.VISIBLE);
                 sevenWeb.getSettings().setDefaultFontSize(16);
-                sevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(6).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                sevenWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barSeven.setVisibility(View.VISIBLE);
+                        sevenWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barSeven.setVisibility(View.GONE);
+                        sevenWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                sevenWeb.getSettings().setJavaScriptEnabled(true);
+                sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                sevenWeb.setWebChromeClient(new WebChromeClient());
+                sevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(6).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(sevenWeb);
             } else if (contents.get(6).getPhotos() != null) {
                 sevenContent.setVisibility(View.VISIBLE);
                 sevenImage.setVisibility(View.VISIBLE);
                 barSeven.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(6).getPhotos().get(0).getImg_url()).into(sevenImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barSeven.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barSeven.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(6).getPhotos().get(0).getImg_url(), sevenImage, barSeven);
                 if (!contents.get(6).getPhotos().get(0).getDescription().equals("")) {
                     sevenDescription.setText(contents.get(6).getPhotos().get(0).getDescription());
+                    sevenDescription.setVisibility(View.VISIBLE);
                 } else {
-                    sevenDescription.setText("Отсутствует описание к данному фото");
+                    sevenDescription.setText("");
+                    sevenDescription.setVisibility(View.GONE);
                 }
-                sevenDescription.setVisibility(View.VISIBLE);
+
                 sevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(sevenDescription);
 
+            } else if (contents.get(6).getAssociate() != null) {
+                sevenContent.setVisibility(View.VISIBLE);
+                sevenMore.setVisibility(View.VISIBLE);
+                sevenUrl.setVisibility(View.VISIBLE);
+                sevenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                sevenUrl.setText(contents.get(6).getAssociate().getTitle());
+                sevenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                sevenUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(6).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(sevenMore);
+                contentUrl.add(sevenUrl);
+            }else  if (contents.get(6).getVideo_url() != null) {
+                sevenContent.setVisibility(View.VISIBLE);
+                sevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                sevenWeb.setWebViewClient(new WebViewClient());
+                sevenWeb.loadUrl(contents.get(6).getVideo_url());
+                sevenWeb.getSettings().setJavaScriptEnabled(true);
+                sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                sevenWeb.setWebChromeClient(new WebChromeClient());
+                sevenWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -818,34 +1069,71 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(5) != null) {
             if (contents.get(5).getText() != null) {
                 sixContent.setVisibility(View.VISIBLE);
-                sixWeb.setVisibility(View.VISIBLE);
                 sixWeb.getSettings().setDefaultFontSize(16);
-                sixWeb.loadData(Constants.HARDCODED_BODY + contents.get(5).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                sixWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barSix.setVisibility(View.VISIBLE);
+                        sixWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barSix.setVisibility(View.GONE);
+                        sixWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                sixWeb.getSettings().setJavaScriptEnabled(true);
+                sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                sixWeb.setWebChromeClient(new WebChromeClient());
+                sixWeb.loadData(Constants.HARDCODED_BODY + contents.get(5).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(sixWeb);
             } else if (contents.get(5).getPhotos() != null) {
                 sixContent.setVisibility(View.VISIBLE);
                 sixImage.setVisibility(View.VISIBLE);
                 barSix.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(5).getPhotos().get(0).getImg_url()).into(sixImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barSix.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barSix.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(5).getPhotos().get(0).getImg_url(), sixImage, barSix);
                 if (!contents.get(5).getPhotos().get(0).getDescription().equals("")) {
                     sixDescription.setText(contents.get(5).getPhotos().get(0).getDescription());
+                    sixDescription.setVisibility(View.VISIBLE);
                 } else {
                     sixDescription.setText("Отсутствует описание к данному фото");
+                    sixDescription.setVisibility(View.GONE);
                 }
-                sixDescription.setVisibility(View.VISIBLE);
                 sixDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(sixDescription);
 
+            } else if (contents.get(5).getAssociate() != null) {
+                sixContent.setVisibility(View.VISIBLE);
+                sixMore.setVisibility(View.VISIBLE);
+                sixUrl.setVisibility(View.VISIBLE);
+                sixMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                sixUrl.setText(contents.get(5).getAssociate().getTitle());
+                sixUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                sixUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(5).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(sixMore);
+                contentUrl.add(sixUrl);
+            }else  if (contents.get(5).getVideo_url() != null) {
+                sixContent.setVisibility(View.VISIBLE);
+                sixWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                sixWeb.setWebViewClient(new WebViewClient());
+                sixWeb.loadUrl(contents.get(5).getVideo_url());
+                sixWeb.getSettings().setJavaScriptEnabled(true);
+                sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                sixWeb.setWebChromeClient(new WebChromeClient());
+                sixWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -854,37 +1142,73 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(4) != null) {
             if (contents.get(4).getText() != null) {
                 fifthContent.setVisibility(View.VISIBLE);
-                fifthWeb.setVisibility(View.VISIBLE);
                 fifthWeb.getSettings().setDefaultFontSize(16);
-                fifthWeb.loadData(Constants.HARDCODED_BODY + contents.get(4).getText(), "text/html; charset=utf-8", "UTF-8");
-                contentViews.add(fifthWeb);
-            } else if (contents.get(4).getPhotos() != null) {
-                fourthContent.setVisibility(View.VISIBLE);
-                fifthImage.setVisibility(View.VISIBLE);
-                barFive.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(4).getPhotos().get(0).getImg_url()).into(fifthImage, new Callback() {
+                fifthWeb.setWebViewClient(new WebViewClient(){
                     @Override
-                    public void onSuccess() {
-                        barFive.setVisibility(View.GONE);
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barFive.setVisibility(View.VISIBLE);
+                        fifthWeb.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void onError() {
-                        barFive.setVisibility(View.VISIBLE);
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barFive.setVisibility(View.GONE);
+                        fifthWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
                     }
                 });
+                fifthWeb.getSettings().setJavaScriptEnabled(true);
+                fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                fifthWeb.setWebChromeClient(new WebChromeClient());
+                fifthWeb.loadData(Constants.HARDCODED_BODY + contents.get(4).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
+                contentViews.add(fifthWeb);
+            } else if (contents.get(4).getPhotos() != null) {
+                fifthContent.setVisibility(View.VISIBLE);
+                fifthImage.setVisibility(View.VISIBLE);
+                barFive.setVisibility(View.VISIBLE);
+                loadPhoto(ArticleActivity.this, contents.get(4).getPhotos().get(0).getImg_url(), fifthImage, barFive);
                 if (!contents.get(4).getPhotos().get(0).getDescription().equals("")) {
                     fifthDescription.setText(contents.get(4).getPhotos().get(0).getDescription());
+                    fifthDescription.setVisibility(View.VISIBLE);
                 } else {
                     fifthDescription.setText("Отсутствует описание к данному фото");
                 }
-                fifthDescription.setVisibility(View.VISIBLE);
                 fifthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(fifthDescription);
             } else if (contents.get(4).getGallery() != null) {
                 for (int i = 0; i < contents.get(4).getGallery().size(); i++) {
                     galleries.add(contents.get(4).getGallery().get(i));
                 }
+            } else if (contents.get(4).getAssociate() != null) {
+                fifthContent.setVisibility(View.VISIBLE);
+                fifthMore.setVisibility(View.VISIBLE);
+                fifthUrl.setVisibility(View.VISIBLE);
+                fifthMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                fifthUrl.setText(contents.get(4).getAssociate().getTitle());
+                fifthUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                fifthUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(4).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(fifthMore);
+                contentUrl.add(fifthUrl);
+            }else  if (contents.get(4).getVideo_url() != null) {
+                fifthContent.setVisibility(View.VISIBLE);
+                fifthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                fifthWeb.setWebViewClient(new WebViewClient());
+                fifthWeb.loadUrl(contents.get(4).getVideo_url());
+                fifthWeb.getSettings().setJavaScriptEnabled(true);
+                fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                fifthWeb.setWebChromeClient(new WebChromeClient());
+                fifthWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -893,34 +1217,69 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(3) != null) {
             if (contents.get(3).getText() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
-                fourthWeb.setVisibility(View.VISIBLE);
                 fourthWeb.getSettings().setDefaultFontSize(16);
-                fourthWeb.loadData(Constants.HARDCODED_BODY + contents.get(3).getText(), "text/html; chcarset=utf-8", "UTF-8");
+                fourthWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barFour.setVisibility(View.VISIBLE);
+                        fourthWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barFour.setVisibility(View.GONE);
+                        fourthWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                fourthWeb.getSettings().setJavaScriptEnabled(true);
+                fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                fourthWeb.setWebChromeClient(new WebChromeClient());
+                fourthWeb.loadData(Constants.HARDCODED_BODY + contents.get(3).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
                 contentViews.add(fourthWeb);
             } else if (contents.get(3).getPhotos() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
                 fourthImage.setVisibility(View.VISIBLE);
                 barFour.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(3).getPhotos().get(0).getImg_url()).into(fourthImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barFour.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barFour.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(3).getPhotos().get(0).getImg_url(), fourthImage, barFour);
                 if (!contents.get(3).getPhotos().get(0).getDescription().equals("")) {
                     fourthDescription.setText(contents.get(3).getPhotos().get(0).getDescription());
+                    fourthDescription.setVisibility(View.VISIBLE);
                 } else {
                     fourthDescription.setText("Отсутствует описание к данному фото");
                 }
-                fourthDescription.setVisibility(View.VISIBLE);
                 fourthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(fourthDescription);
-
+            } else if (contents.get(3).getAssociate() != null) {
+                fourthContent.setVisibility(View.VISIBLE);
+                fourthMore.setVisibility(View.VISIBLE);
+                fourthUrl.setVisibility(View.VISIBLE);
+                fourthMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                fourthUrl.setText(contents.get(3).getAssociate().getTitle());
+                fourthUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                fourthUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(3).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(fourthMore);
+                contentUrl.add(fourthUrl);
+            }else  if (contents.get(3).getVideo_url() != null) {
+                fourthContent.setVisibility(View.VISIBLE);
+                fourthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                fourthWeb.setWebViewClient(new WebViewClient());
+                fourthWeb.loadUrl(contents.get(3).getVideo_url());
+                fourthWeb.getSettings().setJavaScriptEnabled(true);
+                fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                fourthWeb.setWebChromeClient(new WebChromeClient());
+                fourthWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -929,33 +1288,69 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(2) != null) {
             if (contents.get(2).getText() != null) {
                 thirdContent.setVisibility(View.VISIBLE);
-                thirdWeb.setVisibility(View.VISIBLE);
                 thirdWeb.getSettings().setDefaultFontSize(16);
-                thirdWeb.loadData(Constants.HARDCODED_BODY + contents.get(2).getText(), "text/html; charset=utf-8", "UTF-8");
+                thirdWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barThree.setVisibility(View.VISIBLE);
+                        thirdWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barThree.setVisibility(View.GONE);
+                        thirdWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                thirdWeb.getSettings().setJavaScriptEnabled(true);
+                thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                thirdWeb.setWebChromeClient(new WebChromeClient());
+                thirdWeb.loadData(Constants.HARDCODED_BODY + contents.get(2).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
                 contentViews.add(thirdWeb);
             } else if (contents.get(2).getPhotos() != null) {
                 thirdContent.setVisibility(View.VISIBLE);
                 thirdImage.setVisibility(View.VISIBLE);
                 barThree.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(2).getPhotos().get(0).getImg_url()).into(thirdImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barThree.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barThree.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(2).getPhotos().get(0).getImg_url(), thirdImage, barThree);
                 if (!contents.get(2).getPhotos().get(0).getDescription().equals("")) {
                     thirdDescription.setText(contents.get(2).getPhotos().get(0).getDescription());
+                    thirdDescription.setVisibility(View.VISIBLE);
                 } else {
                     thirdDescription.setText("Отсутствует описание к данному фото");
                 }
-                thirdDescription.setVisibility(View.VISIBLE);
                 thirdDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(thirdDescription);
+            } else if (contents.get(2).getAssociate() != null) {
+                thirdContent.setVisibility(View.VISIBLE);
+                thirdMore.setVisibility(View.VISIBLE);
+                thirdUrl.setVisibility(View.VISIBLE);
+                thirdMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                thirdUrl.setText(contents.get(2).getAssociate().getTitle());
+                thirdUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                thirdUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(2).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(thirdMore);
+                contentUrl.add(thirdUrl);
+            }else  if (contents.get(2).getVideo_url() != null) {
+                thirdContent.setVisibility(View.VISIBLE);
+                thirdWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                thirdWeb.setWebViewClient(new WebViewClient());
+                thirdWeb.loadUrl(contents.get(2).getVideo_url());
+                thirdWeb.getSettings().setJavaScriptEnabled(true);
+                thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                thirdWeb.setWebChromeClient(new WebChromeClient());
+                thirdWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -964,34 +1359,70 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(1) != null) {
             if (contents.get(1).getText() != null) {
                 secondContent.setVisibility(View.VISIBLE);
-                secondWeb.setVisibility(View.VISIBLE);
                 secondWeb.getSettings().setDefaultFontSize(16);
-                secondWeb.loadData(Constants.HARDCODED_BODY + contents.get(1).getText(), "text/html; charset=utf-8", "UTF-8");
+                secondWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barTwo.setVisibility(View.VISIBLE);
+                        secondWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barTwo.setVisibility(View.GONE);
+                        secondWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
+                secondWeb.getSettings().setJavaScriptEnabled(true);
+                secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                secondWeb.setWebChromeClient(new WebChromeClient());
+                secondWeb.loadData(Constants.HARDCODED_BODY + contents.get(1).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
                 contentViews.add(secondWeb);
             } else if (contents.get(1).getPhotos() != null) {
                 secondContent.setVisibility(View.VISIBLE);
                 secondImage.setVisibility(View.VISIBLE);
                 barTwo.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(1).getPhotos().get(0).getImg_url()).into(secondImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barTwo.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barTwo.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(1).getPhotos().get(0).getImg_url(), secondImage, barTwo);
                 if (!contents.get(1).getPhotos().get(0).getDescription().equals("")) {
                     secondDescription.setText(contents.get(1).getPhotos().get(0).getDescription());
+                    secondDescription.setVisibility(View.VISIBLE);
                 } else {
                     secondDescription.setText("Отсутствует описание к данному фото");
                 }
-                secondDescription.setVisibility(View.VISIBLE);
                 secondDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(secondDescription);
 
+            } else if (contents.get(1).getAssociate() != null) {
+                secondContent.setVisibility(View.VISIBLE);
+                secondMore.setVisibility(View.VISIBLE);
+                secondUrl.setVisibility(View.VISIBLE);
+                secondMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                secondUrl.setText(contents.get(1).getAssociate().getTitle());
+                secondUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                secondUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(1).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(secondMore);
+                contentUrl.add(secondUrl);
+            }else  if (contents.get(1).getVideo_url() != null) {
+                secondContent.setVisibility(View.VISIBLE);
+                secondWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                secondWeb.setWebViewClient(new WebViewClient());
+                secondWeb.loadUrl(contents.get(1).getVideo_url());
+                secondWeb.getSettings().setJavaScriptEnabled(true);
+                secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                secondWeb.setWebChromeClient(new WebChromeClient());
+                secondWeb.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -1000,33 +1431,69 @@ public class ArticleActivity extends AppCompatActivity {
         if (contents.get(0) != null) {
             if (contents.get(0).getText() != null) {
                 firstContent.setVisibility(View.VISIBLE);
-                firstWeb.setVisibility(View.VISIBLE);
                 firstWeb.getSettings().setDefaultFontSize(16);
+                firstWeb.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        barOne.setVisibility(View.VISIBLE);
+                        firstWeb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        barOne.setVisibility(View.GONE);
+                        firstWeb.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        return false;
+                    }
+                });
                 firstWeb.loadData(contents.get(0).getText(), "text/html; charset=utf-8", "UTF-8");
+                firstWeb.getSettings().setJavaScriptEnabled(true);
+                firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                firstWeb.setWebChromeClient(new WebChromeClient());
                 contentViews.add(firstWeb);
             } else if (contents.get(0).getPhotos() != null) {
                 firstContent.setVisibility(View.VISIBLE);
                 firstImage.setVisibility(View.VISIBLE);
                 barOne.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(contents.get(0).getPhotos().get(0).getImg_url()).into(firstImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        barOne.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        barOne.setVisibility(View.VISIBLE);
-                    }
-                });
+                loadPhoto(ArticleActivity.this, contents.get(0).getPhotos().get(0).getImg_url(), fifthImage, barOne);
                 if (!contents.get(0).getPhotos().get(0).getDescription().equals("")) {
                     firstDescription.setText(contents.get(0).getPhotos().get(0).getDescription());
+                    fifthDescription.setVisibility(View.VISIBLE);
                 } else {
                     firstDescription.setText("Отсутствует описание к данному фото");
                 }
-                fifthDescription.setVisibility(View.VISIBLE);
                 firstDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 contentDescriptions.add(firstDescription);
+            } else if (contents.get(0).getAssociate() != null) {
+                firstContent.setVisibility(View.VISIBLE);
+                firstMore.setVisibility(View.VISIBLE);
+                firstUrl.setVisibility(View.VISIBLE);
+                firstMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                firstUrl.setText(contents.get(0).getAssociate().getTitle());
+                firstUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                firstUrl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadArticle(contents.get(0).getAssociate().getUrl());
+                    }
+                });
+                contentMore.add(firstMore);
+                contentUrl.add(firstUrl);
+            }else  if (contents.get(0).getVideo_url() != null) {
+                firstContent.setVisibility(View.VISIBLE);
+                firstWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                firstWeb.setWebViewClient(new WebViewClient());
+                firstWeb.loadUrl(contents.get(0).getVideo_url());
+                firstWeb.getSettings().setJavaScriptEnabled(true);
+                firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                firstWeb.setWebChromeClient(new WebChromeClient());
+                firstWeb.setVisibility(View.VISIBLE);
             }
         }
 
@@ -1211,19 +1678,12 @@ public class ArticleActivity extends AppCompatActivity {
     @OnClick(R.id.buttonFormat)
     public void openFormatDialog() {
         format.startAnimation(alpha);
-    }
-
-
-    private void setUpFormat() {
-        Log.d(LOG, "setUpFormat");
-        format.startAnimation(alpha);
-        FragmentManager fm = getSupportFragmentManager();
-        List<Fragment> fragments = fm.getFragments();
         switch (formatCount) {
             case 0:
                 formatCount++;
-
-                for (Fragment fragment : fragments) {
+                FragmentManager fminc = getSupportFragmentManager();
+                List<Fragment> fragmentsInc = fminc.getFragments();
+                for (Fragment fragment : fragmentsInc) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWithImageArticleFragment) {
@@ -1244,18 +1704,34 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryTwoArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof UrgentArticleFragment){
-                        ((UrgentArticleFragment)fragment).formatIncrement();
+                    } else if (fragment instanceof UrgentArticleFragment) {
+                        ((UrgentArticleFragment) fragment).formatIncrement();
+                    } else if (fragment instanceof AdsArticleFragment){
+                        ((AdsArticleFragment)fragment).formatIncrement();
                     }
 
                     for (TextView text : contentDescriptions) {
                         text.setTextSize(18);
                     }
+
+                    for (TextView more : contentMore) {
+                        more.setTextSize(12);
+                    }
+
+                    for (TextView url : contentUrl) {
+                        url.setTextSize(18);
+                    }
+
+                    promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(25, 25));
+                    promotionText.setTextSize(12);
                     matchArticles.setTextSize(28);
                 }
+                break;
             case 1:
                 formatCount = 0;
-                for (Fragment fragment : fragments) {
+                FragmentManager fmndec = getSupportFragmentManager();
+                List<Fragment> fragmentsDec = fmndec.getFragments();
+                for (Fragment fragment : fragmentsDec) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWithImageArticleFragment) {
@@ -1276,17 +1752,30 @@ public class ArticleActivity extends AppCompatActivity {
                         ((GalleryTwoArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWideArticleFragment) {
                         ((SimpleWideArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof UrgentArticleFragment){
-                        ((UrgentArticleFragment)fragment).formatDecrement();
+                    } else if (fragment instanceof UrgentArticleFragment) {
+                        ((UrgentArticleFragment) fragment).formatDecrement();
+                    } else if (fragment instanceof AdsArticleFragment) {
+                        ((AdsArticleFragment) fragment).formatDecrement();
                     }
 
                     for (TextView text : contentDescriptions) {
                         text.setTextSize(16);
                     }
+
+                    for (TextView more : contentMore) {
+                        more.setTextSize(10);
+                    }
+
+                    for (TextView url : contentUrl) {
+                        url.setTextSize(16);
+                    }
+
+                    promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(20, 20));
+                    promotionText.setTextSize(10);
                     matchArticles.setTextSize(26);
                 }
+                break;
         }
-
     }
 
     private void drawFragment() {
@@ -1336,12 +1825,14 @@ public class ArticleActivity extends AppCompatActivity {
                 placeArticleFragment(importantArticle);
                 break;
             case Constants.GALLERY_FIRST_TEXT:
+                galleryBackground();
                 GalleryOneArticleFragment galleryOneArticle = new GalleryOneArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
                 galleryOneArticle.setArguments(bundle);
                 placeArticleFragment(galleryOneArticle);
                 break;
             case Constants.GALLERY_SECOND_TEXT:
+                galleryBackground();
                 GalleryTwoArticleFragment galleryTwoArticle = new GalleryTwoArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
                 galleryTwoArticle.setArguments(bundle);
@@ -1353,12 +1844,136 @@ public class ArticleActivity extends AppCompatActivity {
                 simpleWideArticle.setArguments(bundle);
                 placeArticleFragment(simpleWideArticle);
                 break;
+            case Constants.ADS_TEXT:
+                AdsArticleFragment adsArticleFragment = new AdsArticleFragment();
+                bundle.putParcelable(Constants.ARTICLE, item);
+                adsArticleFragment.setArguments(bundle);
+                placeArticleFragment(adsArticleFragment);
+                break;
             case Constants.URGENT_TEXT:
+                urgentBackground();
                 UrgentArticleFragment urgentArticleFragment = new UrgentArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
                 urgentArticleFragment.setArguments(bundle);
                 placeArticleFragment(urgentArticleFragment);
         }
+    }
+
+    private void urgentBackground() {
+        fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        promotionLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        promotionText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        firstDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        firstUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        secondDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        secondWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        secondMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        secondUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        thirdDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        thirdWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        thirdMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        thirdUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fourthDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fourthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        fourthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fourthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fifthDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fifthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        fifthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fifthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sixDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sixWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        sixMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sixUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sevenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        sevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        eightDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        eightWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        eightMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        eightUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        nineDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        nineWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        nineMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        nineUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        tenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        tenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        tenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        tenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        elevenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        elevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        elevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        elevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        twelveDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        twelveWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        twelveMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        twelveUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+    }
+
+    private void galleryBackground() {
+        fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+        splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        promotionLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        littleSwitchPhotoIcon.setBackground(ContextCompat.getDrawable(this, R.drawable.gallery_dark));
+        firstDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        firstUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        secondDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        secondWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        secondMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        secondUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        thirdDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        thirdWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        thirdMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        thirdUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fourthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        fourthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        fourthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fourthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fifthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        fifthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        fifthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fifthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sixDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        sixWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        sixMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sixUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        sevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        sevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        sevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        eightDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        eightWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        eightMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        eightUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        nineDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        nineWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        nineMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        nineUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        tenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        tenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        tenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        tenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        elevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        elevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        elevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        elevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        twelveDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        twelveWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        twelveMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        twelveUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
     }
 
     public void placeArticleFragment(Fragment fragment) {

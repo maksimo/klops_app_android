@@ -36,6 +36,7 @@ import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
+import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -61,9 +62,32 @@ public class SplashActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         myApp = KlopsApplication.getINSTANCE();
         Log.d(LOG, "onCreate");
-        checkConnection();
+        checkAPIbaseURL();
     }
 
+    private void checkAPIbaseURL() {
+        String baseUrl = myApp.loadBaseURL();
+        if (!baseUrl.equals("https://klops.ru/api/")) {
+            final AlertDialog.Builder apiChanged = new AlertDialog.Builder(SplashActivity.this);
+            apiChanged.setIcon(R.drawable.alert_icon).setTitle("Ошибка приложения").setCancelable(false)
+                    .setMessage("Настройки API приложения были изменены. Хотите продолжить работу?").setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    finish();
+                    startActivity(intent);
+                }
+            }).setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }).show();
+        } else {
+            checkConnection();
+        }
+    }
 
     private void checkConnection() {
         Log.d(LOG, "checkConnection");
@@ -179,7 +203,9 @@ public class SplashActivity extends AppCompatActivity {
                                                 .setMessage("Желаете продолжить?").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                                                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                                                finish();
+                                                startActivity(intent);
                                             }
                                         }).show();
                                     }
@@ -187,7 +213,9 @@ public class SplashActivity extends AppCompatActivity {
                                     @Override
                                     public void onNext(Popular popular) {
                                         myApp.setPopularPage(popular);
-                                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                                        finish();
+                                        startActivity(intent);
                                     }
                                 });
                     }
@@ -215,16 +243,6 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(LOG, "onResume");
     }
 
-    @Override
-    public void onBackPressed() {
-        Log.d(LOG, "onBackPressed");
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-        finish();
-    }
 
     @Override
     protected void onStop() {
@@ -235,9 +253,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Log.d(LOG, "onBackPressed");
+        finish();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         Log.d(LOG, "onDestroy");
         unbinder.unbind();
+        finish();
         super.onDestroy();
     }
 

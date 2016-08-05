@@ -20,30 +20,13 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/urgentCardSource"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text=""
-            android:textAllCaps="true"
-            android:textColor="@color/darkGreyText"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
-
-        <TextView
             android:id="@+id/urgentCardAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:gravity="center"
             android:text=""
             android:textAllCaps="true"
-            android:layout_toRightOf="@+id/urgentCardSource"
             android:textColor="@color/darkGreyText"
             android:textSize="10sp"
             android:textStyle="bold"
@@ -59,7 +42,7 @@
         android:layout_below="@+id/urgentCardAuthors"
         android:textColor="@color/colorPrimary"
         android:textSize="10sp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp" />
 
@@ -83,7 +66,33 @@
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_toLeftOf="@+id/urgentCardStatus"
         android:background="@drawable/urgent_circle"
-        android:visibility="gone" />
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/urgentCardViewsIcon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/urgentCardAuthors"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="13dp"
+        android:layout_toLeftOf="@+id/urgentCardViews"
+        android:visibility="gone"
+        android:background="@drawable/view_count_white" />
+
+    <TextView
+        android:id="@+id/urgentCardViews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:layout_toLeftOf="@+id/urgentCardStatusIcon"
+        android:layout_below="@+id/urgentCardAuthors"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10sp"
+        android:visibility="visible"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:id="@+id/urgentCardStatus"
@@ -96,9 +105,10 @@
         android:textColor="@color/colorPrimary"
         android:textSize="10sp"
         android:visibility="visible"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:text="Срочно" />
 
     <TextView
         android:id="@+id/urgentCardTitle"
@@ -107,10 +117,38 @@
         android:layout_below="@+id/urgentCardDate"
         android:paddingLeft="15dp"
         android:paddingRight="5dp"
-        android:maxLines="3"
         android:textColor="@color/colorPrimary"
         android:textSize="26sp"
         android:paddingBottom="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/urgentCardPromotionLayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/colorAccent"
+        android:layout_below="@+id/urgentCardTitle"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:id="@+id/promotionIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/megaphone"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"/>
+
+        <ru.klops.klops.custom.TextViewProRegular
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:layout_toRightOf="@+id/promotionIcon"
+            android:layout_marginLeft="2dp"
+            android:text="Материал размещен на коммерческой основе"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 </RelativeLayout>
     <View
         android:id="@+id/separator"
