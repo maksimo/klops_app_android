@@ -96,14 +96,14 @@ import rx.schedulers.Schedulers;
 public class ArticleActivity extends AppCompatActivity {
     final String LOG = "ArticleActivity";
 
+    @BindView(R.id.toolbarArticle)
+    Toolbar toolbar;
     @BindView(R.id.backButton)
     ImageView back;
     @BindView(R.id.buttonFormat)
     ImageView format;
     @BindView(R.id.shareSocials)
     ImageView share;
-    @BindView(R.id.toolbarArticle)
-    Toolbar toolbar;
     KlopsApplication app;
     String articleType;
     AlertDialog.Builder shareBuilder;
@@ -636,7 +636,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(11).getText() != null) {
                 twelveContent.setVisibility(View.VISIBLE);
                 twelveWeb.getSettings().setDefaultFontSize(16);
-                twelveWeb.setWebViewClient(new WebViewClient(){
+                twelveWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -685,12 +685,12 @@ public class ArticleActivity extends AppCompatActivity {
                 twelveUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(11).getAssociate().getUrl());
+                        loadArticle(contents.get(11).getAssociate().getId());
                     }
                 });
                 contentMore.add(twelveMore);
                 contentUrl.add(twelveUrl);
-            }else  if (contents.get(11).getVideo_url() != null) {
+            } else if (contents.get(11).getVideo_url() != null) {
                 twelveContent.setVisibility(View.VISIBLE);
                 twelveWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 twelveWeb.setWebViewClient(new WebViewClient());
@@ -708,7 +708,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(10).getText() != null) {
                 elevenContent.setVisibility(View.VISIBLE);
                 elevenWeb.getSettings().setDefaultFontSize(16);
-                elevenWeb.setWebViewClient(new WebViewClient(){
+                elevenWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -757,12 +757,12 @@ public class ArticleActivity extends AppCompatActivity {
                 elevenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(10).getAssociate().getUrl());
+                        loadArticle(contents.get(10).getAssociate().getId());
                     }
                 });
                 contentMore.add(elevenMore);
                 contentUrl.add(elevenUrl);
-            }else  if (contents.get(10).getVideo_url() != null) {
+            } else if (contents.get(10).getVideo_url() != null) {
                 elevenContent.setVisibility(View.VISIBLE);
                 elevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 elevenWeb.setWebViewClient(new WebViewClient());
@@ -780,7 +780,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(9).getText() != null) {
                 tenContent.setVisibility(View.VISIBLE);
                 tenWeb.getSettings().setDefaultFontSize(16);
-                tenWeb.setWebViewClient(new WebViewClient(){
+                tenWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -829,12 +829,12 @@ public class ArticleActivity extends AppCompatActivity {
                 tenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(9).getAssociate().getUrl());
+                        loadArticle(contents.get(9).getAssociate().getId());
                     }
                 });
                 contentMore.add(tenMore);
                 contentUrl.add(tenUrl);
-            }else  if (contents.get(9).getVideo_url() != null) {
+            } else if (contents.get(9).getVideo_url() != null) {
                 tenContent.setVisibility(View.VISIBLE);
                 tenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 tenWeb.setWebViewClient(new WebViewClient());
@@ -852,7 +852,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(8).getText() != null) {
                 nineContent.setVisibility(View.VISIBLE);
                 nineWeb.getSettings().setDefaultFontSize(16);
-                nineWeb.setWebViewClient(new WebViewClient(){
+                nineWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -901,12 +901,12 @@ public class ArticleActivity extends AppCompatActivity {
                 nineUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(8).getAssociate().getUrl());
+                        loadArticle(contents.get(8).getAssociate().getId());
                     }
                 });
                 contentMore.add(nineMore);
                 contentUrl.add(nineUrl);
-            }else  if (contents.get(8).getVideo_url() != null) {
+            } else if (contents.get(8).getVideo_url() != null) {
                 nineContent.setVisibility(View.VISIBLE);
                 nineWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 nineWeb.setWebViewClient(new WebViewClient());
@@ -924,7 +924,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(7).getText() != null) {
                 eightContent.setVisibility(View.VISIBLE);
                 eightWeb.getSettings().setDefaultFontSize(16);
-                eightWeb.setWebViewClient(new WebViewClient(){
+                eightWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -973,12 +973,12 @@ public class ArticleActivity extends AppCompatActivity {
                 eightUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(7).getAssociate().getUrl());
+                        loadArticle(contents.get(7).getAssociate().getId());
                     }
                 });
                 contentMore.add(eightMore);
                 contentUrl.add(eightUrl);
-            }else  if (contents.get(7).getVideo_url() != null) {
+            } else if (contents.get(7).getVideo_url() != null) {
                 eightContent.setVisibility(View.VISIBLE);
                 eightWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 eightWeb.setWebViewClient(new WebViewClient());
@@ -996,7 +996,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(6).getText() != null) {
                 sevenContent.setVisibility(View.VISIBLE);
                 sevenWeb.getSettings().setDefaultFontSize(16);
-                sevenWeb.setWebViewClient(new WebViewClient(){
+                sevenWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1047,12 +1047,12 @@ public class ArticleActivity extends AppCompatActivity {
                 sevenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(6).getAssociate().getUrl());
+                        loadArticle(contents.get(6).getAssociate().getId());
                     }
                 });
                 contentMore.add(sevenMore);
                 contentUrl.add(sevenUrl);
-            }else  if (contents.get(6).getVideo_url() != null) {
+            } else if (contents.get(6).getVideo_url() != null) {
                 sevenContent.setVisibility(View.VISIBLE);
                 sevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 sevenWeb.setWebViewClient(new WebViewClient());
@@ -1070,7 +1070,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(5).getText() != null) {
                 sixContent.setVisibility(View.VISIBLE);
                 sixWeb.getSettings().setDefaultFontSize(16);
-                sixWeb.setWebViewClient(new WebViewClient(){
+                sixWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1120,12 +1120,12 @@ public class ArticleActivity extends AppCompatActivity {
                 sixUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(5).getAssociate().getUrl());
+                        loadArticle(contents.get(5).getAssociate().getId());
                     }
                 });
                 contentMore.add(sixMore);
                 contentUrl.add(sixUrl);
-            }else  if (contents.get(5).getVideo_url() != null) {
+            } else if (contents.get(5).getVideo_url() != null) {
                 sixContent.setVisibility(View.VISIBLE);
                 sixWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 sixWeb.setWebViewClient(new WebViewClient());
@@ -1143,7 +1143,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(4).getText() != null) {
                 fifthContent.setVisibility(View.VISIBLE);
                 fifthWeb.getSettings().setDefaultFontSize(16);
-                fifthWeb.setWebViewClient(new WebViewClient(){
+                fifthWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1195,12 +1195,12 @@ public class ArticleActivity extends AppCompatActivity {
                 fifthUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(4).getAssociate().getUrl());
+                        loadArticle(contents.get(4).getAssociate().getId());
                     }
                 });
                 contentMore.add(fifthMore);
                 contentUrl.add(fifthUrl);
-            }else  if (contents.get(4).getVideo_url() != null) {
+            } else if (contents.get(4).getVideo_url() != null) {
                 fifthContent.setVisibility(View.VISIBLE);
                 fifthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 fifthWeb.setWebViewClient(new WebViewClient());
@@ -1218,7 +1218,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(3).getText() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
                 fourthWeb.getSettings().setDefaultFontSize(16);
-                fourthWeb.setWebViewClient(new WebViewClient(){
+                fourthWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1266,12 +1266,12 @@ public class ArticleActivity extends AppCompatActivity {
                 fourthUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(3).getAssociate().getUrl());
+                        loadArticle(contents.get(3).getAssociate().getId());
                     }
                 });
                 contentMore.add(fourthMore);
                 contentUrl.add(fourthUrl);
-            }else  if (contents.get(3).getVideo_url() != null) {
+            } else if (contents.get(3).getVideo_url() != null) {
                 fourthContent.setVisibility(View.VISIBLE);
                 fourthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 fourthWeb.setWebViewClient(new WebViewClient());
@@ -1289,7 +1289,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(2).getText() != null) {
                 thirdContent.setVisibility(View.VISIBLE);
                 thirdWeb.getSettings().setDefaultFontSize(16);
-                thirdWeb.setWebViewClient(new WebViewClient(){
+                thirdWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1337,12 +1337,12 @@ public class ArticleActivity extends AppCompatActivity {
                 thirdUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(2).getAssociate().getUrl());
+                        loadArticle(contents.get(2).getAssociate().getId());
                     }
                 });
                 contentMore.add(thirdMore);
                 contentUrl.add(thirdUrl);
-            }else  if (contents.get(2).getVideo_url() != null) {
+            } else if (contents.get(2).getVideo_url() != null) {
                 thirdContent.setVisibility(View.VISIBLE);
                 thirdWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 thirdWeb.setWebViewClient(new WebViewClient());
@@ -1360,7 +1360,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(1).getText() != null) {
                 secondContent.setVisibility(View.VISIBLE);
                 secondWeb.getSettings().setDefaultFontSize(16);
-                secondWeb.setWebViewClient(new WebViewClient(){
+                secondWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1409,12 +1409,12 @@ public class ArticleActivity extends AppCompatActivity {
                 secondUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(1).getAssociate().getUrl());
+                        loadArticle(contents.get(1).getAssociate().getId());
                     }
                 });
                 contentMore.add(secondMore);
                 contentUrl.add(secondUrl);
-            }else  if (contents.get(1).getVideo_url() != null) {
+            } else if (contents.get(1).getVideo_url() != null) {
                 secondContent.setVisibility(View.VISIBLE);
                 secondWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 secondWeb.setWebViewClient(new WebViewClient());
@@ -1432,7 +1432,7 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(0).getText() != null) {
                 firstContent.setVisibility(View.VISIBLE);
                 firstWeb.getSettings().setDefaultFontSize(16);
-                firstWeb.setWebViewClient(new WebViewClient(){
+                firstWeb.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -1480,12 +1480,12 @@ public class ArticleActivity extends AppCompatActivity {
                 firstUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(0).getAssociate().getUrl());
+                        loadArticle(contents.get(0).getAssociate().getId());
                     }
                 });
                 contentMore.add(firstMore);
                 contentUrl.add(firstUrl);
-            }else  if (contents.get(0).getVideo_url() != null) {
+            } else if (contents.get(0).getVideo_url() != null) {
                 firstContent.setVisibility(View.VISIBLE);
                 firstWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 firstWeb.setWebViewClient(new WebViewClient());
@@ -1706,8 +1706,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((SimpleWideArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof UrgentArticleFragment) {
                         ((UrgentArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof AdsArticleFragment){
-                        ((AdsArticleFragment)fragment).formatIncrement();
+                    } else if (fragment instanceof AdsArticleFragment) {
+                        ((AdsArticleFragment) fragment).formatIncrement();
                     }
 
                     for (TextView text : contentDescriptions) {
@@ -1918,13 +1918,17 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void galleryBackground() {
+        format.setBackgroundResource(R.drawable.format_white);
+        share.setBackgroundResource(R.drawable.share_icon_white);
+        back.setBackgroundResource(R.drawable.back_white);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         promotionLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        littleSwitchPhotoIcon.setBackground(ContextCompat.getDrawable(this, R.drawable.gallery_dark));
+        littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
         firstDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));

@@ -27,11 +27,11 @@
             <ImageView
                 android:id="@+id/backButton"
                 style="@style/ImageButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/back" />
+                android:background="@drawable/back_black" />
 
 
             <ImageView
@@ -40,7 +40,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@+id/shareSocials"
-                android:background="@drawable/format_icon"
+                android:background="@drawable/format_black"
                 android:clickable="true" />
 
             <ImageView

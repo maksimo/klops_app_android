@@ -582,8 +582,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 final LongNewsHolder holderLong = (LongNewsHolder) viewHolder;
                 holderLong.date.setText(models.get(position).getDate());
                 holderLong.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderLong.author.setText(models.get(position).getAuthor());
-                holderLong.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderLong.title.setText(models.get(position).getTitle());
                 holderLong.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 holderLong.content.setText(models.get(position).getShortdecription());
@@ -873,8 +871,6 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 break;
             case Constants.SIMPLE_WIDE:
                 final SimpleWideHolder holderSimpleWide = (SimpleWideHolder) viewHolder;
-                holderSimpleWide.author.setText(models.get(position).getAuthor());
-                holderSimpleWide.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 holderSimpleWide.date.setText(models.get(position).getDate());
                 holderSimpleWide.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderSimpleWide.title.setText(models.get(position).getTitle());

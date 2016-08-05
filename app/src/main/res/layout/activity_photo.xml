@@ -4,11 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:clickable="true"
     android:id="@+id/photoLayers"
     android:background="@color/galleryCard"
     tools:context=".adapter.PhotoActivity"
     android:orientation="vertical">
+
+    <ru.klops.klops.custom.CircleImageView
+        android:id="@+id/quitPhoto"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="40dp"
+        android:clickable="true"
+        android:layout_height="40dp"
+        android:background="@drawable/quit_gallery"/>
 
     <ImageView
         android:id="@+id/bigPhoto"

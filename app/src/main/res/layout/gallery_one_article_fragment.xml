@@ -60,7 +60,7 @@
                     android:layout_height="25dp"
                     android:layout_below="@+id/galleryOneDate"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/photo_cam" />
 
                 <TextView

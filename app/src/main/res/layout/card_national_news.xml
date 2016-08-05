@@ -62,7 +62,7 @@
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
             android:layout_below="@+id/nationalCardAuthors"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/nationalCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
@@ -73,7 +73,7 @@
             android:layout_height="15dp"
             android:layout_below="@+id/nationalCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8.5dp"
             android:layout_toLeftOf="@+id/nationalCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -91,7 +91,7 @@
             android:visibility="visible"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/nationalCardStatus"
@@ -105,7 +105,7 @@
             android:layout_below="@+id/nationalCardAuthors"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp" />
 

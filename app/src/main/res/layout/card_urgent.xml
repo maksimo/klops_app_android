@@ -62,7 +62,7 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="12dp"
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_toLeftOf="@+id/urgentCardStatus"
         android:background="@drawable/urgent_circle"
@@ -74,7 +74,7 @@
         android:layout_height="15dp"
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="8.5dp"
         android:layout_toLeftOf="@+id/urgentCardViews"
         android:visibility="gone"
         android:background="@drawable/view_count_white" />
@@ -92,7 +92,7 @@
         android:visibility="visible"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/urgentCardStatus"
@@ -107,7 +107,7 @@
         android:visibility="visible"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="Срочно" />
 
     <TextView

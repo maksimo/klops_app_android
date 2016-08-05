@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.R;
+import ru.klops.klops.custom.CircleImageView;
 import ru.klops.klops.custom.TextViewProMd;
 import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.utils.Constants;
@@ -34,8 +35,8 @@ public class PhotoActivity extends AppCompatActivity {
     @BindView(R.id.bigDescription)
     TextViewProMd textView;
     Unbinder unbinder;
-    @BindView(R.id.photoLayers)
-    RelativeLayout photoLayers;
+    @BindView(R.id.quitPhoto)
+    CircleImageView quitPhoto;
     @BindView(R.id.bigSwitcherCounter)
     TextViewProRegular bigSwitcherCounter;
     @BindView(R.id.bigProgress)
@@ -70,9 +71,9 @@ public class PhotoActivity extends AppCompatActivity {
         Log.d(LOG, "onCreate");
     }
 
-    @OnClick(R.id.photoLayers)
+    @OnClick(R.id.quitPhoto)
     public void close() {
-        photoLayers.startAnimation(alpha);
+        quitPhoto.startAnimation(alpha);
         finish();
     }
 
