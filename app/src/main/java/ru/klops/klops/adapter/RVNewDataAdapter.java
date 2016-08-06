@@ -19,6 +19,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -968,11 +969,10 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
     }
 
     public void loadPicasso(String input, ImageView output, final ProgressBar loader){
-        Picasso.with(context.getActivity()).load(input).fit().into(output, new Callback() {
+        Picasso.with(context.getActivity()).load(input).networkPolicy(NetworkPolicy.NO_CACHE).fit().into(output, new Callback() {
             @Override
             public void onSuccess() {
                 loader.setVisibility(View.GONE);
-
             }
 
             @Override

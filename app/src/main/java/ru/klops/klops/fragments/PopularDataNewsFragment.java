@@ -33,6 +33,7 @@ public class PopularDataNewsFragment extends Fragment {
     TextView popularError;
     KlopsApplication mApp;
     RVPopularDataAdapter adapter;
+    GridLayoutManager popularManager;
     ArrayList<News> models;
     ArrayList<Integer> dataTypes;
     ArrayList<News> copy;
@@ -66,7 +67,7 @@ public class PopularDataNewsFragment extends Fragment {
             ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
             newPopularRecycler.addItemDecoration(decoration);
             adapter = new RVPopularDataAdapter(PopularDataNewsFragment.this, copy, dataTypes);
-            GridLayoutManager popularManager = new GridLayoutManager(getContext(), 2);
+            popularManager = new GridLayoutManager(getContext(), 2);
             popularManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
@@ -169,6 +170,10 @@ public class PopularDataNewsFragment extends Fragment {
             }
         }
         return types;
+    }
+
+    public void scrollPopularToTop(){
+        newPopularRecycler.smoothScrollToPosition(0);
     }
 
     @Override

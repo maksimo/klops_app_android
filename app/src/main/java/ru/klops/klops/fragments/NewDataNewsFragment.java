@@ -38,6 +38,7 @@ public class NewDataNewsFragment extends Fragment {
     Unbinder unbinder;
     KlopsApplication mApp;
     RVNewDataAdapter adapter;
+    GridLayoutManager newManager;
     ArrayList<News> models;
     ArrayList<News> copy;
     ArrayList<Integer> typesAdapter;
@@ -80,7 +81,7 @@ public class NewDataNewsFragment extends Fragment {
         ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
         newDataRecycler.addItemDecoration(decoration);
         newDataRecycler.setItemAnimator(itemAnimator);
-        final GridLayoutManager newManager = new GridLayoutManager(getContext(), 2);
+        newManager = new GridLayoutManager(getContext(), 2);
         newManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -185,6 +186,11 @@ public class NewDataNewsFragment extends Fragment {
         }
         return types;
     }
+
+    public void scrollNewToTop(){
+        newDataRecycler.smoothScrollToPosition(0);
+    }
+
 
     @Override
     public void onStart() {

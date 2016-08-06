@@ -46,8 +46,6 @@ public class SplashActivity extends AppCompatActivity {
     final String LOG = "SplashActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     KlopsApplication myApp;
-    @BindView(R.id.support)
-    TextViewProRegular support;
     Unbinder unbinder;
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;

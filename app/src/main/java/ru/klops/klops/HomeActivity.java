@@ -3,13 +3,18 @@ package ru.klops.klops;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.util.List;
+
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.BaseFragment;
+import ru.klops.klops.fragments.NewDataNewsFragment;
+import ru.klops.klops.fragments.PopularDataNewsFragment;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -50,6 +55,19 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.home_container, fragment).setCustomAnimations(R.anim.fade_out, R.anim.fade_in).commit();
+    }
+
+
+    public void scrollList() {
+        FragmentManager fm = getSupportFragmentManager();
+        List<Fragment> fragments = fm.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof NewDataNewsFragment){
+                ((NewDataNewsFragment)fragment).scrollNewToTop();
+            }else if (fragment instanceof PopularDataNewsFragment){
+                ((PopularDataNewsFragment)fragment).scrollPopularToTop();
+            }
+        }
     }
 
     @Override

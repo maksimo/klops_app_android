@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +19,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,7 +99,7 @@ public class BaseFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                ((HomeActivity)getActivity()).scrollList();
             }
         });
         viewPager.startAnimation(fadeIn);
@@ -130,8 +133,6 @@ public class BaseFragment extends Fragment {
         btnSettings.startAnimation(alpha);
         startActivity(new Intent(getContext(), SettingsActivity.class));
     }
-
-
 
     @Override
     public void onStart() {
