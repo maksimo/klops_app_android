@@ -685,7 +685,38 @@ public class ArticleActivity extends AppCompatActivity {
                 twelveUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(11).getAssociate().getId());
+                        if (contents.get(11).getAssociate().getId() != null) {
+                            loadArticle(contents.get(11).getAssociate().getId());
+                        }else if (contents.get(11).getAssociate().getUrl() != null) {
+                            twelveUrl.setVisibility(View.GONE);
+                            twelveWeb.loadUrl(contents.get(11).getAssociate().getUrl());
+                            twelveWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barTwelve.setVisibility(View.GONE);
+                                    twelveWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barTwelve.setVisibility(View.VISIBLE);
+                                    twelveWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            twelveWeb.getSettings().setJavaScriptEnabled(true);
+                            twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            twelveWeb.setWebChromeClient(new WebChromeClient());
+                            twelveWeb.setVisibility(View.VISIBLE);
+                            twelveMore.setVisibility(View.GONE);
+                        }
                     }
                 });
                 contentMore.add(twelveMore);
@@ -757,7 +788,37 @@ public class ArticleActivity extends AppCompatActivity {
                 elevenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(10).getAssociate().getId());
+                        if (contents.get(10).getAssociate().getId() != null) {
+                            loadArticle(contents.get(10).getAssociate().getId());
+                        }else if (contents.get(10).getAssociate().getUrl() != null) {
+                            elevenUrl.setVisibility(View.GONE);
+                            elevenWeb.loadUrl(contents.get(10).getAssociate().getUrl());
+                            elevenWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barEleven.setVisibility(View.GONE);
+                                    elevenWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barEleven.setVisibility(View.VISIBLE);
+                                    elevenWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            elevenWeb.getSettings().setJavaScriptEnabled(true);
+                            elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            elevenWeb.setWebChromeClient(new WebChromeClient());
+                            elevenWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(elevenMore);
@@ -829,7 +890,37 @@ public class ArticleActivity extends AppCompatActivity {
                 tenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(9).getAssociate().getId());
+                        if (contents.get(9).getAssociate().getId() != null) {
+                            loadArticle(contents.get(9).getAssociate().getId());
+                        }else if (contents.get(9).getAssociate().getUrl() != null) {
+                            tenUrl.setVisibility(View.GONE);
+                            tenWeb.loadUrl(contents.get(9).getAssociate().getUrl());
+                            tenWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barTen.setVisibility(View.GONE);
+                                    tenWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barTen.setVisibility(View.VISIBLE);
+                                    tenWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            tenWeb.getSettings().setJavaScriptEnabled(true);
+                            tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            tenWeb.setWebChromeClient(new WebChromeClient());
+                            tenWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(tenMore);
@@ -901,7 +992,37 @@ public class ArticleActivity extends AppCompatActivity {
                 nineUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(8).getAssociate().getId());
+                        if (contents.get(8).getAssociate().getId() != null) {
+                            loadArticle(contents.get(8).getAssociate().getId());
+                        }else if (contents.get(8).getAssociate().getUrl() != null) {
+                            nineUrl.setVisibility(View.GONE);
+                            nineWeb.loadUrl(contents.get(8).getAssociate().getUrl());
+                            nineWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barNine.setVisibility(View.GONE);
+                                    nineWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barNine.setVisibility(View.VISIBLE);
+                                    nineWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            nineWeb.getSettings().setJavaScriptEnabled(true);
+                            nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            nineWeb.setWebChromeClient(new WebChromeClient());
+                            nineWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(nineMore);
@@ -973,7 +1094,37 @@ public class ArticleActivity extends AppCompatActivity {
                 eightUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(7).getAssociate().getId());
+                        if (contents.get(7).getAssociate().getId() != null) {
+                            loadArticle(contents.get(7).getAssociate().getId());
+                        }else if (contents.get(7).getAssociate().getUrl() != null) {
+                            eightUrl.setVisibility(View.GONE);
+                            eightWeb.loadUrl(contents.get(7).getAssociate().getUrl());
+                            eightWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barEight.setVisibility(View.GONE);
+                                    eightWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barEight.setVisibility(View.VISIBLE);
+                                    eightWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            eightWeb.getSettings().setJavaScriptEnabled(true);
+                            eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            eightWeb.setWebChromeClient(new WebChromeClient());
+                            eightWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(eightMore);
@@ -1047,7 +1198,37 @@ public class ArticleActivity extends AppCompatActivity {
                 sevenUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(6).getAssociate().getId());
+                        if (contents.get(6).getAssociate().getId() != null) {
+                            loadArticle(contents.get(6).getAssociate().getId());
+                        }else if (contents.get(6).getAssociate().getUrl() != null) {
+                            sevenUrl.setVisibility(View.GONE);
+                            sevenWeb.loadUrl(contents.get(6).getAssociate().getUrl());
+                            sevenWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barSeven.setVisibility(View.GONE);
+                                    sevenWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barSeven.setVisibility(View.VISIBLE);
+                                    sevenWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            sevenWeb.getSettings().setJavaScriptEnabled(true);
+                            sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            sevenWeb.setWebChromeClient(new WebChromeClient());
+                            sevenWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(sevenMore);
@@ -1120,7 +1301,37 @@ public class ArticleActivity extends AppCompatActivity {
                 sixUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(5).getAssociate().getId());
+                        if (contents.get(5).getAssociate().getId() != null) {
+                            loadArticle(contents.get(5).getAssociate().getId());
+                        }else if (contents.get(5).getAssociate().getUrl() != null) {
+                            sixUrl.setVisibility(View.GONE);
+                            sixWeb.loadUrl(contents.get(5).getAssociate().getUrl());
+                            sixWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barSix.setVisibility(View.GONE);
+                                    sixWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barSix.setVisibility(View.VISIBLE);
+                                    sixWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            sixWeb.getSettings().setJavaScriptEnabled(true);
+                            sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            sixWeb.setWebChromeClient(new WebChromeClient());
+                            sixWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(sixMore);
@@ -1195,7 +1406,38 @@ public class ArticleActivity extends AppCompatActivity {
                 fifthUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(4).getAssociate().getId());
+                        if (contents.get(4).getAssociate().getId() != null) {
+                            loadArticle(contents.get(4).getAssociate().getId());
+                        }else if (contents.get(4).getAssociate().getUrl() != null) {
+                            fifthUrl.setVisibility(View.GONE);
+                            fifthWeb.loadUrl(contents.get(4).getAssociate().getUrl());
+                            fifthWeb.setWebViewClient(new WebViewClient());
+                            fifthWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barFive.setVisibility(View.GONE);
+                                    fifthWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barFive.setVisibility(View.VISIBLE);
+                                    fifthWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            fifthWeb.getSettings().setJavaScriptEnabled(true);
+                            fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            fifthWeb.setWebChromeClient(new WebChromeClient());
+                            fifthWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(fifthMore);
@@ -1266,7 +1508,37 @@ public class ArticleActivity extends AppCompatActivity {
                 fourthUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(3).getAssociate().getId());
+                        if (contents.get(3).getAssociate().getId() != null) {
+                            loadArticle(contents.get(3).getAssociate().getId());
+                        }else if (contents.get(3).getAssociate().getUrl()!= null) {
+                            fourthUrl.setVisibility(View.GONE);
+                            fourthWeb.loadUrl(contents.get(3).getAssociate().getUrl());
+                            fourthWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barFour.setVisibility(View.GONE);
+                                    fourthWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barFour.setVisibility(View.VISIBLE);
+                                    fourthWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            fourthWeb.getSettings().setJavaScriptEnabled(true);
+                            fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            fourthWeb.setWebChromeClient(new WebChromeClient());
+                            fourthWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(fourthMore);
@@ -1337,7 +1609,37 @@ public class ArticleActivity extends AppCompatActivity {
                 thirdUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(2).getAssociate().getId());
+                        if (contents.get(2).getAssociate().getId() != null) {
+                            loadArticle(contents.get(2).getAssociate().getId());
+                        }else if (contents.get(2).getAssociate().getUrl() != null) {
+                        thirdUrl.setVisibility(View.GONE);
+                        thirdWeb.loadUrl(contents.get(2).getAssociate().getUrl());
+                        thirdWeb.setWebViewClient(new WebViewClient(){
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                super.onPageFinished(view, url);
+                                barThree.setVisibility(View.GONE);
+                                thirdWeb.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                super.onPageStarted(view, url, favicon);
+                                barThree.setVisibility(View.VISIBLE);
+                                thirdWeb.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                view.loadUrl(url);
+                                return false;
+                            }
+                        });
+                        thirdWeb.getSettings().setJavaScriptEnabled(true);
+                        thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                        thirdWeb.setWebChromeClient(new WebChromeClient());
+                        thirdWeb.setVisibility(View.VISIBLE);
+                    }
                     }
                 });
                 contentMore.add(thirdMore);
@@ -1409,7 +1711,37 @@ public class ArticleActivity extends AppCompatActivity {
                 secondUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(1).getAssociate().getId());
+                        if (contents.get(1).getAssociate().getId() != null) {
+                            loadArticle(contents.get(1).getAssociate().getId());
+                        }else if (contents.get(1).getAssociate().getUrl() != null) {
+                            secondUrl.setVisibility(View.GONE);
+                            secondWeb.loadUrl(contents.get(1).getAssociate().getUrl());
+                            secondWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barTwo.setVisibility(View.GONE);
+                                    secondWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barTwo.setVisibility(View.VISIBLE);
+                                    secondWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            secondWeb.getSettings().setJavaScriptEnabled(true);
+                            secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            secondWeb.setWebChromeClient(new WebChromeClient());
+                            secondWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(secondMore);
@@ -1480,7 +1812,37 @@ public class ArticleActivity extends AppCompatActivity {
                 firstUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadArticle(contents.get(0).getAssociate().getId());
+                        if (contents.get(0).getAssociate().getId() != null) {
+                            loadArticle(contents.get(0).getAssociate().getId());
+                        }else if (contents.get(0).getAssociate().getUrl() != null) {
+                            firstUrl.setVisibility(View.GONE);
+                            firstWeb.loadUrl(contents.get(0).getAssociate().getUrl());
+                            firstWeb.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    barOne.setVisibility(View.GONE);
+                                    firstWeb.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    barOne.setVisibility(View.VISIBLE);
+                                    firstWeb.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    view.loadUrl(url);
+                                    return false;
+                                }
+                            });
+                            firstWeb.getSettings().setJavaScriptEnabled(true);
+                            firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            firstWeb.setWebChromeClient(new WebChromeClient());
+                            firstWeb.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 contentMore.add(firstMore);
