@@ -80,6 +80,7 @@ import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
 import ru.klops.klops.fragments.UrgentArticleFragment;
+import ru.klops.klops.models.ContentView;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
@@ -359,6 +360,7 @@ public class ArticleActivity extends AppCompatActivity {
     int formatCount = 0;
     private Target loadTarget;
     Unbinder unbinder;
+    ArrayList<ContentView> viwes;
 
 
     @Override
@@ -510,6 +512,19 @@ public class ArticleActivity extends AppCompatActivity {
         galleries = new ArrayList<>();
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
+        viwes = new ArrayList<>();
+        viwes.add(new ContentView(firstContent, firstWeb, barOne,firstImage, firstDescription, firstMore, firstUrl));
+        viwes.add(new ContentView(secondContent, secondWeb, barTwo, secondImage, secondDescription, secondMore, secondUrl));
+        viwes.add(new ContentView(thirdContent, thirdWeb, barThree, thirdImage, thirdDescription, thirdMore, thirdUrl));
+        viwes.add(new ContentView(fourthContent, fourthWeb, barFour, fourthImage, fourthDescription, fourthMore, fourthUrl));
+        viwes.add(new ContentView(fifthContent, fifthWeb, barFive, fifthImage, fifthDescription, fifthMore, fifthUrl));
+        viwes.add(new ContentView(sixContent, sixWeb, barSix, sixImage, sixDescription, sixMore, sixUrl));
+        viwes.add(new ContentView(sevenContent, sevenWeb, barSeven, sevenImage, sevenDescription, sevenMore, sevenUrl));
+        viwes.add(new ContentView(eightContent, eightWeb, barEight, eightImage, eightDescription, eightMore, eightUrl));
+        viwes.add(new ContentView(nineContent, nineWeb, barNine, nineImage, nineDescription, nineMore, nineUrl));
+        viwes.add(new ContentView(tenContent, tenWeb, barTen, tenImage, tenDescription, tenMore, tenUrl));
+        viwes.add(new ContentView(elevenContent, elevenWeb, barEleven, elevenImage, elevenDescription, elevenMore, elevenUrl));
+        viwes.add(new ContentView(twelveContent, twelveWeb, barTwelve, twelveImage, twelveDescription, twelveMore, twelveUrl));
 
         if (item.getPromoted() == 1) {
             promotionLayer.setVisibility(View.VISIBLE);
@@ -524,131 +539,34 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public void getAllContents() {
-        switch (contents.size()) {
-            case 1:
-                checkFirst();
-                break;
-            case 2:
-                checkFirst();
-                checkSecond();
-                break;
-            case 3:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                break;
-            case 4:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                break;
-            case 5:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                break;
-            case 6:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                break;
-            case 7:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                break;
-            case 8:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                checkEight();
-                break;
-            case 9:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                checkEight();
-                checkNinth();
-                break;
-            case 10:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                checkEight();
-                checkNinth();
-                checkTenth();
-                break;
-            case 11:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                checkEight();
-                checkNinth();
-                checkTenth();
-                checkEleventh();
-                break;
-            case 12:
-                checkFirst();
-                checkSecond();
-                checkThird();
-                checkFourth();
-                checkFifth();
-                checkSixth();
-                checkSeventh();
-                checkEight();
-                checkNinth();
-                checkTenth();
-                checkEleventh();
-                checkTwelve();
-                break;
+        contentViews = new ArrayList<>();
+        for (int i = 0; i < contents.size(); i++){
+            if (contents.get(i)!=null) {
+                initContent(contents.get(i), viwes.get(i).getContentLayer(), viwes.get(i).getContentView(), viwes.get(i).getLoader(),
+                        viwes.get(i).getImage(), viwes.get(i).getDescription(),
+                        viwes.get(i).getMoreTitle(), viwes.get(i).getMoreUrl());
+            }
         }
-
     }
 
-    private void checkTwelve() {
-        if (contents.get(11) != null) {
-            if (contents.get(11).getText() != null) {
-                twelveContent.setVisibility(View.VISIBLE);
-                twelveWeb.getSettings().setDefaultFontSize(16);
-                twelveWeb.setWebViewClient(new WebViewClient() {
+    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl){
+        if (content!= null){
+            if (content.getText() != null) {
+                contentLayer.setVisibility(View.VISIBLE);
+                contentView.getSettings().setDefaultFixedFontSize(16);
+                contentView.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
-                        barTwelve.setVisibility(View.VISIBLE);
-                        twelveWeb.setVisibility(View.GONE);
+                        loader.setVisibility(View.VISIBLE);
+                        contentView.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
-                        barTwelve.setVisibility(View.GONE);
-                        twelveWeb.setVisibility(View.VISIBLE);
+                        loader.setVisibility(View.GONE);
+                        contentView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -656,53 +574,53 @@ public class ArticleActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-                twelveWeb.getSettings().setJavaScriptEnabled(true);
-                twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                twelveWeb.setWebChromeClient(new WebChromeClient());
-                twelveWeb.loadData(Constants.HARDCODED_BODY + contents.get(11).getText(), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(twelveWeb);
-            } else if (contents.get(11).getPhotos() != null) {
-                twelveContent.setVisibility(View.VISIBLE);
-                twelveImage.setVisibility(View.VISIBLE);
-                barTwelve.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(11).getPhotos().get(0).getImg_url(), twelveImage, barTwelve);
-                if (!contents.get(11).getPhotos().get(0).getDescription().equals("")) {
-                    twelveDescription.setText(contents.get(11).getPhotos().get(0).getDescription());
-                    twelveDescription.setVisibility(View.VISIBLE);
+                contentView.getSettings().setJavaScriptEnabled(true);
+                contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                contentView.setWebChromeClient(new WebChromeClient());
+                contentView.loadData(Constants.HARDCODED_BODY + content.getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentViews.add(contentView);
+            } else if (content.getPhotos() != null) {
+                contentLayer.setVisibility(View.VISIBLE);
+                image.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.VISIBLE);
+                loadPhoto(ArticleActivity.this, content.getPhotos().get(0).getImg_url(), image, loader);
+                if (!content.getPhotos().get(0).getDescription().equals("")) {
+                    description.setText(content.getPhotos().get(0).getDescription());
+                    description.setVisibility(View.VISIBLE);
                 } else {
-                    twelveDescription.setText("");
-                    twelveDescription.setVisibility(View.GONE);
+                    description.setText("");
+                    description.setVisibility(View.GONE);
                 }
-                twelveDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(twelveDescription);
-            } else if (contents.get(11).getAssociate() != null) {
-                twelveContent.setVisibility(View.VISIBLE);
-                twelveMore.setVisibility(View.VISIBLE);
-                twelveUrl.setVisibility(View.VISIBLE);
-                twelveMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                twelveUrl.setText(contents.get(11).getAssociate().getTitle());
-                twelveUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                twelveUrl.setOnClickListener(new View.OnClickListener() {
+                description.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                contentDescriptions.add(description);
+            } else if (content.getAssociate() != null) {
+                contentLayer.setVisibility(View.VISIBLE);
+                moreTitle.setVisibility(View.VISIBLE);
+                moreUrl.setVisibility(View.VISIBLE);
+                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                moreUrl.setText(content.getAssociate().getTitle());
+                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                moreUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (contents.get(11).getAssociate().getId() != null) {
-                            loadArticle(contents.get(11).getAssociate().getId());
-                        }else if (contents.get(11).getAssociate().getUrl() != null) {
-                            twelveUrl.setVisibility(View.GONE);
-                            twelveWeb.loadUrl(contents.get(11).getAssociate().getUrl());
-                            twelveWeb.setWebViewClient(new WebViewClient() {
+                        if (content.getAssociate().getId() != null) {
+                            loadArticle(content.getAssociate().getId());
+                        }else if (content.getAssociate().getUrl() != null) {
+                            moreUrl.setVisibility(View.GONE);
+                            contentView.loadUrl(content.getAssociate().getUrl());
+                            contentView.setWebViewClient(new WebViewClient() {
                                 @Override
                                 public void onPageFinished(WebView view, String url) {
                                     super.onPageFinished(view, url);
-                                    barTwelve.setVisibility(View.GONE);
-                                    twelveWeb.setVisibility(View.VISIBLE);
+                                    loader.setVisibility(View.GONE);
+                                    contentView.setVisibility(View.VISIBLE);
                                 }
 
                                 @Override
                                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
                                     super.onPageStarted(view, url, favicon);
-                                    barTwelve.setVisibility(View.VISIBLE);
-                                    twelveWeb.setVisibility(View.GONE);
+                                    loader.setVisibility(View.VISIBLE);
+                                    contentView.setVisibility(View.GONE);
                                 }
 
                                 @Override
@@ -711,1155 +629,29 @@ public class ArticleActivity extends AppCompatActivity {
                                     return false;
                                 }
                             });
-                            twelveWeb.getSettings().setJavaScriptEnabled(true);
-                            twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            twelveWeb.setWebChromeClient(new WebChromeClient());
-                            twelveWeb.setVisibility(View.VISIBLE);
-                            twelveMore.setVisibility(View.GONE);
+                            contentView.getSettings().setJavaScriptEnabled(true);
+                            contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                            contentView.setWebChromeClient(new WebChromeClient());
+                            contentView.setVisibility(View.VISIBLE);
+                            moreTitle.setVisibility(View.GONE);
                         }
                     }
                 });
-                contentMore.add(twelveMore);
-                contentUrl.add(twelveUrl);
-            } else if (contents.get(11).getVideo_url() != null) {
-                twelveContent.setVisibility(View.VISIBLE);
-                twelveWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                twelveWeb.setWebViewClient(new WebViewClient());
-                twelveWeb.loadUrl(contents.get(11).getVideo_url());
-                twelveWeb.getSettings().setJavaScriptEnabled(true);
-                twelveWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                twelveWeb.setWebChromeClient(new WebChromeClient());
-                twelveWeb.setVisibility(View.VISIBLE);
+                contentMore.add(moreTitle);
+                contentUrl.add(moreUrl);
+            } else if (content.getVideo_url() != null) {
+                contentLayer.setVisibility(View.VISIBLE);
+                contentView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                contentView.setWebViewClient(new WebViewClient());
+                contentView.loadUrl(content.getVideo_url());
+                contentView.getSettings().setJavaScriptEnabled(true);
+                contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                contentView.setWebChromeClient(new WebChromeClient());
+                contentView.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    private void checkEleventh() {
-        if (contents.get(10) != null) {
-            if (contents.get(10).getText() != null) {
-                elevenContent.setVisibility(View.VISIBLE);
-                elevenWeb.getSettings().setDefaultFontSize(16);
-                elevenWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barEleven.setVisibility(View.VISIBLE);
-                        elevenWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barEleven.setVisibility(View.GONE);
-                        elevenWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                elevenWeb.getSettings().setJavaScriptEnabled(true);
-                elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                elevenWeb.setWebChromeClient(new WebChromeClient());
-                elevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(10).getText(), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(elevenWeb);
-            } else if (contents.get(10).getPhotos() != null) {
-                elevenContent.setVisibility(View.VISIBLE);
-                elevenImage.setVisibility(View.VISIBLE);
-                barEleven.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(10).getPhotos().get(0).getImg_url(), elevenImage, barEleven);
-                if (!contents.get(10).getPhotos().get(0).getDescription().equals("")) {
-                    elevenDescription.setText(contents.get(10).getPhotos().get(0).getDescription());
-                    elevenDescription.setVisibility(View.VISIBLE);
-                } else {
-                    elevenDescription.setText("");
-                    elevenDescription.setVisibility(View.GONE);
-                }
-                elevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(elevenDescription);
-            } else if (contents.get(10).getAssociate() != null) {
-                elevenContent.setVisibility(View.VISIBLE);
-                elevenMore.setVisibility(View.VISIBLE);
-                elevenUrl.setVisibility(View.VISIBLE);
-                elevenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                elevenUrl.setText(contents.get(10).getAssociate().getTitle());
-                elevenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                elevenUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(10).getAssociate().getId() != null) {
-                            loadArticle(contents.get(10).getAssociate().getId());
-                        }else if (contents.get(10).getAssociate().getUrl() != null) {
-                            elevenUrl.setVisibility(View.GONE);
-                            elevenWeb.loadUrl(contents.get(10).getAssociate().getUrl());
-                            elevenWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barEleven.setVisibility(View.GONE);
-                                    elevenWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barEleven.setVisibility(View.VISIBLE);
-                                    elevenWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            elevenWeb.getSettings().setJavaScriptEnabled(true);
-                            elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            elevenWeb.setWebChromeClient(new WebChromeClient());
-                            elevenWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(elevenMore);
-                contentUrl.add(elevenUrl);
-            } else if (contents.get(10).getVideo_url() != null) {
-                elevenContent.setVisibility(View.VISIBLE);
-                elevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                elevenWeb.setWebViewClient(new WebViewClient());
-                elevenWeb.loadUrl(contents.get(10).getVideo_url());
-                elevenWeb.getSettings().setJavaScriptEnabled(true);
-                elevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                elevenWeb.setWebChromeClient(new WebChromeClient());
-                elevenWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkTenth() {
-        if (contents.get(9) != null) {
-            if (contents.get(9).getText() != null) {
-                tenContent.setVisibility(View.VISIBLE);
-                tenWeb.getSettings().setDefaultFontSize(16);
-                tenWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barTen.setVisibility(View.VISIBLE);
-                        tenWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barTen.setVisibility(View.GONE);
-                        tenWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                tenWeb.getSettings().setJavaScriptEnabled(true);
-                tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                tenWeb.setWebChromeClient(new WebChromeClient());
-                tenWeb.loadData(Constants.HARDCODED_BODY + contents.get(9).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(tenWeb);
-            } else if (contents.get(9).getPhotos() != null) {
-                tenContent.setVisibility(View.VISIBLE);
-                tenImage.setVisibility(View.VISIBLE);
-                barTen.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(9).getPhotos().get(0).getImg_url(), tenImage, barTen);
-                if (!contents.get(9).getPhotos().get(0).getDescription().equals("")) {
-                    tenDescription.setText(contents.get(9).getPhotos().get(0).getDescription());
-                    tenDescription.setVisibility(View.VISIBLE);
-
-                } else {
-                    tenDescription.setVisibility(View.GONE);
-                }
-                tenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(tenDescription);
-            } else if (contents.get(9).getAssociate() != null) {
-                tenContent.setVisibility(View.VISIBLE);
-                tenMore.setVisibility(View.VISIBLE);
-                tenUrl.setVisibility(View.VISIBLE);
-                tenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                tenUrl.setText(contents.get(9).getAssociate().getTitle());
-                tenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                tenUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(9).getAssociate().getId() != null) {
-                            loadArticle(contents.get(9).getAssociate().getId());
-                        }else if (contents.get(9).getAssociate().getUrl() != null) {
-                            tenUrl.setVisibility(View.GONE);
-                            tenWeb.loadUrl(contents.get(9).getAssociate().getUrl());
-                            tenWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barTen.setVisibility(View.GONE);
-                                    tenWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barTen.setVisibility(View.VISIBLE);
-                                    tenWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            tenWeb.getSettings().setJavaScriptEnabled(true);
-                            tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            tenWeb.setWebChromeClient(new WebChromeClient());
-                            tenWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(tenMore);
-                contentUrl.add(tenUrl);
-            } else if (contents.get(9).getVideo_url() != null) {
-                tenContent.setVisibility(View.VISIBLE);
-                tenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                tenWeb.setWebViewClient(new WebViewClient());
-                tenWeb.loadUrl(contents.get(9).getVideo_url());
-                tenWeb.getSettings().setJavaScriptEnabled(true);
-                tenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                tenWeb.setWebChromeClient(new WebChromeClient());
-                tenWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkNinth() {
-        if (contents.get(8) != null) {
-            if (contents.get(8).getText() != null) {
-                nineContent.setVisibility(View.VISIBLE);
-                nineWeb.getSettings().setDefaultFontSize(16);
-                nineWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barNine.setVisibility(View.VISIBLE);
-                        nineWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barNine.setVisibility(View.GONE);
-                        nineWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                nineWeb.getSettings().setJavaScriptEnabled(true);
-                nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                nineWeb.setWebChromeClient(new WebChromeClient());
-                nineWeb.loadData(Constants.HARDCODED_BODY + contents.get(8).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(nineWeb);
-            } else if (contents.get(8).getPhotos() != null) {
-                nineContent.setVisibility(View.VISIBLE);
-                nineImage.setVisibility(View.VISIBLE);
-                barNine.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(8).getPhotos().get(0).getImg_url(), nineImage, barNine);
-                if (!contents.get(8).getPhotos().get(0).getDescription().equals("")) {
-                    nineDescription.setText(contents.get(8).getPhotos().get(0).getDescription());
-                    nineDescription.setVisibility(View.VISIBLE);
-                } else {
-                    nineDescription.setText("Отсутствует описание к данному фото");
-                    nineDescription.setVisibility(View.GONE);
-                }
-                nineDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(nineDescription);
-            } else if (contents.get(8).getAssociate() != null) {
-                nineContent.setVisibility(View.VISIBLE);
-                nineMore.setVisibility(View.VISIBLE);
-                nineUrl.setVisibility(View.VISIBLE);
-                nineMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                nineUrl.setText(contents.get(8).getAssociate().getTitle());
-                nineUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                nineUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(8).getAssociate().getId() != null) {
-                            loadArticle(contents.get(8).getAssociate().getId());
-                        }else if (contents.get(8).getAssociate().getUrl() != null) {
-                            nineUrl.setVisibility(View.GONE);
-                            nineWeb.loadUrl(contents.get(8).getAssociate().getUrl());
-                            nineWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barNine.setVisibility(View.GONE);
-                                    nineWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barNine.setVisibility(View.VISIBLE);
-                                    nineWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            nineWeb.getSettings().setJavaScriptEnabled(true);
-                            nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            nineWeb.setWebChromeClient(new WebChromeClient());
-                            nineWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(nineMore);
-                contentUrl.add(nineUrl);
-            } else if (contents.get(8).getVideo_url() != null) {
-                nineContent.setVisibility(View.VISIBLE);
-                nineWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                nineWeb.setWebViewClient(new WebViewClient());
-                nineWeb.loadUrl(contents.get(8).getVideo_url());
-                nineWeb.getSettings().setJavaScriptEnabled(true);
-                nineWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                nineWeb.setWebChromeClient(new WebChromeClient());
-                nineWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkEight() {
-        if (contents.get(7) != null) {
-            if (contents.get(7).getText() != null) {
-                eightContent.setVisibility(View.VISIBLE);
-                eightWeb.getSettings().setDefaultFontSize(16);
-                eightWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barEight.setVisibility(View.VISIBLE);
-                        eightWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barEight.setVisibility(View.GONE);
-                        eightWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                eightWeb.getSettings().setJavaScriptEnabled(true);
-                eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                eightWeb.setWebChromeClient(new WebChromeClient());
-                eightWeb.loadData(Constants.HARDCODED_BODY + contents.get(7).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(eightWeb);
-            } else if (contents.get(7).getPhotos() != null) {
-                eightContent.setVisibility(View.VISIBLE);
-                eightImage.setVisibility(View.VISIBLE);
-                barEight.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(7).getPhotos().get(0).getImg_url(), eightImage, barEight);
-                if (!contents.get(7).getPhotos().get(0).getDescription().equals("")) {
-                    eightDescription.setText(contents.get(7).getPhotos().get(0).getDescription());
-                    eightDescription.setVisibility(View.VISIBLE);
-                } else {
-                    eightDescription.setText("Отсутствует описание к данному фото");
-                    eightDescription.setVisibility(View.GONE);
-                }
-                eightDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(eightDescription);
-            } else if (contents.get(7).getAssociate() != null) {
-                eightContent.setVisibility(View.VISIBLE);
-                eightMore.setVisibility(View.VISIBLE);
-                eightUrl.setVisibility(View.VISIBLE);
-                eightMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                eightUrl.setText(contents.get(7).getAssociate().getTitle());
-                eightUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                eightUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(7).getAssociate().getId() != null) {
-                            loadArticle(contents.get(7).getAssociate().getId());
-                        }else if (contents.get(7).getAssociate().getUrl() != null) {
-                            eightUrl.setVisibility(View.GONE);
-                            eightWeb.loadUrl(contents.get(7).getAssociate().getUrl());
-                            eightWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barEight.setVisibility(View.GONE);
-                                    eightWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barEight.setVisibility(View.VISIBLE);
-                                    eightWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            eightWeb.getSettings().setJavaScriptEnabled(true);
-                            eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            eightWeb.setWebChromeClient(new WebChromeClient());
-                            eightWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(eightMore);
-                contentUrl.add(eightUrl);
-            } else if (contents.get(7).getVideo_url() != null) {
-                eightContent.setVisibility(View.VISIBLE);
-                eightWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                eightWeb.setWebViewClient(new WebViewClient());
-                eightWeb.loadUrl(contents.get(7).getVideo_url());
-                eightWeb.getSettings().setJavaScriptEnabled(true);
-                eightWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                eightWeb.setWebChromeClient(new WebChromeClient());
-                eightWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkSeventh() {
-        if (contents.get(6) != null) {
-            if (contents.get(6).getText() != null) {
-                sevenContent.setVisibility(View.VISIBLE);
-                sevenWeb.getSettings().setDefaultFontSize(16);
-                sevenWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barSeven.setVisibility(View.VISIBLE);
-                        sevenWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barSeven.setVisibility(View.GONE);
-                        sevenWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                sevenWeb.getSettings().setJavaScriptEnabled(true);
-                sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                sevenWeb.setWebChromeClient(new WebChromeClient());
-                sevenWeb.loadData(Constants.HARDCODED_BODY + contents.get(6).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(sevenWeb);
-            } else if (contents.get(6).getPhotos() != null) {
-                sevenContent.setVisibility(View.VISIBLE);
-                sevenImage.setVisibility(View.VISIBLE);
-                barSeven.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(6).getPhotos().get(0).getImg_url(), sevenImage, barSeven);
-                if (!contents.get(6).getPhotos().get(0).getDescription().equals("")) {
-                    sevenDescription.setText(contents.get(6).getPhotos().get(0).getDescription());
-                    sevenDescription.setVisibility(View.VISIBLE);
-                } else {
-                    sevenDescription.setText("");
-                    sevenDescription.setVisibility(View.GONE);
-                }
-
-                sevenDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(sevenDescription);
-
-            } else if (contents.get(6).getAssociate() != null) {
-                sevenContent.setVisibility(View.VISIBLE);
-                sevenMore.setVisibility(View.VISIBLE);
-                sevenUrl.setVisibility(View.VISIBLE);
-                sevenMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                sevenUrl.setText(contents.get(6).getAssociate().getTitle());
-                sevenUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                sevenUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(6).getAssociate().getId() != null) {
-                            loadArticle(contents.get(6).getAssociate().getId());
-                        }else if (contents.get(6).getAssociate().getUrl() != null) {
-                            sevenUrl.setVisibility(View.GONE);
-                            sevenWeb.loadUrl(contents.get(6).getAssociate().getUrl());
-                            sevenWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barSeven.setVisibility(View.GONE);
-                                    sevenWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barSeven.setVisibility(View.VISIBLE);
-                                    sevenWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            sevenWeb.getSettings().setJavaScriptEnabled(true);
-                            sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            sevenWeb.setWebChromeClient(new WebChromeClient());
-                            sevenWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(sevenMore);
-                contentUrl.add(sevenUrl);
-            } else if (contents.get(6).getVideo_url() != null) {
-                sevenContent.setVisibility(View.VISIBLE);
-                sevenWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                sevenWeb.setWebViewClient(new WebViewClient());
-                sevenWeb.loadUrl(contents.get(6).getVideo_url());
-                sevenWeb.getSettings().setJavaScriptEnabled(true);
-                sevenWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                sevenWeb.setWebChromeClient(new WebChromeClient());
-                sevenWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkSixth() {
-        if (contents.get(5) != null) {
-            if (contents.get(5).getText() != null) {
-                sixContent.setVisibility(View.VISIBLE);
-                sixWeb.getSettings().setDefaultFontSize(16);
-                sixWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barSix.setVisibility(View.VISIBLE);
-                        sixWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barSix.setVisibility(View.GONE);
-                        sixWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                sixWeb.getSettings().setJavaScriptEnabled(true);
-                sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                sixWeb.setWebChromeClient(new WebChromeClient());
-                sixWeb.loadData(Constants.HARDCODED_BODY + contents.get(5).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(sixWeb);
-            } else if (contents.get(5).getPhotos() != null) {
-                sixContent.setVisibility(View.VISIBLE);
-                sixImage.setVisibility(View.VISIBLE);
-                barSix.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(5).getPhotos().get(0).getImg_url(), sixImage, barSix);
-                if (!contents.get(5).getPhotos().get(0).getDescription().equals("")) {
-                    sixDescription.setText(contents.get(5).getPhotos().get(0).getDescription());
-                    sixDescription.setVisibility(View.VISIBLE);
-                } else {
-                    sixDescription.setText("Отсутствует описание к данному фото");
-                    sixDescription.setVisibility(View.GONE);
-                }
-                sixDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(sixDescription);
-
-            } else if (contents.get(5).getAssociate() != null) {
-                sixContent.setVisibility(View.VISIBLE);
-                sixMore.setVisibility(View.VISIBLE);
-                sixUrl.setVisibility(View.VISIBLE);
-                sixMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                sixUrl.setText(contents.get(5).getAssociate().getTitle());
-                sixUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                sixUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(5).getAssociate().getId() != null) {
-                            loadArticle(contents.get(5).getAssociate().getId());
-                        }else if (contents.get(5).getAssociate().getUrl() != null) {
-                            sixUrl.setVisibility(View.GONE);
-                            sixWeb.loadUrl(contents.get(5).getAssociate().getUrl());
-                            sixWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barSix.setVisibility(View.GONE);
-                                    sixWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barSix.setVisibility(View.VISIBLE);
-                                    sixWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            sixWeb.getSettings().setJavaScriptEnabled(true);
-                            sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            sixWeb.setWebChromeClient(new WebChromeClient());
-                            sixWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(sixMore);
-                contentUrl.add(sixUrl);
-            } else if (contents.get(5).getVideo_url() != null) {
-                sixContent.setVisibility(View.VISIBLE);
-                sixWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                sixWeb.setWebViewClient(new WebViewClient());
-                sixWeb.loadUrl(contents.get(5).getVideo_url());
-                sixWeb.getSettings().setJavaScriptEnabled(true);
-                sixWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                sixWeb.setWebChromeClient(new WebChromeClient());
-                sixWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkFifth() {
-        if (contents.get(4) != null) {
-            if (contents.get(4).getText() != null) {
-                fifthContent.setVisibility(View.VISIBLE);
-                fifthWeb.getSettings().setDefaultFontSize(16);
-                fifthWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barFive.setVisibility(View.VISIBLE);
-                        fifthWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barFive.setVisibility(View.GONE);
-                        fifthWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                fifthWeb.getSettings().setJavaScriptEnabled(true);
-                fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                fifthWeb.setWebChromeClient(new WebChromeClient());
-                fifthWeb.loadData(Constants.HARDCODED_BODY + contents.get(4).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
-                contentViews.add(fifthWeb);
-            } else if (contents.get(4).getPhotos() != null) {
-                fifthContent.setVisibility(View.VISIBLE);
-                fifthImage.setVisibility(View.VISIBLE);
-                barFive.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(4).getPhotos().get(0).getImg_url(), fifthImage, barFive);
-                if (!contents.get(4).getPhotos().get(0).getDescription().equals("")) {
-                    fifthDescription.setText(contents.get(4).getPhotos().get(0).getDescription());
-                    fifthDescription.setVisibility(View.VISIBLE);
-                } else {
-                    fifthDescription.setText("Отсутствует описание к данному фото");
-                }
-                fifthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(fifthDescription);
-            } else if (contents.get(4).getGallery() != null) {
-                for (int i = 0; i < contents.get(4).getGallery().size(); i++) {
-                    galleries.add(contents.get(4).getGallery().get(i));
-                }
-            } else if (contents.get(4).getAssociate() != null) {
-                fifthContent.setVisibility(View.VISIBLE);
-                fifthMore.setVisibility(View.VISIBLE);
-                fifthUrl.setVisibility(View.VISIBLE);
-                fifthMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                fifthUrl.setText(contents.get(4).getAssociate().getTitle());
-                fifthUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                fifthUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(4).getAssociate().getId() != null) {
-                            loadArticle(contents.get(4).getAssociate().getId());
-                        }else if (contents.get(4).getAssociate().getUrl() != null) {
-                            fifthUrl.setVisibility(View.GONE);
-                            fifthWeb.loadUrl(contents.get(4).getAssociate().getUrl());
-                            fifthWeb.setWebViewClient(new WebViewClient());
-                            fifthWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barFive.setVisibility(View.GONE);
-                                    fifthWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barFive.setVisibility(View.VISIBLE);
-                                    fifthWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            fifthWeb.getSettings().setJavaScriptEnabled(true);
-                            fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            fifthWeb.setWebChromeClient(new WebChromeClient());
-                            fifthWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(fifthMore);
-                contentUrl.add(fifthUrl);
-            } else if (contents.get(4).getVideo_url() != null) {
-                fifthContent.setVisibility(View.VISIBLE);
-                fifthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                fifthWeb.setWebViewClient(new WebViewClient());
-                fifthWeb.loadUrl(contents.get(4).getVideo_url());
-                fifthWeb.getSettings().setJavaScriptEnabled(true);
-                fifthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                fifthWeb.setWebChromeClient(new WebChromeClient());
-                fifthWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkFourth() {
-        if (contents.get(3) != null) {
-            if (contents.get(3).getText() != null) {
-                fourthContent.setVisibility(View.VISIBLE);
-                fourthWeb.getSettings().setDefaultFontSize(16);
-                fourthWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barFour.setVisibility(View.VISIBLE);
-                        fourthWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barFour.setVisibility(View.GONE);
-                        fourthWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                fourthWeb.getSettings().setJavaScriptEnabled(true);
-                fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                fourthWeb.setWebChromeClient(new WebChromeClient());
-                fourthWeb.loadData(Constants.HARDCODED_BODY + contents.get(3).getText().replace("//www", "https://www"), "text/html; chcarset=utf-8", "UTF-8");
-                contentViews.add(fourthWeb);
-            } else if (contents.get(3).getPhotos() != null) {
-                fourthContent.setVisibility(View.VISIBLE);
-                fourthImage.setVisibility(View.VISIBLE);
-                barFour.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(3).getPhotos().get(0).getImg_url(), fourthImage, barFour);
-                if (!contents.get(3).getPhotos().get(0).getDescription().equals("")) {
-                    fourthDescription.setText(contents.get(3).getPhotos().get(0).getDescription());
-                    fourthDescription.setVisibility(View.VISIBLE);
-                } else {
-                    fourthDescription.setText("Отсутствует описание к данному фото");
-                }
-                fourthDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(fourthDescription);
-            } else if (contents.get(3).getAssociate() != null) {
-                fourthContent.setVisibility(View.VISIBLE);
-                fourthMore.setVisibility(View.VISIBLE);
-                fourthUrl.setVisibility(View.VISIBLE);
-                fourthMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                fourthUrl.setText(contents.get(3).getAssociate().getTitle());
-                fourthUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                fourthUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(3).getAssociate().getId() != null) {
-                            loadArticle(contents.get(3).getAssociate().getId());
-                        }else if (contents.get(3).getAssociate().getUrl()!= null) {
-                            fourthUrl.setVisibility(View.GONE);
-                            fourthWeb.loadUrl(contents.get(3).getAssociate().getUrl());
-                            fourthWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barFour.setVisibility(View.GONE);
-                                    fourthWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barFour.setVisibility(View.VISIBLE);
-                                    fourthWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            fourthWeb.getSettings().setJavaScriptEnabled(true);
-                            fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            fourthWeb.setWebChromeClient(new WebChromeClient());
-                            fourthWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(fourthMore);
-                contentUrl.add(fourthUrl);
-            } else if (contents.get(3).getVideo_url() != null) {
-                fourthContent.setVisibility(View.VISIBLE);
-                fourthWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                fourthWeb.setWebViewClient(new WebViewClient());
-                fourthWeb.loadUrl(contents.get(3).getVideo_url());
-                fourthWeb.getSettings().setJavaScriptEnabled(true);
-                fourthWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                fourthWeb.setWebChromeClient(new WebChromeClient());
-                fourthWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkThird() {
-        if (contents.get(2) != null) {
-            if (contents.get(2).getText() != null) {
-                thirdContent.setVisibility(View.VISIBLE);
-                thirdWeb.getSettings().setDefaultFontSize(16);
-                thirdWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barThree.setVisibility(View.VISIBLE);
-                        thirdWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barThree.setVisibility(View.GONE);
-                        thirdWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                thirdWeb.getSettings().setJavaScriptEnabled(true);
-                thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                thirdWeb.setWebChromeClient(new WebChromeClient());
-                thirdWeb.loadData(Constants.HARDCODED_BODY + contents.get(2).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
-                contentViews.add(thirdWeb);
-            } else if (contents.get(2).getPhotos() != null) {
-                thirdContent.setVisibility(View.VISIBLE);
-                thirdImage.setVisibility(View.VISIBLE);
-                barThree.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(2).getPhotos().get(0).getImg_url(), thirdImage, barThree);
-                if (!contents.get(2).getPhotos().get(0).getDescription().equals("")) {
-                    thirdDescription.setText(contents.get(2).getPhotos().get(0).getDescription());
-                    thirdDescription.setVisibility(View.VISIBLE);
-                } else {
-                    thirdDescription.setText("Отсутствует описание к данному фото");
-                }
-                thirdDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(thirdDescription);
-            } else if (contents.get(2).getAssociate() != null) {
-                thirdContent.setVisibility(View.VISIBLE);
-                thirdMore.setVisibility(View.VISIBLE);
-                thirdUrl.setVisibility(View.VISIBLE);
-                thirdMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                thirdUrl.setText(contents.get(2).getAssociate().getTitle());
-                thirdUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                thirdUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(2).getAssociate().getId() != null) {
-                            loadArticle(contents.get(2).getAssociate().getId());
-                        }else if (contents.get(2).getAssociate().getUrl() != null) {
-                        thirdUrl.setVisibility(View.GONE);
-                        thirdWeb.loadUrl(contents.get(2).getAssociate().getUrl());
-                        thirdWeb.setWebViewClient(new WebViewClient(){
-                            @Override
-                            public void onPageFinished(WebView view, String url) {
-                                super.onPageFinished(view, url);
-                                barThree.setVisibility(View.GONE);
-                                thirdWeb.setVisibility(View.VISIBLE);
-                            }
-
-                            @Override
-                            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                super.onPageStarted(view, url, favicon);
-                                barThree.setVisibility(View.VISIBLE);
-                                thirdWeb.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                view.loadUrl(url);
-                                return false;
-                            }
-                        });
-                        thirdWeb.getSettings().setJavaScriptEnabled(true);
-                        thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                        thirdWeb.setWebChromeClient(new WebChromeClient());
-                        thirdWeb.setVisibility(View.VISIBLE);
-                    }
-                    }
-                });
-                contentMore.add(thirdMore);
-                contentUrl.add(thirdUrl);
-            } else if (contents.get(2).getVideo_url() != null) {
-                thirdContent.setVisibility(View.VISIBLE);
-                thirdWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                thirdWeb.setWebViewClient(new WebViewClient());
-                thirdWeb.loadUrl(contents.get(2).getVideo_url());
-                thirdWeb.getSettings().setJavaScriptEnabled(true);
-                thirdWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                thirdWeb.setWebChromeClient(new WebChromeClient());
-                thirdWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkSecond() {
-        if (contents.get(1) != null) {
-            if (contents.get(1).getText() != null) {
-                secondContent.setVisibility(View.VISIBLE);
-                secondWeb.getSettings().setDefaultFontSize(16);
-                secondWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barTwo.setVisibility(View.VISIBLE);
-                        secondWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barTwo.setVisibility(View.GONE);
-                        secondWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                secondWeb.getSettings().setJavaScriptEnabled(true);
-                secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                secondWeb.setWebChromeClient(new WebChromeClient());
-                secondWeb.loadData(Constants.HARDCODED_BODY + contents.get(1).getText().replace("//www", "https://www"), "text/html; charset=utf-8", "UTF-8");
-                contentViews.add(secondWeb);
-            } else if (contents.get(1).getPhotos() != null) {
-                secondContent.setVisibility(View.VISIBLE);
-                secondImage.setVisibility(View.VISIBLE);
-                barTwo.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(1).getPhotos().get(0).getImg_url(), secondImage, barTwo);
-                if (!contents.get(1).getPhotos().get(0).getDescription().equals("")) {
-                    secondDescription.setText(contents.get(1).getPhotos().get(0).getDescription());
-                    secondDescription.setVisibility(View.VISIBLE);
-                } else {
-                    secondDescription.setText("Отсутствует описание к данному фото");
-                }
-                secondDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(secondDescription);
-
-            } else if (contents.get(1).getAssociate() != null) {
-                secondContent.setVisibility(View.VISIBLE);
-                secondMore.setVisibility(View.VISIBLE);
-                secondUrl.setVisibility(View.VISIBLE);
-                secondMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                secondUrl.setText(contents.get(1).getAssociate().getTitle());
-                secondUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                secondUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(1).getAssociate().getId() != null) {
-                            loadArticle(contents.get(1).getAssociate().getId());
-                        }else if (contents.get(1).getAssociate().getUrl() != null) {
-                            secondUrl.setVisibility(View.GONE);
-                            secondWeb.loadUrl(contents.get(1).getAssociate().getUrl());
-                            secondWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barTwo.setVisibility(View.GONE);
-                                    secondWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barTwo.setVisibility(View.VISIBLE);
-                                    secondWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            secondWeb.getSettings().setJavaScriptEnabled(true);
-                            secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            secondWeb.setWebChromeClient(new WebChromeClient());
-                            secondWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(secondMore);
-                contentUrl.add(secondUrl);
-            } else if (contents.get(1).getVideo_url() != null) {
-                secondContent.setVisibility(View.VISIBLE);
-                secondWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                secondWeb.setWebViewClient(new WebViewClient());
-                secondWeb.loadUrl(contents.get(1).getVideo_url());
-                secondWeb.getSettings().setJavaScriptEnabled(true);
-                secondWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                secondWeb.setWebChromeClient(new WebChromeClient());
-                secondWeb.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    private void checkFirst() {
-        if (contents.get(0) != null) {
-            if (contents.get(0).getText() != null) {
-                firstContent.setVisibility(View.VISIBLE);
-                firstWeb.getSettings().setDefaultFontSize(16);
-                firstWeb.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        barOne.setVisibility(View.VISIBLE);
-                        firstWeb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        barOne.setVisibility(View.GONE);
-                        firstWeb.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        return false;
-                    }
-                });
-                firstWeb.loadData(contents.get(0).getText(), "text/html; charset=utf-8", "UTF-8");
-                firstWeb.getSettings().setJavaScriptEnabled(true);
-                firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                firstWeb.setWebChromeClient(new WebChromeClient());
-                contentViews.add(firstWeb);
-            } else if (contents.get(0).getPhotos() != null) {
-                firstContent.setVisibility(View.VISIBLE);
-                firstImage.setVisibility(View.VISIBLE);
-                barOne.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, contents.get(0).getPhotos().get(0).getImg_url(), fifthImage, barOne);
-                if (!contents.get(0).getPhotos().get(0).getDescription().equals("")) {
-                    firstDescription.setText(contents.get(0).getPhotos().get(0).getDescription());
-                    fifthDescription.setVisibility(View.VISIBLE);
-                } else {
-                    firstDescription.setText("Отсутствует описание к данному фото");
-                }
-                firstDescription.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(firstDescription);
-            } else if (contents.get(0).getAssociate() != null) {
-                firstContent.setVisibility(View.VISIBLE);
-                firstMore.setVisibility(View.VISIBLE);
-                firstUrl.setVisibility(View.VISIBLE);
-                firstMore.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                firstUrl.setText(contents.get(0).getAssociate().getTitle());
-                firstUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                firstUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (contents.get(0).getAssociate().getId() != null) {
-                            loadArticle(contents.get(0).getAssociate().getId());
-                        }else if (contents.get(0).getAssociate().getUrl() != null) {
-                            firstUrl.setVisibility(View.GONE);
-                            firstWeb.loadUrl(contents.get(0).getAssociate().getUrl());
-                            firstWeb.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    barOne.setVisibility(View.GONE);
-                                    firstWeb.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    barOne.setVisibility(View.VISIBLE);
-                                    firstWeb.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            firstWeb.getSettings().setJavaScriptEnabled(true);
-                            firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            firstWeb.setWebChromeClient(new WebChromeClient());
-                            firstWeb.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                contentMore.add(firstMore);
-                contentUrl.add(firstUrl);
-            } else if (contents.get(0).getVideo_url() != null) {
-                firstContent.setVisibility(View.VISIBLE);
-                firstWeb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                firstWeb.setWebViewClient(new WebViewClient());
-                firstWeb.loadUrl(contents.get(0).getVideo_url());
-                firstWeb.getSettings().setJavaScriptEnabled(true);
-                firstWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                firstWeb.setWebChromeClient(new WebChromeClient());
-                firstWeb.setVisibility(View.VISIBLE);
-            }
-        }
-
-    }
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
     public void pagerClick() {

@@ -173,7 +173,7 @@ public class PopularDataNewsFragment extends Fragment {
     }
 
     public void scrollPopularToTop(){
-        newPopularRecycler.smoothScrollToPosition(0);
+        popularManager.scrollToPosition(0);
     }
 
     @Override

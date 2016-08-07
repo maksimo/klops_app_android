@@ -188,7 +188,7 @@ public class NewDataNewsFragment extends Fragment {
     }
 
     public void scrollNewToTop(){
-        newDataRecycler.smoothScrollToPosition(0);
+        newManager.scrollToPosition(0);
     }
 
 
