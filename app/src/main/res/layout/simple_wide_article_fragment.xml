@@ -17,7 +17,7 @@
                 android:textColor="@color/blackText"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="30dp" />
 
@@ -44,7 +44,7 @@
                 android:text=""
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginRight="5dp" />
+                android:visibility="gone" />
 
 
             <TextView
@@ -58,6 +58,7 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:layout_marginRight="2dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp" />
 
@@ -92,10 +93,10 @@
                 android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dp" />
+                android:layout_marginBottom="10dp" />
 
         </RelativeLayout>
 </RelativeLayout>

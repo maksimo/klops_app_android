@@ -577,7 +577,7 @@ public class ArticleActivity extends AppCompatActivity {
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.setWebChromeClient(new WebChromeClient());
-                contentView.loadData(Constants.HARDCODED_BODY + content.getText(), "text/html; chcarset=utf-8", "UTF-8");
+                contentView.loadDataWithBaseURL(null, content.getText(), "text/html", "UTF-8", null);
                 contentViews.add(contentView);
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
@@ -878,7 +878,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                     promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(25, 25));
                     promotionText.setTextSize(12);
-                    matchArticles.setTextSize(28);
+                    matchArticles.setTextSize(27);
                 }
                 break;
             case 1:
@@ -926,7 +926,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                     promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(20, 20));
                     promotionText.setTextSize(10);
-                    matchArticles.setTextSize(26);
+                    matchArticles.setTextSize(25);
                 }
                 break;
         }

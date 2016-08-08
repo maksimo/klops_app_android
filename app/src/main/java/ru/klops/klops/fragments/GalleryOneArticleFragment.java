@@ -61,6 +61,7 @@ public class GalleryOneArticleFragment extends Fragment {
     Item item;
     KlopsApplication app;
     ArticleActivity activity;
+    String fullAuthor;
 
     @Override
     public void onAttach(Context context) {
@@ -105,16 +106,19 @@ public class GalleryOneArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
-        String fullAuthor = item.getSource().concat(item.getAuthor());
+        fullAuthor = item.getSource() + " " + (item.getAuthor());
+        if (fullAuthor.length() != 0){
+            author.setVisibility(View.VISIBLE);
+        }
         if (fullAuthor.length() > 35) {
             date.setLayoutParams(relativeParams);
-            date.setPadding(15,0,0,15);
+            date.setPadding(15,0,0,10);
         }
         title.setText(String.format("     " + item.getTitle()));
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        author.setText(item.getSource().concat(item.getAuthor()));
+        author.setText(fullAuthor);
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         shortdescription.setText(item.getShortdecription());
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
@@ -122,14 +126,14 @@ public class GalleryOneArticleFragment extends Fragment {
     }
 
     public void formatIncrement() {
-        title.setTextSize(30);
+        title.setTextSize(27);
         date.setTextSize(12);
         author.setTextSize(12);
         shortdescription.setTextSize(18);
     }
 
     public void formatDecrement() {
-        title.setTextSize(28);
+        title.setTextSize(25);
         date.setTextSize(10);
         author.setTextSize(10);
         shortdescription.setTextSize(16);

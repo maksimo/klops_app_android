@@ -41,7 +41,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="10dp" />
 
             <View
                 android:id="@+id/splitterSimpleImageFirst"
@@ -65,7 +65,7 @@
                 android:textStyle="bold"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="5dp"
+                android:visibility="gone"
                 android:layout_marginBottom="15dp" />
 
             <TextView
@@ -78,6 +78,7 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginRight="2dp" />
 
@@ -108,12 +109,12 @@
                 android:layout_below="@+id/splitterSimpleImageSecond"
                 android:lineSpacingExtra="1dp"
                 android:minLines="1"
-                android:paddingBottom="15dp"
                 android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp" />
 
 

@@ -2,7 +2,9 @@ package ru.klops.klops.application;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.BitmapCompat;
 import android.util.Log;
 
 //import com.crashlytics.android.Crashlytics;
@@ -18,6 +20,7 @@ import com.vk.sdk.VKSdk;
 import io.fabric.sdk.android.Fabric;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.feed.News;
@@ -41,6 +44,8 @@ public class KlopsApplication extends Application {
     private String token;
     private Item item;
     private Popular popularPage;
+    private List<Bitmap> newBitmaps;
+    private List<Bitmap> popularBitmaps;
 
     public static KlopsApplication getINSTANCE() {
         return INSTANCE;
@@ -93,5 +98,21 @@ public class KlopsApplication extends Application {
 
     public Item getItem() {
         return item;
+    }
+
+    public List<Bitmap> getNewBitmaps() {
+        return newBitmaps;
+    }
+
+    public void setNewBitmaps(List<Bitmap> newBitmaps) {
+        this.newBitmaps = newBitmaps;
+    }
+
+    public List<Bitmap> getPopularBitmaps() {
+        return popularBitmaps;
+    }
+
+    public void setPopularBitmaps(List<Bitmap> popularBitmaps) {
+        this.popularBitmaps = popularBitmaps;
     }
 }

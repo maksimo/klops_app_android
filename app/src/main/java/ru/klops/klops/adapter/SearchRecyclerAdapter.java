@@ -96,7 +96,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         viewHolder.author.setText(fullAuthor);
         if (fullAuthor.length() > 35) {
             viewHolder.date.setLayoutParams(relativeParams);
-            viewHolder.date.setPadding(25, 0, 0, 15);
+            viewHolder.date.setPadding(25, 0, 0, 5);
         } else {
         }
         viewHolder.date.setText(models.get(position).getDate());

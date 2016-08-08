@@ -61,7 +61,7 @@
             android:textColor="@color/greyText"
             android:textSize="10sp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp" />
 
 
@@ -71,7 +71,7 @@
             android:layout_height="17dp"
             android:layout_below="@+id/importantCardAuthors"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="7dp"
             android:layout_toRightOf="@+id/importantCardDate"
             android:background="@drawable/camera"
             android:visibility="gone"/>
@@ -82,7 +82,7 @@
             android:layout_height="8dp"
             android:layout_below="@+id/importantCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="7dp"
             android:layout_toLeftOf="@+id/importantCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone"/>
@@ -93,7 +93,7 @@
             android:layout_height="15dp"
             android:layout_below="@+id/importantCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="8.5dp"
+            android:layout_marginTop="3.5dp"
             android:layout_toLeftOf="@+id/importantCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -110,8 +110,8 @@
             android:textSize="10sp"
             android:visibility="visible"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/importantCardStatus"
@@ -127,21 +127,21 @@
             android:textSize="10sp"
             android:visibility="visible"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/importantCardTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/importantCardDate"
-            android:paddingLeft="15dp"
-            android:paddingRight="5dp"
             android:maxLines="3"
             android:text=""
             android:textColor="@color/blackText"
             android:textSize="26sp"
-            android:paddingBottom="10dp" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
 
         <TextView
             android:id="@+id/importantCardText"

@@ -2,6 +2,7 @@ package ru.klops.klops.fragments;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -64,68 +65,68 @@ public class NewDataNewsFragment extends Fragment {
     private void setUpRecycler() {
         Log.d(LOG, "setUpRecycler");
         if (mApp.getFirstPage() != null) {
-        Page loadedFirstPage = mApp.getFirstPage();
-        models = new ArrayList<>();
-        models.addAll(loadedFirstPage.getNews());
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setRemoveDuration(1500);
-        currency = new Currency();
-        currency.setEur(loadedFirstPage.getCurrency().getEur());
-        currency.setUsd(loadedFirstPage.getCurrency().getUsd());
-        currency.setPln(loadedFirstPage.getCurrency().getPln());
-        copy = new ArrayList<>();
-        copy.addAll(models);
-        typesAdapter = new ArrayList<>();
-        typesAdapter.addAll(addData(copy));
-        adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter, currency);
-        ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
-        newDataRecycler.addItemDecoration(decoration);
-        newDataRecycler.setItemAnimator(itemAnimator);
-        newManager = new GridLayoutManager(getContext(), 2);
-        newManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (adapter.getItemViewType(position)) {
-                    case Constants.SIMPLE_WITH_IMG:
-                        return 1;
-                    case Constants.SIMPLE_TEXT_NEWS:
-                        return 1;
-                    case Constants.LONG:
-                        return 2;
-                    case Constants.INTERVIEW:
-                        return 2;
-                    case Constants.AUTHORS:
-                        return 2;
-                    case Constants.NATIONAL:
-                        return 2;
-                    case Constants.IMPORTANT:
-                        return 2;
-                    case Constants.GALLERY_ONE:
-                        return 2;
-                    case Constants.GALLERY_TWO:
-                        return 2;
-                    case Constants.ADVERTISE:
-                        return 2;
-                    case Constants.SIMPLE_WIDE:
-                        return 2;
-                    case Constants.POPULAR_MARKER:
-                        return 2;
-                    case Constants.SEPARATOR:
-                        return 2;
-                    case Constants.EXCHANGE:
-                        return 2;
-                    case Constants.URGENT:
-                        return 2;
-                    default:
-                        return 0;
+            Page loadedFirstPage = mApp.getFirstPage();
+            models = new ArrayList<>();
+            models.addAll(loadedFirstPage.getNews());
+            RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+            itemAnimator.setRemoveDuration(1500);
+            currency = new Currency();
+            currency.setEur(loadedFirstPage.getCurrency().getEur());
+            currency.setUsd(loadedFirstPage.getCurrency().getUsd());
+            currency.setPln(loadedFirstPage.getCurrency().getPln());
+            copy = new ArrayList<>();
+            copy.addAll(models);
+            typesAdapter = new ArrayList<>();
+            typesAdapter.addAll(addData(copy));
+            adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter, currency);
+            ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
+            newDataRecycler.addItemDecoration(decoration);
+            newDataRecycler.setItemAnimator(itemAnimator);
+            newManager = new GridLayoutManager(getContext(), 2);
+            newManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    switch (adapter.getItemViewType(position)) {
+                        case Constants.SIMPLE_WITH_IMG:
+                            return 1;
+                        case Constants.SIMPLE_TEXT_NEWS:
+                            return 1;
+                        case Constants.LONG:
+                            return 2;
+                        case Constants.INTERVIEW:
+                            return 2;
+                        case Constants.AUTHORS:
+                            return 2;
+                        case Constants.NATIONAL:
+                            return 2;
+                        case Constants.IMPORTANT:
+                            return 2;
+                        case Constants.GALLERY_ONE:
+                            return 2;
+                        case Constants.GALLERY_TWO:
+                            return 2;
+                        case Constants.ADVERTISE:
+                            return 2;
+                        case Constants.SIMPLE_WIDE:
+                            return 2;
+                        case Constants.POPULAR_MARKER:
+                            return 2;
+                        case Constants.SEPARATOR:
+                            return 2;
+                        case Constants.EXCHANGE:
+                            return 2;
+                        case Constants.URGENT:
+                            return 2;
+                        default:
+                            return 0;
+                    }
                 }
-            }
-        });
-        newDataRecycler.setLayoutManager(newManager);
-        newDataRecycler.setAdapter(adapter);
-        }else {
+            });
+            newDataRecycler.setLayoutManager(newManager);
+            newDataRecycler.setAdapter(adapter);
+        } else {
             newDataRecycler.setVisibility(View.GONE);
-            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")) {
                 newError.setText("Настройки приложения были изменены");
             }
             newError.setVisibility(View.VISIBLE);
@@ -187,7 +188,7 @@ public class NewDataNewsFragment extends Fragment {
         return types;
     }
 
-    public void scrollNewToTop(){
+    public void scrollNewToTop() {
         newManager.scrollToPosition(0);
     }
 

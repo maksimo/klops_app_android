@@ -37,21 +37,21 @@
             android:id="@+id/interviewCardDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="110dp"
             android:gravity="left|center"
             android:layout_below="@+id/interviewCardAuthors"
             android:textAllCaps="true"
             android:textColor="@color/greyText"
             android:textSize="10sp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="5dp" />
 
         <ImageView
             android:id="@+id/interviewCardCamera"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="7dp"
             android:layout_below="@+id/interviewCardAuthors"
             android:layout_toRightOf="@+id/interviewCardDate"
             android:background="@drawable/camera"
@@ -63,7 +63,7 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="7dp"
             android:layout_toLeftOf="@+id/interviewCardStatus"
             android:layout_below="@+id/interviewCardAuthors"
             android:background="@drawable/news_update_circle"
@@ -75,7 +75,7 @@
             android:layout_height="15dp"
             android:layout_below="@+id/interviewCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="8.5dp"
+            android:layout_marginTop="3.5dp"
             android:layout_toLeftOf="@+id/interviewCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -92,8 +92,8 @@
             android:textSize="10sp"
             android:visibility="visible"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/interviewCardStatus"
@@ -107,8 +107,8 @@
             android:layout_below="@+id/interviewCardAuthors"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp" />
 
         <RelativeLayout

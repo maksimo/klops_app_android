@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,6 +22,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +56,8 @@ public class SplashActivity extends AppCompatActivity {
     Unbinder unbinder;
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;
+    private List<Bitmap> newBitmaps;
+    private List<Bitmap> popularBitmaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +228,8 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    
 
     @Override
     protected void onStart() {

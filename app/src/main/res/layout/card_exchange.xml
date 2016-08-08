@@ -13,14 +13,12 @@
         android:layout_weight="0.34"
         android:fillViewport="true"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginRight="1dp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:background="@color/exchange"
-            android:elevation="1dp">
+            android:background="@color/recyclerBackground">
 
             <TextView
                 android:id="@+id/dollar"
@@ -43,6 +41,14 @@
                 android:textSize="26sp"
                 android:layout_marginTop="5dp" />
 
+            <View
+                android:id="@+id/dollarSeparator"
+                android:layout_width="1dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/separator"
+                android:elevation="1.5dp" />
+
         </RelativeLayout>
 
     </LinearLayout>
@@ -58,10 +64,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:background="@color/exchange"
-            android:elevation="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp">
+            android:background="@color/recyclerBackground">
 
             <TextView
                 android:id="@+id/euro"
@@ -84,6 +87,14 @@
                 android:textSize="26sp"
                 android:layout_marginTop="5dp" />
 
+            <View
+                android:id="@+id/euroSeparator"
+                android:layout_width="1dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/separator"
+                android:elevation="1.5dp" />
+
         </RelativeLayout>
     </LinearLayout>
 
@@ -94,14 +105,13 @@
         android:layout_toRightOf="@+id/exchangeEuro"
         android:layout_weight="0.34"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginLeft="1dp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:background="@color/exchange"
-            android:elevation="1dp">
+            android:background="@color/recyclerBackground"
+            android:focusable="false">
 
             <TextView
                 android:id="@+id/zlotiy"
@@ -120,11 +130,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_below="@+id/zlotiy"
                 android:textAllCaps="true"
                 android:textColor="@color/blackText"
                 android:textSize="26sp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="6dp"
+                android:layout_below="@+id/zlotiy"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
         </RelativeLayout>
     </LinearLayout>
 
