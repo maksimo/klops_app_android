@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +34,7 @@ import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.custom.CircleImageView;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.article.Photos;
@@ -83,17 +87,17 @@ public class InterviewArticleFragment extends Fragment {
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
         if (!item.getImage().equals("")) {
-            Picasso.with(getContext()).load(item.getImage()).into(interviewImagePhoto, new Callback() {
-                @Override
-                public void onSuccess() {
-                    bar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError() {
-                    bar.setVisibility(View.VISIBLE);
-                }
-            });
+                Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+                    @Override
+                    public void onProgress(long downloaded, long total) {
+                        bar.setVisibility(View.VISIBLE);
+                    }
+                }).withBitmap().transform(new CircleImageView()).intoImageView(interviewImagePhoto).setCallback(new FutureCallback<ImageView>() {
+                    @Override
+                    public void onCompleted(Exception e, ImageView result) {
+                        bar.setVisibility(View.GONE);
+                    }
+                });
         }else {
             interviewImagePhoto.setVisibility(View.GONE);
         }
@@ -103,13 +107,14 @@ public class InterviewArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
+        relativeParams.setMargins(20,-10,0,10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() != 0){
+        if (fullAuthor.length() > 5){
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {
             date.setLayoutParams(relativeParams);
-            date.setPadding(15,0,0,10);
+            author.setVisibility(View.VISIBLE);
         }
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));

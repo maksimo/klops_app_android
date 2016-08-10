@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.BitmapCompat;
 import android.util.Log;
+import android.widget.ImageView;
 
 //import com.crashlytics.android.Crashlytics;
 
@@ -44,8 +45,7 @@ public class KlopsApplication extends Application {
     private String token;
     private Item item;
     private Popular popularPage;
-    private List<Bitmap> newBitmaps;
-    private List<Bitmap> popularBitmaps;
+
 
     public static KlopsApplication getINSTANCE() {
         return INSTANCE;
@@ -100,19 +100,4 @@ public class KlopsApplication extends Application {
         return item;
     }
 
-    public List<Bitmap> getNewBitmaps() {
-        return newBitmaps;
-    }
-
-    public void setNewBitmaps(List<Bitmap> newBitmaps) {
-        this.newBitmaps = newBitmaps;
-    }
-
-    public List<Bitmap> getPopularBitmaps() {
-        return popularBitmaps;
-    }
-
-    public void setPopularBitmaps(List<Bitmap> popularBitmaps) {
-        this.popularBitmaps = popularBitmaps;
-    }
 }

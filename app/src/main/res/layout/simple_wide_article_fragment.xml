@@ -76,7 +76,7 @@
                 android:id="@+id/splitterSimpleWideSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
-                android:layout_below="@+id/simpleWideAuthor"
+                android:layout_below="@+id/simpleWideDate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:background="@color/greyText"
@@ -88,7 +88,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterSimpleWideSecond"
                 android:lineSpacingExtra="1dp"
-                android:paddingBottom="15dp"
                 android:minLines="1"
                 android:text=""
                 android:textColor="@color/darkGreyText"
@@ -96,7 +95,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="10dp" />
+                android:paddingBottom="10dp" />
 
         </RelativeLayout>
 </RelativeLayout>

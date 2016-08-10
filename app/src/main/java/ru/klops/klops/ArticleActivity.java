@@ -1023,6 +1023,7 @@ public class ArticleActivity extends AppCompatActivity {
         littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         firstDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         firstUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         secondDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));

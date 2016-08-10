@@ -149,8 +149,8 @@
                         android:id="@+id/firstWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -187,7 +187,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/firstDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -221,8 +220,8 @@
                         android:id="@+id/secondWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -259,7 +258,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/secondDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -293,8 +291,8 @@
                         android:id="@+id/thirdWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -331,24 +329,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/thirdDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
                         android:textColor="@color/darkGreyText"
                         android:textSize="10sp"
                         android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/thirdTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/thirdMore"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/greyText"
-                        android:textSize="16sp"
                         android:visibility="gone" />
 
                     <TextView
@@ -376,8 +362,8 @@
                         android:id="@+id/fourthWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -414,7 +400,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/fourthDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -448,8 +433,8 @@
                         android:id="@+id/fifthWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -486,7 +471,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/fifthDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -520,8 +504,8 @@
                         android:id="@+id/sixWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -558,7 +542,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/sixDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -592,8 +575,8 @@
                         android:id="@+id/sevenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -630,7 +613,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/sevenDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -664,8 +646,8 @@
                         android:id="@+id/eightWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -702,7 +684,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/eightDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -736,8 +717,8 @@
                         android:id="@+id/nineWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -774,7 +755,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/nineDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -808,8 +788,8 @@
                         android:id="@+id/tenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -846,7 +826,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/tenDescription"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -880,8 +859,8 @@
                         android:id="@+id/elevenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -918,7 +897,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/elevenDescription"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -952,8 +931,8 @@
                         android:id="@+id/twelveWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -990,7 +969,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="false"
                         android:layout_below="@+id/twelveDescription"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginLeft="15dp"
                         android:text="@string/moreAbout"
                         android:textAllCaps="true"
@@ -1164,16 +1143,17 @@
                     <TextView
                         android:id="@+id/connectedNewsOneDate"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsOneImageLayout"
                         android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAllCaps="true"
                         android:textColor="@color/greyText"
-                        android:textSize="8sp" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/connectedNewsOneText"
@@ -1184,7 +1164,6 @@
                         android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
-                        android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -1233,16 +1212,17 @@
                     <TextView
                         android:id="@+id/connectedNewsTwoDate"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/connectedNewsTwoImageLayout"
                         android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:textAllCaps="true"
                         android:textColor="@color/greyText"
-                        android:textSize="8sp" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/connectedNewsTwoText"
@@ -1253,7 +1233,6 @@
                         android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
-                        android:paddingTop="5dp"
                         android:textColor="@color/blackText"
                         android:textSize="16sp"
                         android:textStyle="bold" />

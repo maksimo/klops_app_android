@@ -34,6 +34,7 @@ import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.custom.CircleImageView;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.article.Photos;
@@ -89,7 +90,7 @@ public class AuthorArticleFragment extends Fragment {
                 public void onProgress(long downloaded, long total) {
                     bar.setVisibility(View.VISIBLE);
                 }
-            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+            }).withBitmap().transform(new CircleImageView()).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
                 @Override
                 public void onCompleted(Exception e, ImageView result) {
                     bar.setVisibility(View.GONE);
@@ -105,13 +106,14 @@ public class AuthorArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
+        relativeParams.setMargins(20,-10,0,10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() != 0){
+        if (fullAuthor.length() > 5){
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {
             date.setLayoutParams(relativeParams);
-            date.setPadding(15,0,0,10);
+            author.setVisibility(View.VISIBLE);
         }
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));

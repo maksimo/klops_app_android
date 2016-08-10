@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text=""
             android:textAllCaps="true"
             android:textColor="@color/darkGreyText"
@@ -42,7 +42,7 @@
         android:layout_below="@+id/urgentCardAuthors"
         android:textColor="@color/colorPrimary"
         android:textSize="10sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp" />
 
@@ -51,7 +51,7 @@
         android:layout_width="17dp"
         android:layout_height="17dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="12dp"
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_toRightOf="@+id/urgentCardDate"
         android:background="@drawable/camera"
@@ -62,7 +62,7 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="12dp"
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_toLeftOf="@+id/urgentCardStatus"
         android:background="@drawable/urgent_circle"
@@ -74,7 +74,7 @@
         android:layout_height="15dp"
         android:layout_below="@+id/urgentCardAuthors"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="3.5dp"
+        android:layout_marginTop="8.5dp"
         android:layout_toLeftOf="@+id/urgentCardViews"
         android:visibility="gone"
         android:background="@drawable/view_count_white" />
@@ -92,7 +92,7 @@
         android:visibility="visible"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/urgentCardStatus"
@@ -107,7 +107,7 @@
         android:visibility="visible"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:text="Срочно" />
 
     <TextView
@@ -151,7 +151,7 @@
     </RelativeLayout>
 </RelativeLayout>
     <View
-        android:id="@+id/separator"
+        android:id="@+id/separatorUrgent"
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:layout_below="@+id/urgentCardLayer"

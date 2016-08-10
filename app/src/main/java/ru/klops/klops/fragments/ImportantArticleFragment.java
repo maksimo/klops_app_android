@@ -106,13 +106,14 @@ public class ImportantArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
+        relativeParams.setMargins(20,-10,0,10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() != 0){
+        if (fullAuthor.length() > 5){
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {
             date.setLayoutParams(relativeParams);
-            date.setPadding(15,0,0,10);
+            author.setVisibility(View.VISIBLE);
         }
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(),"fonts/akzidenzgroteskpro-super.ttf"));

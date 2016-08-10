@@ -96,7 +96,7 @@
                 android:id="@+id/splitterSimpleImageSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
-                android:layout_below="@+id/simpleWithImageAuthor"
+                android:layout_below="@+id/simpleWithImageDate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:alpha="1"
@@ -113,7 +113,7 @@
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="10dp"
+                android:paddingBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp" />
 

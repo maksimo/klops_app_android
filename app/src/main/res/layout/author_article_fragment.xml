@@ -75,7 +75,7 @@
                 android:id="@+id/splitterAuthorsSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
-                android:layout_below="@+id/authorsAuthor"
+                android:layout_below="@+id/authorsDate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:alpha="1"
@@ -89,7 +89,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp">
 
-                <ru.klops.klops.custom.CircleImageView
+                <ImageView
                     android:id="@+id/authorsPhoto"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -111,12 +111,11 @@
                 android:layout_toRightOf="@+id/authorPhotoLayer"
                 android:lineSpacingExtra="1dp"
                 android:minLines="1"
-                android:paddingBottom="15dp"
                 android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:paddingBottom="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="10dp" />
 

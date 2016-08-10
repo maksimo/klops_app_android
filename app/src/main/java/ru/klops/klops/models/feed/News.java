@@ -21,11 +21,13 @@ public class News implements Parcelable {
     private String author;
     private String source;
     private Integer promoted;
+    private String authors_regalia;
+    private String author_photo;
 
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author, String source, Integer promoted) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -40,6 +42,8 @@ public class News implements Parcelable {
         this.author = author;
         this.source = source;
         this.promoted = promoted;
+        this.authors_regalia = authors_regalia;
+        this.author_photo = author_photo;
     }
 
     protected News(Parcel in) {
@@ -56,6 +60,8 @@ public class News implements Parcelable {
         author = in.readString();
         source = in.readString();
         promoted = in.readInt();
+        authors_regalia = in.readString();
+        author_photo = in.readString();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -215,6 +221,28 @@ public class News implements Parcelable {
         this.promoted = promoted;
     }
 
+    public String getAuthors_regalia() {
+        if (authors_regalia == null){
+            setAuthors_regalia("");
+        }
+        return authors_regalia;
+    }
+
+    public void setAuthors_regalia(String authors_regalia) {
+        this.authors_regalia = authors_regalia;
+    }
+
+    public String getAuthor_photo() {
+        if (author_photo == null){
+            setAuthor_photo("");
+        }
+        return author_photo;
+    }
+
+    public void setAuthor_photo(String author_photo) {
+        this.author_photo = author_photo;
+    }
+
     @Override
     public String toString() {
         return "News{" +
@@ -232,6 +260,8 @@ public class News implements Parcelable {
                 ", author='" + author + '\'' +
                 ", source='" + source + '\'' +
                 ", promoted=" + promoted +
+                ", authors_regalia='" + authors_regalia + '\'' +
+                ", author_photo='" + author_photo + '\'' +
                 '}';
     }
 
@@ -256,5 +286,7 @@ public class News implements Parcelable {
         dest.writeString(author);
         dest.writeString(source);
         dest.writeInt(promoted);
+        dest.writeString(authors_regalia);
+        dest.writeString(author_photo);
     }
 }

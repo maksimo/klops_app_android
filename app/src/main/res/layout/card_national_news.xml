@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
@@ -42,7 +42,7 @@
             android:textColor="@color/greyText"
             android:textSize="10sp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp" />
 
         <ImageView
@@ -50,7 +50,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:layout_below="@+id/nationalCardAuthors"
             android:layout_toRightOf="@+id/nationalCardDate"
             android:background="@drawable/camera"
@@ -62,7 +62,7 @@
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
             android:layout_below="@+id/nationalCardAuthors"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/nationalCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
@@ -73,7 +73,7 @@
             android:layout_height="15dp"
             android:layout_below="@+id/nationalCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="3.5dp"
+            android:layout_marginTop="8.5dp"
             android:layout_toLeftOf="@+id/nationalCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -91,7 +91,7 @@
             android:visibility="visible"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/nationalCardStatus"
@@ -105,7 +105,7 @@
             android:layout_below="@+id/nationalCardAuthors"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp" />
 

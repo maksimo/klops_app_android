@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -56,8 +57,6 @@ public class SplashActivity extends AppCompatActivity {
     Unbinder unbinder;
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;
-    private List<Bitmap> newBitmaps;
-    private List<Bitmap> popularBitmaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,8 +227,6 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    
 
     @Override
     protected void onStart() {

@@ -74,7 +74,7 @@
                 android:id="@+id/splitterSimpleTextSecond"
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
-                android:layout_below="@+id/simpleAuthor"
+                android:layout_below="@+id/simpleDate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:background="@color/greyText"
@@ -89,7 +89,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="10dp"
+                android:paddingBottom="10dp"
                 android:minLines="1"
                 android:textColor="@color/darkGreyText"
                 android:textSize="16sp" />

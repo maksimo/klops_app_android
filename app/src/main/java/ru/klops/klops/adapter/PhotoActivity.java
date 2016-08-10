@@ -8,22 +8,18 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.R;
-import ru.klops.klops.custom.CircleImageView;
+import ru.klops.klops.custom.Circle;
 import ru.klops.klops.custom.TextViewProMd;
 import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.utils.Constants;
@@ -36,7 +32,7 @@ public class PhotoActivity extends AppCompatActivity {
     TextViewProMd textView;
     Unbinder unbinder;
     @BindView(R.id.quitPhoto)
-    CircleImageView quitPhoto;
+    Circle quitPhoto;
     @BindView(R.id.bigSwitcherCounter)
     TextViewProRegular bigSwitcherCounter;
     @BindView(R.id.bigProgress)

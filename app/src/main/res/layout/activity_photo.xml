@@ -9,7 +9,7 @@
     tools:context=".adapter.PhotoActivity"
     android:orientation="vertical">
 
-    <ru.klops.klops.custom.CircleImageView
+    <ru.klops.klops.custom.Circle
         android:id="@+id/quitPhoto"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"

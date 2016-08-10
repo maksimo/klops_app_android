@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
@@ -63,7 +63,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:maxLines="1"
             android:textAllCaps="true"
@@ -77,7 +77,7 @@
             android:layout_height="8dp"
             android:layout_below="@+id/simpleImageCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/simpleImageCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
@@ -88,7 +88,7 @@
             android:layout_height="15dp"
             android:layout_below="@+id/simpleImageCardAuthors"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8.5dp"
             android:layout_toLeftOf="@+id/simpleImageCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -106,7 +106,7 @@
             android:visibility="visible"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/simpleImageCardStatus"
@@ -117,7 +117,7 @@
             android:layout_below="@+id/simpleImageCardAuthors"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="right"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"

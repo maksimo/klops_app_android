@@ -18,7 +18,7 @@
             android:id="@+id/authorCardDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/greyText"
@@ -30,7 +30,7 @@
             android:id="@+id/authorCardCamera"
             android:layout_width="17dp"
             android:layout_height="17dp"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/authorCardDate"
             android:background="@drawable/camera"
@@ -41,7 +41,7 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/authorCardStatus"
             android:background="@drawable/news_update_circle"
             android:visibility="gone" />
@@ -51,7 +51,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8.5dp"
             android:layout_toLeftOf="@+id/authorCardViews"
             android:background="@drawable/view_count"
             android:visibility="gone" />
@@ -68,7 +68,7 @@
             android:visibility="visible"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/authorCardStatus"
@@ -80,7 +80,7 @@
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="10sp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp" />
 
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp">
 
-            <ru.klops.klops.custom.CircleImageView
+            <ImageView
                 android:id="@+id/authorCardPhoto"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

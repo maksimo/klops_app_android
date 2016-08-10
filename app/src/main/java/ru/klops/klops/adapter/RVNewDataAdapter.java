@@ -19,9 +19,11 @@ import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
+import com.koushikdutta.ion.bitmap.Transform;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -156,7 +158,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         @BindView(R.id.interviewCardText)
         TextView content;
         @BindView(R.id.interviewCardPhoto)
-        CircleImageView image;
+        ImageView image;
         @BindView(R.id.interviewNewsLayer)
         RelativeLayout interviewCard;
         @BindView(R.id.interviewCardLoading)
@@ -189,7 +191,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         @BindView(R.id.authorCardText)
         TextView content;
         @BindView(R.id.authorCardPhoto)
-        CircleImageView image;
+        ImageView image;
         @BindView(R.id.authorNewsLayer)
         RelativeLayout authorsCard;
         @BindView(R.id.authorCardLoading)
@@ -518,6 +520,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holder.simpleImageCardStatus.setText(models.get(position).getUpdate_status());
                     holder.simpleImageCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holder.simpleImageCardStatusIcon.setVisibility(View.VISIBLE);
+                    holder.simpleImageCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holder.promoted.setVisibility(View.VISIBLE);
@@ -555,6 +558,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderSimple.simpleCardStatus.setText(models.get(position).getUpdate_status());
                     holderSimple.simpleCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderSimple.simpleCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderSimple.simpleCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderSimple.promoted.setVisibility(View.VISIBLE);
@@ -579,6 +583,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderSimple.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.LONG:
                 final LongNewsHolder holderLong = (LongNewsHolder) viewHolder;
@@ -592,6 +597,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderLong.longCardStatus.setText(models.get(position).getUpdate_status());
                     holderLong.longCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderLong.longCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderLong.longCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderLong.promoted.setVisibility(View.VISIBLE);
@@ -629,6 +635,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderInterview.interviewCardStatus.setText(models.get(position).getUpdate_status());
                     holderInterview.interviewCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderInterview.interviewCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderInterview.interviewCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderInterview.promoted.setVisibility(View.VISIBLE);
@@ -644,7 +651,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderInterview.author.setVisibility(View.VISIBLE);
                     holderInterview.interviewCardAuthors.setVisibility(View.VISIBLE);
                 }
-                loadPicasso(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
+                loadPhotoCircle(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
                 holderInterview.interviewCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -652,6 +659,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderInterview.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.AUTHORS:
                 final AuthorColumnsNewsHolder holderAuthors = (AuthorColumnsNewsHolder) viewHolder;
@@ -671,9 +679,10 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderAuthors.authorCardStatus.setText(models.get(position).getUpdate_status());
                     holderAuthors.authorCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderAuthors.authorCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderAuthors.authorCardStatus.setVisibility(View.VISIBLE);
                 }
-                if (!models.get(position).getSource().equals("")) {
-                    holderAuthors.authorCardSubName.setText(models.get(position).getSource());
+                if (!models.get(position).getAuthors_regalia().equals("")) {
+                    holderAuthors.authorCardSubName.setText(models.get(position).getAuthors_regalia());
                 }else {
                     holderAuthors.authorCardSubName.setVisibility(View.GONE);
                 }
@@ -684,7 +693,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderAuthors.title.setMaxLines(7);
                 }
 
-                loadPicasso(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
+                loadPhotoCircle(models.get(position).getAuthor_photo(), holderAuthors.image, holderAuthors.bar);
                 holderAuthors.authorsCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -692,6 +701,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderAuthors.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.NATIONAL:
                 final NationalNewsHolder holderNational = (NationalNewsHolder) viewHolder;
@@ -703,6 +713,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderNational.nationalCardStatus.setText(models.get(position).getUpdate_status());
                     holderNational.nationalCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderNational.nationalCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderNational.nationalCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderNational.promoted.setVisibility(View.VISIBLE);
@@ -710,7 +721,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
 
                 if (!models.get(position).getAuthor().equals("")) {
                     holderNational.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                    holderNational.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    if (!models.get(position).getSource().equals("")){
+                        holderNational.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+
+                    }else {
+                        holderNational.author.setText(models.get(position).getAuthor());
+                    }
                     holderNational.author.setVisibility(View.VISIBLE);
                     holderNational.nationalCardAuthors.setVisibility(View.VISIBLE);
                 }
@@ -721,6 +737,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderNational.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.IMPORTANT:
                 final ImportantNewsWithPhotoHolder holderImportant = (ImportantNewsWithPhotoHolder) viewHolder;
@@ -735,6 +752,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderImportant.status.setText(models.get(position).getUpdate_status());
                     holderImportant.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderImportant.importantCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderImportant.status.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderImportant.promoted.setVisibility(View.VISIBLE);
@@ -760,6 +778,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderImportant.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.GALLERY_ONE:
                 final GalleryNewsOneHolder holderGallerySmall = (GalleryNewsOneHolder) viewHolder;
@@ -771,6 +790,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderGallerySmall.galleryCardStatus.setText(models.get(position).getUpdate_status());
                     holderGallerySmall.galleryCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderGallerySmall.galleryCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderGallerySmall.galleryCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderGallerySmall.promoted.setVisibility(View.VISIBLE);
@@ -793,6 +813,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.GALLERY_TWO:
                 final GalleryNewsTwoHolder holderGalleryBig = (GalleryNewsTwoHolder) viewHolder;
@@ -804,6 +825,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderGalleryBig.galleryCardTwoStatus.setText(models.get(position).getUpdate_status());
                     holderGalleryBig.galleryCardTwoStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderGalleryBig.galleryCardTwoStatusIcon.setVisibility(View.VISIBLE);
+                    holderGalleryBig.galleryCardTwoStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPhotos().size() == 0) {
                     holderGalleryBig.imageOnlyOne.setVisibility(View.VISIBLE);
@@ -846,6 +868,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.ADVERTISE:
                 final AdvertiseHolder holderAdvertise = (AdvertiseHolder) viewHolder;
@@ -870,6 +893,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         remove(holderAdvertise.getAdapterPosition());
                     }
                 });
+
                 break;
             case Constants.SIMPLE_WIDE:
                 final SimpleWideHolder holderSimpleWide = (SimpleWideHolder) viewHolder;
@@ -883,6 +907,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     holderSimpleWide.simpleWideCardStatus.setText(models.get(position).getUpdate_status());
                     holderSimpleWide.simpleWideCardStatus.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderSimpleWide.simpleWideCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderSimpleWide.simpleWideCardStatus.setVisibility(View.VISIBLE);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderSimpleWide.promoted.setVisibility(View.VISIBLE);
@@ -905,6 +930,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId());
                     }
                 });
+
                 break;
             case Constants.POPULAR_MARKER:
                 final PopularMarkerViewHolder holderPopular = (PopularMarkerViewHolder) viewHolder;
@@ -969,16 +995,16 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         });
     }
 
-    public void loadPicasso(String input, ImageView output, final ProgressBar loader){
-        Picasso.with(context.getActivity()).load(input).networkPolicy(NetworkPolicy.NO_CACHE).fit().into(output, new Callback() {
+    public void loadPhotoCircle(String input, ImageView output, final ProgressBar loader) {
+        Ion.with(context.getActivity()).load(input).progressHandler(new ProgressCallback() {
             @Override
-            public void onSuccess() {
-                loader.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError() {
+            public void onProgress(long downloaded, long total) {
                 loader.setVisibility(View.VISIBLE);
+            }
+        }).withBitmap().transform(new CircleImageView()).intoImageView(output).setCallback(new FutureCallback<ImageView>() {
+            @Override
+            public void onCompleted(Exception e, ImageView result) {
+                loader.setVisibility(View.GONE);
             }
         });
     }
