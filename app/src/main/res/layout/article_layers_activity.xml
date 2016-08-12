@@ -57,6 +57,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:layout_below="@+id/toolbarArticle">
 
         <RelativeLayout
@@ -148,9 +149,10 @@
                     <WebView
                         android:id="@+id/firstWeb"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
+                        android:scrollbars="none"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -220,7 +222,7 @@
                         android:id="@+id/secondWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -291,7 +293,7 @@
                         android:id="@+id/thirdWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -362,7 +364,7 @@
                         android:id="@+id/fourthWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -433,7 +435,7 @@
                         android:id="@+id/fifthWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -504,7 +506,7 @@
                         android:id="@+id/sixWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -575,7 +577,7 @@
                         android:id="@+id/sevenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -646,7 +648,7 @@
                         android:id="@+id/eightWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -717,7 +719,7 @@
                         android:id="@+id/nineWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -788,7 +790,7 @@
                         android:id="@+id/tenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -859,7 +861,7 @@
                         android:id="@+id/elevenWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -931,7 +933,7 @@
                         android:id="@+id/twelveWeb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
@@ -1073,7 +1075,7 @@
                         android:layout_toRightOf="@+id/promotionIcon"
                         android:text="Материал размещен на коммерческой основе"
                         android:textAllCaps="true"
-                        android:textColor="@color/greyText"
+                        android:textColor="@color/darkGreyText"
                         android:textSize="10sp" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -1242,6 +1244,14 @@
 
         </RelativeLayout>
     </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/greySplitter"
+        android:layout_below="@+id/toolbarArticle"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/toolbarSeparatorArticle" />
 </RelativeLayout>
 
 

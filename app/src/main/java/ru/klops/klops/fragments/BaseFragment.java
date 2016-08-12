@@ -2,6 +2,9 @@ package ru.klops.klops.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -63,7 +66,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.base_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-        ((HomeActivity)getActivity()).setSupportActionBar(baseToolbar);
+        ((HomeActivity) getActivity()).setSupportActionBar(baseToolbar);
         Log.d(LOG, "onCreateView");
         setUpAnim();
         setUpTab();
@@ -94,12 +97,11 @@ public class BaseFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                ((HomeActivity)getActivity()).scrollList();
+                ((HomeActivity) getActivity()).scrollList();
             }
         });
         viewPager.startAnimation(fadeIn);
@@ -122,14 +124,14 @@ public class BaseFragment extends Fragment {
     }
 
     @OnClick(R.id.search_action)
-    public void searchAction(){
+    public void searchAction() {
         btnSearch.startAnimation(alpha);
         viewPager.startAnimation(fadeIn);
-        ((HomeActivity)getActivity()).replaceFragmentFadeIn(new SearchFragment());
+        ((HomeActivity) getActivity()).replaceFragmentFadeIn(new SearchFragment());
     }
 
     @OnClick(R.id.settings_action)
-    public void setttingsAction(){
+    public void setttingsAction() {
         btnSettings.startAnimation(alpha);
         startActivity(new Intent(getContext(), SettingsActivity.class));
     }

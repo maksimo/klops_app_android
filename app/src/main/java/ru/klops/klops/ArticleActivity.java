@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -340,6 +342,8 @@ public class ArticleActivity extends AppCompatActivity {
     View splitterFour;
     @BindView(R.id.littleSwitchPhotoIcon)
     ImageView littleSwitchPhotoIcon;
+    @BindView(R.id.toolbarSeparatorArticle)
+    View toolbarSeparatorArticle;
     ArrayList<WebView> contentViews;
     ArrayList<TextView> contentDescriptions;
     ArrayList<Connected_items> connectedItemses;
@@ -513,7 +517,7 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         viwes = new ArrayList<>();
-        viwes.add(new ContentView(firstContent, firstWeb, barOne,firstImage, firstDescription, firstMore, firstUrl));
+        viwes.add(new ContentView(firstContent, firstWeb, barOne, firstImage, firstDescription, firstMore, firstUrl));
         viwes.add(new ContentView(secondContent, secondWeb, barTwo, secondImage, secondDescription, secondMore, secondUrl));
         viwes.add(new ContentView(thirdContent, thirdWeb, barThree, thirdImage, thirdDescription, thirdMore, thirdUrl));
         viwes.add(new ContentView(fourthContent, fourthWeb, barFour, fourthImage, fourthDescription, fourthMore, fourthUrl));
@@ -540,8 +544,8 @@ public class ArticleActivity extends AppCompatActivity {
 
     public void getAllContents() {
         contentViews = new ArrayList<>();
-        for (int i = 0; i < contents.size(); i++){
-            if (contents.get(i)!=null) {
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i) != null) {
                 initContent(contents.get(i), viwes.get(i).getContentLayer(), viwes.get(i).getContentView(), viwes.get(i).getLoader(),
                         viwes.get(i).getImage(), viwes.get(i).getDescription(),
                         viwes.get(i).getMoreTitle(), viwes.get(i).getMoreUrl());
@@ -549,11 +553,12 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl){
-        if (content!= null){
+    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl) {
+        if (content != null) {
             if (content.getText() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
-                contentView.getSettings().setDefaultFixedFontSize(16);
+                contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+                contentView.setScrollContainer(false);
                 contentView.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -571,13 +576,31 @@ public class ArticleActivity extends AppCompatActivity {
 
                     @Override
                     public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                        if (url.contains("id=")) {
+                            SpannableString link = new SpannableString(url);
+                            String spliterableMain = url;
+                            String firstSlpit[] = spliterableMain.split("id=");
+                            String idString = firstSlpit[1];
+                            String spliterableId[] = idString.split("\"");
+                            String linkId = spliterableId[0];
+                            final Pattern word = Pattern.compile(linkId);
+                            Matcher matcher = word.matcher(link);
+                            if (matcher.find()) {
+                                int articleId = Integer.parseInt(linkId);
+                                loadArticle(articleId);
+                            }
+                        } else {
+
+                        }
                         return false;
                     }
+
                 });
+
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.setWebChromeClient(new WebChromeClient());
-                contentView.loadDataWithBaseURL(null, content.getText(), "text/html", "UTF-8", null);
+                contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
                 contentViews.add(contentView);
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
@@ -597,15 +620,15 @@ public class ArticleActivity extends AppCompatActivity {
                 contentLayer.setVisibility(View.VISIBLE);
                 moreTitle.setVisibility(View.VISIBLE);
                 moreUrl.setVisibility(View.VISIBLE);
-                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 moreUrl.setText(content.getAssociate().getTitle());
-                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
                 moreUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (content.getAssociate().getId() != null) {
                             loadArticle(content.getAssociate().getId());
-                        }else if (content.getAssociate().getUrl() != null) {
+                        } else if (content.getAssociate().getUrl() != null) {
                             moreUrl.setVisibility(View.GONE);
                             contentView.loadUrl(content.getAssociate().getUrl());
                             contentView.setWebViewClient(new WebViewClient() {
@@ -655,9 +678,13 @@ public class ArticleActivity extends AppCompatActivity {
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
     public void pagerClick() {
-        countPager = pager.getCurrentItem();
-        countPager++;
-        pager.setCurrentItem(countPager);
+        if (countPager != gAdapter.getCount() - 1) {
+            pager.setCurrentItem(countPager + 1);
+            countPager++;
+        } else {
+            countPager = 0;
+            pager.setCurrentItem(countPager);
+        }
     }
 
     private void setUPPager() {
@@ -700,10 +727,13 @@ public class ArticleActivity extends AppCompatActivity {
 
     @OnClick(R.id.littlePhotoSwitchCounter)
     public void nextPhoto() {
-        count = littleGallery.getCurrentItem();
-        count++;
-        littleGallery.setCurrentItem(count);
-
+        if (count != littleAdapter.getCount() - 1) {
+            littleGallery.setCurrentItem(count + 1);
+            count++;
+        } else {
+            count = 0;
+            littleGallery.setCurrentItem(count);
+        }
     }
 
     private void initSocials() {
@@ -876,6 +906,10 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(18);
                     }
 
+                    for (WebView webView : contentViews) {
+                        webView.getSettings().setTextZoom(120);
+                    }
+
                     promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(25, 25));
                     promotionText.setTextSize(12);
                     matchArticles.setTextSize(27);
@@ -914,6 +948,10 @@ public class ArticleActivity extends AppCompatActivity {
 
                     for (TextView text : contentDescriptions) {
                         text.setTextSize(16);
+                    }
+
+                    for (WebView webView : contentViews) {
+                        webView.getSettings().setTextZoom(100);
                     }
 
                     for (TextView more : contentMore) {
@@ -1005,7 +1043,6 @@ public class ArticleActivity extends AppCompatActivity {
                 placeArticleFragment(adsArticleFragment);
                 break;
             case Constants.URGENT_TEXT:
-                urgentBackground();
                 UrgentArticleFragment urgentArticleFragment = new UrgentArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
                 urgentArticleFragment.setArguments(bundle);
@@ -1013,69 +1050,11 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-    private void urgentBackground() {
-        fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        promotionLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        promotionText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        firstDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        firstUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        secondDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        secondWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        secondMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        secondUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        thirdDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        thirdWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        thirdMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        thirdUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fourthDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fourthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        fourthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fourthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fifthDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fifthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        fifthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fifthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sixDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sixWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        sixMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sixUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sevenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        sevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        eightDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        eightWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        eightMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        eightUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        nineDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        nineWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        nineMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        nineUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        tenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        tenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        tenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        tenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        elevenDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        elevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        elevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        elevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        twelveDescription.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        twelveWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        twelveMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        twelveUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-    }
-
     private void galleryBackground() {
         format.setBackgroundResource(R.drawable.format_white);
         share.setBackgroundResource(R.drawable.share_icon_white);
         back.setBackgroundResource(R.drawable.back_white);
+        toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
@@ -1086,52 +1065,30 @@ public class ArticleActivity extends AppCompatActivity {
         littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
         firstDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        firstMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        firstUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         secondDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         secondWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        secondMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        secondUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         thirdDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         thirdWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        thirdMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        thirdUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         fourthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         fourthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        fourthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fourthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         fifthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         fifthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        fifthMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        fifthUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         sixDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         sixWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        sixMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sixUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         sevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         sevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        sevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        sevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         eightDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         eightWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        eightMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        eightUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         nineDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         nineWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        nineMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        nineUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         tenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         tenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         tenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         tenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         elevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         elevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        elevenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        elevenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         twelveDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         twelveWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        twelveMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        twelveUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
     }
 

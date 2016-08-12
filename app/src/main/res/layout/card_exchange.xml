@@ -1,145 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardExchangeLayer"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
-    android:background="@color/recyclerBackground"
-    android:weightSum="1">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/exchangeDollar"
-        android:layout_width="0dp"
+        android:id="@+id/mainExchangeLayer"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_toLeftOf="@+id/exchangeEuro"
-        android:layout_weight="0.34"
-        android:fillViewport="true"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:background="@color/recyclerBackground"
+        android:weightSum="1">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/exchangeDollar"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            android:background="@color/recyclerBackground">
+            android:layout_toLeftOf="@+id/exchangeEuro"
+            android:layout_weight="0.34"
+            android:fillViewport="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/dollar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/dollar"
-                android:textAllCaps="true"
-                android:textColor="@color/greyText"
-                android:textSize="10sp"
-                android:layout_marginTop="15dp" />
-            <TextView
-                android:id="@+id/dollarPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@+id/dollar"
-                android:textAllCaps="true"
-                android:textColor="@color/blackText"
-                android:textSize="26sp"
-                android:layout_marginTop="5dp" />
-
-            <View
-                android:id="@+id/dollarSeparator"
-                android:layout_width="1dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/greySplitter"
-                android:alpha="0.3" />
+                android:background="@color/recyclerBackground">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/dollar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="@string/dollar"
+                    android:textAllCaps="true"
+                    android:textColor="@color/greyText"
+                    android:textSize="10sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/dollarPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dollar"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blackText"
+                    android:textSize="26sp" />
 
-    <LinearLayout
-        android:id="@+id/exchangeEuro"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.34"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+                <View
+                    android:id="@+id/dollarSeparator"
+                    android:layout_width="1dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentRight="true"
+                    android:alpha="0.3"
+                    android:background="@color/greySplitter" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:background="@color/recyclerBackground">
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/euro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/euro"
-                android:textAllCaps="true"
-                android:textColor="@color/greyText"
-                android:textSize="10sp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="15dp" />
-            <TextView
-                android:id="@+id/euroPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@+id/euro"
-                android:textAllCaps="true"
-                android:textColor="@color/blackText"
-                android:textSize="26sp"
-                android:layout_marginTop="5dp" />
+        </LinearLayout>
 
-            <View
-                android:id="@+id/euroSeparator"
-                android:layout_width="1dp"
+        <LinearLayout
+            android:id="@+id/exchangeEuro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.34"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/greySplitter"
-                android:alpha="0.3" />
+                android:background="@color/recyclerBackground">
 
-        </RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/euro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/euro"
+                    android:textAllCaps="true"
+                    android:textColor="@color/greyText"
+                    android:textSize="10sp" />
 
-    <LinearLayout
-        android:id="@+id/exchangeZlot"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_toRightOf="@+id/exchangeEuro"
-        android:layout_weight="0.34"
-        android:gravity="center"
-        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/euroPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/euro"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blackText"
+                    android:textSize="26sp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+                <View
+                    android:id="@+id/euroSeparator"
+                    android:layout_width="1dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentRight="true"
+                    android:alpha="0.3"
+                    android:background="@color/greySplitter" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/exchangeZlot"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            android:background="@color/recyclerBackground"
-            android:focusable="false">
+            android:layout_toRightOf="@+id/exchangeEuro"
+            android:layout_weight="0.34"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/zlotiy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/zlotiy"
-                android:textAllCaps="true"
-                android:textColor="@color/greyText"
-                android:textSize="10sp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:background="@color/recyclerBackground"
+                android:focusable="false">
 
-            <TextView
-                android:id="@+id/zlotiyPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAllCaps="true"
-                android:textColor="@color/blackText"
-                android:textSize="26sp"
-                android:layout_marginTop="6dp"
-                android:layout_below="@+id/zlotiy"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                <TextView
+                    android:id="@+id/zlotiy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/zlotiy"
+                    android:textAllCaps="true"
+                    android:textColor="@color/greyText"
+                    android:textSize="10sp" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/zlotiyPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/zlotiy"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blackText"
+                    android:textSize="26sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:id="@+id/separatorExchange"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/mainExchangeLayer"
+        android:background="@color/recyclerBackground" />
+</RelativeLayout>

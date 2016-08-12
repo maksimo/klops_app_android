@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/simpleTextLayer"
         android:layout_width="190dp"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         android:background="@color/colorPrimary"
         android:elevation="1dp">
@@ -76,17 +76,6 @@
             android:visibility="gone"/>
 
         <ImageView
-            android:id="@+id/simpleCardStatusIcon"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginRight="2dp"
-            android:layout_below="@+id/simpleCardAuthors"
-            android:layout_marginTop="12dp"
-            android:layout_toLeftOf="@+id/simpleCardStatus"
-            android:background="@drawable/news_update_circle"
-            android:visibility="gone" />
-
-        <ImageView
             android:id="@+id/simpleCardViewsIcon"
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -103,7 +92,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAllCaps="true"
-            android:layout_toLeftOf="@+id/simpleCardStatusIcon"
+            android:layout_toLeftOf="@+id/simpleCardPromotionLayer"
             android:layout_below="@+id/simpleCardAuthors"
             android:textColor="@color/greyText"
             android:textSize="10sp"
@@ -113,29 +102,13 @@
             android:layout_marginTop="10dp" />
 
         <TextView
-            android:id="@+id/simpleCardStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:text=""
-            android:layout_below="@+id/simpleCardAuthors"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textSize="10sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="5dp" />
-
-        <TextView
             android:id="@+id/simpleCardText"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/simpleCardDate"
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
-            android:maxLines="5"
+            android:maxLines="6"
             android:layout_marginBottom="10dp"
             android:textColor="@color/blackText"
             android:textSize="15sp"
@@ -144,19 +117,21 @@
 
         <RelativeLayout
             android:id="@+id/simpleCardPromotionLayer"
-            android:layout_width="190dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp">
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/simpleCardAuthors"
+            android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/promotionIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:background="@drawable/megaphone"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginTop="1dp" />
 
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
@@ -166,12 +141,13 @@
                 android:textColor="@color/greyText"
                 android:layout_toRightOf="@+id/promotionIcon"
                 android:layout_marginLeft="2dp"
-                android:text="Материал размещен на коммерческой основе"
-                android:layout_centerVertical="true" />
+                android:text="PR"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp" />
         </RelativeLayout>
     </RelativeLayout>
     <View
-        android:id="@+id/separator"
+        android:id="@+id/separatorSimple"
         android:layout_width="190dp"
         android:layout_height="15dp"
         android:layout_below="@+id/simpleTextLayer"

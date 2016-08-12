@@ -372,19 +372,19 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @OnClick(R.id.socialPhone)
     public void callNumberOne(){
-        Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
+        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
         startActivity(call);
     }
 
     @OnClick(R.id.joinPhone)
     public void callNumberTwo(){
-        Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + joinPhone.getText().toString().trim()));
+        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + joinPhone.getText().toString().trim()));
         startActivity(call);
     }
 
     @OnClick(R.id.advertisePhone)
     public void callNumberThree(){
-        Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + advertisePhone.getText().toString().trim()));
+        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + advertisePhone.getText().toString().trim()));
         startActivity(call);
     }
 
