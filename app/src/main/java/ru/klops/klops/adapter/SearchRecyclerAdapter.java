@@ -86,18 +86,27 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, viewHolder.author.getId());
         viewHolder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        String fullAuthor = models.get(position).getSource().concat(models.get(position).getAuthor());
+        String fullAuthor;
+        if (models.get(position).getSource().equals("") && !models.get(position).getAuthor().equals("")){
+            fullAuthor = models.get(position).getAuthor();
+        }else if (!models.get(position).getSource().equals("") && models.get(position).getAuthor().equals("")){
+            fullAuthor = models.get(position).getSource();
+        }else if (!models.get(position).getSource().equals("") && !models.get(position).getAuthor().equals("")){
+            fullAuthor = models.get(position).getSource().concat(" " + models.get(position).getAuthor());
+        }else {
+            fullAuthor = "";
+        }
         if (fullAuthor.length() == 0) {
             viewHolder.author.setVisibility(View.GONE);
-            viewHolder.date.setPadding(25, 0, 0, 0);
+            relativeParams.setMargins(42, 20, 0, 5);
+            viewHolder.date.setLayoutParams(relativeParams);
         } else {
             viewHolder.author.setVisibility(View.VISIBLE);
         }
         viewHolder.author.setText(fullAuthor);
         if (fullAuthor.length() > 35) {
+            relativeParams.setMargins(42, 5, 0, 5);
             viewHolder.date.setLayoutParams(relativeParams);
-            viewHolder.date.setPadding(25, 0, 0, 5);
-        } else {
         }
         viewHolder.date.setText(models.get(position).getDate());
         viewHolder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));

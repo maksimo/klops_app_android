@@ -58,6 +58,10 @@ public class InterviewArticleFragment extends Fragment {
     TextView shortdescription;
     @BindView(R.id.interviewProgress)
     ProgressBar bar;
+    @BindView(R.id.interviewBigPhoto)
+    ImageView photo;
+    @BindView(R.id.interviewBigProgress)
+    ProgressBar barProgress;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -100,6 +104,21 @@ public class InterviewArticleFragment extends Fragment {
                 });
         }else {
             interviewImagePhoto.setVisibility(View.GONE);
+        }
+        if (!item.getOg_image().getUrl().equals("")) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    barProgress.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    barProgress.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            photo.setVisibility(View.GONE);
         }
     }
 

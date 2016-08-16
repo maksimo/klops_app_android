@@ -128,15 +128,8 @@
         android:visibility="gone"
         android:background="@color/colorAccent"
         android:layout_below="@+id/urgentCardTitle"
-        android:layout_marginBottom="15dp">
-
-        <ImageView
-            android:id="@+id/promotionIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/megaphone"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp">
 
         <ru.klops.klops.custom.TextViewProRegular
             android:layout_width="wrap_content"
@@ -144,16 +137,16 @@
             android:textSize="10sp"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:layout_toRightOf="@+id/promotionIcon"
             android:layout_marginLeft="2dp"
             android:text="Материал размещен на коммерческой основе"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp" />
     </RelativeLayout>
 </RelativeLayout>
     <View
         android:id="@+id/separatorUrgent"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/urgentCardLayer"
         android:background="@color/recyclerBackground" />
 </RelativeLayout>

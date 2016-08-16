@@ -14,8 +14,13 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,10 @@ public class SimpleTextArticleFragment extends Fragment {
     ImageView cameraIcon;
     @BindView(R.id.simpleDescription)
     TextView shortdescription;
+    @BindView(R.id.simpleTextPhoto)
+    ImageView photo;
+    @BindView(R.id.simpleTextProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -66,8 +75,28 @@ public class SimpleTextArticleFragment extends Fragment {
         unbinder = ButterKnife.bind(this, fragmentView);
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
+        setUpImages();
         setUpView();
         return fragmentView;
+    }
+
+    private void setUpImages() {
+        Log.d(LOG, "setUpImages");
+        if (!item.getImage().equals("")) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            photo.setVisibility(View.GONE);
+        }
     }
 
 
@@ -95,17 +124,17 @@ public class SimpleTextArticleFragment extends Fragment {
     }
 
     public void formatIncrement() {
-        title.setTextSize(18);
-        date.setTextSize(12);
-        author.setTextSize(12);
-        shortdescription.setTextSize(18);
+//        title.setTextSize(18);
+//        date.setTextSize(12);
+//        author.setTextSize(12);
+//        shortdescription.setTextSize(18);
     }
 
     public void formatDecrement() {
-        title.setTextSize(16);
-        date.setTextSize(10);
-        author.setTextSize(10);
-        shortdescription.setTextSize(16);
+//        title.setTextSize(16);
+//        date.setTextSize(10);
+//        author.setTextSize(10);
+//        shortdescription.setTextSize(16);
     }
 
     @Override

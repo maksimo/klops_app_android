@@ -19,6 +19,7 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -332,8 +333,6 @@ public class ArticleActivity extends AppCompatActivity {
     ProgressBar barTwelve;
     @BindView(R.id.promotionLayer)
     RelativeLayout promotionLayer;
-    @BindView(R.id.promotionIcon)
-    ImageView promotionIcon;
     @BindView(R.id.promotionText)
     TextViewProRegular promotionText;
     @BindView(R.id.fullArticleLayer)
@@ -486,7 +485,6 @@ public class ArticleActivity extends AppCompatActivity {
                     public void onNext(Article article) {
                         Intent newMatchArticle = getIntent();
                         newMatchArticle.putExtra(Constants.ITEM, article.getItem());
-                        finish();
                         startActivity(newMatchArticle);
                     }
                 });
@@ -556,6 +554,7 @@ public class ArticleActivity extends AppCompatActivity {
     public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl) {
         if (content != null) {
             if (content.getText() != null) {
+                String contentText;
                 contentLayer.setVisibility(View.VISIBLE);
                 contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 contentView.setScrollContainer(false);
@@ -589,8 +588,6 @@ public class ArticleActivity extends AppCompatActivity {
                                 int articleId = Integer.parseInt(linkId);
                                 loadArticle(articleId);
                             }
-                        } else {
-
                         }
                         return false;
                     }
@@ -598,9 +595,21 @@ public class ArticleActivity extends AppCompatActivity {
                 });
 
                 contentView.getSettings().setJavaScriptEnabled(true);
+                contentView.getSettings().setLoadWithOverviewMode(true);
+                contentView.getSettings().setUseWideViewPort(false);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                contentText = content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", "");
+                if (contentText.contains("src=")){
+                    SpannableString src = new SpannableString(contentText);
+                    String splitt = contentText;
+                    String contentStrings[] = splitt.split("src=");
+                    contentText = contentStrings[0];
+                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
+                }else {
+                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
+                }
                 contentView.setWebChromeClient(new WebChromeClient());
-                contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
+//                contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
                 contentViews.add(contentView);
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
@@ -620,9 +629,9 @@ public class ArticleActivity extends AppCompatActivity {
                 contentLayer.setVisibility(View.VISIBLE);
                 moreTitle.setVisibility(View.VISIBLE);
                 moreUrl.setVisibility(View.VISIBLE);
-                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                 moreUrl.setText(content.getAssociate().getTitle());
-                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
+                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                 moreUrl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -767,7 +776,7 @@ public class ArticleActivity extends AppCompatActivity {
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle(item.getTitle())
-                            .setImageUrl(Uri.parse(item.getOg_image()))
+                            .setImageUrl(Uri.parse(item.getImage()))
                             .setContentDescription(item.getShortdecription())
                             .setContentUrl(Uri.parse(item.getUrl()))
                             .build();
@@ -906,11 +915,10 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(18);
                     }
 
-                    for (WebView webView : contentViews) {
-                        webView.getSettings().setTextZoom(120);
-                    }
+//                    for (WebView webView : contentViews) {
+//                        webView.getSettings().setTextZoom(120);
+//                    }
 
-                    promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(25, 25));
                     promotionText.setTextSize(12);
                     matchArticles.setTextSize(27);
                 }
@@ -950,9 +958,9 @@ public class ArticleActivity extends AppCompatActivity {
                         text.setTextSize(16);
                     }
 
-                    for (WebView webView : contentViews) {
-                        webView.getSettings().setTextZoom(100);
-                    }
+//                    for (WebView webView : contentViews) {
+//                        webView.getSettings().setTextZoom(100);
+//                    }
 
                     for (TextView more : contentMore) {
                         more.setTextSize(10);
@@ -962,7 +970,6 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(16);
                     }
 
-                    promotionIcon.setLayoutParams(new RelativeLayout.LayoutParams(20, 20));
                     promotionText.setTextSize(10);
                     matchArticles.setTextSize(25);
                 }
@@ -1054,7 +1061,7 @@ public class ArticleActivity extends AppCompatActivity {
         format.setBackgroundResource(R.drawable.format_white);
         share.setBackgroundResource(R.drawable.share_icon_white);
         back.setBackgroundResource(R.drawable.back_white);
-        toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+        toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
@@ -1095,13 +1102,13 @@ public class ArticleActivity extends AppCompatActivity {
     public void placeArticleFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.articleContainer, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
     @OnClick(R.id.backButton)
     public void back() {
         back.startAnimation(alpha);
-        finish();
         onBackPressed();
     }
 
@@ -1139,6 +1146,7 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
+        finish();
         super.onBackPressed();
     }
 

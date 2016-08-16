@@ -1067,6 +1067,18 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         notifyItemInserted(position);
     }
 
+    public void clearPopularFeed() {
+        models.clear();
+        dataTypes.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addData(ArrayList<News> data, ArrayList<Integer> types){
+        models.addAll(data);
+        dataTypes.addAll(types);
+
+    }
+
     @Override
     public int getItemCount() {
         return models.size();

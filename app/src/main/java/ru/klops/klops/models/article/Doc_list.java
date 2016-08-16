@@ -15,11 +15,11 @@ public class Doc_list implements Parcelable{
     private List<String> photos;
     private String article_type;
     private String url;
-    private String og_image;
+    private Og_image og_image;
     private Integer timestamp;
     private String author;
 
-    public Doc_list(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Integer timestamp, String author) {
+    public Doc_list(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, Integer timestamp, String author) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -45,7 +45,7 @@ public class Doc_list implements Parcelable{
         photos = in.createStringArrayList();
         article_type = in.readString();
         url = in.readString();
-        og_image = in.readString();
+        og_image = in.readParcelable(Og_image.class.getClassLoader());
         author = in.readString();
     }
 
@@ -133,11 +133,11 @@ public class Doc_list implements Parcelable{
         this.url = url;
     }
 
-    public String getOg_image() {
+    public Og_image getOg_image() {
         return og_image;
     }
 
-    public void setOg_image(String og_image) {
+    public void setOg_image(Og_image og_image) {
         this.og_image = og_image;
     }
 
@@ -191,7 +191,7 @@ public class Doc_list implements Parcelable{
         dest.writeStringList(photos);
         dest.writeString(article_type);
         dest.writeString(url);
-        dest.writeString(og_image);
+        dest.writeParcelable(og_image, flags);
         dest.writeString(author);
     }
 }

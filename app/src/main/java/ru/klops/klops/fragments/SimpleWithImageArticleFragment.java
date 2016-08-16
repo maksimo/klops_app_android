@@ -84,8 +84,8 @@ public class SimpleWithImageArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getImage().equals("")|| !item.getImage().isEmpty()) {
-            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+        if (!item.getOg_image().getUrl().equals("")|| !item.getImage().isEmpty()) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
                     bar.setVisibility(View.VISIBLE);

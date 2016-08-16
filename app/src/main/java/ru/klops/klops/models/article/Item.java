@@ -15,7 +15,7 @@ public class Item implements Parcelable {
     public List<String> photos;
     public String article_type;
     public String url;
-    public String og_image;
+    public Og_image og_image;
     public List<Content> content;
     public Integer timestamp;
     public String author;
@@ -26,7 +26,7 @@ public class Item implements Parcelable {
     public Item() {
     }
 
-    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, List<Content> content, Integer timestamp, String author, String source, List<Connected_items> connected_items, Integer promoted) {
+    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, List<Content> content, Integer timestamp, String author, String source, List<Connected_items> connected_items, Integer promoted) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -55,7 +55,7 @@ public class Item implements Parcelable {
         photos = in.createStringArrayList();
         article_type = in.readString();
         url = in.readString();
-        og_image = in.readString();
+        og_image = in.readParcelable(Og_image.class.getClassLoader());
         content = in.createTypedArrayList(Content.CREATOR);
         author = in.readString();
         source = in.readString();
@@ -84,6 +84,9 @@ public class Item implements Parcelable {
     }
 
     public String getDate() {
+        if (date == null){
+            setDate("");
+        }
         return date;
     }
 
@@ -92,6 +95,9 @@ public class Item implements Parcelable {
     }
 
     public String getTitle() {
+        if (title == null){
+            setTitle("");
+        }
         return title;
     }
 
@@ -100,6 +106,9 @@ public class Item implements Parcelable {
     }
 
     public String getShortdecription() {
+        if (shortdecription == null){
+            setShortdecription("");
+        }
         return shortdecription;
     }
 
@@ -108,6 +117,9 @@ public class Item implements Parcelable {
     }
 
     public String getImage() {
+        if (image == null){
+            setImage("");
+        }
         return image;
     }
 
@@ -116,6 +128,9 @@ public class Item implements Parcelable {
     }
 
     public String getUpdate_status() {
+        if (update_status == null){
+            setUpdate_status("");
+        }
         return update_status;
     }
 
@@ -140,6 +155,9 @@ public class Item implements Parcelable {
     }
 
     public String getUrl() {
+        if (url == null){
+            setUrl("");
+        }
         return url;
     }
 
@@ -147,11 +165,14 @@ public class Item implements Parcelable {
         this.url = url;
     }
 
-    public String getOg_image() {
+    public Og_image getOg_image() {
+        if (og_image == null){
+            setOg_image(new Og_image("",""));
+        }
         return og_image;
     }
 
-    public void setOg_image(String og_image) {
+    public void setOg_image(Og_image og_image) {
         this.og_image = og_image;
     }
 
@@ -164,6 +185,9 @@ public class Item implements Parcelable {
     }
 
     public Integer getTimestamp() {
+        if (timestamp == null){
+            setTimestamp(0);
+        }
         return timestamp;
     }
 
@@ -172,6 +196,9 @@ public class Item implements Parcelable {
     }
 
     public String getAuthor() {
+        if (author == null){
+            setAuthor("");
+        }
         return author;
     }
 
@@ -180,6 +207,9 @@ public class Item implements Parcelable {
     }
 
     public String getSource() {
+        if (source == null){
+            setSource("");
+        }
         return source;
     }
 
@@ -196,6 +226,9 @@ public class Item implements Parcelable {
     }
 
     public Integer getPromoted() {
+        if (promoted == null){
+            setPromoted(0);
+        }
         return promoted;
     }
 
@@ -241,7 +274,7 @@ public class Item implements Parcelable {
         dest.writeStringList(photos);
         dest.writeString(article_type);
         dest.writeString(url);
-        dest.writeString(og_image);
+        dest.writeParcelable(og_image, flags);
         dest.writeTypedList(content);
         dest.writeString(author);
         dest.writeString(source);

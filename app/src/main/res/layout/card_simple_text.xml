@@ -125,21 +125,12 @@
             android:layout_below="@+id/simpleCardAuthors"
             android:layout_marginRight="10dp">
 
-            <ImageView
-                android:id="@+id/promotionIcon"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:background="@drawable/megaphone"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="1dp" />
-
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textAllCaps="true"
                 android:textColor="@color/greyText"
-                android:layout_toRightOf="@+id/promotionIcon"
                 android:layout_marginLeft="2dp"
                 android:text="PR"
                 android:layout_centerVertical="true"
@@ -149,7 +140,7 @@
     <View
         android:id="@+id/separatorSimple"
         android:layout_width="190dp"
-        android:layout_height="15dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/simpleTextLayer"
         android:background="@color/recyclerBackground" />
 </RelativeLayout>

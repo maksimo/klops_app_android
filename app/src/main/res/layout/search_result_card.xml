@@ -21,7 +21,6 @@
             android:textStyle="bold"
             android:textColor="@color/darkGreyText"
             android:textSize="10sp"
-            android:gravity="center"
             android:visibility="gone"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
@@ -67,7 +66,7 @@
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/resizedLayer"
         android:background="@color/recyclerBackground" />
 </RelativeLayout>

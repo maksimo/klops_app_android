@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,17 +21,27 @@ import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVPopularDataAdapter;
+import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
+import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.News;
+import ru.klops.klops.models.popular.Popular;
+import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class PopularDataNewsFragment extends Fragment {
+public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     final String LOG = "PopularDataFragment";
     View fragmentView;
     @BindView(R.id.recyclerPopular)
     RecyclerView newPopularRecycler;
     @BindView(R.id.popularError)
     TextView popularError;
+    @BindView(R.id.swipeLayoutPopular)
+    SwipeRefreshLayout refreshLayout;
     KlopsApplication mApp;
     RVPopularDataAdapter adapter;
     GridLayoutManager popularManager;
@@ -52,8 +63,37 @@ public class PopularDataNewsFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.popular_data_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         initRecyclerView();
+        refreshLayout.setOnRefreshListener(this);
         Log.d(LOG, "onCreateView");
         return fragmentView;
+    }
+
+    @Override
+    public void onRefresh() {
+        adapter.clearPopularFeed();
+        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        Observable<Popular> refreshPage = api.getPopularNews();
+        refreshPage.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Popular>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshLayout.setRefreshing(false);
+                        Log.d(LOG, "Refresh main feed complete...");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "Access denied" + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Popular popular) {
+                        mApp.setPopularPage(popular);
+                        adapter.addData(new ArrayList<News>(popular.getNews()), addData(new ArrayList<News>(popular.getNews())));
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void initRecyclerView() {
@@ -109,14 +149,15 @@ public class PopularDataNewsFragment extends Fragment {
             });
             newPopularRecycler.setLayoutManager(popularManager);
             newPopularRecycler.setAdapter(adapter);
-        }else {
+        } else {
             newPopularRecycler.setVisibility(View.GONE);
-            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+            if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")) {
                 popularError.setText("Настройки приложения были изменены");
             }
             popularError.setVisibility(View.VISIBLE);
         }
     }
+
     private ArrayList<Integer> addData(ArrayList<News> copy) {
         ArrayList<Integer> types = new ArrayList<>();
         for (int i = 0; i < copy.size(); i++) {
@@ -172,7 +213,7 @@ public class PopularDataNewsFragment extends Fragment {
         return types;
     }
 
-    public void scrollPopularToTop(){
+    public void scrollPopularToTop() {
         popularManager.scrollToPosition(0);
     }
 
@@ -218,4 +259,6 @@ public class PopularDataNewsFragment extends Fragment {
         Log.d(LOG, "onDestroy");
         super.onDestroy();
     }
+
+
 }

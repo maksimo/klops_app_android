@@ -14,8 +14,13 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,10 @@ public class NationalArticleFragment extends Fragment {
     ImageView cameraIcon;
     @BindView(R.id.nationalDescription)
     TextView shortdescription;
+    @BindView(R.id.nationalPhoto)
+    ImageView photo;
+    @BindView(R.id.nationalProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -67,10 +76,29 @@ public class NationalArticleFragment extends Fragment {
         unbinder = ButterKnife.bind(this, fragmentView);
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
+        setUpImages();
         setUpView();
         return fragmentView;
     }
 
+    private void setUpImages() {
+        Log.d(LOG, "setUpImages");
+        if (!item.getOg_image().getUrl().equals("")) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            photo.setVisibility(View.GONE);
+        }
+    }
 
     private void setUpView() {
         Log.d(LOG, "setUpView");

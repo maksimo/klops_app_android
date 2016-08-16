@@ -119,7 +119,6 @@
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:textStyle="bold"
-            android:maxLines="3"
             android:text=""
             android:textColor="@color/blackText"
             android:textSize="16sp"/>
@@ -146,30 +145,22 @@
             android:layout_below="@+id/longCardText"
             android:layout_marginBottom="15dp">
 
-            <ImageView
-                android:id="@+id/promotionIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/megaphone"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"/>
-
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textAllCaps="true"
                 android:textColor="@color/greyText"
-                android:layout_toRightOf="@+id/promotionIcon"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="15dp"
                 android:text="Материал размещен на коммерческой основе"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp" />
         </RelativeLayout>
     </RelativeLayout>
     <View
         android:id="@+id/separatorLong"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/longNewsLayer"
         android:background="@color/recyclerBackground" />
 </RelativeLayout>

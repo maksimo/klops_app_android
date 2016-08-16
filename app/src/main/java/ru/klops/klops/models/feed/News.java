@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class News implements Parcelable {
     private Integer id;
     private String date;
@@ -16,7 +17,7 @@ public class News implements Parcelable {
     private List<String> photos;
     private String article_type;
     private String url;
-    private String og_image;
+    private Og_image og_image;
     private Object timestamp;
     private String author;
     private String source;
@@ -27,7 +28,7 @@ public class News implements Parcelable {
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, String og_image, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -56,7 +57,7 @@ public class News implements Parcelable {
         photos = in.createStringArrayList();
         article_type = in.readString();
         url = in.readString();
-        og_image = in.readString();
+        og_image = in.readParcelable(Og_image.class.getClassLoader());
         author = in.readString();
         source = in.readString();
         promoted = in.readInt();
@@ -172,11 +173,11 @@ public class News implements Parcelable {
         this.url = url;
     }
 
-    public String getOg_image() {
+    public Og_image getOg_image() {
         return og_image;
     }
 
-    public void setOg_image(String og_image) {
+    public void setOg_image(Og_image og_image) {
         this.og_image = og_image;
     }
 
@@ -282,7 +283,7 @@ public class News implements Parcelable {
         dest.writeStringList(photos);
         dest.writeString(article_type);
         dest.writeString(url);
-        dest.writeString(og_image);
+        dest.writeParcelable(og_image, flags);
         dest.writeString(author);
         dest.writeString(source);
         dest.writeInt(promoted);

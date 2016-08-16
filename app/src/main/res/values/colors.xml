@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#f8f7f7</color>
     <color name="colorAccent">#ec008c</color>
+    <color name="statusBar">#f7f7f8</color>
     <color name="baseLayout">#f8f7f7</color>
     <color name="greyText">#808080</color>
     <color name="recyclerBackground">#edecec</color>

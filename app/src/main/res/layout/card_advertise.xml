@@ -92,7 +92,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/linkColor"
                 android:layout_below="@+id/advertiseCardPhoto"
-                android:text="Нажмите, чтобы узнать подробнее"
+                android:text="узнать подробнее"
                 android:gravity="center"
                 android:layout_marginTop="15dp"
                 android:paddingBottom="10dp" />
@@ -102,7 +102,7 @@
     <View
         android:id="@+id/separatorAds"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="16dp"
         android:layout_below="@+id/advertiseMainLayer"
         android:background="@color/recyclerBackground" />
 </RelativeLayout>

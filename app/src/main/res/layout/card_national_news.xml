@@ -7,6 +7,7 @@
     android:background="@color/colorPrimary">
 
     <RelativeLayout
+        android:id="@+id/nationalLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -118,7 +119,6 @@
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
             android:paddingBottom="20dp"
-            android:maxLines="3"
             android:textStyle="bold"
             android:text=""
             android:textColor="@color/blackText"
@@ -128,16 +128,10 @@
             android:id="@+id/nationalCardPromotionLayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_below="@+id/nationalCardTitle"
-            android:layout_marginBottom="15dp">
-
-            <ImageView
-                android:id="@+id/promotionIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/megaphone"
-                android:layout_marginLeft="15dp"/>
+            android:layout_marginBottom="15dp"
+            android:paddingBottom="5dp">
 
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
@@ -145,16 +139,16 @@
                 android:textSize="10sp"
                 android:textAllCaps="true"
                 android:textColor="@color/greyText"
-                android:layout_toRightOf="@+id/promotionIcon"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="15dp"
                 android:text="Материал размещен на коммерческой основе"
                 android:layout_centerVertical="true" />
         </RelativeLayout>
-        <View
-            android:id="@+id/separatorNational"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_below="@+id/nationalCardPromotionLayer"
-            android:background="@color/greySplitter" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/separatorNational"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/nationalLayer"
+        android:background="@color/recyclerBackground" />
 </RelativeLayout>

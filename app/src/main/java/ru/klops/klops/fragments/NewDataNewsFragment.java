@@ -2,10 +2,10 @@ package ru.klops.klops.fragments;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,19 +23,27 @@ import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVNewDataAdapter;
+import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.models.feed.Currency;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class NewDataNewsFragment extends Fragment {
+public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     final String LOG = "NewDataFragment";
     View fragmentView;
     @BindView(R.id.recycler_new)
     RecyclerView newDataRecycler;
     @BindView(R.id.newError)
     TextView newError;
+    @BindView(R.id.swipeLayoutNew)
+    SwipeRefreshLayout refreshLayout;
     Unbinder unbinder;
     KlopsApplication mApp;
     RVNewDataAdapter adapter;
@@ -44,6 +52,8 @@ public class NewDataNewsFragment extends Fragment {
     ArrayList<News> copy;
     ArrayList<Integer> typesAdapter;
     Currency currency;
+    int separatorNumber;
+    ArrayList<Integer> separatorCounts;
 
     @Override
     public void onAttach(Context context) {
@@ -58,14 +68,44 @@ public class NewDataNewsFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.new_data_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         setUpRecycler();
+        refreshLayout.setOnRefreshListener(this);
         Log.d(LOG, "onCreateView");
         return fragmentView;
+    }
+
+    @Override
+    public void onRefresh() {
+        adapter.clearNewFeed();
+        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        Observable<Page> refreshPage = api.getAllNews();
+        refreshPage.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Page>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshLayout.setRefreshing(false);
+                        Log.d(LOG, "Refresh main feed complete...");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "Access denied" + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Page page) {
+                        mApp.setFirstPage(page);
+                        adapter.addData(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())), page.getCurrency());
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void setUpRecycler() {
         Log.d(LOG, "setUpRecycler");
         if (mApp.getFirstPage() != null) {
             Page loadedFirstPage = mApp.getFirstPage();
+            separatorCounts = new ArrayList<>();
             models = new ArrayList<>();
             models.addAll(loadedFirstPage.getNews());
             RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -192,7 +232,6 @@ public class NewDataNewsFragment extends Fragment {
         newManager.scrollToPosition(0);
     }
 
-
     @Override
     public void onStart() {
         Log.d(LOG, "onStart");
@@ -235,4 +274,6 @@ public class NewDataNewsFragment extends Fragment {
         Log.d(LOG, "onDestroy");
         super.onDestroy();
     }
+
+
 }

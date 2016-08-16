@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class BaseFragment extends Fragment {
     Animation fadeOut;
     Unbinder unbinder;
     KlopsApplication mApp;
+    TextView textView;
 
     @Override
     public void onAttach(Context context) {
@@ -93,10 +95,13 @@ public class BaseFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                changeTabsFont();
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                changeTabsFont();
             }
 
             @Override
@@ -117,7 +122,20 @@ public class BaseFragment extends Fragment {
             for (int i = 0; i < tabChildsCount; i++) {
                 View tabViewChild = vgTab.getChildAt(i);
                 if (tabViewChild instanceof TextView) {
-                    ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                    if (vgTab.getChildAt(i).isSelected()) {
+                        ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
+                        Shader textShader = new LinearGradient(0, 0, 0, 0,
+                                new int[]{Color.BLACK, Color.WHITE},
+                                new float[]{0, 1}, Shader.TileMode.CLAMP);
+                        ((TextView) tabViewChild).getPaint().setShader(textShader);
+                    } else if (!vgTab.getChildAt(i).isSelected()) {
+                        ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                        Shader textShader = new LinearGradient(0, 0, 100, 20,
+                                new int[]{Color.BLACK, Color.WHITE},
+                                new float[]{0, 1}, Shader.TileMode.CLAMP);
+                        ((TextView) tabViewChild).getPaint().setShader(textShader);
+                    }
+
                 }
             }
         }

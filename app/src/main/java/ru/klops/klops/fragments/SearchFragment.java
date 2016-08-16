@@ -181,6 +181,7 @@ public class SearchFragment extends Fragment {
         btnCancel.startAnimation(alpha);
         InputMethodManager imm = (InputMethodManager) fragmentView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
+        ((HomeActivity) getActivity()).getSupportFragmentManager().popBackStack();
         ((HomeActivity) getActivity()).onBackPressed();
     }
 

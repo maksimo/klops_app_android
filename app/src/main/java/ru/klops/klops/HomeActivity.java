@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onStart() {
         Log.d(LOG, "onStart");
@@ -96,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.home_container, new BaseFragment()).setCustomAnimations(R.anim.fade_out, R.anim.fade_in).commit();
-            super.onBackPressed();
         }
 
     }
