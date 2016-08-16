@@ -588,19 +588,21 @@ public class ArticleActivity extends AppCompatActivity {
                                 int articleId = Integer.parseInt(linkId);
                                 loadArticle(articleId);
                             }
+                        }else{
+                            Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
+                            browser.putExtra(Constants.URL, url);
+                            startActivity(browser);
                         }
+                        contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
                         return false;
                     }
 
                 });
 
                 contentView.getSettings().setJavaScriptEnabled(true);
-                contentView.getSettings().setLoadWithOverviewMode(true);
-                contentView.getSettings().setUseWideViewPort(false);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentText = content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", "");
                 if (contentText.contains("src=")){
-                    SpannableString src = new SpannableString(contentText);
                     String splitt = contentText;
                     String contentStrings[] = splitt.split("src=");
                     contentText = contentStrings[0];
@@ -609,7 +611,6 @@ public class ArticleActivity extends AppCompatActivity {
                     contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
                 }
                 contentView.setWebChromeClient(new WebChromeClient());
-//                contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
                 contentViews.add(contentView);
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
@@ -638,34 +639,9 @@ public class ArticleActivity extends AppCompatActivity {
                         if (content.getAssociate().getId() != null) {
                             loadArticle(content.getAssociate().getId());
                         } else if (content.getAssociate().getUrl() != null) {
-                            moreUrl.setVisibility(View.GONE);
-                            contentView.loadUrl(content.getAssociate().getUrl());
-                            contentView.setWebViewClient(new WebViewClient() {
-                                @Override
-                                public void onPageFinished(WebView view, String url) {
-                                    super.onPageFinished(view, url);
-                                    loader.setVisibility(View.GONE);
-                                    contentView.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                    super.onPageStarted(view, url, favicon);
-                                    loader.setVisibility(View.VISIBLE);
-                                    contentView.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return false;
-                                }
-                            });
-                            contentView.getSettings().setJavaScriptEnabled(true);
-                            contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                            contentView.setWebChromeClient(new WebChromeClient());
-                            contentView.setVisibility(View.VISIBLE);
-                            moreTitle.setVisibility(View.GONE);
+                            Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
+                            browser.putExtra(Constants.URL, content.getAssociate().getUrl());
+                            startActivity(browser);
                         }
                     }
                 });

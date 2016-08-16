@@ -52,4 +52,5 @@ public class Constants {
     public static final String PHOTO = "PHOTO";
     public static final String TEXT = "TEXT";
     public static final String NUMBER = "NUMBER";
+    public static final String URL = "BROWSER_URL";
 }

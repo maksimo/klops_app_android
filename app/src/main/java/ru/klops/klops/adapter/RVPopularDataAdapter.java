@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.klops.klops.AppBrowserActivity;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.api.PageApi;
@@ -365,8 +366,8 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         TextView adsClose;
         @BindView(R.id.adsTitle)
         TextView adsTitle;
-        @BindView(R.id.adsUrl)
-        TextView url;
+        @BindView(R.id.advertiseImageLayer)
+        RelativeLayout advertiseLayer;
 
         public AdvertiseHolder(View itemView) {
             super(itemView);
@@ -899,13 +900,10 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 }
                 holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.url.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.url.setOnClickListener(new View.OnClickListener() {
+                holderAdvertise.advertiseLayer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = Uri.parse(models.get(holderAdvertise.getAdapterPosition()).getUrl());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        context.startActivity(intent);
+                        openAdvertise(models.get(holderAdvertise.getAdapterPosition()).getUrl());
                     }
                 });
                 holderAdvertise.closableLayout.setOnClickListener(new View.OnClickListener() {
@@ -1000,6 +998,12 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 });
                 break;
         }
+    }
+
+    private void openAdvertise(String url) {
+        Intent browserIntent = new Intent(context.getContext(), AppBrowserActivity.class);
+        browserIntent.putExtra(Constants.URL, url);
+        context.startActivity(browserIntent);
     }
 
     public void loadPhoto(String input, ImageView output, final ProgressBar loader) {

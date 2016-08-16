@@ -42,6 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AppBrowserActivity" android:screenOrientation="portrait"/>
         <activity android:name=".adapter.PhotoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SettingsActivity"  android:screenOrientation="portrait"/>
         <activity android:name=".ArticleActivity"  android:screenOrientation="portrait"/>

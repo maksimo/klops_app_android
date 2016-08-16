@@ -1,9 +1,7 @@
 package ru.klops.klops.adapter;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,16 +17,12 @@ import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.koushikdutta.ion.bitmap.Transform;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.klops.klops.AppBrowserActivity;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.api.PageApi;
@@ -361,8 +355,8 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         TextView adsClose;
         @BindView(R.id.adsTitle)
         TextView adsTitle;
-        @BindView(R.id.adsUrl)
-        TextView url;
+        @BindView(R.id.advertiseImageLayer)
+        RelativeLayout advertiseLayer;
         @BindView(R.id.separatorAds)
         View separator;
 
@@ -852,13 +846,10 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 }
                 holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.url.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                holderAdvertise.url.setOnClickListener(new View.OnClickListener() {
+                holderAdvertise.advertiseLayer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = Uri.parse(models.get(holderAdvertise.getAdapterPosition()).getUrl());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        context.startActivity(intent);
+                        openAdvertise(models.get(holderAdvertise.getAdapterPosition()).getUrl());
                     }
                 });
                 holderAdvertise.closableLayout.setOnClickListener(new View.OnClickListener() {
@@ -955,6 +946,12 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 });
                 break;
         }
+    }
+
+    private void openAdvertise(String url) {
+        Intent browserIntent = new Intent(context.getContext(), AppBrowserActivity.class);
+        browserIntent.putExtra(Constants.URL, url);
+        context.startActivity(browserIntent);
     }
 
     public void loadPhoto(String input, ImageView output, final ProgressBar loader) {

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -55,7 +56,9 @@ public class BaseFragment extends Fragment {
     Animation fadeOut;
     Unbinder unbinder;
     KlopsApplication mApp;
-    TextView textView;
+    Shader textShader;
+    Shader first;
+    Shader second;
 
     @Override
     public void onAttach(Context context) {
@@ -71,8 +74,21 @@ public class BaseFragment extends Fragment {
         ((HomeActivity) getActivity()).setSupportActionBar(baseToolbar);
         Log.d(LOG, "onCreateView");
         setUpAnim();
+        setUpGradients();
         setUpTab();
         return fragmentView;
+    }
+
+    private void setUpGradients() {
+        textShader = new LinearGradient(0, 0, 0, 0,
+                new int[]{Color.BLACK, Color.WHITE},
+                new float[]{0, 1}, Shader.TileMode.CLAMP);
+        first = new LinearGradient(0, 10, 120, 0,
+                new int[]{Color.WHITE, Color.BLACK},
+                new float[]{0, 1}, Shader.TileMode.CLAMP);
+        second = new LinearGradient(0, 0, 100, 10,
+                new int[]{Color.BLACK, Color.WHITE},
+                new float[]{0, 1}, Shader.TileMode.CLAMP);
     }
 
     private void setUpAnim() {
@@ -86,8 +102,11 @@ public class BaseFragment extends Fragment {
         Log.d(LOG, "setUpTab");
         layout.addTab(layout.newTab().setText(" Новое "));
         layout.addTab(layout.newTab().setText(" Популярное "));
+        layout.canScrollHorizontally(0);
         changeTabsFont();
         layout.setSelectedTabIndicatorHeight(0);
+//        layout.setupWithViewPager(viewPager);
+//        setUpTabs();
         adapter = new SlideAdapter(getFragmentManager(), 2);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(layout));
@@ -96,6 +115,11 @@ public class BaseFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 changeTabsFont();
+                if (tab.getText().equals(" Популярное ")) {
+                    layout.setTabGravity(TabLayout.GRAVITY_CENTER);
+                } else if (tab.getText().equals(" Новое ")) {
+                    layout.setTabGravity(TabLayout.GRAVITY_CENTER);
+                }
 
             }
 
@@ -112,8 +136,13 @@ public class BaseFragment extends Fragment {
         viewPager.startAnimation(fadeIn);
     }
 
-    private void changeTabsFont() {
+    private void setUpTabs() {
+        layout.getTabAt(0).setText(" Новое ");
+        layout.getTabAt(1).setText(" Популярное ");
 
+    }
+
+    private void changeTabsFont() {
         ViewGroup vg = (ViewGroup) layout.getChildAt(0);
         int tabsCount = vg.getChildCount();
         for (int j = 0; j < tabsCount; j++) {
@@ -124,16 +153,13 @@ public class BaseFragment extends Fragment {
                 if (tabViewChild instanceof TextView) {
                     if (vgTab.getChildAt(i).isSelected()) {
                         ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
-                        Shader textShader = new LinearGradient(0, 0, 0, 0,
-                                new int[]{Color.BLACK, Color.WHITE},
-                                new float[]{0, 1}, Shader.TileMode.CLAMP);
                         ((TextView) tabViewChild).getPaint().setShader(textShader);
-                    } else if (!vgTab.getChildAt(i).isSelected()) {
+                    } else if (viewPager.getCurrentItem() == 0) {
                         ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                        Shader textShader = new LinearGradient(0, 0, 100, 20,
-                                new int[]{Color.BLACK, Color.WHITE},
-                                new float[]{0, 1}, Shader.TileMode.CLAMP);
-                        ((TextView) tabViewChild).getPaint().setShader(textShader);
+                        ((TextView) tabViewChild).getPaint().setShader(second);
+                    } else if (viewPager.getCurrentItem() == 1) {
+                        ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+                        ((TextView) tabViewChild).getPaint().setShader(first);
                     }
 
                 }
@@ -149,7 +175,7 @@ public class BaseFragment extends Fragment {
     }
 
     @OnClick(R.id.settings_action)
-    public void setttingsAction() {
+    public void settingsAction() {
         btnSettings.startAnimation(alpha);
         startActivity(new Intent(getContext(), SettingsActivity.class));
     }
