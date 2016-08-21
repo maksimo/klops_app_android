@@ -1,6 +1,7 @@
 package ru.klops.klops;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -65,12 +66,16 @@ public class AppBrowserActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                Intent browser = new Intent(AppBrowserActivity.this, AppBrowserActivity.class);
+                browser.putExtra(Constants.URL, url);
+                startActivity(browser);
                 return false;
             }
 
         });
+
         browser.getSettings().setLoadWithOverviewMode(true);
-        browser.getSettings().setUseWideViewPort(false);
+        browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setDisplayZoomControls(true);
         browser.getSettings().setSupportZoom(true);
         browser.getSettings().setJavaScriptEnabled(true);

@@ -898,6 +898,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 break;
             case Constants.POPULAR_MARKER:
                 final PopularMarkerViewHolder holderPopular = (PopularMarkerViewHolder) viewHolder;
+                holderPopular.popularMarkerTitle.setText(models.get(position).getTitle());
                 holderPopular.popularMarkerTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                 break;
             case Constants.SEPARATOR:

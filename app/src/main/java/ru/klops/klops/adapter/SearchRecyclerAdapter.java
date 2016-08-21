@@ -86,33 +86,20 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, viewHolder.author.getId());
         viewHolder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        String fullAuthor;
         if (models.get(position).getSource().equals("") && !models.get(position).getAuthor().equals("")){
-            fullAuthor = models.get(position).getAuthor();
-        }else if (!models.get(position).getSource().equals("") && models.get(position).getAuthor().equals("")){
-            fullAuthor = models.get(position).getSource();
-        }else if (!models.get(position).getSource().equals("") && !models.get(position).getAuthor().equals("")){
-            fullAuthor = models.get(position).getSource().concat(" " + models.get(position).getAuthor());
-        }else {
-            fullAuthor = "";
-        }
-        if (fullAuthor.length() == 0) {
+            viewHolder.author.setText(models.get(position).getAuthor());
+        }else if (models.get(position).getAuthor().equals("") && !models.get(position).getSource().equals("")){
+            viewHolder.author.setText(models.get(position).getSource());
+        }else if (models.get(position).getSource().equals("") && models.get(position).getAuthor().equals("")){
             viewHolder.author.setVisibility(View.GONE);
-            relativeParams.setMargins(42, 20, 0, 5);
-            viewHolder.date.setLayoutParams(relativeParams);
-        } else {
-            viewHolder.author.setVisibility(View.VISIBLE);
-        }
-        viewHolder.author.setText(fullAuthor);
-        if (fullAuthor.length() > 35) {
-            relativeParams.setMargins(42, 5, 0, 5);
-            viewHolder.date.setLayoutParams(relativeParams);
+        }else {
+            viewHolder.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
         }
         viewHolder.date.setText(models.get(position).getDate());
         viewHolder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         viewHolder.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         searchWord = new SpannableString(models.get(position).getTitle());
-        if (keyword == null){
+        if (keyword == null) {
             keyword = "";
         }
         Pattern word = Pattern.compile(keyword);
@@ -125,19 +112,19 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             viewHolder.title.setText(models.get(position).getTitle());
         }
         viewHolder.text.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
-            searchInDescr = new SpannableString(models.get(position).getShortdecription());
-        if (keyword == null){
+        searchInDescr = new SpannableString(models.get(position).getShortdecription());
+        if (keyword == null) {
             keyword = "";
         }
-            Pattern descrWord = Pattern.compile(keyword);
-            Matcher descrMatch = descrWord.matcher(searchInDescr);
-            if (descrMatch.find()) {
-                searchInDescr.setSpan(new UnderlineSpan(), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                searchInDescr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                viewHolder.text.setText(searchInDescr);
-            } else {
-                viewHolder.text.setText(models.get(position).getShortdecription());
-            }
+        Pattern descrWord = Pattern.compile(keyword);
+        Matcher descrMatch = descrWord.matcher(searchInDescr);
+        if (descrMatch.find()) {
+            searchInDescr.setSpan(new UnderlineSpan(), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            searchInDescr.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), descrMatch.start(), descrMatch.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.text.setText(searchInDescr);
+        } else {
+            viewHolder.text.setText(models.get(position).getShortdecription());
+        }
 
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +154,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                         });
             }
         });
+    }
+
+    public void clearData() {
+        models.clear();
+        notifyDataSetChanged();
     }
 
     @Override

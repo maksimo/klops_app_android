@@ -53,4 +53,5 @@ public class Constants {
     public static final String TEXT = "TEXT";
     public static final String NUMBER = "NUMBER";
     public static final String URL = "BROWSER_URL";
+    public static String SHARED_DATA = "SHARED_DATA";
 }

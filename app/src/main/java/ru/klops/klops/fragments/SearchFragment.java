@@ -109,6 +109,15 @@ public class SearchFragment extends Fragment {
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
             requestedWord = searchField.getText().toString();
+            if (adapter != null) {
+                adapter.clearData();
+                if (adapter.getItemCount() == 0){
+                    viewSearch.setVisibility(View.GONE);
+                    searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
+                    searchTwo.setVisibility(View.VISIBLE);
+                }
+            }
             startSearch(requestedWord);
         }else if (searchField.getText().toString().length() == 0){
             searchOne.setVisibility(View.VISIBLE);

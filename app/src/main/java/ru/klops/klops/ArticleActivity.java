@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -13,13 +14,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ClickableSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,7 +26,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,7 +38,6 @@ import com.facebook.share.widget.ShareDialog;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.vk.sdk.VKAccessToken;
@@ -57,6 +52,9 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 import com.vk.sdk.util.VKUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -89,7 +87,6 @@ import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
@@ -638,7 +635,7 @@ public class ArticleActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (content.getAssociate().getId() != null) {
                             loadArticle(content.getAssociate().getId());
-                        } else if (content.getAssociate().getUrl() != null) {
+                        } else {
                             Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
                             browser.putExtra(Constants.URL, content.getAssociate().getUrl());
                             startActivity(browser);
@@ -722,7 +719,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void initSocials() {
-        if (!item.getOg_image().equals("")) {
+        if (!item.getImage().equals("")) {
             loadBitmap(item.getImage());
         }
         text = item.getTitle() + "\n" + "\n" + item.getShortdecription();
@@ -1091,8 +1088,42 @@ public class ArticleActivity extends AppCompatActivity {
     @OnClick(R.id.shareSocials)
     public void openShareDialog() {
         share.startAnimation(alpha);
-        shareDialog.show();
+        final Intent shareIntent = new Intent();
+        final String title = item.getTitle();
+        final String description = item.getShortdecription();
+        final String url = item.getUrl();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, description);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        shareIntent.setType("image/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(result));
+                        startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
+
+                    }
+                });
+
+//        shareDialog.show();
     }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+            Uri bmpUri = null;
+            try {
+                File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "sharedKlopsImage" + System.currentTimeMillis() + ".png");
+                FileOutputStream out = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+                out.close();
+                bmpUri = Uri.fromFile(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmpUri;
+        }
 
     @Override
     public void onStart() {

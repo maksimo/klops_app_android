@@ -83,10 +83,10 @@ public class BaseFragment extends Fragment {
         textShader = new LinearGradient(0, 0, 0, 0,
                 new int[]{Color.BLACK, Color.WHITE},
                 new float[]{0, 1}, Shader.TileMode.CLAMP);
-        first = new LinearGradient(0, 10, 120, 0,
+        first = new LinearGradient(0, 150, 10, 0,
                 new int[]{Color.WHITE, Color.BLACK},
                 new float[]{0, 1}, Shader.TileMode.CLAMP);
-        second = new LinearGradient(0, 0, 100, 10,
+        second = new LinearGradient(0, 0, 150, 10,
                 new int[]{Color.BLACK, Color.WHITE},
                 new float[]{0, 1}, Shader.TileMode.CLAMP);
     }
@@ -102,30 +102,20 @@ public class BaseFragment extends Fragment {
         Log.d(LOG, "setUpTab");
         layout.addTab(layout.newTab().setText(" Новое "));
         layout.addTab(layout.newTab().setText(" Популярное "));
-        layout.canScrollHorizontally(0);
         changeTabsFont();
         layout.setSelectedTabIndicatorHeight(0);
-//        layout.setupWithViewPager(viewPager);
-//        setUpTabs();
         adapter = new SlideAdapter(getFragmentManager(), 2);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(layout));
         layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
                 changeTabsFont();
-                if (tab.getText().equals(" Популярное ")) {
-                    layout.setTabGravity(TabLayout.GRAVITY_CENTER);
-                } else if (tab.getText().equals(" Новое ")) {
-                    layout.setTabGravity(TabLayout.GRAVITY_CENTER);
-                }
-
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                changeTabsFont();
             }
 
             @Override
@@ -133,14 +123,32 @@ public class BaseFragment extends Fragment {
                 ((HomeActivity) getActivity()).scrollList();
             }
         });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                layout.getTabAt(position);
+                if (position == 0){
+                    changeTabsFont();
+                    layout.getTabAt(0).isSelected();
+                }else {
+                    changeTabsFont();
+                    layout.getTabAt(1).isSelected();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.startAnimation(fadeIn);
     }
 
-    private void setUpTabs() {
-        layout.getTabAt(0).setText(" Новое ");
-        layout.getTabAt(1).setText(" Популярное ");
-
-    }
 
     private void changeTabsFont() {
         ViewGroup vg = (ViewGroup) layout.getChildAt(0);
@@ -154,7 +162,7 @@ public class BaseFragment extends Fragment {
                     if (vgTab.getChildAt(i).isSelected()) {
                         ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
                         ((TextView) tabViewChild).getPaint().setShader(textShader);
-                    } else if (viewPager.getCurrentItem() == 0) {
+                    } else if (!vgTab.getChildAt(i).isSelected()) {
                         ((TextView) tabViewChild).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
                         ((TextView) tabViewChild).getPaint().setShader(second);
                     } else if (viewPager.getCurrentItem() == 1) {
