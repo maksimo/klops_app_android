@@ -147,12 +147,22 @@
                     android:paddingTop="5dp">
 
                     <WebView
-                        android:id="@+id/firstWeb"
+                    android:id="@+id/firstWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="10dp"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    tools:ignore="WebViewLayout" />
+
+                    <WebView
+                        android:id="@+id/firstVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/firstWeb"
                         android:scrollbars="none"
+                        android:paddingBottom="30dp"
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
@@ -160,7 +170,7 @@
                         android:id="@+id/firstImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/firstWeb"
+                        android:layout_below="@+id/firstVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -228,11 +238,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/secondVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/secondWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/secondImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/secondWeb"
+                        android:layout_below="@+id/secondVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -300,11 +320,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/thirdVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/thirdWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/thirdImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/thirdWeb"
+                        android:layout_below="@+id/thirdVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -372,11 +402,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/fourthVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/fourthWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/fourthImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/fourthWeb"
+                        android:layout_below="@+id/fourthVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -444,11 +484,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/fifthVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/fifthWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/fifthImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/fifthWeb"
+                        android:layout_below="@+id/fifthVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -516,11 +566,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/sixVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/sixWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/sixImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/sixWeb"
+                        android:layout_below="@+id/sixVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -588,11 +648,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/sevenVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/sevenWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/sevenImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/sevenWeb"
+                        android:layout_below="@+id/sevenVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -660,11 +730,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/eightVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/eightWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/eightImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/eightWeb"
+                        android:layout_below="@+id/eightVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -732,11 +812,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/nineVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/nineWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/nineImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/nineWeb"
+                        android:layout_below="@+id/nineVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -804,11 +894,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/tenVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/tenWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/tenImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/tenWeb"
+                        android:layout_below="@+id/tenVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -876,11 +976,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/elevenVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/elevenWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/elevenImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/elevenWeb"
+                        android:layout_below="@+id/elevenVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 
@@ -949,11 +1059,21 @@
                         android:visibility="gone"
                         tools:ignore="WebViewLayout" />
 
+                    <WebView
+                        android:id="@+id/twelveVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:layout_below="@+id/twelveWeb"
+                        android:paddingBottom="30dp"
+                        android:scrollbars="none"
+                        android:visibility="gone"
+                        tools:ignore="WebViewLayout" />
+
                     <ImageView
                         android:id="@+id/twelveImage"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/twelveWeb"
+                        android:layout_below="@+id/twelveVideo"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 

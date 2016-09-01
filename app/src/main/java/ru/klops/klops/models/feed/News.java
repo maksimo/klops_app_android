@@ -17,7 +17,6 @@ public class News implements Parcelable {
     private List<String> photos;
     private String article_type;
     private String url;
-    private Og_image og_image;
     private Object timestamp;
     private String author;
     private String source;
@@ -28,7 +27,7 @@ public class News implements Parcelable {
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -38,7 +37,6 @@ public class News implements Parcelable {
         this.photos = photos;
         this.article_type = article_type;
         this.url = url;
-        this.og_image = og_image;
         this.timestamp = timestamp;
         this.author = author;
         this.source = source;
@@ -57,7 +55,6 @@ public class News implements Parcelable {
         photos = in.createStringArrayList();
         article_type = in.readString();
         url = in.readString();
-        og_image = in.readParcelable(Og_image.class.getClassLoader());
         author = in.readString();
         source = in.readString();
         promoted = in.readInt();
@@ -173,14 +170,6 @@ public class News implements Parcelable {
         this.url = url;
     }
 
-    public Og_image getOg_image() {
-        return og_image;
-    }
-
-    public void setOg_image(Og_image og_image) {
-        this.og_image = og_image;
-    }
-
     public Object getTimestamp() {
         return timestamp;
     }
@@ -256,7 +245,6 @@ public class News implements Parcelable {
                 ", photos=" + photos +
                 ", article_type='" + article_type + '\'' +
                 ", url='" + url + '\'' +
-                ", og_image='" + og_image + '\'' +
                 ", timestamp=" + timestamp +
                 ", author='" + author + '\'' +
                 ", source='" + source + '\'' +
@@ -283,7 +271,6 @@ public class News implements Parcelable {
         dest.writeStringList(photos);
         dest.writeString(article_type);
         dest.writeString(url);
-        dest.writeParcelable(og_image, flags);
         dest.writeString(author);
         dest.writeString(source);
         dest.writeInt(promoted);

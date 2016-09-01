@@ -1,11 +1,18 @@
 package ru.klops.klops;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +30,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,8 +73,14 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView join;
     @BindView(R.id.joinPhone)
     TextView joinPhone;
-    @BindView(R.id.social)
-    TextView social;
+    @BindView(R.id.socialViber)
+    TextView socialViber;
+    @BindView(R.id.socialWhats)
+    TextView socialWhatsApp;
+    @BindView(R.id.btnViber)
+    ImageView btnViber;
+    @BindView(R.id.btnWhatsapp)
+    ImageView btnWhatsapp;
     @BindView(R.id.socialPhone)
     TextView socialPhone;
     @BindView(R.id.advertise)
@@ -74,7 +95,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     ImageView logo;
     @BindView(R.id.toolbarSettings)
     Toolbar toolbarSettings;
-    int clickChecker =0;
+    int clickChecker = 0;
     Animation alpha;
     Unbinder unbinder;
     String tokenDevice;
@@ -97,6 +118,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView mailTitle;
     EditText mailText;
     Button mailPositiveBtn;
+    Tracker mTracker;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +133,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         mailLayout = LayoutInflater.from(this).inflate(R.layout.mail_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
+        mTracker = app.getDefaultTracker();
         switchNotifications.setOnCheckedChangeListener(this);
         sharedSubscription = loadStatement();
         appSubscription = loadInnerStatement();
@@ -131,7 +155,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         join.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         joinPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         joinTestBaseUrl.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-        social.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        socialViber.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        socialWhatsApp.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         socialPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         advertise.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         advertisePhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -153,7 +178,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         mailBuilder.setCancelable(true);
         mailTitle = (TextView) mailLayout.findViewById(R.id.mailTitle);
         mailText = (EditText) mailLayout.findViewById(R.id.mailText);
-        mailPositiveBtn = (Button)mailLayout.findViewById(R.id.mailPositiveBtn);
+        mailPositiveBtn = (Button) mailLayout.findViewById(R.id.mailPositiveBtn);
         mailTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         mailText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         mailDialog = mailBuilder.create();
@@ -162,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             public void onClick(View v) {
                 Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
                 mailIntent.setType("text/plain");
-                mailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { email.getText().toString().trim() });
+                mailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email.getText().toString().trim()});
                 mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Klops.ru");
                 mailIntent.putExtra(Intent.EXTRA_TEXT, mailText.getText().toString());
                 startActivity(Intent.createChooser(mailIntent, "Отправить сообщение"));
@@ -178,8 +203,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     @OnClick(R.id.join)
-    public void checkBaseUrl(){
-        switch(clickChecker){
+    public void checkBaseUrl() {
+        switch (clickChecker) {
             case 0:
                 clickChecker++;
                 join.startAnimation(alpha);
@@ -201,7 +226,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 Toast.makeText(this, "4й клик", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
-                clickChecker= 0;
+                clickChecker = 0;
                 join.startAnimation(alpha);
                 Toast.makeText(this, "5й клик", Toast.LENGTH_SHORT).show();
                 joinPhone.setVisibility(View.GONE);
@@ -216,7 +241,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     @OnClick(R.id.changeURLOk)
-    public void submitNewUrl(){
+    public void submitNewUrl() {
         joinTestBaseUrl.setFocusable(false);
         changeURLOk.setVisibility(View.GONE);
         joinTestBaseUrl.setVisibility(View.GONE);
@@ -233,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     @OnClick(R.id.logo)
-    public void testPush(){
+    public void testPush() {
         logo.startAnimation(alpha);
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<ResponseBody> call = api.giveMeTestPush(app.getToken());
@@ -262,10 +287,14 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         tokenDevice = app.getToken();
         if (isChecked) {
-            if (!sharedSubscription.equals(Constants.SUBSCRIBED) | appSubscription !=true) {
+            if (!sharedSubscription.equals(Constants.SUBSCRIBED) | appSubscription != true) {
                 saveState(true);
                 confirmTitle.setText("Подписка на уведомления...");
                 confirmDialog.show();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Settings Activity action")
+                        .setAction("Subscribe on push notifs")
+                        .build());
                 PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
                 Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
@@ -302,6 +331,10 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 saveState(false);
                 confirmTitle.setText("Отмена подписки...");
                 confirmDialog.show();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Settings Activity action")
+                        .setAction("UnSubscribe from push notifs")
+                        .build());
                 PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
                 final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
@@ -340,7 +373,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         innerPrefs.apply();
     }
 
-    private Boolean loadInnerStatement(){
+    private Boolean loadInnerStatement() {
         preferences = getPreferences(MODE_PRIVATE);
         appSubscription = preferences.getBoolean(Constants.INNER_PREFS, false);
         return appSubscription;
@@ -370,26 +403,94 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         switchNotifications.setChecked(sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, false));
     }
 
-    @OnClick(R.id.socialPhone)
-    public void callNumberOne(){
+    @OnClick(R.id.btnViber)
+    public void callViber() {
+        btnViber.startAnimation(alpha);
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
+        call.setPackage("com.viber.voip");
         startActivity(call);
     }
 
+    @OnClick(R.id.btnWhatsapp)
+    public void callWhatsApp() {
+        btnWhatsapp.startAnimation(alpha);
+        String DisplayName = "Klops.ru";
+        String MobileNumber = "+79097823333";
+        Bitmap bmImage = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.app_icon_main);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        byte[] Photo = baos.toByteArray();
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newInsert(
+                ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+        if (DisplayName != null) {
+            ops.add(ContentProviderOperation.newInsert(
+                    ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                            DisplayName).build());
+        }
+
+        if (MobileNumber != null) {
+            ops.add(ContentProviderOperation.
+                    newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                    .build());
+        }
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Photo.DATA15,Photo)
+                .build());
+
+        try {
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        openApp(this, "com.whatsapp");
+    }
+
+    public static boolean openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage(packageName);
+        if (i == null) {
+            return false;
+            //throw new PackageManager.NameNotFoundException();
+        }
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        context.startActivity(i);
+        return true;
+    }
+
     @OnClick(R.id.joinPhone)
-    public void callNumberTwo(){
+    public void callJoinUs() {
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + joinPhone.getText().toString().trim()));
         startActivity(call);
     }
 
     @OnClick(R.id.advertisePhone)
-    public void callNumberThree(){
+    public void callAdvertise() {
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + advertisePhone.getText().toString().trim()));
         startActivity(call);
     }
 
     @OnClick(R.id.email)
-    public void sendMail(){
+    public void sendMail() {
         mailDialog.show();
 
 
@@ -399,6 +500,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     protected void onStart() {
         Log.d(LOG, "onStart");
         super.onStart();
+        FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Settings Activity")
+                .setAction("Settings Activity Start")
+                .build());
     }
 
     @Override
@@ -423,7 +529,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     protected void onStop() {
         Log.d(LOG, "onStop");
         super.onStop();
-
+        FlurryAgent.onEndSession(this);
     }
 
     @Override

@@ -179,7 +179,7 @@ public class SplashActivity extends AppCompatActivity {
                         Toast.makeText(SplashActivity.this, "Не удалось подключение к серверу...", Toast.LENGTH_SHORT).show();
                         final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
                         somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
-                                .setMessage("В процессе загрузки произошел сбой. Перезагрузите приложение").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                                .setMessage("Не удалось подключиться к серверу. Попробуйте позже").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();

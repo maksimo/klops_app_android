@@ -84,8 +84,8 @@ public class AuthorArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getImage().equals("")) {
-            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+        if (!item.getOg_image().getUrl().equals("")) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
                     bar.setVisibility(View.VISIBLE);
@@ -96,7 +96,7 @@ public class AuthorArticleFragment extends Fragment {
                     bar.setVisibility(View.GONE);
                 }
             });
-        }else {
+        } else {
             photo.setVisibility(View.GONE);
         }
 
@@ -106,9 +106,9 @@ public class AuthorArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
-        relativeParams.setMargins(20,-10,0,10);
+        relativeParams.setMargins(20, -10, 0, 10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() > 5){
+        if (fullAuthor.length() > 5) {
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {

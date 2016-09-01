@@ -1,12 +1,14 @@
 package ru.klops.klops;
 
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +37,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
@@ -361,7 +366,32 @@ public class ArticleActivity extends AppCompatActivity {
     private Target loadTarget;
     Unbinder unbinder;
     ArrayList<ContentView> viwes;
-
+    @BindView(R.id.firstVideo)
+    WebView firstVideo;
+    @BindView(R.id.secondVideo)
+    WebView secondVideo;
+    @BindView(R.id.thirdVideo)
+    WebView thirdVideo;
+    @BindView(R.id.fourthVideo)
+    WebView fourthVideo;
+    @BindView(R.id.fifthVideo)
+    WebView fifthVideo;
+    @BindView(R.id.sixVideo)
+    WebView sixVideo;
+    @BindView(R.id.sevenVideo)
+    WebView sevenVideo;
+    @BindView(R.id.eightVideo)
+    WebView eightVideo;
+    @BindView(R.id.nineVideo)
+    WebView nineVideo;
+    @BindView(R.id.tenVideo)
+    WebView tenVideo;
+    @BindView(R.id.elevenVideo)
+    WebView elevenVideo;
+    @BindView(R.id.twelveVideo)
+    WebView twelveVideo;
+    Uri sharedBitmap;
+    Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +405,7 @@ public class ArticleActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         app = KlopsApplication.getINSTANCE();
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        mTracker = app.getDefaultTracker();
         item = getIntent().getParcelableExtra(Constants.ITEM);
         setSupportActionBar(toolbar);
         initSocials();
@@ -384,6 +415,19 @@ public class ArticleActivity extends AppCompatActivity {
         getAllContents();
         setUpGalleries();
         setUpMatchNews();
+    }
+
+    private void initShareImage() {
+        if (!item.getImage().equals("")) {
+            Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
+                    .setCallback(new FutureCallback<Bitmap>() {
+                        @Override
+                        public void onCompleted(Exception e, Bitmap result) {
+                            sharedBitmap = getLocalBitmapUri(result);
+
+                        }
+                    });
+        }
     }
 
     private void setUpGalleries() {
@@ -512,18 +556,18 @@ public class ArticleActivity extends AppCompatActivity {
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
         viwes = new ArrayList<>();
-        viwes.add(new ContentView(firstContent, firstWeb, barOne, firstImage, firstDescription, firstMore, firstUrl));
-        viwes.add(new ContentView(secondContent, secondWeb, barTwo, secondImage, secondDescription, secondMore, secondUrl));
-        viwes.add(new ContentView(thirdContent, thirdWeb, barThree, thirdImage, thirdDescription, thirdMore, thirdUrl));
-        viwes.add(new ContentView(fourthContent, fourthWeb, barFour, fourthImage, fourthDescription, fourthMore, fourthUrl));
-        viwes.add(new ContentView(fifthContent, fifthWeb, barFive, fifthImage, fifthDescription, fifthMore, fifthUrl));
-        viwes.add(new ContentView(sixContent, sixWeb, barSix, sixImage, sixDescription, sixMore, sixUrl));
-        viwes.add(new ContentView(sevenContent, sevenWeb, barSeven, sevenImage, sevenDescription, sevenMore, sevenUrl));
-        viwes.add(new ContentView(eightContent, eightWeb, barEight, eightImage, eightDescription, eightMore, eightUrl));
-        viwes.add(new ContentView(nineContent, nineWeb, barNine, nineImage, nineDescription, nineMore, nineUrl));
-        viwes.add(new ContentView(tenContent, tenWeb, barTen, tenImage, tenDescription, tenMore, tenUrl));
-        viwes.add(new ContentView(elevenContent, elevenWeb, barEleven, elevenImage, elevenDescription, elevenMore, elevenUrl));
-        viwes.add(new ContentView(twelveContent, twelveWeb, barTwelve, twelveImage, twelveDescription, twelveMore, twelveUrl));
+        viwes.add(new ContentView(firstContent, firstWeb, barOne, firstImage, firstDescription, firstMore, firstUrl, firstVideo));
+        viwes.add(new ContentView(secondContent, secondWeb, barTwo, secondImage, secondDescription, secondMore, secondUrl, secondVideo));
+        viwes.add(new ContentView(thirdContent, thirdWeb, barThree, thirdImage, thirdDescription, thirdMore, thirdUrl, thirdVideo));
+        viwes.add(new ContentView(fourthContent, fourthWeb, barFour, fourthImage, fourthDescription, fourthMore, fourthUrl, fourthVideo));
+        viwes.add(new ContentView(fifthContent, fifthWeb, barFive, fifthImage, fifthDescription, fifthMore, fifthUrl, fifthVideo));
+        viwes.add(new ContentView(sixContent, sixWeb, barSix, sixImage, sixDescription, sixMore, sixUrl, sixVideo));
+        viwes.add(new ContentView(sevenContent, sevenWeb, barSeven, sevenImage, sevenDescription, sevenMore, sevenUrl, sevenVideo));
+        viwes.add(new ContentView(eightContent, eightWeb, barEight, eightImage, eightDescription, eightMore, eightUrl, eightVideo));
+        viwes.add(new ContentView(nineContent, nineWeb, barNine, nineImage, nineDescription, nineMore, nineUrl, nineVideo));
+        viwes.add(new ContentView(tenContent, tenWeb, barTen, tenImage, tenDescription, tenMore, tenUrl, tenVideo));
+        viwes.add(new ContentView(elevenContent, elevenWeb, barEleven, elevenImage, elevenDescription, elevenMore, elevenUrl, elevenVideo));
+        viwes.add(new ContentView(twelveContent, twelveWeb, barTwelve, twelveImage, twelveDescription, twelveMore, twelveUrl, twelveVideo));
 
         if (item.getPromoted() == 1) {
             promotionLayer.setVisibility(View.VISIBLE);
@@ -543,18 +587,27 @@ public class ArticleActivity extends AppCompatActivity {
             if (contents.get(i) != null) {
                 initContent(contents.get(i), viwes.get(i).getContentLayer(), viwes.get(i).getContentView(), viwes.get(i).getLoader(),
                         viwes.get(i).getImage(), viwes.get(i).getDescription(),
-                        viwes.get(i).getMoreTitle(), viwes.get(i).getMoreUrl());
+                        viwes.get(i).getMoreTitle(), viwes.get(i).getMoreUrl(), viwes.get(i).getWebVideo());
             }
         }
     }
 
-    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl) {
+    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl, WebView webVideo) {
         if (content != null) {
             if (content.getText() != null) {
                 String contentText;
                 contentLayer.setVisibility(View.VISIBLE);
                 contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 contentView.setScrollContainer(false);
+//                contentText = content.getText().replace("font-size:18px", "font-size:16px");
+//                if (contentText.contains("class=\"social-embed\"")) {
+//                    String splitt = contentText;
+//                    String contentStrings[] = splitt.split("class=\"social-embed\"");
+//                    contentText = contentStrings[0];
+//                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
+//                } else {
+                    contentView.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
+//                }
                 contentView.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -585,12 +638,12 @@ public class ArticleActivity extends AppCompatActivity {
                                 int articleId = Integer.parseInt(linkId);
                                 loadArticle(articleId);
                             }
-                        }else{
+                        } else if (!url.contains("id=")) {
                             Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
                             browser.putExtra(Constants.URL, url);
                             startActivity(browser);
+                            view.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
                         }
-                        contentView.loadDataWithBaseURL(null, content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", ""), "text/html", "UTF-8", null);
                         return false;
                     }
 
@@ -598,17 +651,9 @@ public class ArticleActivity extends AppCompatActivity {
 
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                contentText = content.getText().replace("<frameborder>", "").replace("font-size:18px", "font-size:16px").replace("<iframe>", "");
-                if (contentText.contains("src=")){
-                    String splitt = contentText;
-                    String contentStrings[] = splitt.split("src=");
-                    contentText = contentStrings[0];
-                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
-                }else {
-                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
-                }
                 contentView.setWebChromeClient(new WebChromeClient());
                 contentViews.add(contentView);
+
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
                 image.setVisibility(View.VISIBLE);
@@ -646,13 +691,12 @@ public class ArticleActivity extends AppCompatActivity {
                 contentUrl.add(moreUrl);
             } else if (content.getVideo_url() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
-                contentView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                contentView.setWebViewClient(new WebViewClient());
-                contentView.loadUrl(content.getVideo_url());
-                contentView.getSettings().setJavaScriptEnabled(true);
-                contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                contentView.setWebChromeClient(new WebChromeClient());
-                contentView.setVisibility(View.VISIBLE);
+                webVideo.setVisibility(View.VISIBLE);
+                webVideo.setWebViewClient(new WebViewClient());
+                webVideo.loadUrl(content.getVideo_url());
+                webVideo.getSettings().setJavaScriptEnabled(true);
+                webVideo.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                webVideo.setWebChromeClient(new WebChromeClient());
             }
         }
     }
@@ -888,10 +932,6 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(18);
                     }
 
-//                    for (WebView webView : contentViews) {
-//                        webView.getSettings().setTextZoom(120);
-//                    }
-
                     promotionText.setTextSize(12);
                     matchArticles.setTextSize(27);
                 }
@@ -931,10 +971,6 @@ public class ArticleActivity extends AppCompatActivity {
                         text.setTextSize(16);
                     }
 
-//                    for (WebView webView : contentViews) {
-//                        webView.getSettings().setTextZoom(100);
-//                    }
-
                     for (TextView more : contentMore) {
                         more.setTextSize(10);
                     }
@@ -948,6 +984,10 @@ public class ArticleActivity extends AppCompatActivity {
                 }
                 break;
         }
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Article Activity action")
+                .setAction("Article Font Format")
+                .build());
     }
 
     private void drawFragment() {
@@ -1088,7 +1128,29 @@ public class ArticleActivity extends AppCompatActivity {
     @OnClick(R.id.shareSocials)
     public void openShareDialog() {
         share.startAnimation(alpha);
-        final Intent shareIntent = new Intent();
+        shareNews();
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Article Activity action")
+                .setAction("Share news")
+                .build());
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "sharedKlopsImage" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
+
+    public void shareNews() {
+                final Intent shareIntent = new Intent();
         final String title = item.getTitle();
         final String description = item.getShortdecription();
         final String url = item.getUrl();
@@ -1098,37 +1160,71 @@ public class ArticleActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_TEXT, url);
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
-                .setCallback(new FutureCallback<Bitmap>() {
-                    @Override
-                    public void onCompleted(Exception e, Bitmap result) {
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(result));
-                        startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
+        if (!item.getImage().equals("")) {
+            Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
+                    .setCallback(new FutureCallback<Bitmap>() {
+                        @Override
+                        public void onCompleted(Exception e, Bitmap result) {
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(result));
+                            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
 
-                    }
-                });
-
-//        shareDialog.show();
-    }
-
-    private Uri getLocalBitmapUri(Bitmap bmp) {
-            Uri bmpUri = null;
-            try {
-                File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "sharedKlopsImage" + System.currentTimeMillis() + ".png");
-                FileOutputStream out = new FileOutputStream(file);
-                bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-                out.close();
-                bmpUri = Uri.fromFile(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bmpUri;
+                        }
+                    });
+        }else {
+            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
         }
+//
+//        try {
+//            List<Intent> targetedShareIntents = new ArrayList<Intent>();
+//            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+//            share.setType("image/*");
+//            List<ResolveInfo> resInfo = getPackageManager()
+//                    .queryIntentActivities(share, 0);
+//            if (!resInfo.isEmpty()) {
+//                for (ResolveInfo info : resInfo) {
+//                    final Intent targetedShare = new Intent(
+//                            android.content.Intent.ACTION_SEND);
+//                    targetedShare.setType("image/*");
+//                    if (info.activityInfo.packageName.contains(
+//                            "facebook")
+//                            || info.activityInfo.name.contains(
+//                            "vk")|| info.activityInfo.name.contains(
+//                            "viber")|| info.activityInfo.name.contains(
+//                            "telegram")|| info.activityInfo.name.contains(
+//                            "twitter")|| info.activityInfo.name.contains(
+//                            "odnoklasniki")|| info.activityInfo.name.contains(
+//                            "twitter")|| info.activityInfo.name.contains("whatsapp")) {
+//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getTitle());
+//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getShortdecription());
+//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getUrl());
+//                        if (sharedBitmap!= null) {
+//                            targetedShare.putExtra(Intent.EXTRA_STREAM, sharedBitmap);
+//                        }
+//                        targetedShare.setPackage(info.activityInfo.packageName);
+//                        targetedShareIntents.add(targetedShare);
+//                    }
+//                }
+//                Intent chooserIntent = Intent.createChooser(
+//                        targetedShareIntents.remove(0), "Выберите приложение");
+//                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+//                        targetedShareIntents.toArray(new Parcelable[]{}));
+//                startActivity(chooserIntent);
+//            }
+//        } catch (Exception e) {
+//            Log.v("VM",
+//                    "Exception while sending data" + e.getMessage());
+//        }
+    }
 
     @Override
     public void onStart() {
         Log.d(LOG, "onStart");
         super.onStart();
+        FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Article Activity")
+                .setAction("Article Activity Start")
+                .build());
     }
 
     @Override
@@ -1148,6 +1244,7 @@ public class ArticleActivity extends AppCompatActivity {
     public void onStop() {
         Log.d(LOG, "onStop");
         super.onStop();
+        FlurryAgent.onEndSession(this);
     }
 
     @Override

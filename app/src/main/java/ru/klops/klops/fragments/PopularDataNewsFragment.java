@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -49,12 +52,14 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
     ArrayList<Integer> dataTypes;
     ArrayList<News> copy;
     Unbinder unbinder;
+    private Tracker mTracker;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(LOG, "onAttach");
         mApp = KlopsApplication.getINSTANCE();
+        mTracker = mApp.getDefaultTracker();
     }
 
     @Nullable
@@ -94,6 +99,10 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
                         adapter.notifyDataSetChanged();
                     }
                 });
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Popular Feed Action")
+                .setAction("Refresh Popular Feed")
+                .build());
     }
 
     private void initRecyclerView() {
@@ -215,12 +224,17 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
 
     public void scrollPopularToTop() {
         popularManager.scrollToPosition(0);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Popular Feed Action")
+                .setAction("Scroll To Top Of Popular Feed")
+                .build());
     }
 
     @Override
     public void onStart() {
         Log.d(LOG, "onStart");
         super.onStart();
+
     }
 
     @Override

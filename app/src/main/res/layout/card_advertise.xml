@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/advertiseCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -65,7 +66,7 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <RelativeLayout
+        <android.support.percent.PercentRelativeLayout
             android:id="@+id/advertiseImageLayer"
             android:layout_width="match_parent"
             android:layout_below="@+id/adsTitleClosable"
@@ -73,11 +74,8 @@
 
             <ImageView
                 android:id="@+id/advertiseCardPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:scaleType="centerCrop"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                app:layout_widthPercent="100%"
+                app:layout_aspectRatio="178%" />
 
             <ProgressBar
                 android:id="@+id/advertiseCardLoading"
@@ -85,7 +83,7 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"/>
 
-        </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
 
     </RelativeLayout>
     <View

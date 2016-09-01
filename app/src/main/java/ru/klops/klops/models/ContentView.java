@@ -14,8 +14,9 @@ public class ContentView {
     TextView description;
     TextView moreTitle;
     TextView moreUrl;
+    WebView webVideo;
 
-    public ContentView(RelativeLayout contentLayer, WebView contentView, ProgressBar loader, ImageView image, TextView description, TextView moreTitle, TextView moreUrl) {
+    public ContentView(RelativeLayout contentLayer, WebView contentView, ProgressBar loader, ImageView image, TextView description, TextView moreTitle, TextView moreUrl, WebView webVideo) {
         this.contentLayer = contentLayer;
         this.contentView = contentView;
         this.loader = loader;
@@ -23,6 +24,7 @@ public class ContentView {
         this.description = description;
         this.moreTitle = moreTitle;
         this.moreUrl = moreUrl;
+        this.webVideo = webVideo;
     }
 
     public RelativeLayout getContentLayer() {
@@ -79,5 +81,13 @@ public class ContentView {
 
     public void setMoreUrl(TextView moreUrl) {
         this.moreUrl = moreUrl;
+    }
+
+    public WebView getWebVideo() {
+        return webVideo;
+    }
+
+    public void setWebVideo(WebView webVideo) {
+        this.webVideo = webVideo;
     }
 }

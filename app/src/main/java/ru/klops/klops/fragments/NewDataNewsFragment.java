@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -54,12 +57,14 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
     Currency currency;
     int separatorNumber;
     ArrayList<Integer> separatorCounts;
+    private Tracker mTracker;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(LOG, "onAttach");
         mApp = KlopsApplication.getINSTANCE();
+        mTracker = mApp.getDefaultTracker();
     }
 
     @Nullable
@@ -99,6 +104,10 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                         adapter.notifyDataSetChanged();
                     }
                 });
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Main Feed Action")
+                .setAction("Refresh Main Feed")
+                .build());
     }
 
     private void setUpRecycler() {
@@ -230,6 +239,10 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
 
     public void scrollNewToTop() {
         newManager.scrollToPosition(0);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Main Feed Action")
+                .setAction("Scroll To Top Action")
+                .build());
     }
 
     @Override

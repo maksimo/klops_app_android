@@ -82,7 +82,7 @@ public class SimpleTextArticleFragment extends Fragment {
 
     private void setUpImages() {
         Log.d(LOG, "setUpImages");
-        if (!item.getImage().equals("")) {
+        if (!item.getOg_image().getUrl().equals("")) {
             Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
@@ -94,7 +94,19 @@ public class SimpleTextArticleFragment extends Fragment {
                     bar.setVisibility(View.GONE);
                 }
             });
-        }else {
+        } else if (!item.getImage().equals("")) {
+            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        } else {
             photo.setVisibility(View.GONE);
         }
     }
@@ -104,9 +116,9 @@ public class SimpleTextArticleFragment extends Fragment {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
-        relativeParams.setMargins(20,-10,0,10);
+        relativeParams.setMargins(20, -10, 0, 10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() > 5){
+        if (fullAuthor.length() > 5) {
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {

@@ -31,7 +31,7 @@ public class Constants {
     public static final String GALLERY_SECOND_TEXT = "photo2in1";
     public static final String ADS_TEXT = "ads";
     public static final String SIMPLE_WIDE_TEXT = "simple_wide";
-    public static final String POPULAR_MARKER_TEXT= "popularMarker";
+    public static final String POPULAR_MARKER_TEXT = "popularMarker";
     public static final String SEPARATOR_TEXT = "seporator";
     public static final String EXCHANGE_TEXT = "currency";
     public static final String URGENT_TEXT = "urgent";
@@ -54,4 +54,6 @@ public class Constants {
     public static final String NUMBER = "NUMBER";
     public static final String URL = "BROWSER_URL";
     public static String SHARED_DATA = "SHARED_DATA";
+
+    public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
 }

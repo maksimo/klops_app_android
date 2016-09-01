@@ -14,8 +14,13 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,10 @@ public class SimpleWideArticleFragment extends Fragment {
     ImageView cameraIcon;
     @BindView(R.id.simpleWideDescription)
     TextView shortdescription;
+    @BindView(R.id.simpleWidePhoto)
+    ImageView photo;
+    @BindView(R.id.simpleWideProgress)
+    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -67,25 +76,57 @@ public class SimpleWideArticleFragment extends Fragment {
         unbinder = ButterKnife.bind(this, fragmentView);
         Log.d(LOG, "onCreateView");
         item = getArguments().getParcelable(Constants.ARTICLE);
+        setUpImage();
         setUpView();
         return fragmentView;
     }
 
+    private void setUpImage() {
+        Log.d(LOG, "setUpImage");
+        if (!item.getOg_image().getUrl().equals("")) {
+            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        } else if (!item.getImage().equals("")) {
+            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
+                @Override
+                public void onProgress(long downloaded, long total) {
+                    bar.setVisibility(View.VISIBLE);
+                }
+            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            photo.setVisibility(View.GONE);
+        }
+    }
 
 
     private void setUpView() {
         Log.d(LOG, "setUpView");
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, author.getId());
-        relativeParams.setMargins(20,-10,0,10);
+        relativeParams.setMargins(20, -10, 0, 10);
         fullAuthor = item.getSource() + " " + (item.getAuthor());
-        if (fullAuthor.length() > 5){
+        if (fullAuthor.length() > 5) {
             author.setVisibility(View.VISIBLE);
         }
         if (fullAuthor.length() > 35) {
             date.setLayoutParams(relativeParams);
             author.setVisibility(View.VISIBLE);
         }
+
         title.setText(item.getTitle());
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         date.setText(item.getDate());

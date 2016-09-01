@@ -306,7 +306,7 @@
                 android:background="@color/colorPrimary">
 
                 <TextView
-                    android:id="@+id/social"
+                    android:id="@+id/socialViber"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
@@ -314,9 +314,42 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="20dp"
                     android:gravity="left|center"
-                    android:text="@string/social"
+                    android:text="Viber /"
                     android:textColor="@color/blackText"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_marginRight="3dp" />
+
+                <TextView
+                    android:id="@+id/socialWhats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:text="WhatsApp"
+                    android:textColor="@color/blackText"
+                    android:textSize="15sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/socialViber"
+                    android:layout_toEndOf="@+id/socialViber" />
+
+                <ImageView
+                    android:id="@+id/btnViber"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/viber"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/socialWhats"
+                    android:clickable="true"
+                    android:layout_marginTop="7dp" />
+
+                <ImageView
+                    android:id="@+id/btnWhatsapp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/whatsapp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/btnViber"
+                    android:clickable="true"
+                    android:layout_marginTop="3dp" />
 
                 <TextView
                     android:id="@+id/socialPhone"

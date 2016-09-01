@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;
@@ -23,6 +26,7 @@ import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.klops.klops.R;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
@@ -45,6 +49,7 @@ public class KlopsApplication extends Application {
     private String token;
     private Item item;
     private Popular popularPage;
+    private Tracker tracker;
 
 
     public static KlopsApplication getINSTANCE() {
@@ -54,13 +59,23 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         VKSdk.initialize(getApplicationContext());
         accessTokenTracker.startTracking();
         INSTANCE = this;
+        FlurryAgent.setLogEnabled(false);
+        FlurryAgent.init(this, Constants.FLURRY_API_KEY);
 
+    }
+
+    synchronized public Tracker getDefaultTracker(){
+        if (tracker == null){
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker("UA-10688719-4");
+        }
+        return tracker;
     }
 
     public String loadBaseURL() {

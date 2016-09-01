@@ -8,17 +8,23 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.BaseFragment;
 import ru.klops.klops.fragments.NewDataNewsFragment;
 import ru.klops.klops.fragments.PopularDataNewsFragment;
+import ru.klops.klops.utils.Constants;
 
 
 public class HomeActivity extends AppCompatActivity {
     final String LOG = "HomeActivity";
     KlopsApplication app;
+    private Tracker mTracker;
 
 
     @Override
@@ -30,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Log.d(LOG, "onCreate");
         app = KlopsApplication.getINSTANCE();
+        mTracker = app.getDefaultTracker();
         hideKeyboard();
         placeBaseFragment();
     }
@@ -67,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
                 ((PopularDataNewsFragment)fragment).scrollPopularToTop();
             }
         }
+
     }
 
 
@@ -74,6 +82,11 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         Log.d(LOG, "onStart");
         super.onStart();
+        FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Home Activity")
+                .setAction("Start Home Activity")
+                .build());
     }
 
     @Override
@@ -111,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStop() {
         Log.d(LOG, "onStop");
         super.onStop();
-
+        FlurryAgent.onEndSession(this);
     }
 
     @Override
