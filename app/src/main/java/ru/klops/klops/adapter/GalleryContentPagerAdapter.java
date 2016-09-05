@@ -31,7 +31,6 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<Gallery> adapterPhotos;
-    String photoView;
 
     public GalleryContentPagerAdapter(Context context, ArrayList<Gallery> adapterPhotos) {
         super();

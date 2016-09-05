@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -138,7 +139,7 @@
                     android:background="@color/greyText"
                     android:visibility="visible" />
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/firstContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,10 +169,9 @@
 
                     <ImageView
                         android:id="@+id/firstImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
                         android:layout_below="@+id/firstVideo"
-                        android:scaleType="fitXY"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -219,9 +219,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/secondContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -250,10 +250,9 @@
 
                     <ImageView
                         android:id="@+id/secondImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/secondVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -301,9 +300,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/thirdContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -332,10 +331,9 @@
 
                     <ImageView
                         android:id="@+id/thirdImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/thirdVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -383,9 +381,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/fourthContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -414,10 +412,9 @@
 
                     <ImageView
                         android:id="@+id/fourthImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/fourthVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -465,9 +462,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/fifthContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -496,10 +493,9 @@
 
                     <ImageView
                         android:id="@+id/fifthImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/fifthVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -547,9 +543,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/sixContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -578,10 +574,9 @@
 
                     <ImageView
                         android:id="@+id/sixImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/sixVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -629,9 +624,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/sevenContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -660,10 +655,9 @@
 
                     <ImageView
                         android:id="@+id/sevenImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/sevenVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -711,9 +705,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/eightContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -742,10 +736,9 @@
 
                     <ImageView
                         android:id="@+id/eightImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/eightVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -793,9 +786,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/nineContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -824,10 +817,9 @@
 
                     <ImageView
                         android:id="@+id/nineImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/nineVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -875,9 +867,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/tenContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -906,10 +898,9 @@
 
                     <ImageView
                         android:id="@+id/tenImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/tenVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -957,9 +948,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/elevenContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -988,10 +979,9 @@
 
                     <ImageView
                         android:id="@+id/elevenImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/elevenVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -1040,9 +1030,9 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/twelveContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1071,10 +1061,9 @@
 
                     <ImageView
                         android:id="@+id/twelveImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
                         android:layout_below="@+id/twelveVideo"
-                        android:scaleType="fitXY"
                         android:visibility="gone" />
 
                     <ProgressBar
@@ -1123,7 +1112,7 @@
                         android:textColor="@color/linkColor"
                         android:textSize="16sp"
                         android:visibility="gone" />
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/contentGallery"
@@ -1243,16 +1232,15 @@
                     android:elevation="1dp"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <android.support.percent.PercentRelativeLayout
                         android:id="@+id/connectedNewsOneImageLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/connectedNewsOnePhoto"
-                            android:layout_width="match_parent"
-                            android:layout_height="125dp"
-                            android:scaleType="centerCrop" />
+                            app:layout_widthPercent="100%"
+                            app:layout_aspectRatio="178%"/>
 
 
                         <ProgressBar
@@ -1261,7 +1249,7 @@
                             android:layout_height="40dp"
                             android:layout_centerInParent="true"
                             android:visibility="visible" />
-                    </RelativeLayout>
+                    </android.support.percent.PercentRelativeLayout>
 
 
                     <TextView
@@ -1314,23 +1302,22 @@
                     android:elevation="1dp"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <android.support.percent.PercentRelativeLayout
                         android:id="@+id/connectedNewsTwoImageLayout"
                         android:layout_width="190dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/connectedNewsTwoPhoto"
-                            android:layout_width="match_parent"
-                            android:layout_height="125dp"
-                            android:scaleType="centerCrop" />
+                            app:layout_widthPercent="100%"
+                            app:layout_aspectRatio="178%"/>
 
                         <ProgressBar
                             android:id="@+id/connectedNewsTwoLoading"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_centerInParent="true" />
-                    </RelativeLayout>
+                    </android.support.percent.PercentRelativeLayout>
 
 
                     <TextView

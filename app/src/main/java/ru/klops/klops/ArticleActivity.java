@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -165,7 +166,7 @@ public class ArticleActivity extends AppCompatActivity {
     TextView connectedNewsTwoText;
 
     @BindView(R.id.firstContent)
-    RelativeLayout firstContent;
+    PercentRelativeLayout firstContent;
     @BindView(R.id.firstWeb)
     WebView firstWeb;
     @BindView(R.id.firstImage)
@@ -177,7 +178,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.firstUrl)
     TextView firstUrl;
     @BindView(R.id.secondContent)
-    RelativeLayout secondContent;
+    PercentRelativeLayout secondContent;
     @BindView(R.id.secondWeb)
     WebView secondWeb;
     @BindView(R.id.secondImage)
@@ -189,7 +190,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.secondUrl)
     TextView secondUrl;
     @BindView(R.id.thirdContent)
-    RelativeLayout thirdContent;
+    PercentRelativeLayout thirdContent;
     @BindView(R.id.thirdWeb)
     WebView thirdWeb;
     @BindView(R.id.thirdImage)
@@ -201,7 +202,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.thirdUrl)
     TextView thirdUrl;
     @BindView(R.id.fourthContent)
-    RelativeLayout fourthContent;
+    PercentRelativeLayout fourthContent;
     @BindView(R.id.fourthWeb)
     WebView fourthWeb;
     @BindView(R.id.fourthImage)
@@ -213,7 +214,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.fourthUrl)
     TextView fourthUrl;
     @BindView(R.id.fifthContent)
-    RelativeLayout fifthContent;
+    PercentRelativeLayout fifthContent;
     @BindView(R.id.fifthWeb)
     WebView fifthWeb;
     @BindView(R.id.fifthImage)
@@ -225,7 +226,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.fifthUrl)
     TextView fifthUrl;
     @BindView(R.id.sixContent)
-    RelativeLayout sixContent;
+    PercentRelativeLayout sixContent;
     @BindView(R.id.sixWeb)
     WebView sixWeb;
     @BindView(R.id.sixImage)
@@ -237,7 +238,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.sixUrl)
     TextView sixUrl;
     @BindView(R.id.sevenContent)
-    RelativeLayout sevenContent;
+    PercentRelativeLayout sevenContent;
     @BindView(R.id.sevenWeb)
     WebView sevenWeb;
     @BindView(R.id.sevenImage)
@@ -249,7 +250,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.sevenUrl)
     TextView sevenUrl;
     @BindView(R.id.eightContent)
-    RelativeLayout eightContent;
+    PercentRelativeLayout eightContent;
     @BindView(R.id.eightWeb)
     WebView eightWeb;
     @BindView(R.id.eightImage)
@@ -261,7 +262,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.eightUrl)
     TextView eightUrl;
     @BindView(R.id.nineContent)
-    RelativeLayout nineContent;
+    PercentRelativeLayout nineContent;
     @BindView(R.id.nineWeb)
     WebView nineWeb;
     @BindView(R.id.nineImage)
@@ -273,7 +274,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.nineUrl)
     TextView nineUrl;
     @BindView(R.id.tenContent)
-    RelativeLayout tenContent;
+    PercentRelativeLayout tenContent;
     @BindView(R.id.tenWeb)
     WebView tenWeb;
     @BindView(R.id.tenImage)
@@ -285,7 +286,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.tenUrl)
     TextView tenUrl;
     @BindView(R.id.elevenContent)
-    RelativeLayout elevenContent;
+    PercentRelativeLayout elevenContent;
     @BindView(R.id.elevenWeb)
     WebView elevenWeb;
     @BindView(R.id.elevenImage)
@@ -297,7 +298,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.elevenUrl)
     TextView elevenUrl;
     @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
+    PercentRelativeLayout twelveContent;
     @BindView(R.id.twelveWeb)
     WebView twelveWeb;
     @BindView(R.id.twelveImage)
@@ -648,7 +649,7 @@ public class ArticleActivity extends AppCompatActivity {
                     }
 
                 });
-
+                contentView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.setWebChromeClient(new WebChromeClient());

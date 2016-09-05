@@ -35,7 +35,7 @@ public interface PageApi {
      * @return Article data with current id
      */
     @Headers("Content-Type: application/json")
-    @GET("get_news_item/{id}")
+    @GET("get_news_item/{id}/$content-type")
     Observable<Article> getItemById(@Path("id") Integer id);
 
     /**

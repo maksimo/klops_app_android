@@ -74,7 +74,7 @@
                     android:paddingTop="2dp"
                     android:text=""
                     android:textColor="@color/colorPrimary"
-                    android:textSize="28sp"
+                    android:textSize="25sp"
                     android:paddingBottom="10dp" />
 
             </RelativeLayout>

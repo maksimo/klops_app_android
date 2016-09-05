@@ -2,15 +2,9 @@ package ru.klops.klops.application;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.BitmapCompat;
 import android.util.Log;
-import android.widget.ImageView;
 
-//import com.crashlytics.android.Crashlytics;
-
-//import io.fabric.sdk.android.Fabric;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -22,16 +16,13 @@ import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;
 
 import io.fabric.sdk.android.Fabric;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.klops.klops.R;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.utils.Constants;
+
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 public class KlopsApplication extends Application {
     private static final String LOG_TAG = "KlopsAppliction: ";

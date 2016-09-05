@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/blackText"
             android:layout_below="@+id/urgentImageLayer"
-            android:textSize="26sp"
+            android:textSize="25sp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"

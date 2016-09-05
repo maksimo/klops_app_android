@@ -23,11 +23,12 @@ public class News implements Parcelable {
     private Integer promoted;
     private String authors_regalia;
     private String author_photo;
+    private String content_type;
 
     public News() {
     }
 
-    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo) {
+    public News(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Object timestamp, String author, String source, Integer promoted, String authors_regalia, String author_photo, String content_type) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -43,6 +44,7 @@ public class News implements Parcelable {
         this.promoted = promoted;
         this.authors_regalia = authors_regalia;
         this.author_photo = author_photo;
+        this.content_type = content_type;
     }
 
     protected News(Parcel in) {
@@ -60,6 +62,7 @@ public class News implements Parcelable {
         promoted = in.readInt();
         authors_regalia = in.readString();
         author_photo = in.readString();
+        content_type = in.readString();
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -233,6 +236,17 @@ public class News implements Parcelable {
         this.author_photo = author_photo;
     }
 
+    public String getContent_type() {
+        if (content_type == null){
+            setContent_type("article");
+        }
+        return content_type;
+    }
+
+    public void setContent_type(String content_type) {
+        this.content_type = content_type;
+    }
+
     @Override
     public String toString() {
         return "News{" +
@@ -276,5 +290,7 @@ public class News implements Parcelable {
         dest.writeInt(promoted);
         dest.writeString(authors_regalia);
         dest.writeString(author_photo);
+        dest.writeString(content_type);
     }
+
 }

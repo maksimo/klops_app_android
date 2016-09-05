@@ -126,7 +126,7 @@ public class SimpleTextArticleFragment extends Fragment {
             author.setVisibility(View.VISIBLE);
         }
         title.setText(item.getTitle());
-        title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
         date.setText(item.getDate());
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         author.setText(fullAuthor);
@@ -136,17 +136,17 @@ public class SimpleTextArticleFragment extends Fragment {
     }
 
     public void formatIncrement() {
-//        title.setTextSize(18);
-//        date.setTextSize(12);
-//        author.setTextSize(12);
-//        shortdescription.setTextSize(18);
+        title.setTextSize(27);
+        date.setTextSize(12);
+        author.setTextSize(12);
+        shortdescription.setTextSize(18);
     }
 
     public void formatDecrement() {
-//        title.setTextSize(16);
-//        date.setTextSize(10);
-//        author.setTextSize(10);
-//        shortdescription.setTextSize(16);
+        title.setTextSize(25);
+        date.setTextSize(10);
+        author.setTextSize(10);
+        shortdescription.setTextSize(16);
     }
 
     @Override

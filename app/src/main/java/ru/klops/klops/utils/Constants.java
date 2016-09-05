@@ -39,13 +39,12 @@ public class Constants {
     public static final String ARTICLE = "ARTICLE";
     public static final String ITEM = "ITEM";
     public static final String PLATFORM = "android";
-
+    // Google Cloud Messing service constants
     public static final String GCM_AVAILABLE = "gcm state";
     public static final String PATH = "ru.klops.gcm";
     public static final String SUBSCRIBED = "subscribed";
     public static final String UNSUBSCRIBED = "unsubscribed";
     public static final String SUBSCRIPTION = "subscription";
-    public static final String HARDCODED_BODY = "<style>body { color: #565656; font-family: \"AkzidenzGroteskPro-Regular\"; font-size:18px; }</style>";
 
     public static final String NEW_URL = "NEW_BASE";
     public static final String INNER_PREFS = "inner statement";
@@ -53,7 +52,6 @@ public class Constants {
     public static final String TEXT = "TEXT";
     public static final String NUMBER = "NUMBER";
     public static final String URL = "BROWSER_URL";
-    public static String SHARED_DATA = "SHARED_DATA";
-
+    // Analytics
     public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
 }
