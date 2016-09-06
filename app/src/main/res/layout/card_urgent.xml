@@ -128,7 +128,6 @@
         android:visibility="gone"
         android:background="@color/colorAccent"
         android:layout_below="@+id/urgentCardTitle"
-        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp">
 
         <ru.klops.klops.custom.TextViewProRegular
@@ -140,7 +139,8 @@
             android:layout_marginLeft="2dp"
             android:text="Материал размещен на коммерческой основе"
             android:layout_centerVertical="true"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:paddingBottom="5dp" />
     </RelativeLayout>
 </RelativeLayout>
     <View

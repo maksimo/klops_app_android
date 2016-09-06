@@ -164,21 +164,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_below="@+id/interviewCardPhotoImageLayout"
+            android:layout_below="@+id/interviewCardText"
+            android:layout_marginTop="-15dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp">
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/prMegaphone"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="110dp"
+                android:background="@drawable/megaphone"
+                android:layout_centerVertical="true" />
 
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
+                android:layout_toRightOf="@+id/prMegaphone"
                 android:textAllCaps="true"
+                android:paddingLeft="2dp"
                 android:textColor="@color/greyText"
                 android:text="Материал размещен на коммерческой основе"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="8dp"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp" />
         </RelativeLayout>
     </RelativeLayout>

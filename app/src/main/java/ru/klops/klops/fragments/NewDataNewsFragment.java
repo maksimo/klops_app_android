@@ -80,7 +80,6 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        adapter.clearNewFeed();
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<Page> refreshPage = api.getAllNews();
         refreshPage.subscribeOn(Schedulers.newThread())
@@ -100,7 +99,11 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                     @Override
                     public void onNext(Page page) {
                         mApp.setFirstPage(page);
-                        adapter.addData(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())), page.getCurrency());
+                        if (!page.getCurrency().getUsd().equals("")) {
+                            adapter.addData(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())), page.getCurrency());
+                        }else {
+                            adapter.addDataWithotCurr(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())));
+                        }
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -127,7 +130,11 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
             copy.addAll(models);
             typesAdapter = new ArrayList<>();
             typesAdapter.addAll(addData(copy));
-            adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter, currency);
+            if (!currency.getEur().equals("")) {
+                adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter, currency);
+            }else {
+                adapter = new RVNewDataAdapter(NewDataNewsFragment.this, copy, typesAdapter);
+            }
             ItemOffsetDecoration decoration = new ItemOffsetDecoration(getContext(), R.dimen.top_bottom);
             newDataRecycler.addItemDecoration(decoration);
             newDataRecycler.setItemAnimator(itemAnimator);
@@ -165,6 +172,8 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                         case Constants.EXCHANGE:
                             return 2;
                         case Constants.URGENT:
+                            return 2;
+                        case Constants.MAIN_SHORT:
                             return 2;
                         default:
                             return 0;
@@ -231,6 +240,9 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                     break;
                 case Constants.URGENT_TEXT:
                     types.add(Constants.URGENT);
+                    break;
+                case Constants.MAIN_SHORT_TEXT:
+                    types.add(Constants.MAIN_SHORT);
                     break;
             }
         }

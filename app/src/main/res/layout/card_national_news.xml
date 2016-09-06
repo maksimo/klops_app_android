@@ -118,7 +118,7 @@
             android:lineSpacingExtra="1dp"
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
-            android:paddingBottom="20dp"
+            android:paddingBottom="15dp"
             android:textStyle="bold"
             android:text=""
             android:textColor="@color/blackText"
@@ -128,20 +128,28 @@
             android:id="@+id/nationalCardPromotionLayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_below="@+id/nationalCardTitle"
-            android:layout_marginBottom="15dp"
-            android:paddingBottom="5dp">
+            android:layout_marginTop="-10dp">
+
+            <ImageView
+                android:id="@+id/prMegaphone"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/megaphone" />
 
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textAllCaps="true"
+                android:layout_toRightOf="@+id/prMegaphone"
                 android:textColor="@color/greyText"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="2dp"
                 android:text="Материал размещен на коммерческой основе"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:paddingBottom="15dp" />
         </RelativeLayout>
     </RelativeLayout>
 

@@ -1177,13 +1177,22 @@
                     android:paddingBottom="15dp"
                     android:visibility="gone">
 
+                    <ImageView
+                        android:id="@+id/prMegaphone"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/megaphone"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp" />
+
                     <ru.klops.klops.custom.TextViewProRegular
                         android:id="@+id/promotionText"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:gravity="center"
+                        android:layout_toRightOf="@+id/prMegaphone"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="2dp"
                         android:text="Материал размещен на коммерческой основе"
                         android:textAllCaps="true"
                         android:textColor="@color/darkGreyText"

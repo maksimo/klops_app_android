@@ -52,12 +52,8 @@ public class InterviewArticleFragment extends Fragment {
     TextView date;
     @BindView(R.id.interviewCameraIcon)
     ImageView cameraIcon;
-    @BindView(R.id.interviewImagePhoto)
-    ImageView interviewImagePhoto;
     @BindView(R.id.interviewDescription)
     TextView shortdescription;
-    @BindView(R.id.interviewProgress)
-    ProgressBar bar;
     @BindView(R.id.interviewBigPhoto)
     ImageView photo;
     @BindView(R.id.interviewBigProgress)
@@ -94,24 +90,27 @@ public class InterviewArticleFragment extends Fragment {
             Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
-                    bar.setVisibility(View.VISIBLE);
+                    barProgress.setVisibility(View.VISIBLE);
                 }
-            }).withBitmap().transform(new CircleImageView()).intoImageView(interviewImagePhoto).setCallback(new FutureCallback<ImageView>() {
+            }).withBitmap().transform(new CircleImageView()).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
                 @Override
                 public void onCompleted(Exception e, ImageView result) {
-                    bar.setVisibility(View.GONE);
+                    barProgress.setVisibility(View.GONE);
                 }
             });
-        } else if (!item.getImage().equals("")) {
+        } else {
+            photo.setVisibility(View.GONE);
+        }
+        if (!item.getImage().equals("")) {
             Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
                 @Override
                 public void onProgress(long downloaded, long total) {
-                    bar.setVisibility(View.VISIBLE);
+                    barProgress.setVisibility(View.VISIBLE);
                 }
             }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
                 @Override
                 public void onCompleted(Exception e, ImageView result) {
-                    bar.setVisibility(View.GONE);
+                    barProgress.setVisibility(View.GONE);
                 }
             });
         } else {

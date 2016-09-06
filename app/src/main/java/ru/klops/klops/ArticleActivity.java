@@ -82,6 +82,7 @@ import ru.klops.klops.fragments.GalleryTwoArticleFragment;
 import ru.klops.klops.fragments.ImportantArticleFragment;
 import ru.klops.klops.fragments.InterviewArticleFragment;
 import ru.klops.klops.fragments.LongArticleFragment;
+import ru.klops.klops.fragments.MainShortFragment;
 import ru.klops.klops.fragments.NationalArticleFragment;
 import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
@@ -888,12 +889,12 @@ public class ArticleActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonFormat)
     public void openFormatDialog() {
+        FragmentManager fminc = getSupportFragmentManager();
+        List<Fragment> fragmentsInc = fminc.getFragments();
         format.startAnimation(alpha);
         switch (formatCount) {
             case 0:
                 formatCount++;
-                FragmentManager fminc = getSupportFragmentManager();
-                List<Fragment> fragmentsInc = fminc.getFragments();
                 for (Fragment fragment : fragmentsInc) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatIncrement();
@@ -919,6 +920,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((UrgentArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof AdsArticleFragment) {
                         ((AdsArticleFragment) fragment).formatIncrement();
+                    }else if (fragment instanceof MainShortFragment){
+                        ((MainShortFragment)fragment).formatIncrement();
                     }
 
                     for (TextView text : contentDescriptions) {
@@ -939,9 +942,7 @@ public class ArticleActivity extends AppCompatActivity {
                 break;
             case 1:
                 formatCount = 0;
-                FragmentManager fmndec = getSupportFragmentManager();
-                List<Fragment> fragmentsDec = fmndec.getFragments();
-                for (Fragment fragment : fragmentsDec) {
+                for (Fragment fragment : fragmentsInc) {
                     if (fragment instanceof SimpleTextArticleFragment) {
                         ((SimpleTextArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof SimpleWithImageArticleFragment) {
@@ -966,6 +967,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((UrgentArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof AdsArticleFragment) {
                         ((AdsArticleFragment) fragment).formatDecrement();
+                    } else if (fragment instanceof MainShortFragment){
+                        ((MainShortFragment)fragment).formatDecrement();
                     }
 
                     for (TextView text : contentDescriptions) {
@@ -985,10 +988,6 @@ public class ArticleActivity extends AppCompatActivity {
                 }
                 break;
         }
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Article Activity action")
-                .setAction("Article Font Format")
-                .build());
     }
 
     private void drawFragment() {
@@ -1001,6 +1000,7 @@ public class ArticleActivity extends AppCompatActivity {
                 bundle.putParcelable(Constants.ARTICLE, item);
                 simpleText.setArguments(bundle);
                 placeArticleFragment(simpleText);
+                break;
             case Constants.SIMPLE_IMAGE_TEXT:
                 SimpleWithImageArticleFragment simpleImage = new SimpleWithImageArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
@@ -1068,6 +1068,13 @@ public class ArticleActivity extends AppCompatActivity {
                 bundle.putParcelable(Constants.ARTICLE, item);
                 urgentArticleFragment.setArguments(bundle);
                 placeArticleFragment(urgentArticleFragment);
+                break;
+            case Constants.MAIN_SHORT_TEXT:
+                MainShortFragment mainShortFragment = new MainShortFragment();
+                bundle.putParcelable(Constants.ARTICLE, item);
+                mainShortFragment.setArguments(bundle);
+                placeArticleFragment(mainShortFragment);
+                break;
         }
     }
 

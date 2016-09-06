@@ -3,8 +3,8 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#f8f7f7</color>
     <color name="colorAccent">#ec008c</color>
-    <color name="statusBar">#f7f7f8</color>
-    <color name="baseLayout">#f8f7f7</color>
+    <color name="statusBar">#e0e0e4</color>
+    <color name="baseLayout">#e8e8e8</color>
     <color name="greyText">#808080</color>
     <color name="recyclerBackground">#edecec</color>
     <color name="exchange">#f6f6f6</color>
@@ -19,4 +19,5 @@
     <color name="colorprimary">#f7f6f6</color>
     <color name="logoColor">#eaebec</color>
     <color name="pallete">#cccccc</color>
+    <color name="statusBarColor">#808080</color>
 </resources>

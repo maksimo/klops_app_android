@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainShortCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:id="@+id/mainShortNewsLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="1dp">
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/mainShortImageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/mainShortCardPhoto"
+                app:layout_widthPercent="100%"
+                app:layout_aspectRatio="178%" />
+
+            <ProgressBar
+                android:id="@+id/mainShortCardLoading"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mainShortCardAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainShortImageLayout"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/mainShortCardAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:textAllCaps="true"
+                android:textColor="@color/darkGreyText"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/mainShortCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:textAllCaps="true"
+            android:textColor="@color/greyText"
+            android:textSize="10sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp" />
+
+
+        <ImageView
+            android:id="@+id/mainShortCardCamera"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/mainShortCardDate"
+            android:background="@drawable/camera"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/mainShortCardStatusIcon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_toLeftOf="@+id/mainShortCardStatus"
+            android:background="@drawable/news_update_circle"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/mainShortCardViewsIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="8.5dp"
+            android:layout_toLeftOf="@+id/mainShortCardViews"
+            android:background="@drawable/view_count"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/mainShortCardViews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_toLeftOf="@+id/mainShortCardStatusIcon"
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:textColor="@color/greyText"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/mainShortCardStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/mainShortCardTitle"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text=""
+            android:layout_below="@+id/mainShortCardAuthors"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/mainShortCardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainShortCardDate"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/blackText"
+            android:textSize="26sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <RelativeLayout
+            android:id="@+id/mainShortCardPromotionLayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/mainShortCardTitle"
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:id="@+id/prMegaphone"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/megaphone"
+                android:layout_centerVertical="true" />
+
+            <ru.klops.klops.custom.TextViewProRegular
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_toRightOf="@+id/prMegaphone"
+                android:textAllCaps="true"
+                android:textColor="@color/greyText"
+                android:layout_marginLeft="2dp"
+                android:text="Материал размещен на коммерческой основе"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+        android:id="@+id/separatorMainShort"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/mainShortNewsLayer"
+        android:background="@color/recyclerBackground" />
+</RelativeLayout>

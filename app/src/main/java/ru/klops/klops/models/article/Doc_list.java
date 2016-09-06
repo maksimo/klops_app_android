@@ -18,8 +18,9 @@ public class Doc_list implements Parcelable{
     private Og_image og_image;
     private Integer timestamp;
     private String author;
+    private String content_type;
 
-    public Doc_list(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, Integer timestamp, String author) {
+    public Doc_list(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, Integer timestamp, String author, String content_type) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -32,6 +33,7 @@ public class Doc_list implements Parcelable{
         this.og_image = og_image;
         this.timestamp = timestamp;
         this.author = author;
+        this.content_type = content_type;
     }
 
 
@@ -47,6 +49,7 @@ public class Doc_list implements Parcelable{
         url = in.readString();
         og_image = in.readParcelable(Og_image.class.getClassLoader());
         author = in.readString();
+        content_type = in.readString();
     }
 
     public static final Creator<Doc_list> CREATOR = new Creator<Doc_list>() {
@@ -157,6 +160,17 @@ public class Doc_list implements Parcelable{
         this.author = author;
     }
 
+    public String getContent_type() {
+        if (content_type == null){
+            setContent_type("article");
+        }
+        return content_type;
+    }
+
+    public void setContent_type(String content_type) {
+        this.content_type = content_type;
+    }
+
     @Override
     public String toString() {
         return "Doc_list{" +
@@ -193,5 +207,6 @@ public class Doc_list implements Parcelable{
         dest.writeString(url);
         dest.writeParcelable(og_image, flags);
         dest.writeString(author);
+        dest.writeString(content_type);
     }
 }

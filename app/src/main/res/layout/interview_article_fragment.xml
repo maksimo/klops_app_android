@@ -104,35 +104,11 @@
                 android:background="@color/greyText"
                 android:paddingLeft="15dp" />
 
-            <RelativeLayout
-                android:id="@+id/interviewImageLayer"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/splitterInterviewSecond"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp">
-
-                <ImageView
-                    android:id="@+id/interviewImagePhoto"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    />
-
-                <ProgressBar
-                    android:id="@+id/interviewProgress"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
-            </RelativeLayout>
-
             <TextView
                 android:id="@+id/interviewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/splitterInterviewSecond"
-                android:layout_toRightOf="@+id/interviewImageLayer"
                 android:lineSpacingExtra="1dp"
                 android:minLines="1"
                 android:text=""

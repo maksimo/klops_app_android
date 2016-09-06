@@ -19,6 +19,7 @@ public class Constants {
     public static final int SEPARATOR = 12;
     public static final int EXCHANGE = 13;
     public static final int URGENT = 14;
+    public static final int MAIN_SHORT = 15;
     // articles String types
     public static final String SIMPLE_IMAGE_TEXT = "simpleWithImage";
     public static final String SIMPLE_TEXT = "simple";
@@ -35,6 +36,7 @@ public class Constants {
     public static final String SEPARATOR_TEXT = "seporator";
     public static final String EXCHANGE_TEXT = "currency";
     public static final String URGENT_TEXT = "urgent";
+    public static final String MAIN_SHORT_TEXT = "main_short";
     // Intents to Article Activity
     public static final String ARTICLE = "ARTICLE";
     public static final String ITEM = "ITEM";

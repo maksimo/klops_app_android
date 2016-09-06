@@ -77,10 +77,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView socialViber;
     @BindView(R.id.socialWhats)
     TextView socialWhatsApp;
-    @BindView(R.id.btnViber)
-    ImageView btnViber;
-    @BindView(R.id.btnWhatsapp)
-    ImageView btnWhatsapp;
     @BindView(R.id.socialPhone)
     TextView socialPhone;
     @BindView(R.id.advertise)
@@ -403,67 +399,74 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         switchNotifications.setChecked(sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, false));
     }
 
-    @OnClick(R.id.btnViber)
-    public void callViber() {
-        btnViber.startAnimation(alpha);
+//    @OnClick(R.id.socialViber)
+//    public void callViber() {
+//        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
+//        call.setPackage("com.viber.voip");
+//        startActivity(call);
+//    }
+//
+//    @OnClick(R.id.socialWhats)
+//    public void callWhatsApp() {
+//        String DisplayName = "Klops.ru";
+//        String MobileNumber = "+79097823333";
+//        Bitmap bmImage = BitmapFactory.decodeResource(this.getResources(),
+//                R.drawable.app_icon_main);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+//        byte[] Photo = baos.toByteArray();
+//        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+//        ops.add(ContentProviderOperation.newInsert(
+//                ContactsContract.RawContacts.CONTENT_URI)
+//                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+//                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+//                .build());
+//        if (DisplayName != null) {
+//            ops.add(ContentProviderOperation.newInsert(
+//                    ContactsContract.Data.CONTENT_URI)
+//                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+//                    .withValue(ContactsContract.Data.MIMETYPE,
+//                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+//                    .withValue(
+//                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+//                            DisplayName).build());
+//        }
+//
+//        if (MobileNumber != null) {
+//            ops.add(ContentProviderOperation.
+//                    newInsert(ContactsContract.Data.CONTENT_URI)
+//                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+//                    .withValue(ContactsContract.Data.MIMETYPE,
+//                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+//                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
+//                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+//                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+//                    .build());
+//        }
+//        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+//                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+//                .withValue(ContactsContract.Data.MIMETYPE,
+//                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+//                .withValue(ContactsContract.CommonDataKinds.Photo.DATA15,Photo)
+//                .build());
+//
+//        try {
+//            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        openApp(this, "com.whatsapp");
+//
+//    }
+
+    @OnClick(R.id.relativeLayout5)
+    public void socialCall(){
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
-        call.setPackage("com.viber.voip");
         startActivity(call);
     }
 
-    @OnClick(R.id.btnWhatsapp)
-    public void callWhatsApp() {
-        btnWhatsapp.startAnimation(alpha);
-        String DisplayName = "Klops.ru";
-        String MobileNumber = "+79097823333";
-        Bitmap bmImage = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.app_icon_main);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-        byte[] Photo = baos.toByteArray();
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-        ops.add(ContentProviderOperation.newInsert(
-                ContactsContract.RawContacts.CONTENT_URI)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                .build());
-        if (DisplayName != null) {
-            ops.add(ContentProviderOperation.newInsert(
-                    ContactsContract.Data.CONTENT_URI)
-                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                    .withValue(ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                    .withValue(
-                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                            DisplayName).build());
-        }
 
-        if (MobileNumber != null) {
-            ops.add(ContentProviderOperation.
-                    newInsert(ContactsContract.Data.CONTENT_URI)
-                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                    .withValue(ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
-                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
-                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-                    .build());
-        }
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Photo.DATA15,Photo)
-                .build());
-
-        try {
-            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        openApp(this, "com.whatsapp");
-    }
 
     public static boolean openApp(Context context, String packageName) {
         PackageManager manager = context.getPackageManager();

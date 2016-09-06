@@ -451,6 +451,41 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         }
     }
 
+    public class MainShortViewHolder extends ViewHolder {
+
+        @BindView(R.id.mainShortCardPhoto)
+        ImageView image;
+        @BindView(R.id.mainShortCardLoading)
+        ProgressBar bar;
+        @BindView(R.id.mainShortCardDate)
+        TextView date;
+        @BindView(R.id.mainShortCardTitle)
+        TextView title;
+        @BindView(R.id.mainShortNewsLayer)
+        RelativeLayout mainShort;
+        @BindView(R.id.mainShortCardStatusIcon)
+        ImageView mainShortCardStatusIcon;
+        @BindView(R.id.mainShortCardStatus)
+        TextView status;
+        @BindView(R.id.mainShortCardPromotionLayer)
+        RelativeLayout promoted;
+        @BindView(R.id.mainShortCardAuthor)
+        TextView author;
+        @BindView(R.id.mainShortCardAuthors)
+        RelativeLayout mainShortCardAuthors;
+        @BindView(R.id.separatorMainShort)
+        View separator;
+        @BindView(R.id.mainShortCardViews)
+        TextView views;
+        @BindView(R.id.mainShortCardViewsIcon)
+        ImageView mainShortCardViewsIcon;
+
+        public MainShortViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType == Constants.SIMPLE_WITH_IMG) {
@@ -495,6 +530,9 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         } else if (viewType == Constants.URGENT) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_urgent, viewGroup, false);
             return new UrgentNewsViewHolder(view);
+        }else if (viewType == Constants.MAIN_SHORT){
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_short, viewGroup, false);
+            return new MainShortViewHolder(view);
         }
 
         return null;
@@ -998,6 +1036,50 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     }
                 });
                 break;
+            case Constants.MAIN_SHORT:
+                final MainShortViewHolder holderMainShort = (MainShortViewHolder) viewHolder;
+                if (models.get(position).getImage() == null) {
+                    holderMainShort.image.setVisibility(View.GONE);
+                } else {
+                    loadPhoto(models.get(position).getImage(), holderMainShort.image, holderMainShort.bar);
+                }
+                holderMainShort.date.setText(models.get(position).getDate());
+                holderMainShort.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                if (!models.get(position).getUpdate_status().equals("")) {
+                    holderMainShort.status.setText(models.get(position).getUpdate_status());
+                    holderMainShort.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderMainShort.mainShortCardStatusIcon.setVisibility(View.VISIBLE);
+                    holderMainShort.status.setVisibility(View.VISIBLE);
+                }
+                if (models.get(position).getViews_count()!= 0){
+                    holderMainShort.views.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                    holderMainShort.views.setText(String.valueOf(models.get(position).getViews_count()));
+                    holderMainShort.mainShortCardViewsIcon.setVisibility(View.VISIBLE);
+
+                }
+                if (models.get(position).getPromoted() == 1) {
+                    holderMainShort.promoted.setVisibility(View.VISIBLE);
+                }
+                if (!models.get(position).getAuthor().equals("")) {
+                    holderMainShort.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
+                    if (!models.get(position).getSource().equals("")) {
+                        holderMainShort.author.setText(models.get(position).getSource() + " " + models.get(position).getAuthor());
+                    } else {
+                        holderMainShort.author.setText(models.get(position).getAuthor());
+                    }
+                    holderMainShort.author.setVisibility(View.VISIBLE);
+                    holderMainShort.mainShortCardAuthors.setVisibility(View.VISIBLE);
+                }
+                holderMainShort.title.setText(models.get(position).getTitle());
+                holderMainShort.title.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-super.ttf"));
+                holderMainShort.mainShort.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holderMainShort.mainShort.startAnimation(alpha);
+                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId());
+                    }
+                });
+                break;
         }
     }
 
@@ -1079,6 +1161,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
     }
 
     public void addData(ArrayList<News> data, ArrayList<Integer> types){
+        clearPopularFeed();
         models.addAll(data);
         dataTypes.addAll(types);
 

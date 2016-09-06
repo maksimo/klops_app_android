@@ -145,13 +145,22 @@
             android:layout_below="@+id/longCardText"
             android:layout_marginBottom="15dp">
 
+            <ImageView
+                android:id="@+id/prMegaphone"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/megaphone"
+                android:layout_centerVertical="true" />
+
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textAllCaps="true"
+                android:layout_toRightOf="@+id/prMegaphone"
                 android:textColor="@color/greyText"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="2dp"
                 android:text="Материал размещен на коммерческой основе"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="8dp" />

@@ -18,6 +18,9 @@ public class Page{
     }
 
     public Currency getCurrency() {
+        if (currency == null){
+            currency = new Currency("","","");
+        }
         return currency;
     }
 

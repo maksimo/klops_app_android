@@ -75,7 +75,6 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
 
     @Override
     public void onRefresh() {
-        adapter.clearPopularFeed();
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<Popular> refreshPage = api.getPopularNews();
         refreshPage.subscribeOn(Schedulers.newThread())
@@ -151,6 +150,8 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
                             return 2;
                         case Constants.URGENT:
                             return 2;
+                        case Constants.MAIN_SHORT:
+                            return 2;
                         default:
                             return 0;
                     }
@@ -216,6 +217,9 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
                     break;
                 case Constants.URGENT_TEXT:
                     types.add(Constants.URGENT);
+                    break;
+                case Constants.MAIN_SHORT_TEXT:
+                    types.add(Constants.MAIN_SHORT);
                     break;
             }
         }
