@@ -105,6 +105,8 @@ public class SearchFragment extends Fragment {
 
     @OnTextChanged(R.id.search_title)
     public void inputSearchListener(){
+        adapter.clearData();
+        adapter.notifyDataSetChanged();
         if (searchField.getText().toString().length() > 2){
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);

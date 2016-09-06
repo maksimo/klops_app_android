@@ -167,7 +167,7 @@ public class ArticleActivity extends AppCompatActivity {
     TextView connectedNewsTwoText;
 
     @BindView(R.id.firstContent)
-    PercentRelativeLayout firstContent;
+    RelativeLayout firstContent;
     @BindView(R.id.firstWeb)
     WebView firstWeb;
     @BindView(R.id.firstImage)
@@ -179,7 +179,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.firstUrl)
     TextView firstUrl;
     @BindView(R.id.secondContent)
-    PercentRelativeLayout secondContent;
+    RelativeLayout secondContent;
     @BindView(R.id.secondWeb)
     WebView secondWeb;
     @BindView(R.id.secondImage)
@@ -191,7 +191,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.secondUrl)
     TextView secondUrl;
     @BindView(R.id.thirdContent)
-    PercentRelativeLayout thirdContent;
+    RelativeLayout thirdContent;
     @BindView(R.id.thirdWeb)
     WebView thirdWeb;
     @BindView(R.id.thirdImage)
@@ -203,7 +203,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.thirdUrl)
     TextView thirdUrl;
     @BindView(R.id.fourthContent)
-    PercentRelativeLayout fourthContent;
+    RelativeLayout fourthContent;
     @BindView(R.id.fourthWeb)
     WebView fourthWeb;
     @BindView(R.id.fourthImage)
@@ -215,7 +215,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.fourthUrl)
     TextView fourthUrl;
     @BindView(R.id.fifthContent)
-    PercentRelativeLayout fifthContent;
+    RelativeLayout fifthContent;
     @BindView(R.id.fifthWeb)
     WebView fifthWeb;
     @BindView(R.id.fifthImage)
@@ -227,7 +227,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.fifthUrl)
     TextView fifthUrl;
     @BindView(R.id.sixContent)
-    PercentRelativeLayout sixContent;
+    RelativeLayout sixContent;
     @BindView(R.id.sixWeb)
     WebView sixWeb;
     @BindView(R.id.sixImage)
@@ -239,7 +239,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.sixUrl)
     TextView sixUrl;
     @BindView(R.id.sevenContent)
-    PercentRelativeLayout sevenContent;
+    RelativeLayout sevenContent;
     @BindView(R.id.sevenWeb)
     WebView sevenWeb;
     @BindView(R.id.sevenImage)
@@ -251,7 +251,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.sevenUrl)
     TextView sevenUrl;
     @BindView(R.id.eightContent)
-    PercentRelativeLayout eightContent;
+    RelativeLayout eightContent;
     @BindView(R.id.eightWeb)
     WebView eightWeb;
     @BindView(R.id.eightImage)
@@ -263,7 +263,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.eightUrl)
     TextView eightUrl;
     @BindView(R.id.nineContent)
-    PercentRelativeLayout nineContent;
+    RelativeLayout nineContent;
     @BindView(R.id.nineWeb)
     WebView nineWeb;
     @BindView(R.id.nineImage)
@@ -275,7 +275,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.nineUrl)
     TextView nineUrl;
     @BindView(R.id.tenContent)
-    PercentRelativeLayout tenContent;
+    RelativeLayout tenContent;
     @BindView(R.id.tenWeb)
     WebView tenWeb;
     @BindView(R.id.tenImage)
@@ -287,7 +287,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.tenUrl)
     TextView tenUrl;
     @BindView(R.id.elevenContent)
-    PercentRelativeLayout elevenContent;
+    RelativeLayout elevenContent;
     @BindView(R.id.elevenWeb)
     WebView elevenWeb;
     @BindView(R.id.elevenImage)
@@ -299,7 +299,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.elevenUrl)
     TextView elevenUrl;
     @BindView(R.id.twelveContent)
-    PercentRelativeLayout twelveContent;
+    RelativeLayout twelveContent;
     @BindView(R.id.twelveWeb)
     WebView twelveWeb;
     @BindView(R.id.twelveImage)
@@ -608,7 +608,7 @@ public class ArticleActivity extends AppCompatActivity {
 //                    contentText = contentStrings[0];
 //                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
 //                } else {
-                    contentView.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
+                contentView.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
 //                }
                 contentView.setWebViewClient(new WebViewClient() {
                     @Override
@@ -920,8 +920,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((UrgentArticleFragment) fragment).formatIncrement();
                     } else if (fragment instanceof AdsArticleFragment) {
                         ((AdsArticleFragment) fragment).formatIncrement();
-                    }else if (fragment instanceof MainShortFragment){
-                        ((MainShortFragment)fragment).formatIncrement();
+                    } else if (fragment instanceof MainShortFragment) {
+                        ((MainShortFragment) fragment).formatIncrement();
                     }
 
                     for (TextView text : contentDescriptions) {
@@ -967,8 +967,8 @@ public class ArticleActivity extends AppCompatActivity {
                         ((UrgentArticleFragment) fragment).formatDecrement();
                     } else if (fragment instanceof AdsArticleFragment) {
                         ((AdsArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof MainShortFragment){
-                        ((MainShortFragment)fragment).formatDecrement();
+                    } else if (fragment instanceof MainShortFragment) {
+                        ((MainShortFragment) fragment).formatDecrement();
                     }
 
                     for (TextView text : contentDescriptions) {
@@ -1158,7 +1158,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public void shareNews() {
-                final Intent shareIntent = new Intent();
+        final Intent shareIntent = new Intent();
         final String title = item.getTitle();
         final String description = item.getShortdecription();
         final String url = item.getUrl();
@@ -1178,7 +1178,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                         }
                     });
-        }else {
+        } else {
             startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
         }
 //

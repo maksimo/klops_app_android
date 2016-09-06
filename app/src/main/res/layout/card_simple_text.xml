@@ -120,17 +120,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/simpleCardAuthors"
             android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/prMegaphone"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:background="@drawable/megaphone"
-                android:layout_marginTop="9dp" />
+                android:background="@drawable/megaphone" />
 
             <ru.klops.klops.custom.TextViewProRegular
                 android:layout_width="wrap_content"
@@ -140,9 +138,7 @@
                 android:layout_toRightOf="@+id/prMegaphone"
                 android:textColor="@color/greyText"
                 android:layout_marginLeft="2dp"
-                android:text="PR"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="8dp" />
+                android:text="PR"/>
         </RelativeLayout>
     </RelativeLayout>
     <View
