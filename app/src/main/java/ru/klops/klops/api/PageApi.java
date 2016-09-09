@@ -66,6 +66,6 @@ public interface PageApi {
 
     @Headers("Content-Type: application/json")
     @POST("give_me_push")
-    Observable<ResponseBody> giveMeTestPush(@Query("token") String token);
+    Observable<ResponseBody> giveMeTestPush(@Query("token") String token, @Query("platform") String platform);
 }
 

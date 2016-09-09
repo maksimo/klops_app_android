@@ -104,25 +104,26 @@ public class SearchFragment extends Fragment {
     }
 
     @OnTextChanged(R.id.search_title)
-    public void inputSearchListener(){
-        adapter.clearData();
-        adapter.notifyDataSetChanged();
-        if (searchField.getText().toString().length() > 2){
+    public void inputSearchListener() {
+        if (adapter != null) {
+            adapter.clearData();
+        }
+        if (searchField.getText().toString().length() > 2) {
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
             requestedWord = searchField.getText().toString();
-            if (adapter != null) {
-                adapter.clearData();
-                if (adapter.getItemCount() == 0){
-                    viewSearch.setVisibility(View.GONE);
-                    searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-                    searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
-                    searchTwo.setVisibility(View.VISIBLE);
-                }
-            }
+            viewSearch.setVisibility(View.GONE);
+            searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+            searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
+            searchTwo.setVisibility(View.VISIBLE);
             startSearch(requestedWord);
-        }else if (searchField.getText().toString().length() == 0){
+        } else{
+            searchOne.setVisibility(View.GONE);
+            searchTwo.setVisibility(View.VISIBLE);
+            viewSearch.setVisibility(View.GONE);
+        } if (searchField.getText().toString().length()==0){
             searchOne.setVisibility(View.VISIBLE);
+            searchTwo.setText("Введите слово или сочетание слов, \nкоторые вы хотите найти в заголовке \nили тексте новости.");
             searchTwo.setVisibility(View.VISIBLE);
             viewSearch.setVisibility(View.GONE);
         }
@@ -132,6 +133,9 @@ public class SearchFragment extends Fragment {
     public void search() {
         btnSearch.startAnimation(alpha);
         requestedWord = searchField.getText().toString();
+        if (adapter != null) {
+            adapter.clearData();
+        }
         if (requestedWord.equals("") || requestedWord.isEmpty()) {
             searchField.setError(getResources().getString(R.string.search_error));
             searchOne.setVisibility(View.VISIBLE);
@@ -161,7 +165,7 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(LOG, "Ошибка доступа к данным...");
-                        if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")){
+                        if (!Constants.BASE_API_URL.equals("https://klops.ru/api/")) {
                             searchTwo.setText("Настройки приложения были изменены");
                         }
                         searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
@@ -170,6 +174,7 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onNext(Search search) {
+                        news.clear();
                         news.addAll(search.getNews());
                         setUpRecycler(news);
                     }

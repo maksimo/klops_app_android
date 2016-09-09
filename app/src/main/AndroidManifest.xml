@@ -69,6 +69,7 @@
                 <category android:name="ru.klops.klops.gcm" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".gcm.MyGcmListenerService"
             android:exported="false">

@@ -74,6 +74,14 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         }
     }
 
+    public void setData(ArrayList<News> data, String searchRequest) {
+        models.clear();
+        notifyDataSetChanged();
+        models.addAll(data);
+        this.keyword = searchRequest;
+
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_result_card, viewGroup, false);
@@ -82,7 +90,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule(RelativeLayout.BELOW, viewHolder.author.getId());
         viewHolder.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
@@ -149,6 +157,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                             public void onNext(Article article) {
                                 Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
                                 articleIntent.putExtra(Constants.ITEM, article.getItem());
+                                articleIntent.putExtra(Constants.TYPE, models.get(position).getArticle_type());
                                 context.startActivity(articleIntent);
                             }
                         });

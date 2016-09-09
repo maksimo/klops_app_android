@@ -80,6 +80,7 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
+        adapter.clearNewFeed();
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<Page> refreshPage = api.getAllNews();
         refreshPage.subscribeOn(Schedulers.newThread())
@@ -102,7 +103,7 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                         if (!page.getCurrency().getUsd().equals("")) {
                             adapter.addData(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())), page.getCurrency());
                         }else {
-                            adapter.addDataWithotCurr(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())));
+                            adapter.addDataWithoutCurr(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())));
                         }
                         adapter.notifyDataSetChanged();
                     }

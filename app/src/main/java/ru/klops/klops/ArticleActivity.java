@@ -3,7 +3,9 @@ package ru.klops.klops;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +66,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -335,10 +339,7 @@ public class ArticleActivity extends AppCompatActivity {
     ProgressBar barEleven;
     @BindView(R.id.twelveProgress)
     ProgressBar barTwelve;
-    @BindView(R.id.promotionLayer)
-    RelativeLayout promotionLayer;
-    @BindView(R.id.promotionText)
-    TextViewProRegular promotionText;
+
     @BindView(R.id.fullArticleLayer)
     RelativeLayout fullArticleLayer;
     @BindView(R.id.splitterFour)
@@ -394,6 +395,7 @@ public class ArticleActivity extends AppCompatActivity {
     WebView twelveVideo;
     Uri sharedBitmap;
     Tracker mTracker;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,6 +411,7 @@ public class ArticleActivity extends AppCompatActivity {
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         mTracker = app.getDefaultTracker();
         item = getIntent().getParcelableExtra(Constants.ITEM);
+        type = getIntent().getStringExtra(Constants.TYPE);
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
@@ -570,10 +573,6 @@ public class ArticleActivity extends AppCompatActivity {
         viwes.add(new ContentView(tenContent, tenWeb, barTen, tenImage, tenDescription, tenMore, tenUrl, tenVideo));
         viwes.add(new ContentView(elevenContent, elevenWeb, barEleven, elevenImage, elevenDescription, elevenMore, elevenUrl, elevenVideo));
         viwes.add(new ContentView(twelveContent, twelveWeb, barTwelve, twelveImage, twelveDescription, twelveMore, twelveUrl, twelveVideo));
-
-        if (item.getPromoted() == 1) {
-            promotionLayer.setVisibility(View.VISIBLE);
-        }
 
         for (int n = 0; n < contents.size(); n++) {
             if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
@@ -936,7 +935,6 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(18);
                     }
 
-                    promotionText.setTextSize(12);
                     matchArticles.setTextSize(27);
                 }
                 break;
@@ -983,7 +981,6 @@ public class ArticleActivity extends AppCompatActivity {
                         url.setTextSize(16);
                     }
 
-                    promotionText.setTextSize(10);
                     matchArticles.setTextSize(25);
                 }
                 break;
@@ -993,8 +990,8 @@ public class ArticleActivity extends AppCompatActivity {
     private void drawFragment() {
         Log.d(LOG, "drawFragment");
         Bundle bundle = new Bundle();
-        articleType = item.getArticle_type();
-        switch (articleType) {
+//        articleType = item.getArticle_type();
+        switch (type) {
             case Constants.SIMPLE_TEXT:
                 SimpleTextArticleFragment simpleText = new SimpleTextArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
@@ -1078,6 +1075,54 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
+    private void scaleImage(ImageView view) throws NoSuchElementException {
+        Bitmap bitmap = null;
+        try {
+            Drawable drawing = view.getDrawable();
+            bitmap = ((BitmapDrawable) drawing).getBitmap();
+        } catch (NullPointerException e) {
+            throw new NoSuchElementException("No drawable on given view");
+        } catch (ClassCastException e) {
+            bitmap = Ion.with(view).getBitmap();
+        }
+
+        int width = 0;
+
+        try {
+            width = bitmap.getWidth();
+        } catch (NullPointerException e) {
+            throw new NoSuchElementException("Can't find bitmap on given view/drawable");
+        }
+
+        int height = bitmap.getHeight();
+        int bounding = dpToPx(250);
+
+        float xScale = ((float) bounding) / width;
+        float yScale = ((float) bounding) / height;
+        float scale = (xScale <= yScale) ? xScale : yScale;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+
+        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        width = scaledBitmap.getWidth();
+        height = scaledBitmap.getHeight();
+        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
+
+        view.setImageDrawable(result);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
+
+    }
+
+    private int dpToPx(int dp) {
+        float density = getApplicationContext().getResources().getDisplayMetrics().density;
+        return Math.round((float)dp * density);
+    }
+
     private void galleryBackground() {
         format.setBackgroundResource(R.drawable.format_white);
         share.setBackgroundResource(R.drawable.share_icon_white);
@@ -1087,7 +1132,6 @@ public class ArticleActivity extends AppCompatActivity {
         fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        promotionLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);

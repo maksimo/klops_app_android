@@ -56,4 +56,5 @@ public class Constants {
     public static final String URL = "BROWSER_URL";
     // Analytics
     public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
+    public static final String TYPE = "TYPE";
 }

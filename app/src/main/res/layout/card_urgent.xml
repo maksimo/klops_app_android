@@ -128,19 +128,18 @@
         android:visibility="gone"
         android:background="@color/colorAccent"
         android:layout_below="@+id/urgentCardTitle"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:paddingBottom="15dp">
 
         <ru.klops.klops.custom.TextViewProRegular
+            android:id="@+id/prMegaphone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
             android:textAllCaps="true"
+            android:textSize="10sp"
             android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="2dp"
-            android:text="Материал размещен на коммерческой основе"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="5dp" />
+            android:text="PR" />
+
     </RelativeLayout>
 </RelativeLayout>
     <View

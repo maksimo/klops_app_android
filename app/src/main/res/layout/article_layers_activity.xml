@@ -86,7 +86,7 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/littleGallery"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="250dp"
                         android:visibility="visible" />
 
                     <RelativeLayout
@@ -159,7 +159,7 @@
                     <WebView
                         android:id="@+id/firstVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/firstWeb"
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="10dp"
@@ -172,8 +172,8 @@
                         android:id="@+id/firstImage"
                         android:layout_below="@+id/firstVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -245,7 +245,7 @@
                     <WebView
                         android:id="@+id/secondVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/secondWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -256,8 +256,8 @@
                         android:id="@+id/secondImage"
                         android:layout_below="@+id/secondVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -327,7 +327,7 @@
                     <WebView
                         android:id="@+id/thirdVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/thirdWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -338,8 +338,8 @@
                         android:id="@+id/thirdImage"
                         android:layout_below="@+id/thirdVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -409,7 +409,7 @@
                     <WebView
                         android:id="@+id/fourthVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/fourthWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -420,8 +420,8 @@
                         android:id="@+id/fourthImage"
                         android:layout_below="@+id/fourthVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -491,7 +491,7 @@
                     <WebView
                         android:id="@+id/fifthVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/fifthWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -502,8 +502,8 @@
                         android:id="@+id/fifthImage"
                         android:layout_below="@+id/fifthVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -573,7 +573,7 @@
                     <WebView
                         android:id="@+id/sixVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/sixWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -584,8 +584,8 @@
                         android:id="@+id/sixImage"
                         android:layout_below="@+id/sixVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent" />
 
                     <ProgressBar
@@ -655,7 +655,7 @@
                     <WebView
                         android:id="@+id/sevenVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/sevenWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -666,8 +666,8 @@
                         android:id="@+id/sevenImage"
                         android:layout_below="@+id/sevenVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -737,7 +737,7 @@
                     <WebView
                         android:id="@+id/eightVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/eightWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -748,8 +748,8 @@
                         android:id="@+id/eightImage"
                         android:layout_below="@+id/eightVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -819,7 +819,7 @@
                     <WebView
                         android:id="@+id/nineVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/nineWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -830,8 +830,8 @@
                         android:id="@+id/nineImage"
                         android:layout_below="@+id/nineVideo"
                         android:visibility="gone"
-                        android:layout_height="200dp"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
                         android:layout_width="match_parent"/>
 
                     <ProgressBar
@@ -901,7 +901,7 @@
                     <WebView
                         android:id="@+id/tenVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/tenWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -912,9 +912,9 @@
                         android:id="@+id/tenImage"
                         android:layout_below="@+id/tenVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="200dp"
-                        android:layout_width="match_parent" />
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
+                        android:layout_width="match_parent"/>
 
                     <ProgressBar
                         android:id="@+id/tenProgress"
@@ -983,7 +983,7 @@
                     <WebView
                         android:id="@+id/elevenVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/elevenWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -994,9 +994,9 @@
                         android:id="@+id/elevenImage"
                         android:layout_below="@+id/elevenVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="200dp"
-                        android:layout_width="match_parent" />
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
+                        android:layout_width="match_parent"/>
 
                     <ProgressBar
                         android:id="@+id/elevenProgress"
@@ -1066,7 +1066,7 @@
                     <WebView
                         android:id="@+id/twelveVideo"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/twelveWeb"
                         android:paddingBottom="30dp"
                         android:scrollbars="none"
@@ -1077,9 +1077,9 @@
                         android:id="@+id/twelveImage"
                         android:layout_below="@+id/twelveVideo"
                         android:visibility="gone"
-                        android:scaleType="fitXY"
-                        android:layout_height="match_parent"
-                        android:layout_width="200dp" />
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
+                        android:layout_width="match_parent"/>
 
                     <ProgressBar
                         android:id="@+id/twelveProgress"
@@ -1140,7 +1140,7 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/ViewsPhotos"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="300dp"
                         android:visibility="visible" />
 
                     <RelativeLayout
@@ -1183,36 +1183,6 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/promotionLayer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/contentGallery"
-                    android:background="@color/colorPrimary"
-                    android:paddingBottom="15dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/prMegaphone"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:background="@drawable/megaphone" />
-
-                    <ru.klops.klops.custom.TextViewProRegular
-                        android:id="@+id/promotionText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="2dp"
-                        android:layout_toRightOf="@+id/prMegaphone"
-                        android:gravity="center"
-                        android:text="Материал размещен на коммерческой основе"
-                        android:textAllCaps="true"
-                        android:textColor="@color/darkGreyText"
-                        android:textSize="10sp" />
-                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout

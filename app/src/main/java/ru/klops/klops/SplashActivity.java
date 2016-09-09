@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -18,33 +16,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
-import ru.klops.klops.models.feed.News;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
-import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,6 +42,7 @@ public class SplashActivity extends AppCompatActivity {
     Unbinder unbinder;
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +114,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                data = intent.getDataString();
             }
         };
         registerReceiver();
