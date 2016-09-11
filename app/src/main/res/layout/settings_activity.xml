@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsCoordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/recyclerBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -11,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
-        android:elevation="2dp">
+        android:elevation="2dp"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,26 +46,28 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbarSettings">
-
         <RelativeLayout
+            android:id="@+id/mainSettingsLayer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbarSettings"
+            android:clickable="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="90dp"
+                android:background="@color/recyclerBackground"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:background="@color/recyclerBackground">
+                android:layout_marginTop="58dp">
 
                 <TextView
                     android:id="@+id/notifications"
@@ -78,13 +83,6 @@
                     android:textColor="@color/greyText"
                     android:textSize="10sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@color/greySplitter" />
             </RelativeLayout>
 
             <View
@@ -402,5 +400,124 @@
 
             </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+    <FrameLayout
+        android:id="@+id/socialBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:clipToPadding="true"
+        android:background="@android:color/holo_orange_light"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <RelativeLayout
+                android:id="@+id/socialBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/splitterSheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="false"
+                    android:background="@color/greySplitter"
+                    android:layout_alignParentBottom="false" />
+
+                <RelativeLayout
+                    android:id="@+id/socialViberLayer"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/splitterSheet"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/viberLogo"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/viber"
+                        android:layout_centerVertical="true" />
+
+                    <TextView
+                        android:id="@+id/viberText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_toRightOf="@+id/viberLogo"
+                        android:text="Viber"
+                        android:textColor="@color/blackText"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/socialCallLayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_below="@+id/socialWhatsappLayer"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/callLogo"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/phone"
+                        android:layout_centerVertical="true" />
+
+                    <TextView
+                        android:id="@+id/callText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_toRightOf="@+id/callLogo"
+                        android:text="Телефонный вызов"
+                        android:textColor="@color/blackText"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="13dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/socialWhatsappLayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_below="@+id/socialViberLayer"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/whatsappLogo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/whatsapp"
+                        android:layout_centerVertical="true" />
+
+                    <TextView
+                        android:id="@+id/whatsappText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_toRightOf="@+id/whatsappLogo"
+                        android:text="Whatsapp"
+                        android:textColor="@color/blackText"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="8dp" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

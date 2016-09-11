@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,8 @@ public class SearchFragment extends Fragment {
         if (searchField.getText().toString().length() > 2) {
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
-            requestedWord = searchField.getText().toString();
+            requestedWord = searchField.getText().toString().substring(0, 1).toUpperCase() + searchField.getText().toString().substring(1).toLowerCase();
+//            requestedWord = searchField.getText().toString();
             viewSearch.setVisibility(View.GONE);
             searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
             searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");

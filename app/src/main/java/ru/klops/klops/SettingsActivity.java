@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,7 @@ import rx.schedulers.Schedulers;
 
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     final String LOG = "SettingsActivity";
+    BottomSheetBehavior bottomSheetBehavior;
     @BindView(R.id.confirm_button)
     TextView confirm;
     @BindView(R.id.switch_notifications)
@@ -92,6 +94,12 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     ImageView logo;
     @BindView(R.id.toolbarSettings)
     Toolbar toolbarSettings;
+    @BindView(R.id.viberLogo)
+    ImageView viber;
+    @BindView(R.id.whatsappLogo)
+    ImageView whatsapp;
+    @BindView(R.id.callLogo)
+    ImageView call;
     int clickChecker = 0;
     Animation alpha;
     Unbinder unbinder;
@@ -99,18 +107,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     KlopsApplication app;
     AlertDialog.Builder confirmBuilder;
     AlertDialog confirmDialog;
-    AlertDialog.Builder mailBuilder;
-    AlertDialog mailDialog;
     View confirmLayout;
-    View mailLayout;
-    View socialLayout;
-    RelativeLayout viber;
-    RelativeLayout whatsapp;
-    RelativeLayout call;
-    TextView viberTitle;
-    TextView whatsappTitle;
-    TextView callTitle;
-    TextView socialTitle;
     TextView confirmTitle;
     TextView confirmText;
     ProgressBar confirmProgress;
@@ -120,13 +117,9 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     SharedPreferences.Editor innerPrefs;
     SharedPreferences preferences;
     boolean appSubscription;
-    TextView mailTitle;
-    EditText mailText;
-    Button mailPositiveBtn;
     Tracker mTracker;
     private Cursor cursor;
-    AlertDialog socialDialog;
-    AlertDialog.Builder socialBuilder;
+    View bottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +129,9 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.settings_activity);
         unbinder = ButterKnife.bind(this);
+        bottomSheet = findViewById(R.id.socialBottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
-        mailLayout = LayoutInflater.from(this).inflate(R.layout.mail_dialog, null);
-        socialLayout = LayoutInflater.from(this).inflate(R.layout.social_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
         mTracker = app.getDefaultTracker();
@@ -147,101 +140,16 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         appSubscription = loadInnerStatement();
         loadState();
         initFonts();
-        initSocialDialog();
         initProgressDialog();
         Log.d(LOG, "onCreate");
     }
 
-    private void initSocialDialog() {
-        socialBuilder = new AlertDialog.Builder(this);
-        socialBuilder.setView(socialLayout);
-        socialBuilder.setCancelable(true);
-        viber = (RelativeLayout) socialLayout.findViewById(R.id.socialViberLayer);
-        whatsapp = (RelativeLayout) socialLayout.findViewById(R.id.socialWhatsappLayer);
-        call = (RelativeLayout) socialLayout.findViewById(R.id.socialCallLayer);
-        socialTitle = (TextView) socialLayout.findViewById(R.id.socialTitle);
-        socialTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        viberTitle = (TextView) socialLayout.findViewById(R.id.viberText);
-        viberTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        whatsappTitle = (TextView) socialLayout.findViewById(R.id.whatsappText);
-        whatsappTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        callTitle = (TextView) socialLayout.findViewById(R.id.callText);
-        callTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        socialDialog = socialBuilder.create();
-        viber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viber.startAnimation(alpha);
-                Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
-                call.setPackage("com.viber.voip");
-                startActivity(call);
-            }
-        });
-       whatsapp.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               whatsapp.startAnimation(alpha);
-               String DisplayName = "Klops.ru";
-               String MobileNumber = "+79097823333";
-               Bitmap bmImage = BitmapFactory.decodeResource(SettingsActivity.this.getResources(),
-                       R.drawable.app_icon_main);
-               ByteArrayOutputStream baos = new ByteArrayOutputStream();
-               bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-               byte[] Photo = baos.toByteArray();
-               ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-               ops.add(ContentProviderOperation.newInsert(
-                       ContactsContract.RawContacts.CONTENT_URI)
-                       .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                       .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                       .build());
-               if (DisplayName != null) {
-                   ops.add(ContentProviderOperation.newInsert(
-                           ContactsContract.Data.CONTENT_URI)
-                           .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                           .withValue(ContactsContract.Data.MIMETYPE,
-                                   ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                           .withValue(
-                                   ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                                   DisplayName).build());
-               }
-
-               if (MobileNumber != null) {
-                   ops.add(ContentProviderOperation.
-                           newInsert(ContactsContract.Data.CONTENT_URI)
-                           .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                           .withValue(ContactsContract.Data.MIMETYPE,
-                                   ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                           .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
-                           .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
-                                   ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-                           .build());
-               }
-               ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                       .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                       .withValue(ContactsContract.Data.MIMETYPE,
-                               ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
-                       .withValue(ContactsContract.CommonDataKinds.Photo.DATA15,Photo)
-                       .build());
-
-               try {
-                   getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-
-               openApp(SettingsActivity.this, "com.whatsapp");
-           }
-       });
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                call.startAnimation(alpha);
-                Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
-                startActivity(call);
-            }
-        });
+    @OnClick(R.id.mainSettingsLayer)
+    public void closeBottomSheer() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
     }
-
 
     private void initFonts() {
         setSupportActionBar(toolbarSettings);
@@ -271,27 +179,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirmTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         confirmText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         confirmDialog = confirmBuilder.create();
-        mailBuilder = new AlertDialog.Builder(this);
-        mailBuilder.setView(mailLayout);
-        mailBuilder.setCancelable(true);
-        mailTitle = (TextView) mailLayout.findViewById(R.id.mailTitle);
-        mailText = (EditText) mailLayout.findViewById(R.id.mailText);
-        mailPositiveBtn = (Button) mailLayout.findViewById(R.id.mailPositiveBtn);
-        mailTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        mailText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        mailDialog = mailBuilder.create();
-        mailPositiveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
-                mailIntent.setType("text/plain");
-                mailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email.getText().toString().trim()});
-                mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Klops.ru");
-                mailIntent.putExtra(Intent.EXTRA_TEXT, mailText.getText().toString());
-                startActivity(Intent.createChooser(mailIntent, "Отправить сообщение"));
-                mailDialog.dismiss();
-            }
-        });
     }
 
     @OnClick(R.id.confirm_button)
@@ -564,8 +451,77 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 //    }
 
     @OnClick(R.id.relativeLayout5)
-    public void socialCall(){
-        socialDialog.show();
+    public void socialCall() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @OnClick(R.id.viberLogo)
+    public void openViber() {
+        viber.startAnimation(alpha);
+        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
+        call.setPackage("com.viber.voip");
+        startActivity(call);
+    }
+
+    @OnClick(R.id.whatsappLogo)
+    public void openWhatsapp() {
+        whatsapp.startAnimation(alpha);
+        String DisplayName = "Klops.ru";
+        String MobileNumber = "+79097823333";
+        Bitmap bmImage = BitmapFactory.decodeResource(SettingsActivity.this.getResources(),
+                R.drawable.app_icon_main);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        byte[] Photo = baos.toByteArray();
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newInsert(
+                ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+        if (DisplayName != null) {
+            ops.add(ContentProviderOperation.newInsert(
+                    ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                            DisplayName).build());
+        }
+
+        if (MobileNumber != null) {
+            ops.add(ContentProviderOperation.
+                    newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                    .build());
+        }
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Photo.DATA15, Photo)
+                .build());
+
+        try {
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        openApp(SettingsActivity.this, "com.whatsapp");
+    }
+
+    @OnClick(R.id.callLogo)
+    public void openDialDialog() {
+        call.startAnimation(alpha);
+        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
+        startActivity(call);
     }
 
     public static boolean openApp(Context context, String packageName) {
@@ -595,14 +551,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @OnClick(R.id.relativeLayout4)
     public void sendMail() {
-//        openApp(this, "com.google.android.gm");
-//        mailDialog.show();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        String aEmailList[] = { "news@klops.ru" };
+        String aEmailList[] = {"news@klops.ru"};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, aEmailList);
         startActivity(emailIntent);
-
 
 
     }

@@ -52,7 +52,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword) {
         this.models = models;
         this.context = context;
-        this.keyword = keyword;
+        this.keyword = keyword.substring(0,1).toUpperCase() + keyword.substring(1).toLowerCase();
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
     }
 
@@ -109,6 +109,9 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         searchWord = new SpannableString(models.get(position).getTitle());
         if (keyword == null) {
             keyword = "";
+        }
+        if (Character.isUpperCase(keyword.charAt(0))){
+
         }
         Pattern word = Pattern.compile(keyword);
         Matcher matcher = word.matcher(searchWord);

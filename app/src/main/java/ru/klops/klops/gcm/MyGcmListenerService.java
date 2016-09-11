@@ -35,6 +35,7 @@ public class MyGcmListenerService extends GcmListenerService {
     PendingIntent pendingIntent;
     Intent intent;
     String message;
+    String title;
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -61,12 +62,12 @@ public class MyGcmListenerService extends GcmListenerService {
                 .subscribe(new Observer<Article>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("SearchAdapter", "Loading search article complete");
+                        Log.d("MyGcmListenerService", "Push has been taken");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("SearchAdapter", "Loading failed");
+                        Log.d("MyGcmListenerService", "Failure" + e.getMessage());
                     }
 
                     @Override
@@ -75,13 +76,6 @@ public class MyGcmListenerService extends GcmListenerService {
 
                     }
                 });
-
-
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
-
 
     }
 
@@ -100,7 +94,7 @@ public class MyGcmListenerService extends GcmListenerService {
         } else {
             notificationBuilder.setSmallIcon(R.drawable.app_icon_main);
         }
-        notificationBuilder.setContentTitle("Важные новости");
+        notificationBuilder.setContentTitle("Последние новости");
         notificationBuilder.setContentText(message);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSound(defaultSoundUri);
