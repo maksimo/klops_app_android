@@ -6,11 +6,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +17,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.SearchRecyclerAdapter;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
@@ -112,8 +107,7 @@ public class SearchFragment extends Fragment {
         if (searchField.getText().toString().length() > 2) {
             searchOne.setVisibility(View.GONE);
             searchTwo.setVisibility(View.GONE);
-            requestedWord = searchField.getText().toString().substring(0, 1).toUpperCase() + searchField.getText().toString().substring(1).toLowerCase();
-//            requestedWord = searchField.getText().toString();
+            requestedWord = searchField.getText().toString();
             viewSearch.setVisibility(View.GONE);
             searchTwo.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
             searchTwo.setText("Не найдено ни одного материала, соответствующего вашему запросу");
@@ -188,7 +182,15 @@ public class SearchFragment extends Fragment {
         copy.addAll(news);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         viewSearch.setLayoutManager(manager);
-        adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord);
+        if (Character.isUpperCase(requestedWord.charAt(0))){
+            String alternativeWord = requestedWord.substring(0,1).toLowerCase()+requestedWord.substring(1);
+            adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord, alternativeWord);
+        }else if (Character.isLowerCase(requestedWord.charAt(0))){
+            String alternativeWord = requestedWord.substring(0,1).toUpperCase()+requestedWord.substring(1);
+            adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord, alternativeWord);
+        }else {
+            adapter = new SearchRecyclerAdapter(SearchFragment.this, copy, requestedWord);
+        }
         viewSearch.setAdapter(adapter);
         viewSearch.setVisibility(View.VISIBLE);
     }

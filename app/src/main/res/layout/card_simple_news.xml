@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/simpleNewsLayer"
-        android:layout_width="190dp"
+        android:layout_width="match_parent"
         android:layout_height="280dp"
         android:elevation="1dp"
         android:orientation="vertical">
@@ -132,7 +132,7 @@
 
     <View
         android:id="@+id/separatorSimpleImage"
-        android:layout_width="190dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/simpleNewsLayer"
         android:background="@color/recyclerBackground" />

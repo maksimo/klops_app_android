@@ -117,7 +117,6 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.shareSocials)
     ImageView share;
     KlopsApplication app;
-    String articleType;
     AlertDialog.Builder shareBuilder;
     AlertDialog shareDialog;
     View shareLayout;
@@ -302,6 +301,223 @@ public class ArticleActivity extends AppCompatActivity {
     TextView elevenMore;
     @BindView(R.id.elevenUrl)
     TextView elevenUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+
+    @BindView(R.id.thirteenContent)
+    RelativeLayout thirteenContent;
+    @BindView(R.id.thirteenWeb)
+    WebView thirteenWeb;
+    @BindView(R.id.thirteenImage)
+    ImageView thirteenImage;
+    @BindView(R.id.thirteenDescription)
+    TextView thirteenDescription;
+    @BindView(R.id.thirteenMore)
+    TextView thirteenMore;
+    @BindView(R.id.thirteenUrl)
+    TextView thirteenUrl;
+    @BindView(R.id.fourteenContent)
+    RelativeLayout fourteenContent;
+    @BindView(R.id.fourteenWeb)
+    WebView fourteenWeb;
+    @BindView(R.id.fourteenImage)
+    ImageView fourteenImage;
+    @BindView(R.id.fourteenDescription)
+    TextView fourteenDescription;
+    @BindView(R.id.fourteenMore)
+    TextView fourteenMore;
+    @BindView(R.id.fourteenUrl)
+    TextView fourteenUrl;
+    @BindView(R.id.fifteenContent)
+    RelativeLayout fifteenContent;
+    @BindView(R.id.fifteenWeb)
+    WebView fifteenWeb;
+    @BindView(R.id.fifteenImage)
+    ImageView fifteenImage;
+    @BindView(R.id.fifteenDescription)
+    TextView fifteenDescription;
+    @BindView(R.id.fifteenMore)
+    TextView fifteenMore;
+    @BindView(R.id.fifteenUrl)
+    TextView fifteenUrl;
+    @BindView(R.id.sixteenContent)
+    RelativeLayout sixteenContent;
+    @BindView(R.id.sixteenWeb)
+    WebView sixteenWeb;
+    @BindView(R.id.sixteenImage)
+    ImageView sixteenImage;
+    @BindView(R.id.sixteenDescription)
+    TextView sixteenDescription;
+    @BindView(R.id.sixteenMore)
+    TextView sixteenMore;
+    @BindView(R.id.sixteenUrl)
+    TextView sixteenUrl;
+    @BindView(R.id.seventeenContent)
+    RelativeLayout seventeenContent;
+    @BindView(R.id.seventeenWeb)
+    WebView seventeenWeb;
+    @BindView(R.id.seventeenImage)
+    ImageView seventeenImage;
+    @BindView(R.id.seventeenDescription)
+    TextView seventeenDescription;
+    @BindView(R.id.seventeenMore)
+    TextView seventeenMore;
+    @BindView(R.id.seventeenUrl)
+    TextView seventeenUrl;
+    @BindView(R.id.eighteenContent)
+    RelativeLayout eighteenContent;
+    @BindView(R.id.eighteenWeb)
+    WebView eighteenWeb;
+    @BindView(R.id.eighteenImage)
+    ImageView eighteenImage;
+    @BindView(R.id.eighteenDescription)
+    TextView eighteenDescription;
+    @BindView(R.id.eighteenMore)
+    TextView eighteenMore;
+    @BindView(R.id.eighteenUrl)
+    TextView eighteenUrl;
+    @BindView(R.id.nineteenContent)
+    RelativeLayout nineteenContent;
+    @BindView(R.id.nineteenWeb)
+    WebView nineteenWeb;
+    @BindView(R.id.nineteenImage)
+    ImageView nineteenImage;
+    @BindView(R.id.nineteenDescription)
+    TextView nineteenDescription;
+    @BindView(R.id.nineteenMore)
+    TextView nineteenMore;
+    @BindView(R.id.nineteenUrl)
+    TextView nineteenUrl;
+    @BindView(R.id.twentyContent)
+    RelativeLayout twentyContent;
+    @BindView(R.id.twentyWeb)
+    WebView twentyWeb;
+    @BindView(R.id.twentyImage)
+    ImageView twentyImage;
+    @BindView(R.id.twentyDescription)
+    TextView twentyDescription;
+    @BindView(R.id.twentyMore)
+    TextView twentyMore;
+    @BindView(R.id.twentyUrl)
+    TextView twentyUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
+    @BindView(R.id.twelveContent)
+    RelativeLayout twelveContent;
+    @BindView(R.id.twelveWeb)
+    WebView twelveWeb;
+    @BindView(R.id.twelveImage)
+    ImageView twelveImage;
+    @BindView(R.id.twelveDescription)
+    TextView twelveDescription;
+    @BindView(R.id.twelveMore)
+    TextView twelveMore;
+    @BindView(R.id.twelveUrl)
+    TextView twelveUrl;
     @BindView(R.id.twelveContent)
     RelativeLayout twelveContent;
     @BindView(R.id.twelveWeb)

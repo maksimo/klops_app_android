@@ -6,6 +6,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import ru.klops.klops.R;
+
 public class ContentView {
     RelativeLayout contentLayer;
     WebView contentView;

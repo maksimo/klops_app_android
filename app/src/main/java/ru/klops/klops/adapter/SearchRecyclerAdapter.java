@@ -1,22 +1,17 @@
 package ru.klops.klops.adapter;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
@@ -48,11 +43,21 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     Spannable searchWord;
     Spannable searchInDescr;
     String keyword;
+    Pattern word;
+    String alternativeWord;
 
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword) {
         this.models = models;
         this.context = context;
-        this.keyword = keyword.substring(0,1).toUpperCase() + keyword.substring(1).toLowerCase();
+        this.keyword = keyword;
+        alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
+    }
+
+    public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword, String alternativeWord) {
+        this.models = models;
+        this.context = context;
+        this.keyword = keyword;
+        this.alternativeWord = alternativeWord;
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
     }
 
@@ -110,10 +115,18 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         if (keyword == null) {
             keyword = "";
         }
-        if (Character.isUpperCase(keyword.charAt(0))){
-
+        if (alternativeWord != null){
+            word = Pattern.compile(keyword+"|"+alternativeWord);
+        }else {
+//        if (Character.isUpperCase(keyword.charAt(0))){
+//            word = Pattern.compile(keyword+"|"+(keyword.substring(0,1).toLowerCase()+keyword.substring(1)));
+//        }else if (Character.isLowerCase(keyword.charAt(0))){
+//            word = Pattern.compile(keyword+"|"+(keyword.substring(0,1).toUpperCase()+keyword.substring(1)));
+//        }else {
+//            word = Pattern.compile(keyword);
+//        }
+            word = Pattern.compile(keyword);
         }
-        Pattern word = Pattern.compile(keyword);
         Matcher matcher = word.matcher(searchWord);
         if (matcher.find()) {
             searchWord.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context.getContext(), R.color.colorAccent)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
