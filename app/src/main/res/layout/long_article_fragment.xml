@@ -63,6 +63,7 @@
                 android:layout_marginLeft="15dp"
                 android:textAllCaps="true"
                 android:textStyle="bold"
+                android:layout_marginRight="-10dp"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:text=""

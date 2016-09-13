@@ -60,6 +60,7 @@
             android:layout_below="@+id/splitterAdvsFirst"
             android:layout_marginLeft="15dp"
             android:textAllCaps="true"
+            android:layout_marginRight="-10dp"
             android:textColor="@color/darkGreyText"
             android:textSize="10sp"
             android:textStyle="bold"

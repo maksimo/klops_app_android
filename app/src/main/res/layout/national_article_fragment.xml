@@ -59,6 +59,7 @@
                 android:layout_below="@+id/splitterNationalFirst"
                 android:textAllCaps="true"
                 android:textStyle="bold"
+                android:layout_marginRight="-10dp"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:layout_marginLeft="15dp"

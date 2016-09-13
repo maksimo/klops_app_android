@@ -25,6 +25,7 @@
                     android:layout_marginLeft="15dp"
                     android:text=""
                     android:textAllCaps="true"
+                    android:layout_marginRight="-10dp"
                     android:textColor="@color/greyText"
                     android:textSize="10sp"
                     android:textStyle="bold"
@@ -58,8 +59,8 @@
 
                 <ImageView
                     android:id="@+id/galleryOneCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_below="@+id/galleryOneDate"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"

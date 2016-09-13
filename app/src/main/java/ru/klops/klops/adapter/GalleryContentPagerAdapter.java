@@ -31,11 +31,13 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<Gallery> adapterPhotos;
+    TextView descr;
 
     public GalleryContentPagerAdapter(Context context, ArrayList<Gallery> adapterPhotos) {
         super();
         this.context = context;
         this.adapterPhotos = adapterPhotos;
+
     }
 
 
@@ -49,7 +51,7 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
-        final TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
+        descr = (TextView) itemView.findViewById(R.id.photoDescription);
         descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         Ion.with(context.getApplicationContext()).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
         photo.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +71,14 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         }
         container.addView(itemView);
         return itemView;
+    }
+
+    public void incrementDesc(){
+        descr.setTextSize(18);
+    }
+
+    public void decrDesc(){
+        descr.setTextSize(16);
     }
 
     @Override

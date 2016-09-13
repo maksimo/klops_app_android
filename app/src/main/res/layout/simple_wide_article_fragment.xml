@@ -61,10 +61,10 @@
                 android:textStyle="bold"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
-                android:text=""
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_marginRight="-10dp" />
 
 
             <TextView
@@ -74,7 +74,6 @@
                 android:layout_below="@+id/splitterSimpleWideFirst"
                 android:layout_toRightOf="@+id/simpleWideAuthor"
                 android:textAllCaps="true"
-                android:text=""
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
                 android:layout_marginRight="2dp"

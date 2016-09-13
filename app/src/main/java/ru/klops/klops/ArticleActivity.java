@@ -81,6 +81,7 @@ import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.fragments.AdsArticleFragment;
 import ru.klops.klops.fragments.AuthorArticleFragment;
+import ru.klops.klops.fragments.ContentFragment;
 import ru.klops.klops.fragments.GalleryOneArticleFragment;
 import ru.klops.klops.fragments.GalleryTwoArticleFragment;
 import ru.klops.klops.fragments.ImportantArticleFragment;
@@ -171,390 +172,84 @@ public class ArticleActivity extends AppCompatActivity {
 
     @BindView(R.id.firstContent)
     RelativeLayout firstContent;
-    @BindView(R.id.firstWeb)
-    WebView firstWeb;
-    @BindView(R.id.firstImage)
-    ImageView firstImage;
-    @BindView(R.id.firstDescription)
-    TextView firstDescription;
-    @BindView(R.id.firstMore)
-    TextView firstMore;
-    @BindView(R.id.firstUrl)
-    TextView firstUrl;
     @BindView(R.id.secondContent)
     RelativeLayout secondContent;
-    @BindView(R.id.secondWeb)
-    WebView secondWeb;
-    @BindView(R.id.secondImage)
-    ImageView secondImage;
-    @BindView(R.id.secondDescription)
-    TextView secondDescription;
-    @BindView(R.id.secondMore)
-    TextView secondMore;
-    @BindView(R.id.secondUrl)
-    TextView secondUrl;
     @BindView(R.id.thirdContent)
     RelativeLayout thirdContent;
-    @BindView(R.id.thirdWeb)
-    WebView thirdWeb;
-    @BindView(R.id.thirdImage)
-    ImageView thirdImage;
-    @BindView(R.id.thirdDescription)
-    TextView thirdDescription;
-    @BindView(R.id.thirdMore)
-    TextView thirdMore;
-    @BindView(R.id.thirdUrl)
-    TextView thirdUrl;
     @BindView(R.id.fourthContent)
     RelativeLayout fourthContent;
-    @BindView(R.id.fourthWeb)
-    WebView fourthWeb;
-    @BindView(R.id.fourthImage)
-    ImageView fourthImage;
-    @BindView(R.id.fourthDescription)
-    TextView fourthDescription;
-    @BindView(R.id.fourthMore)
-    TextView fourthMore;
-    @BindView(R.id.fourthUrl)
-    TextView fourthUrl;
     @BindView(R.id.fifthContent)
     RelativeLayout fifthContent;
-    @BindView(R.id.fifthWeb)
-    WebView fifthWeb;
-    @BindView(R.id.fifthImage)
-    ImageView fifthImage;
-    @BindView(R.id.fifthDescription)
-    TextView fifthDescription;
-    @BindView(R.id.fifthMore)
-    TextView fifthMore;
-    @BindView(R.id.fifthUrl)
-    TextView fifthUrl;
     @BindView(R.id.sixContent)
     RelativeLayout sixContent;
-    @BindView(R.id.sixWeb)
-    WebView sixWeb;
-    @BindView(R.id.sixImage)
-    ImageView sixImage;
-    @BindView(R.id.sixDescription)
-    TextView sixDescription;
-    @BindView(R.id.sixMore)
-    TextView sixMore;
-    @BindView(R.id.sixUrl)
-    TextView sixUrl;
     @BindView(R.id.sevenContent)
     RelativeLayout sevenContent;
-    @BindView(R.id.sevenWeb)
-    WebView sevenWeb;
-    @BindView(R.id.sevenImage)
-    ImageView sevenImage;
-    @BindView(R.id.sevenDescription)
-    TextView sevenDescription;
-    @BindView(R.id.sevenMore)
-    TextView sevenMore;
-    @BindView(R.id.sevenUrl)
-    TextView sevenUrl;
     @BindView(R.id.eightContent)
     RelativeLayout eightContent;
-    @BindView(R.id.eightWeb)
-    WebView eightWeb;
-    @BindView(R.id.eightImage)
-    ImageView eightImage;
-    @BindView(R.id.eightDescription)
-    TextView eightDescription;
-    @BindView(R.id.eightMore)
-    TextView eightMore;
-    @BindView(R.id.eightUrl)
-    TextView eightUrl;
     @BindView(R.id.nineContent)
     RelativeLayout nineContent;
-    @BindView(R.id.nineWeb)
-    WebView nineWeb;
-    @BindView(R.id.nineImage)
-    ImageView nineImage;
-    @BindView(R.id.nineDescription)
-    TextView nineDescription;
-    @BindView(R.id.nineMore)
-    TextView nineMore;
-    @BindView(R.id.nineUrl)
-    TextView nineUrl;
     @BindView(R.id.tenContent)
     RelativeLayout tenContent;
-    @BindView(R.id.tenWeb)
-    WebView tenWeb;
-    @BindView(R.id.tenImage)
-    ImageView tenImage;
-    @BindView(R.id.tenDescription)
-    TextView tenDescription;
-    @BindView(R.id.tenMore)
-    TextView tenMore;
-    @BindView(R.id.tenUrl)
-    TextView tenUrl;
     @BindView(R.id.elevenContent)
     RelativeLayout elevenContent;
-    @BindView(R.id.elevenWeb)
-    WebView elevenWeb;
-    @BindView(R.id.elevenImage)
-    ImageView elevenImage;
-    @BindView(R.id.elevenDescription)
-    TextView elevenDescription;
-    @BindView(R.id.elevenMore)
-    TextView elevenMore;
-    @BindView(R.id.elevenUrl)
-    TextView elevenUrl;
     @BindView(R.id.twelveContent)
     RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-
     @BindView(R.id.thirteenContent)
     RelativeLayout thirteenContent;
-    @BindView(R.id.thirteenWeb)
-    WebView thirteenWeb;
-    @BindView(R.id.thirteenImage)
-    ImageView thirteenImage;
-    @BindView(R.id.thirteenDescription)
-    TextView thirteenDescription;
-    @BindView(R.id.thirteenMore)
-    TextView thirteenMore;
-    @BindView(R.id.thirteenUrl)
-    TextView thirteenUrl;
     @BindView(R.id.fourteenContent)
     RelativeLayout fourteenContent;
-    @BindView(R.id.fourteenWeb)
-    WebView fourteenWeb;
-    @BindView(R.id.fourteenImage)
-    ImageView fourteenImage;
-    @BindView(R.id.fourteenDescription)
-    TextView fourteenDescription;
-    @BindView(R.id.fourteenMore)
-    TextView fourteenMore;
-    @BindView(R.id.fourteenUrl)
-    TextView fourteenUrl;
     @BindView(R.id.fifteenContent)
     RelativeLayout fifteenContent;
-    @BindView(R.id.fifteenWeb)
-    WebView fifteenWeb;
-    @BindView(R.id.fifteenImage)
-    ImageView fifteenImage;
-    @BindView(R.id.fifteenDescription)
-    TextView fifteenDescription;
-    @BindView(R.id.fifteenMore)
-    TextView fifteenMore;
-    @BindView(R.id.fifteenUrl)
-    TextView fifteenUrl;
     @BindView(R.id.sixteenContent)
     RelativeLayout sixteenContent;
-    @BindView(R.id.sixteenWeb)
-    WebView sixteenWeb;
-    @BindView(R.id.sixteenImage)
-    ImageView sixteenImage;
-    @BindView(R.id.sixteenDescription)
-    TextView sixteenDescription;
-    @BindView(R.id.sixteenMore)
-    TextView sixteenMore;
-    @BindView(R.id.sixteenUrl)
-    TextView sixteenUrl;
     @BindView(R.id.seventeenContent)
     RelativeLayout seventeenContent;
-    @BindView(R.id.seventeenWeb)
-    WebView seventeenWeb;
-    @BindView(R.id.seventeenImage)
-    ImageView seventeenImage;
-    @BindView(R.id.seventeenDescription)
-    TextView seventeenDescription;
-    @BindView(R.id.seventeenMore)
-    TextView seventeenMore;
-    @BindView(R.id.seventeenUrl)
-    TextView seventeenUrl;
     @BindView(R.id.eighteenContent)
     RelativeLayout eighteenContent;
-    @BindView(R.id.eighteenWeb)
-    WebView eighteenWeb;
-    @BindView(R.id.eighteenImage)
-    ImageView eighteenImage;
-    @BindView(R.id.eighteenDescription)
-    TextView eighteenDescription;
-    @BindView(R.id.eighteenMore)
-    TextView eighteenMore;
-    @BindView(R.id.eighteenUrl)
-    TextView eighteenUrl;
     @BindView(R.id.nineteenContent)
     RelativeLayout nineteenContent;
-    @BindView(R.id.nineteenWeb)
-    WebView nineteenWeb;
-    @BindView(R.id.nineteenImage)
-    ImageView nineteenImage;
-    @BindView(R.id.nineteenDescription)
-    TextView nineteenDescription;
-    @BindView(R.id.nineteenMore)
-    TextView nineteenMore;
-    @BindView(R.id.nineteenUrl)
-    TextView nineteenUrl;
     @BindView(R.id.twentyContent)
     RelativeLayout twentyContent;
-    @BindView(R.id.twentyWeb)
-    WebView twentyWeb;
-    @BindView(R.id.twentyImage)
-    ImageView twentyImage;
-    @BindView(R.id.twentyDescription)
-    TextView twentyDescription;
-    @BindView(R.id.twentyMore)
-    TextView twentyMore;
-    @BindView(R.id.twentyUrl)
-    TextView twentyUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-    @BindView(R.id.twelveContent)
-    RelativeLayout twelveContent;
-    @BindView(R.id.twelveWeb)
-    WebView twelveWeb;
-    @BindView(R.id.twelveImage)
-    ImageView twelveImage;
-    @BindView(R.id.twelveDescription)
-    TextView twelveDescription;
-    @BindView(R.id.twelveMore)
-    TextView twelveMore;
-    @BindView(R.id.twelveUrl)
-    TextView twelveUrl;
-
-    @BindView(R.id.oneProgress)
-    ProgressBar barOne;
-    @BindView(R.id.twoProgress)
-    ProgressBar barTwo;
-    @BindView(R.id.threeProgress)
-    ProgressBar barThree;
-    @BindView(R.id.fourProgress)
-    ProgressBar barFour;
-    @BindView(R.id.fiveProgress)
-    ProgressBar barFive;
-    @BindView(R.id.sixProgress)
-    ProgressBar barSix;
-    @BindView(R.id.sevenProgress)
-    ProgressBar barSeven;
-    @BindView(R.id.eightProgress)
-    ProgressBar barEight;
-    @BindView(R.id.nineProgress)
-    ProgressBar barNine;
-    @BindView(R.id.tenProgress)
-    ProgressBar barTen;
-    @BindView(R.id.elevenProgress)
-    ProgressBar barEleven;
-    @BindView(R.id.twelveProgress)
-    ProgressBar barTwelve;
+    @BindView(R.id.twentyOneContent)
+    RelativeLayout twentyOneContent;
+    @BindView(R.id.twentyTwoContent)
+    RelativeLayout twentyTwoContent;
+    @BindView(R.id.twentyThreeContent)
+    RelativeLayout twentyThreeContent;
+    @BindView(R.id.twentyFourContent)
+    RelativeLayout twentyFourContent;
+    @BindView(R.id.twentyFiveContent)
+    RelativeLayout twentyFiveContent;
+    @BindView(R.id.twentySixContent)
+    RelativeLayout twentySixContent;
+    @BindView(R.id.twentySevenContent)
+    RelativeLayout twentySevenContent;
+    @BindView(R.id.twentyEightContent)
+    RelativeLayout twentyEightContent;
+    @BindView(R.id.twentyNineContent)
+    RelativeLayout twentyNineContent;
+    @BindView(R.id.thirtyContent)
+    RelativeLayout thirtyContent;
+    @BindView(R.id.thirtyOneContent)
+    RelativeLayout thirtyOneContent;
+    @BindView(R.id.thirtyTwoContent)
+    RelativeLayout thirtyTwoContent;
+    @BindView(R.id.thirtyThreeContent)
+    RelativeLayout thirtyThreeContent;
+    @BindView(R.id.thirtyFourContent)
+    RelativeLayout thirtyFourContent;
+    @BindView(R.id.thirtyFiveContent)
+    RelativeLayout thirtyFiveContent;
+    @BindView(R.id.thirtySixContent)
+    RelativeLayout thirtySixContent;
+    @BindView(R.id.thirtySevenContent)
+    RelativeLayout thirtySevenContent;
+    @BindView(R.id.thirtyEightContent)
+    RelativeLayout thirtyEightContent;
+    @BindView(R.id.thirtyNineContent)
+    RelativeLayout thirtyNineContent;
+    @BindView(R.id.fortyContent)
+    RelativeLayout fortyContent;
 
     @BindView(R.id.fullArticleLayer)
     RelativeLayout fullArticleLayer;
@@ -564,11 +259,7 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView littleSwitchPhotoIcon;
     @BindView(R.id.toolbarSeparatorArticle)
     View toolbarSeparatorArticle;
-    ArrayList<WebView> contentViews;
-    ArrayList<TextView> contentDescriptions;
     ArrayList<Connected_items> connectedItemses;
-    ArrayList<TextView> contentMore;
-    ArrayList<TextView> contentUrl;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
     ShareDialog shareFacebookDialog;
@@ -584,34 +275,11 @@ public class ArticleActivity extends AppCompatActivity {
     int formatCount = 0;
     private Target loadTarget;
     Unbinder unbinder;
-    ArrayList<ContentView> viwes;
-    @BindView(R.id.firstVideo)
-    WebView firstVideo;
-    @BindView(R.id.secondVideo)
-    WebView secondVideo;
-    @BindView(R.id.thirdVideo)
-    WebView thirdVideo;
-    @BindView(R.id.fourthVideo)
-    WebView fourthVideo;
-    @BindView(R.id.fifthVideo)
-    WebView fifthVideo;
-    @BindView(R.id.sixVideo)
-    WebView sixVideo;
-    @BindView(R.id.sevenVideo)
-    WebView sevenVideo;
-    @BindView(R.id.eightVideo)
-    WebView eightVideo;
-    @BindView(R.id.nineVideo)
-    WebView nineVideo;
-    @BindView(R.id.tenVideo)
-    WebView tenVideo;
-    @BindView(R.id.elevenVideo)
-    WebView elevenVideo;
-    @BindView(R.id.twelveVideo)
-    WebView twelveVideo;
+    ArrayList<RelativeLayout> contentLayouts;
     Uri sharedBitmap;
     Tracker mTracker;
     String type;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -619,7 +287,7 @@ public class ArticleActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        setContentView(R.layout.article_layers_activity);
+        setContentView(R.layout.test_article_layer);
         Log.d(LOG, "onCreate");
         shareLayout = LayoutInflater.from(this).inflate(R.layout.share_dialog, null);
         unbinder = ButterKnife.bind(this);
@@ -633,7 +301,6 @@ public class ArticleActivity extends AppCompatActivity {
         setUpShare();
         drawFragment();
         setUPContent();
-        getAllContents();
         setUpGalleries();
         setUpMatchNews();
     }
@@ -727,7 +394,7 @@ public class ArticleActivity extends AppCompatActivity {
         loadArticle(connectedItemses.get(1).getDoc_list().getId());
     }
 
-    private void loadArticle(Integer id) {
+    public void loadArticle(Integer id) {
         PageApi articleApi = RetrofitServiceGenerator.createService(PageApi.class);
         Observable<Article> callArticle = articleApi.getItemById(id);
         callArticle.subscribeOn(Schedulers.io())
@@ -746,7 +413,7 @@ public class ArticleActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Article article) {
                         Intent newMatchArticle = getIntent();
-                        newMatchArticle.putExtra(Constants.ITEM, article.getItem());
+                        newMatchArticle.putExtra(Constants.ITEM, type);
                         startActivity(newMatchArticle);
                     }
                 });
@@ -769,26 +436,51 @@ public class ArticleActivity extends AppCompatActivity {
     private void setUPContent() {
         Log.d(LOG, "setUpTextField");
         matchArticles.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-boldex.ttf"));
-        contentViews = new ArrayList<>();
-        contentDescriptions = new ArrayList<>();
-        contentMore = new ArrayList<>();
-        contentUrl = new ArrayList<>();
         galleries = new ArrayList<>();
         contents = new ArrayList<>();
         contents.addAll(item.getContent());
-        viwes = new ArrayList<>();
-        viwes.add(new ContentView(firstContent, firstWeb, barOne, firstImage, firstDescription, firstMore, firstUrl, firstVideo));
-        viwes.add(new ContentView(secondContent, secondWeb, barTwo, secondImage, secondDescription, secondMore, secondUrl, secondVideo));
-        viwes.add(new ContentView(thirdContent, thirdWeb, barThree, thirdImage, thirdDescription, thirdMore, thirdUrl, thirdVideo));
-        viwes.add(new ContentView(fourthContent, fourthWeb, barFour, fourthImage, fourthDescription, fourthMore, fourthUrl, fourthVideo));
-        viwes.add(new ContentView(fifthContent, fifthWeb, barFive, fifthImage, fifthDescription, fifthMore, fifthUrl, fifthVideo));
-        viwes.add(new ContentView(sixContent, sixWeb, barSix, sixImage, sixDescription, sixMore, sixUrl, sixVideo));
-        viwes.add(new ContentView(sevenContent, sevenWeb, barSeven, sevenImage, sevenDescription, sevenMore, sevenUrl, sevenVideo));
-        viwes.add(new ContentView(eightContent, eightWeb, barEight, eightImage, eightDescription, eightMore, eightUrl, eightVideo));
-        viwes.add(new ContentView(nineContent, nineWeb, barNine, nineImage, nineDescription, nineMore, nineUrl, nineVideo));
-        viwes.add(new ContentView(tenContent, tenWeb, barTen, tenImage, tenDescription, tenMore, tenUrl, tenVideo));
-        viwes.add(new ContentView(elevenContent, elevenWeb, barEleven, elevenImage, elevenDescription, elevenMore, elevenUrl, elevenVideo));
-        viwes.add(new ContentView(twelveContent, twelveWeb, barTwelve, twelveImage, twelveDescription, twelveMore, twelveUrl, twelveVideo));
+        contentLayouts = new ArrayList<>();
+        contentLayouts.add(firstContent);
+        contentLayouts.add(secondContent);
+        contentLayouts.add(thirdContent);
+        contentLayouts.add(fourthContent);
+        contentLayouts.add(fifthContent);
+        contentLayouts.add(sixContent);
+        contentLayouts.add(sevenContent);
+        contentLayouts.add(eightContent);
+        contentLayouts.add(nineContent);
+        contentLayouts.add(tenContent);
+        contentLayouts.add(elevenContent);
+        contentLayouts.add(twelveContent);
+        contentLayouts.add(thirteenContent);
+        contentLayouts.add(fourteenContent);
+        contentLayouts.add(fifteenContent);
+        contentLayouts.add(sixteenContent);
+        contentLayouts.add(seventeenContent);
+        contentLayouts.add(eighteenContent);
+        contentLayouts.add(nineteenContent);
+        contentLayouts.add(twentyContent);
+        contentLayouts.add(twentyOneContent);
+        contentLayouts.add(twentyTwoContent);
+        contentLayouts.add(twentyThreeContent);
+        contentLayouts.add(twentyFourContent);
+        contentLayouts.add(twentyFiveContent);
+        contentLayouts.add(twentySixContent);
+        contentLayouts.add(twentySevenContent);
+        contentLayouts.add(twentyEightContent);
+        contentLayouts.add(twentyNineContent);
+        contentLayouts.add(thirtyContent);
+        contentLayouts.add(thirtyOneContent);
+        contentLayouts.add(thirtyTwoContent);
+        contentLayouts.add(thirtyThreeContent);
+        contentLayouts.add(thirtyFourContent);
+        contentLayouts.add(thirtyFiveContent);
+        contentLayouts.add(thirtySixContent);
+        contentLayouts.add(thirtySevenContent);
+        contentLayouts.add(thirtyEightContent);
+        contentLayouts.add(thirtyNineContent);
+        contentLayouts.add(fortyContent);
+
 
         for (int n = 0; n < contents.size(); n++) {
             if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
@@ -796,128 +488,19 @@ public class ArticleActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    public void getAllContents() {
-        contentViews = new ArrayList<>();
-        for (int i = 0; i < contents.size(); i++) {
-            if (contents.get(i) != null) {
-                initContent(contents.get(i), viwes.get(i).getContentLayer(), viwes.get(i).getContentView(), viwes.get(i).getLoader(),
-                        viwes.get(i).getImage(), viwes.get(i).getDescription(),
-                        viwes.get(i).getMoreTitle(), viwes.get(i).getMoreUrl(), viwes.get(i).getWebVideo());
-            }
+        for (int m = 0; m < contents.size(); m++) {
+            contentLayouts.get(m).setVisibility(View.VISIBLE);
+            ContentFragment contentFragment = new ContentFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.CONTENT, contents.get(m));
+            bundle.putString(Constants.IS_GALLERY, item.getArticle_type());
+            contentFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(contentLayouts.get(m).getId(), contentFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
+
     }
-
-    public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl, WebView webVideo) {
-        if (content != null) {
-            if (content.getText() != null) {
-                String contentText;
-                contentLayer.setVisibility(View.VISIBLE);
-                contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-                contentView.setScrollContainer(false);
-//                contentText = content.getText().replace("font-size:18px", "font-size:16px");
-//                if (contentText.contains("class=\"social-embed\"")) {
-//                    String splitt = contentText;
-//                    String contentStrings[] = splitt.split("class=\"social-embed\"");
-//                    contentText = contentStrings[0];
-//                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
-//                } else {
-                contentView.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
-//                }
-                contentView.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        loader.setVisibility(View.VISIBLE);
-                        contentView.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        loader.setVisibility(View.GONE);
-                        contentView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                        if (url.contains("id=")) {
-                            SpannableString link = new SpannableString(url);
-                            String spliterableMain = url;
-                            String firstSlpit[] = spliterableMain.split("id=");
-                            String idString = firstSlpit[1];
-                            String spliterableId[] = idString.split("\"");
-                            String linkId = spliterableId[0];
-                            final Pattern word = Pattern.compile(linkId);
-                            Matcher matcher = word.matcher(link);
-                            if (matcher.find()) {
-                                int articleId = Integer.parseInt(linkId);
-                                loadArticle(articleId);
-                            }
-                        } else if (!url.contains("id=")) {
-                            Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
-                            browser.putExtra(Constants.URL, url);
-                            startActivity(browser);
-                            view.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
-                        }
-                        return false;
-                    }
-
-                });
-                contentView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-                contentView.getSettings().setJavaScriptEnabled(true);
-                contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                contentView.setWebChromeClient(new WebChromeClient());
-                contentViews.add(contentView);
-
-            } else if (content.getPhotos() != null) {
-                contentLayer.setVisibility(View.VISIBLE);
-                image.setVisibility(View.VISIBLE);
-                loader.setVisibility(View.VISIBLE);
-                loadPhoto(ArticleActivity.this, content.getPhotos().get(0).getImg_url(), image, loader);
-                if (!content.getPhotos().get(0).getDescription().equals("")) {
-                    description.setText(content.getPhotos().get(0).getDescription());
-                    description.setVisibility(View.VISIBLE);
-                } else {
-                    description.setText("");
-                    description.setVisibility(View.GONE);
-                }
-                description.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                contentDescriptions.add(description);
-            } else if (content.getAssociate() != null) {
-                contentLayer.setVisibility(View.VISIBLE);
-                moreTitle.setVisibility(View.VISIBLE);
-                moreUrl.setVisibility(View.VISIBLE);
-                moreTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-                moreUrl.setText(content.getAssociate().getTitle());
-                moreUrl.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-                moreUrl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (content.getAssociate().getId() != null) {
-                            loadArticle(content.getAssociate().getId());
-                        } else {
-                            Intent browser = new Intent(ArticleActivity.this, AppBrowserActivity.class);
-                            browser.putExtra(Constants.URL, content.getAssociate().getUrl());
-                            startActivity(browser);
-                        }
-                    }
-                });
-                contentMore.add(moreTitle);
-                contentUrl.add(moreUrl);
-            } else if (content.getVideo_url() != null) {
-                contentLayer.setVisibility(View.VISIBLE);
-                webVideo.setVisibility(View.VISIBLE);
-                webVideo.setWebViewClient(new WebViewClient());
-                webVideo.loadUrl(content.getVideo_url());
-                webVideo.getSettings().setJavaScriptEnabled(true);
-                webVideo.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                webVideo.setWebChromeClient(new WebChromeClient());
-            }
-        }
-    }
-
 
     @OnClick(R.id.littlePhotoSwitcherTwo)
     public void pagerClick() {
@@ -1138,20 +721,22 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof MainShortFragment) {
                         ((MainShortFragment) fragment).formatIncrement();
                     }
-
-                    for (TextView text : contentDescriptions) {
-                        text.setTextSize(18);
+                    FragmentManager contentFm = getSupportFragmentManager();
+                    List<Fragment> fragmentsCont = contentFm.getFragments();
+                    for (Fragment fragmCont : fragmentsCont) {
+                        if (fragmCont instanceof ContentFragment) {
+                            ((ContentFragment) fragmCont).increment();
+                            ((ContentFragment) fragmCont).zoomIn();
+                        }
                     }
-
-                    for (TextView more : contentMore) {
-                        more.setTextSize(12);
-                    }
-
-                    for (TextView url : contentUrl) {
-                        url.setTextSize(18);
-                    }
-
                     matchArticles.setTextSize(27);
+                    connectedNewsOneDate.setTextSize(12);
+                    connectedNewsOneText.setTextSize(18);
+                    connectedNewsTwoDate.setTextSize(12);
+                    connectedNewsTwoText.setTextSize(18);
+                    if (gAdapter != null){
+                        gAdapter.incrementDesc();
+                    }
                 }
                 break;
             case 1:
@@ -1184,20 +769,22 @@ public class ArticleActivity extends AppCompatActivity {
                     } else if (fragment instanceof MainShortFragment) {
                         ((MainShortFragment) fragment).formatDecrement();
                     }
-
-                    for (TextView text : contentDescriptions) {
-                        text.setTextSize(16);
+                    FragmentManager contentFm = getSupportFragmentManager();
+                    List<Fragment> fragmentsCont = contentFm.getFragments();
+                    for (Fragment fragmCont : fragmentsCont) {
+                        if (fragmCont instanceof ContentFragment) {
+                            ((ContentFragment) fragmCont).decrement();
+                            ((ContentFragment) fragmCont).zoomOut();
+                        }
                     }
-
-                    for (TextView more : contentMore) {
-                        more.setTextSize(10);
-                    }
-
-                    for (TextView url : contentUrl) {
-                        url.setTextSize(16);
-                    }
-
                     matchArticles.setTextSize(25);
+                    connectedNewsOneDate.setTextSize(10);
+                    connectedNewsOneText.setTextSize(16);
+                    connectedNewsTwoDate.setTextSize(10);
+                    connectedNewsTwoText.setTextSize(16);
+                    if (gAdapter != null){
+                        gAdapter.decrDesc();
+                    }
                 }
                 break;
         }
@@ -1206,7 +793,6 @@ public class ArticleActivity extends AppCompatActivity {
     private void drawFragment() {
         Log.d(LOG, "drawFragment");
         Bundle bundle = new Bundle();
-//        articleType = item.getArticle_type();
         switch (type) {
             case Constants.SIMPLE_TEXT:
                 SimpleTextArticleFragment simpleText = new SimpleTextArticleFragment();
@@ -1291,54 +877,6 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-    private void scaleImage(ImageView view) throws NoSuchElementException {
-        Bitmap bitmap = null;
-        try {
-            Drawable drawing = view.getDrawable();
-            bitmap = ((BitmapDrawable) drawing).getBitmap();
-        } catch (NullPointerException e) {
-            throw new NoSuchElementException("No drawable on given view");
-        } catch (ClassCastException e) {
-            bitmap = Ion.with(view).getBitmap();
-        }
-
-        int width = 0;
-
-        try {
-            width = bitmap.getWidth();
-        } catch (NullPointerException e) {
-            throw new NoSuchElementException("Can't find bitmap on given view/drawable");
-        }
-
-        int height = bitmap.getHeight();
-        int bounding = dpToPx(250);
-
-        float xScale = ((float) bounding) / width;
-        float yScale = ((float) bounding) / height;
-        float scale = (xScale <= yScale) ? xScale : yScale;
-
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-
-        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-        width = scaledBitmap.getWidth();
-        height = scaledBitmap.getHeight();
-        BitmapDrawable result = new BitmapDrawable(scaledBitmap);
-
-        view.setImageDrawable(result);
-
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-        params.width = width;
-        params.height = height;
-        view.setLayoutParams(params);
-
-    }
-
-    private int dpToPx(int dp) {
-        float density = getApplicationContext().getResources().getDisplayMetrics().density;
-        return Math.round((float)dp * density);
-    }
-
     private void galleryBackground() {
         format.setBackgroundResource(R.drawable.format_white);
         share.setBackgroundResource(R.drawable.share_icon_white);
@@ -1351,32 +889,6 @@ public class ArticleActivity extends AppCompatActivity {
         galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
-        firstDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        firstWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        secondDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        secondWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        thirdDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        thirdWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        fourthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        fourthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        fifthDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        fifthWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        sixDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        sixWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        sevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        sevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        eightDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        eightWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        nineDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        nineWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        tenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        tenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        tenMore.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        tenUrl.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        elevenDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        elevenWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        twelveDescription.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        twelveWeb.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
 
     }
 

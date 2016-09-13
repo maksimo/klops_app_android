@@ -59,6 +59,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"
+                android:layout_marginRight="-10dp"
                 android:textStyle="bold"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"

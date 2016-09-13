@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/contentFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:visibility="gone">
+
+        <WebView
+            android:id="@+id/contentWeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
+
+        <WebView
+            android:id="@+id/contentVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentWeb"
+            android:paddingBottom="30dp"
+            android:scrollbars="none"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/contentImage"
+            android:layout_below="@+id/contentVideo"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:layout_width="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/contentProgress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/contentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentImage"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/greyText"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/contentMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@+id/contentDescription"
+            android:layout_marginLeft="15dp"
+            android:text="@string/moreAbout"
+            android:textAllCaps="true"
+            android:textColor="@color/darkGreyText"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/contentUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentMore"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/linkColor"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

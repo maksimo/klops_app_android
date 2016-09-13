@@ -60,6 +60,7 @@
                 android:layout_below="@+id/splitterInterviewFirst"
                 android:layout_marginLeft="15dp"
                 android:text=""
+                android:layout_marginRight="-10dp"
                 android:textAllCaps="true"
                 android:textColor="@color/darkGreyText"
                 android:textSize="10sp"

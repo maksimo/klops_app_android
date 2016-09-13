@@ -466,7 +466,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @OnClick(R.id.whatsappLogo)
     public void openWhatsapp() {
         whatsapp.startAnimation(alpha);
-        String DisplayName = "Klops.ru";
+        String DisplayName = "Klops";
         String MobileNumber = "+79097823333";
         Bitmap bmImage = BitmapFactory.decodeResource(SettingsActivity.this.getResources(),
                 R.drawable.app_icon_main);

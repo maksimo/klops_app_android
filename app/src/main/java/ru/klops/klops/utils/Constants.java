@@ -57,4 +57,6 @@ public class Constants {
     // Analytics
     public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
     public static final String TYPE = "TYPE";
+    public static final String CONTENT = "CONTENT";
+    public static final java.lang.String IS_GALLERY = "GALLERY";
 }

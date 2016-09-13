@@ -34,7 +34,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.1"
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -44,9 +44,11 @@ android {
             signingConfig getSigningConfig()
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    def name = new String("klops-ru");
+                    def name = new String("klops");
                     output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("-debug", "-" + name))
+                            output.outputFile.name.replace("app-debug", "" + name + "-test-build"))
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-release", "" + name))
                 }
             }
         }
