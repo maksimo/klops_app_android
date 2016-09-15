@@ -1,17 +1,12 @@
 package ru.klops.klops;
 
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -19,19 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,9 +54,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +63,6 @@ import ru.klops.klops.adapter.GalleryContentPagerAdapter;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.custom.TextViewProRegular;
 import ru.klops.klops.fragments.AdsArticleFragment;
 import ru.klops.klops.fragments.AuthorArticleFragment;
 import ru.klops.klops.fragments.ContentFragment;
@@ -93,7 +77,6 @@ import ru.klops.klops.fragments.SimpleTextArticleFragment;
 import ru.klops.klops.fragments.SimpleWideArticleFragment;
 import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
 import ru.klops.klops.fragments.UrgentArticleFragment;
-import ru.klops.klops.models.ContentView;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
@@ -127,6 +110,8 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout facebook;
     RelativeLayout vkontakte;
     Item item;
+    @BindView(R.id.articleLayer)
+    RelativeLayout articleLayer;
     @BindView(R.id.textMatch)
     TextView matchArticles;
     @BindView(R.id.littlePhotoSwitcher)
@@ -279,6 +264,7 @@ public class ArticleActivity extends AppCompatActivity {
     Uri sharedBitmap;
     Tracker mTracker;
     String type;
+    String contentType;
 
 
     @Override
@@ -287,7 +273,7 @@ public class ArticleActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        setContentView(R.layout.test_article_layer);
+        setContentView(R.layout.article_activity);
         Log.d(LOG, "onCreate");
         shareLayout = LayoutInflater.from(this).inflate(R.layout.share_dialog, null);
         unbinder = ButterKnife.bind(this);
@@ -296,6 +282,7 @@ public class ArticleActivity extends AppCompatActivity {
         mTracker = app.getDefaultTracker();
         item = getIntent().getParcelableExtra(Constants.ITEM);
         type = getIntent().getStringExtra(Constants.TYPE);
+        contentType = getIntent().getStringExtra(Constants.CONTENT_TYPE);
         setSupportActionBar(toolbar);
         initSocials();
         setUpShare();
@@ -385,18 +372,18 @@ public class ArticleActivity extends AppCompatActivity {
     @OnClick(R.id.connectedNewsOneLayer)
     public void openFirstMatchNews() {
         connectedNewsOneLayer.startAnimation(alpha);
-        loadArticle(connectedItemses.get(0).getDoc_list().getId());
+        loadArticle(connectedItemses.get(0).getDoc_list().getId(), connectedItemses.get(0).getDoc_list().getContent_type());
     }
 
     @OnClick(R.id.connectedNewsTwoLayer)
     public void openSecondMatchNews() {
         connectedNewsTwoLayer.startAnimation(alpha);
-        loadArticle(connectedItemses.get(1).getDoc_list().getId());
+        loadArticle(connectedItemses.get(1).getDoc_list().getId(), connectedItemses.get(1).getDoc_list().getContent_type());
     }
 
-    public void loadArticle(Integer id) {
+    public void loadArticle(Integer id, String contentType) {
         PageApi articleApi = RetrofitServiceGenerator.createService(PageApi.class);
-        Observable<Article> callArticle = articleApi.getItemById(id);
+        Observable<Article> callArticle = articleApi.getItemById(id, contentType);
         callArticle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
@@ -481,12 +468,34 @@ public class ArticleActivity extends AppCompatActivity {
         contentLayouts.add(thirtyNineContent);
         contentLayouts.add(fortyContent);
 
-
         for (int n = 0; n < contents.size(); n++) {
             if (contents.get(n).getGallery() != null && !contents.get(n).getGallery().isEmpty()) {
                 galleries.addAll(contents.get(n).getGallery());
             }
         }
+
+        if (contentType.equals(Constants.GALLERY_TYPE)){
+            format.setBackgroundResource(R.drawable.format_white);
+            share.setBackgroundResource(R.drawable.share_icon_white);
+            back.setBackgroundResource(R.drawable.back_white);
+            toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+            fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+            splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+            littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
+            matchLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+            connectedNewsOneDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            connectedNewsOneText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            connectedNewsOneLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            connectedNewsTwoDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            connectedNewsTwoText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            connectedNewsTwoLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            articleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        }
+
 
         for (int m = 0; m < contents.size(); m++) {
             contentLayouts.get(m).setVisibility(View.VISIBLE);
@@ -554,7 +563,7 @@ public class ArticleActivity extends AppCompatActivity {
     @OnClick(R.id.littlePhotoSwitchCounter)
     public void nextPhoto() {
         if (count != littleAdapter.getCount() - 1) {
-            littleGallery.setCurrentItem(count + 1);
+            littleGallery.setCurrentItem(littleGallery.getCurrentItem() + 1);
             count++;
         } else {
             count = 0;
@@ -734,8 +743,8 @@ public class ArticleActivity extends AppCompatActivity {
                     connectedNewsOneText.setTextSize(18);
                     connectedNewsTwoDate.setTextSize(12);
                     connectedNewsTwoText.setTextSize(18);
-                    if (gAdapter != null){
-                        gAdapter.incrementDesc();
+                    if (gAdapter != null) {
+                        littlePhotoSwitchCounterTwo.setTextSize(18);
                     }
                 }
                 break;
@@ -782,8 +791,8 @@ public class ArticleActivity extends AppCompatActivity {
                     connectedNewsOneText.setTextSize(16);
                     connectedNewsTwoDate.setTextSize(10);
                     connectedNewsTwoText.setTextSize(16);
-                    if (gAdapter != null){
-                        gAdapter.decrDesc();
+                    if (gAdapter != null) {
+                        littlePhotoSwitchCounterTwo.setTextSize(16);
                     }
                 }
                 break;
@@ -878,18 +887,18 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void galleryBackground() {
-        format.setBackgroundResource(R.drawable.format_white);
-        share.setBackgroundResource(R.drawable.share_icon_white);
-        back.setBackgroundResource(R.drawable.back_white);
-        toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
-        fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-        splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
 
+            format.setBackgroundResource(R.drawable.format_white);
+            share.setBackgroundResource(R.drawable.share_icon_white);
+            back.setBackgroundResource(R.drawable.back_white);
+            toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+            fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+            splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+            galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+            littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+            littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
     }
 
     public void placeArticleFragment(Fragment fragment) {

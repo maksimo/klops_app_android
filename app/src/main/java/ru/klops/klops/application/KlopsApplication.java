@@ -26,6 +26,13 @@ import io.fabric.sdk.android.Fabric;
 
 public class KlopsApplication extends Application {
     private static final String LOG_TAG = "KlopsAppliction: ";
+    private static KlopsApplication INSTANCE;
+    private Page firstPage;
+    private String token;
+    private Item item;
+    private Popular popularPage;
+    private Tracker tracker;
+
     VKAccessTokenTracker accessTokenTracker = new VKAccessTokenTracker() {
         @Override
         public void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken) {
@@ -34,13 +41,6 @@ public class KlopsApplication extends Application {
             }
         }
     };
-    private static KlopsApplication INSTANCE;
-
-    private Page firstPage;
-    private String token;
-    private Item item;
-    private Popular popularPage;
-    private Tracker tracker;
 
 
     public static KlopsApplication getINSTANCE() {
@@ -50,7 +50,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         VKSdk.initialize(getApplicationContext());

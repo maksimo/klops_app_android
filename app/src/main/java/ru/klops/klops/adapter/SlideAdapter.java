@@ -8,7 +8,7 @@ import ru.klops.klops.fragments.NewDataNewsFragment;
 import ru.klops.klops.fragments.PopularDataNewsFragment;
 
 public class SlideAdapter extends FragmentStatePagerAdapter {
-    int pages = 2;
+    private int pages = 2;
 
     public SlideAdapter(FragmentManager manager, int pages) {
         super(manager);

@@ -35,8 +35,8 @@ public interface PageApi {
      * @return Article data with current id
      */
     @Headers("Content-Type: application/json")
-    @GET("get_news_item/{id}/$content-type")
-    Observable<Article> getItemById(@Path("id") Integer id);
+    @GET("get_news_item/{id}/{content_type}")
+    Observable<Article> getItemById(@Path("id") Integer id, @Path("content_type") String type);
 
     /**
      * @param searchValue value, which will be used as keyword in search request

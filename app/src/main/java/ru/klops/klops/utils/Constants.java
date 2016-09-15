@@ -58,5 +58,10 @@ public class Constants {
     public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
     public static final String TYPE = "TYPE";
     public static final String CONTENT = "CONTENT";
-    public static final java.lang.String IS_GALLERY = "GALLERY";
+    public static final String IS_GALLERY = "GALLERY";
+    public static final String GALLERY_TYPE = "gallery";
+    public static final String ARTICLE_TYPE = "article";
+
+    public static final String PHOTOS = "PHOTOS";
+    public static final String CONTENT_TYPE = "CONTENT_TYPE";
 }

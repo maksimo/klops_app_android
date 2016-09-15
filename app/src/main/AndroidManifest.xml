@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AppBrowserActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".adapter.PhotoActivity" android:screenOrientation="portrait"/>
+utils.        <activity android:name=".PhotoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SettingsActivity"  android:screenOrientation="portrait"/>
         <activity android:name=".ArticleActivity"  android:screenOrientation="portrait">
             <intent-filter>

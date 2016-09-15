@@ -4,8 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,12 +11,11 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GcmListenerService;
+import com.google.android.gms.gcm.
+GcmListenerService;
 
 import ru.klops.klops.ArticleActivity;
-import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.SettingsActivity;
 import ru.klops.klops.api.PageApi;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Item;
@@ -56,7 +53,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
     private void sendNotification(final String message) {
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Observable<Article> call = api.getItemById(id);
+        Observable<Article> call = api.getItemById(id, Constants.ARTICLE_TYPE);
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
@@ -83,6 +80,7 @@ public class MyGcmListenerService extends GcmListenerService {
         intent = new Intent(this, ArticleActivity.class);
         intent.putExtra(Constants.ITEM, item);
         intent.putExtra(Constants.TYPE, article_type);
+        intent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -90,7 +88,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.app_icon_transparent);
+            notificationBuilder.setSmallIcon(R.drawable.app_icon_main_transparent_full);
         } else {
             notificationBuilder.setSmallIcon(R.drawable.app_icon_main);
         }

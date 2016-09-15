@@ -14,6 +14,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
+import ru.klops.klops.R;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.fragments.BaseFragment;
 import ru.klops.klops.fragments.NewDataNewsFragment;

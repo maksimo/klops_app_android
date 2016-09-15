@@ -29,7 +29,7 @@ import ru.klops.klops.models.article.Item;
 import ru.klops.klops.utils.Constants;
 
 public class AdsArticleFragment extends Fragment {
-    final String LOG = "AdsArticleFragment";
+    private static final String LOG = "AdsArticleFragment";
     View fragmentView;
     @BindView(R.id.advsPhoto)
     ImageView photo;

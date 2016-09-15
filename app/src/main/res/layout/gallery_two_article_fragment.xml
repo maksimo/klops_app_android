@@ -60,9 +60,9 @@
                     android:id="@+id/galleryTwoCam"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_below="@+id/galleryTwoAuthor"
+                    android:layout_below="@+id/galleryTwoDate"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/photo_cam" />
 
                 <TextView
@@ -80,39 +80,19 @@
 
             </RelativeLayout>
 
-            <android.support.percent.PercentRelativeLayout
-                android:id="@+id/galleryImageLayerTwo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/galleryTitleLayoutTwo">
-
-                <ImageView
-                    android:id="@+id/imageGalleryTwoBig"
-                    app:layout_widthPercent="100%"
-                    app:layout_aspectRatio="178%" />
-
-                <ProgressBar
-                    android:id="@+id/galleryTwoProgress"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
-            </android.support.percent.PercentRelativeLayout>
-
             <TextView
                 android:id="@+id/galleryTwoDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/galleryImageLayerTwo"
                 android:lineSpacingExtra="2dp"
                 android:minLines="1"
                 android:text=""
                 android:textColor="@color/greyText"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginRight="30dp" />
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/galleryTitleLayoutTwo" />
 
         </RelativeLayout>
 </RelativeLayout>

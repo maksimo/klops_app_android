@@ -10,7 +10,6 @@
         android:id="@+id/galleryTwoLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:elevation="1dp">
 
         <RelativeLayout
@@ -124,7 +123,7 @@
             android:layout_below="@+id/galleryCardTwoDate"
             android:layout_marginLeft="15dp"
             android:background="@drawable/photo_cam"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="7dp" />
 
         <TextView
             android:id="@+id/galleryCardTwoTitle"
@@ -154,7 +153,7 @@
                     android:id="@+id/galleryCardTwoPhotoFirst"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:scaleType="fitXY" />
+                    android:scaleType="centerCrop" />
 
                 <ProgressBar
                     android:id="@+id/galleryCardTwoLoadingFirst"
@@ -179,7 +178,7 @@
                     android:id="@+id/galleryCardTwoPhotoSecond"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:scaleType="fitXY" />
+                    android:scaleType="centerCrop" />
 
                 <ProgressBar
                     android:id="@+id/galleryCardTwoLoadingSecond"

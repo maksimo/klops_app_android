@@ -45,8 +45,11 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def name = new String("klops");
+                    def date = new Date()
+                    def formattedDate = date.format('ddMM')
+                    def version = getVersion();
                     output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("app-debug", "" + name + "-test-build"))
+                            output.outputFile.name.replace("app-debug", "" + name+ "-test-build"))
                     output.outputFile = new File(output.outputFile.parent,
                             output.outputFile.name.replace("app-release", "" + name))
                 }

@@ -5,38 +5,23 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class GalleryOneArticleFragment extends Fragment {
@@ -49,14 +34,10 @@ public class GalleryOneArticleFragment extends Fragment {
     TextView author;
     @BindView(R.id.galleryOneDate)
     TextView date;
-    @BindView(R.id.imageGalleryBig)
-    ImageView photo;
     @BindView(R.id.galleryCameraIcon)
     ImageView photoIcon;
     @BindView(R.id.galleryOneDescription)
     TextView shortdescription;
-    @BindView(R.id.galleryOneProgress)
-    ProgressBar bar;
     Unbinder unbinder;
     Item item;
     KlopsApplication app;
@@ -77,41 +58,9 @@ public class GalleryOneArticleFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.gallery_one_article_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         item = getArguments().getParcelable(Constants.ARTICLE);
-        setUpImages();
         setUpView();
         Log.d(LOG, "onCreateView");
         return fragmentView;
-    }
-
-    private void setUpImages() {
-        Log.d(LOG, "setUpImages");
-        if (!item.getOg_image().getUrl().equals("")) {
-            Ion.with(getContext()).load(item.getOg_image().getUrl()).progressHandler(new ProgressCallback() {
-                @Override
-                public void onProgress(long downloaded, long total) {
-                    bar.setVisibility(View.VISIBLE);
-                }
-            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
-                @Override
-                public void onCompleted(Exception e, ImageView result) {
-                    bar.setVisibility(View.GONE);
-                }
-            });
-        } else if (!item.getImage().equals("")) {
-            Ion.with(getContext()).load(item.getImage()).progressHandler(new ProgressCallback() {
-                @Override
-                public void onProgress(long downloaded, long total) {
-                    bar.setVisibility(View.VISIBLE);
-                }
-            }).intoImageView(photo).setCallback(new FutureCallback<ImageView>() {
-                @Override
-                public void onCompleted(Exception e, ImageView result) {
-                    bar.setVisibility(View.GONE);
-                }
-            });
-        } else {
-            photo.setVisibility(View.GONE);
-        }
     }
 
     private void setUpView() {
@@ -133,7 +82,7 @@ public class GalleryOneArticleFragment extends Fragment {
         date.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         author.setText(fullAuthor);
         author.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        shortdescription.setText(item.getShortdecription());
+        shortdescription.setText(Html.fromHtml(item.getShortdecription()));
         shortdescription.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/akzidenzgroteskpro-light.ttf"));
 
     }

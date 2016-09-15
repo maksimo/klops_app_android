@@ -1,7 +1,6 @@
 package ru.klops.klops;
 
 import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,10 +27,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.HitBuilders;
@@ -39,7 +38,6 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -193,27 +191,22 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             case 0:
                 clickChecker++;
                 join.startAnimation(alpha);
-                Toast.makeText(this, "1й клик", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
                 clickChecker++;
                 join.startAnimation(alpha);
-                Toast.makeText(this, "2й клик", Toast.LENGTH_SHORT).show();
                 break;
             case 2:
                 clickChecker++;
                 join.startAnimation(alpha);
-                Toast.makeText(this, "3й клик", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 clickChecker++;
                 join.startAnimation(alpha);
-                Toast.makeText(this, "4й клик", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
                 clickChecker = 0;
                 join.startAnimation(alpha);
-                Toast.makeText(this, "5й клик", Toast.LENGTH_SHORT).show();
                 joinPhone.setVisibility(View.GONE);
                 joinTestBaseUrl.setVisibility(View.VISIBLE);
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -466,7 +459,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @OnClick(R.id.whatsappLogo)
     public void openWhatsapp() {
         whatsapp.startAnimation(alpha);
-        String DisplayName = "Klops";
+        String DisplayName = "Klops.ru";
         String MobileNumber = "+79097823333";
         Bitmap bmImage = BitmapFactory.decodeResource(SettingsActivity.this.getResources(),
                 R.drawable.app_icon_main);

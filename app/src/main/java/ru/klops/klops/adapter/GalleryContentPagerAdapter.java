@@ -2,6 +2,7 @@ package ru.klops.klops.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import ru.klops.klops.ArticleActivity;
+import ru.klops.klops.PhotoActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Photos;
@@ -31,7 +33,6 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<Gallery> adapterPhotos;
-    TextView descr;
 
     public GalleryContentPagerAdapter(Context context, ArrayList<Gallery> adapterPhotos) {
         super();
@@ -39,7 +40,6 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         this.adapterPhotos = adapterPhotos;
 
     }
-
 
     @Override
     public int getCount() {
@@ -51,35 +51,28 @@ public class GalleryContentPagerAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.gallery_item, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerPhoto);
-        descr = (TextView) itemView.findViewById(R.id.photoDescription);
+        TextView descr = (TextView) itemView.findViewById(R.id.photoDescription);
         descr.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        descr.setTextSize(16);
         Ion.with(context.getApplicationContext()).load(adapterPhotos.get(position).getImg_url()).withBitmap().intoImageView(photo);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PhotoActivity.class);
-                intent.putExtra(Constants.PHOTO, adapterPhotos.get(position).getImg_url());
-                intent.putExtra(Constants.TEXT, adapterPhotos.get(position).getDescription());
-                intent.putExtra(Constants.NUMBER, String.valueOf(position + 1) + "/" + String.valueOf(adapterPhotos.size()));
+                intent.putParcelableArrayListExtra(Constants.PHOTOS, adapterPhotos);
+                intent.putExtra(Constants.NUMBER, position + 1);
                 context.startActivity(intent);
             }
         });
         if (!adapterPhotos.get(position).getDescription().equals("")) {
             descr.setText(adapterPhotos.get(position).getDescription());
-        }else {
+        } else {
             descr.setVisibility(View.INVISIBLE);
         }
         container.addView(itemView);
         return itemView;
     }
 
-    public void incrementDesc(){
-        descr.setTextSize(18);
-    }
-
-    public void decrDesc(){
-        descr.setTextSize(16);
-    }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {

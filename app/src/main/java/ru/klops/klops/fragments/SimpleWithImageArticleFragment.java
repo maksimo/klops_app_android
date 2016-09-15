@@ -5,38 +5,27 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.adapter.GalleryPagerAdapter;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Item;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class SimpleWithImageArticleFragment extends Fragment {

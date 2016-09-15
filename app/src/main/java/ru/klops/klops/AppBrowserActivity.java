@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.klops.klops.R;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.utils.Constants;
 

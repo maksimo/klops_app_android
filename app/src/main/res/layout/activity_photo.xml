@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:id="@+id/photoLayers"
     android:background="@color/galleryCard"
-    tools:context=".adapter.PhotoActivity"
+    tools:context=".utils.activities.PhotoActivity"
     android:orientation="vertical">
 
     <ru.klops.klops.custom.Circle
@@ -19,36 +20,17 @@
         android:layout_height="40dp"
         android:background="@drawable/quit_gallery"/>
 
-    <ImageView
-        android:id="@+id/bigPhoto"
-        android:layout_marginTop="80dp"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/photosPager"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="@color/colorPrimary"
-        android:scaleType="fitXY"/>
-
-    <ProgressBar
-        android:id="@+id/bigProgress"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"/>
-
-    <ru.klops.klops.custom.TextViewProMd
-        android:id="@+id/bigDescription"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/bigPhoto"
-        android:layout_marginTop="15dp"
-        android:background="@color/galleryCard"
-        android:gravity="center"
-        android:textColor="@color/greyText"
-        android:textSize="16sp" />
+        android:layout_centerInParent="true"
+        android:layout_height="280dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/bigDescription"
+        android:layout_below="@+id/photosPager"
         android:background="@color/galleryCard">
 
         <RelativeLayout
@@ -83,4 +65,4 @@
                 android:textColor="@color/darkGreyText" />
         </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

@@ -9,7 +9,10 @@
             android:id="@+id/galleryArticle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/galleryCard">
+            android:background="@color/galleryCard"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <RelativeLayout
                 android:id="@+id/galleryTitleLayoutOne"
@@ -63,7 +66,7 @@
                     android:layout_height="20dp"
                     android:layout_below="@+id/galleryOneDate"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/photo_cam" />
 
                 <TextView
@@ -81,39 +84,19 @@
 
             </RelativeLayout>
 
-            <android.support.percent.PercentRelativeLayout
-                android:id="@+id/galleryImageLayer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/galleryTitleLayoutOne">
-
-                <ImageView
-                    android:id="@+id/imageGalleryBig"
-                    app:layout_widthPercent="100%"
-                    app:layout_aspectRatio="178%"/>
-
-                <ProgressBar
-                    android:id="@+id/galleryOneProgress"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="visible" />
-            </android.support.percent.PercentRelativeLayout>
-
             <TextView
                 android:id="@+id/galleryOneDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/galleryImageLayer"
                 android:lineSpacingExtra="2dp"
                 android:minLines="1"
                 android:text=""
                 android:textColor="@color/greyText"
                 android:textSize="16sp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="15dp"
-                android:paddingBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/galleryTitleLayoutOne" />
 
         </RelativeLayout>
 </RelativeLayout>

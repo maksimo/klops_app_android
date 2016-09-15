@@ -155,7 +155,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             public void onClick(View v) {
                 viewHolder.layout.startAnimation(alpha);
                 PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-                Observable<Article> call = api.getItemById(models.get(viewHolder.getAdapterPosition()).getId());
+                final Observable<Article> call = api.getItemById(models.get(viewHolder.getAdapterPosition()).getId(), Constants.ARTICLE_TYPE);
                 call.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Article>() {
@@ -174,6 +174,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                 Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
                                 articleIntent.putExtra(Constants.ITEM, article.getItem());
                                 articleIntent.putExtra(Constants.TYPE, models.get(position).getArticle_type());
+                                articleIntent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
+                                call.unsubscribeOn(Schedulers.io());
                                 context.startActivity(articleIntent);
                             }
                         });

@@ -144,7 +144,7 @@ public class ContentFragment extends Fragment {
                             Matcher matcher = word.matcher(link);
                             if (matcher.find()) {
                                 int articleId = Integer.parseInt(linkId);
-                                activity.loadArticle(articleId);
+                                activity.loadArticle(articleId, Constants.ARTICLE_TYPE);
                             }
                         } else if (!url.contains("id=")) {
                             Intent browser = new Intent(getContext(), AppBrowserActivity.class);
@@ -187,7 +187,7 @@ public class ContentFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (content.getAssociate().getId() != null) {
-                            activity.loadArticle(content.getAssociate().getId());
+                            activity.loadArticle(content.getAssociate().getId(), Constants.ARTICLE_TYPE);
                         } else {
                             Intent browser = new Intent(getContext(), AppBrowserActivity.class);
                             browser.putExtra(Constants.URL, content.getAssociate().getUrl());

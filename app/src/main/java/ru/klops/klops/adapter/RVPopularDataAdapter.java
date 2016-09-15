@@ -3,7 +3,6 @@ package ru.klops.klops.adapter;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +18,6 @@ import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -562,7 +558,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holder.simpleImageCard.startAnimation(alpha);
-                        loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -586,7 +582,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderSimple.simpleCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -630,7 +626,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderLong.longCard.startAnimation(alpha);
-                        loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
 
                     }
                 });
@@ -674,7 +670,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderInterview.interviewCard.startAnimation(alpha);
-                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -721,7 +717,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderAuthors.authorsCard.startAnimation(alpha);
-                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -757,7 +753,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderNational.nationalCard.startAnimation(alpha);
-                        loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -803,7 +799,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderImportant.important.startAnimation(alpha);
-                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -842,7 +838,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderGallerySmall.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
                 break;
@@ -902,7 +898,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderGalleryBig.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
                 break;
@@ -965,7 +961,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderSimpleWide.simpleWideCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1007,7 +1003,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderUrgent.urgentCardLayer.startAnimation(alpha);
-                        loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1051,7 +1047,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderMainShort.mainShort.startAnimation(alpha);
-                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1093,9 +1089,9 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         });
     }
 
-    public void loadArticle(Integer id, final String type) {
+    public void loadArticle(Integer id, final String type, final String contentType) {
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Observable<Article> call = api.getItemById(id);
+        Observable<Article> call = api.getItemById(id, contentType);
         call.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
@@ -1114,6 +1110,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                         Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
                         articleIntent.putExtra(Constants.ITEM, article.getItem());
                         articleIntent.putExtra(Constants.TYPE, type);
+                        articleIntent.putExtra(Constants.CONTENT_TYPE, contentType);
                         context.startActivity(articleIntent);
                     }
                 });

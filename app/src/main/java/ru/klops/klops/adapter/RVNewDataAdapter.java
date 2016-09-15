@@ -26,8 +26,8 @@ import ru.klops.klops.AppBrowserActivity;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.api.PageApi;
+
 import ru.klops.klops.custom.CircleImageView;
-import ru.klops.klops.fragments.MainShortFragment;
 import ru.klops.klops.fragments.NewDataNewsFragment;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.feed.Currency;
@@ -579,7 +579,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holder.simpleImageCard.startAnimation(alpha);
-                        loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -598,7 +598,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderSimple.simpleCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
 
@@ -636,7 +636,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderLong.longCard.startAnimation(alpha);
-                        loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
 
                     }
                 });
@@ -673,7 +673,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderInterview.interviewCard.startAnimation(alpha);
-                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
 
@@ -715,7 +715,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderAuthors.authorsCard.startAnimation(alpha);
-                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
 
@@ -751,7 +751,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderNational.nationalCard.startAnimation(alpha);
-                        loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                break;
@@ -791,7 +791,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderImportant.important.startAnimation(alpha);
-                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -825,7 +825,14 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderGallerySmall.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
+                    }
+                });
+                holderGallerySmall.title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holderGallerySmall.galleryCard.startAnimation(alpha);
+                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
 
@@ -880,10 +887,16 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderGalleryBig.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
-
+                holderGalleryBig.title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holderGalleryBig.galleryCard.startAnimation(alpha);
+                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
+                    }
+                });
                 break;
             case Constants.ADVERTISE:
                 final AdvertiseHolder holderAdvertise = (AdvertiseHolder) viewHolder;
@@ -938,7 +951,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderSimpleWide.simpleWideCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -988,7 +1001,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderUrgent.urgentCardLayer.startAnimation(alpha);
-                        loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1026,7 +1039,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                     @Override
                     public void onClick(View v) {
                         holderMainShort.mainShort.startAnimation(alpha);
-                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type());
+                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1067,9 +1080,9 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
         });
     }
 
-    public void loadArticle(Integer id, final String type) {
+    public void loadArticle(Integer id, final String type, final String contentType) {
         PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Observable<Article> call = api.getItemById(id);
+        Observable<Article> call = api.getItemById(id, contentType);
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
@@ -1088,6 +1101,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                         Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
                         articleIntent.putExtra(Constants.ITEM, article.getItem());
                         articleIntent.putExtra(Constants.TYPE, type);
+                        articleIntent.putExtra(Constants.CONTENT_TYPE, contentType);
                         context.startActivity(articleIntent);
                     }
                 });

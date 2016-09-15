@@ -10,7 +10,6 @@
         android:id="@+id/galleryOneLayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:textColor="@color/colorPrimary"
         android:elevation="1dp">
 
@@ -124,7 +123,7 @@
             android:layout_below="@+id/galleryCardOneDate"
             android:layout_marginLeft="15dp"
             android:background="@drawable/photo_cam"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="7dp" />
 
         <TextView
             android:id="@+id/galleryCardOneTitle"

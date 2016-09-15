@@ -91,5 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:layout_below="@+id/advertiseMainLayer"
-        android:background="@color/recyclerBackground" />
+        android:background="@color/recyclerBackground"
+        android:visibility="gone" />
 </RelativeLayout>
