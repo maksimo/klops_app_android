@@ -3,6 +3,7 @@ package ru.klops.klops.adapter;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -912,7 +913,8 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 holderAdvertise.advertiseLayer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openAdvertise(models.get(holderAdvertise.getAdapterPosition()).getUrl());
+                        Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(models.get(holderAdvertise.getAdapterPosition()).getUrl()));
+                        context.startActivity(browser);
                     }
                 });
                 holderAdvertise.closableLayout.setOnClickListener(new View.OnClickListener() {

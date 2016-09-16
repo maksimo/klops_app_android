@@ -19,9 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -244,6 +248,10 @@ public class ArticleActivity extends AppCompatActivity {
     ImageView littleSwitchPhotoIcon;
     @BindView(R.id.toolbarSeparatorArticle)
     View toolbarSeparatorArticle;
+    @BindView(R.id.connectedSeparator)
+    View connectedSeparator;
+    @BindView(R.id.scrollArticleLayout)
+    ScrollView scrollArticleLayout;
     ArrayList<Connected_items> connectedItemses;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
@@ -291,6 +299,7 @@ public class ArticleActivity extends AppCompatActivity {
         setUpGalleries();
         setUpMatchNews();
     }
+
 
     private void initShareImage() {
         if (!item.getImage().equals("")) {
@@ -474,7 +483,7 @@ public class ArticleActivity extends AppCompatActivity {
             }
         }
 
-        if (contentType.equals(Constants.GALLERY_TYPE)){
+        if (contentType.equals(Constants.GALLERY_TYPE)) {
             format.setBackgroundResource(R.drawable.format_white);
             share.setBackgroundResource(R.drawable.share_icon_white);
             back.setBackgroundResource(R.drawable.back_white);
@@ -887,18 +896,28 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void galleryBackground() {
-
-            format.setBackgroundResource(R.drawable.format_white);
-            share.setBackgroundResource(R.drawable.share_icon_white);
-            back.setBackgroundResource(R.drawable.back_white);
-            toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
-            fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-            splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-            littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
+        format.setBackgroundResource(R.drawable.format_white);
+        share.setBackgroundResource(R.drawable.share_icon_white);
+        back.setBackgroundResource(R.drawable.back_white);
+        toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+        fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+        splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        matchArticles.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
+        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
+        matchLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+        connectedNewsOneDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        connectedNewsOneText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        connectedNewsOneLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        connectedNewsTwoDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        connectedNewsTwoText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
+        connectedNewsTwoLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        articleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        connectedSeparator.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
+        scrollArticleLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
     }
 
     public void placeArticleFragment(Fragment fragment) {

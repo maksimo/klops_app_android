@@ -50,7 +50,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         VKSdk.initialize(getApplicationContext());

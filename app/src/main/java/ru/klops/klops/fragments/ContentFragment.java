@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -88,8 +89,10 @@ public class ContentFragment extends Fragment {
 
     private void checkIfGalleryArticle(String type) {
         if (type.equals(Constants.GALLERY_FIRST_TEXT) || type.equals(Constants.GALLERY_SECOND_TEXT)) {
+            contentLayout.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.galleryCard));
             contentDescription.setTextColor(ContextCompat.getColor(this.getContext(), R.color.greyText));
             contentWeb.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.galleryCard));
+            contentMore.setTextColor(ContextCompat.getColor(this.getContext(), R.color.greyText));
         }
 
     }
@@ -101,13 +104,6 @@ public class ContentFragment extends Fragment {
                 contentLayer.setVisibility(View.VISIBLE);
                 contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 contentView.setScrollContainer(false);
-//                contentText = content.getText().replace("font-size:18px", "font-size:16px");
-//                if (contentText.contains("class=\"social-embed\"")) {
-//                    String splitt = contentText;
-//                    String contentStrings[] = splitt.split("class=\"social-embed\"");
-//                    contentText = contentStrings[0];
-//                    contentView.loadDataWithBaseURL(null, contentText, "text/html", "UTF-8", null);
-//                } else {
                 switch (size){
                     case 0:
                         contentView.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
@@ -146,12 +142,9 @@ public class ContentFragment extends Fragment {
                                 int articleId = Integer.parseInt(linkId);
                                 activity.loadArticle(articleId, Constants.ARTICLE_TYPE);
                             }
-                        } else if (!url.contains("id=")) {
-                            Intent browser = new Intent(getContext(), AppBrowserActivity.class);
-                            browser.putExtra(Constants.URL, url);
+                        }else {
+                            Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(browser);
-                            view.loadDataWithBaseURL(null, content.getText().replace("font-size:18px", "font-size:16px"), "text/html", "UTF-8", null);
-
                         }
                         return false;
                     }
@@ -161,7 +154,6 @@ public class ContentFragment extends Fragment {
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.getSettings().setSupportZoom(true);
-                contentView.setWebChromeClient(new WebChromeClient());
 
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
@@ -189,8 +181,7 @@ public class ContentFragment extends Fragment {
                         if (content.getAssociate().getId() != null) {
                             activity.loadArticle(content.getAssociate().getId(), Constants.ARTICLE_TYPE);
                         } else {
-                            Intent browser = new Intent(getContext(), AppBrowserActivity.class);
-                            browser.putExtra(Constants.URL, content.getAssociate().getUrl());
+                            Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getAssociate().getUrl()));
                             startActivity(browser);
                         }
                     }
@@ -198,11 +189,26 @@ public class ContentFragment extends Fragment {
             } else if (content.getVideo_url() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
                 webVideo.setVisibility(View.VISIBLE);
-                webVideo.setWebViewClient(new WebViewClient());
                 webVideo.loadUrl(content.getVideo_url());
+                webVideo.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                    }
+                });
+                webVideo.setWebChromeClient(new WebChromeClient());
                 webVideo.getSettings().setJavaScriptEnabled(true);
                 webVideo.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                webVideo.setWebChromeClient(new WebChromeClient());
             }
         }
     }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/galleryArticle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/galleryCard"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:id="@+id/galleryTitleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/galleryCard">
+
+
+            <TextView
+                android:id="@+id/galleryAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text=""
+                android:textAllCaps="true"
+                android:layout_marginRight="-10dp"
+                android:textColor="@color/greyText"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:layout_marginBottom="15dp" />
+
+            <TextView
+                android:id="@+id/galleryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/galleryAuthor"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/greyText"
+                android:textSize="10sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="2dp" />
+
+            <ImageView
+                android:id="@+id/galleryCamera"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/galleryDate"
+                android:background="@drawable/camera"
+                android:visibility="gone" />
+
+
+            <ImageView
+                android:id="@+id/galleryCam"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/galleryDate"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/photo_cam" />
+
+            <TextView
+                android:id="@+id/galleryTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/galleryDate"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:text=""
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/galleryDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:minLines="1"
+            android:text=""
+            android:textColor="@color/greyText"
+            android:textSize="16sp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/galleryTitleLayout" />
+
+    </RelativeLayout>
+</RelativeLayout>
