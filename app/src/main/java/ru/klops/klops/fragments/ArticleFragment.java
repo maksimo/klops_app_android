@@ -63,7 +63,7 @@ public class ArticleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.articlefragment, container, false);
+        fragmentView = inflater.inflate(R.layout.article_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
         item = getArguments().getParcelable(Constants.ARTICLE);
         Log.d(LOG, "onCreateView");

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,32 +23,26 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.klops.klops.AppBrowserActivity;
-import ru.klops.klops.ArticleActivity;
+import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.api.PageApi;
 import ru.klops.klops.custom.CircleImageView;
 import ru.klops.klops.fragments.PopularDataNewsFragment;
-import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.popular.News;
-import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdapter.ViewHolder> {
     PopularDataNewsFragment context;
     ArrayList<News> models;
     ArrayList<Integer> dataTypes;
     Animation alpha;
+    HomeActivity activity;
 
     public RVPopularDataAdapter(PopularDataNewsFragment context, ArrayList<News> models, ArrayList<Integer> dataTypes) {
         this.context = context;
         this.models = models;
         this.dataTypes = dataTypes;
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
+        activity = (HomeActivity) context.getActivity();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -540,7 +533,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
         switch (viewHolder.getItemViewType()) {
             case Constants.SIMPLE_WITH_IMG:
                 final SimpleNewsHolder holder = (SimpleNewsHolder) viewHolder;
-                loadPhoto(models.get(position).getImage(), holder.image, holder.bar);
+                activity.loadPhoto(models.get(position).getImage(), holder.image, holder.bar);
                 holder.date.setText(models.get(position).getDate());
                 holder.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holder.title.setText(models.get(position).getTitle());
@@ -559,7 +552,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holder.simpleImageCard.startAnimation(alpha);
-                        loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holder.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -583,7 +576,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderSimple.simpleCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderSimple.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -627,7 +620,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderLong.longCard.startAnimation(alpha);
-                        loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderLong.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
 
                     }
                 });
@@ -666,12 +659,12 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     holderInterview.author.setVisibility(View.VISIBLE);
                     holderInterview.interviewCardAuthors.setVisibility(View.VISIBLE);
                 }
-                loadPhotoCircle(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
+                activity.loadPhotoCircle(models.get(position).getImage(), holderInterview.image, holderInterview.bar);
                 holderInterview.interviewCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderInterview.interviewCard.startAnimation(alpha);
-                        loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderInterview.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -713,12 +706,12 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     holderAuthors.title.setMaxLines(7);
                 }
 
-                loadPhotoCircle(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
+                activity.loadPhotoCircle(models.get(position).getImage(), holderAuthors.image, holderAuthors.bar);
                 holderAuthors.authorsCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderAuthors.authorsCard.startAnimation(alpha);
-                        loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderAuthors.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -754,7 +747,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderNational.nationalCard.startAnimation(alpha);
-                        loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderNational.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -763,7 +756,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 if (models.get(position).getImage() == null) {
                     holderImportant.image.setVisibility(View.GONE);
                 } else {
-                    loadPhoto(models.get(position).getImage(), holderImportant.image, holderImportant.bar);
+                    activity.loadPhoto(models.get(position).getImage(), holderImportant.image, holderImportant.bar);
                 }
                 holderImportant.date.setText(models.get(position).getDate());
                 holderImportant.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -800,7 +793,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderImportant.important.startAnimation(alpha);
-                        loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderImportant.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -834,12 +827,12 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     holderGallerySmall.author.setVisibility(View.VISIBLE);
                     holderGallerySmall.galleryCardAuthors.setVisibility(View.VISIBLE);
                 }
-                loadPhoto(models.get(position).getImage(), holderGallerySmall.image, holderGallerySmall.bar);
+                activity.loadPhoto(models.get(position).getImage(), holderGallerySmall.image, holderGallerySmall.bar);
                 holderGallerySmall.galleryCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holderGallerySmall.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
+                        activity.loadArticle(models.get(holderGallerySmall.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
                 break;
@@ -869,7 +862,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     holderGalleryBig.barSecond.setVisibility(View.GONE);
                     holderGalleryBig.barOneBig.setVisibility(View.VISIBLE);
                     if (models.get(position).getImage() != null) {
-                        loadPhoto(models.get(position).getImage(), holderGalleryBig.imageOnlyOne, holderGalleryBig.barOneBig);
+                        activity.loadPhoto(models.get(position).getImage(), holderGalleryBig.imageOnlyOne, holderGalleryBig.barOneBig);
                     }
                 } else {
                     holderGalleryBig.imageOne.setVisibility(View.VISIBLE);
@@ -878,8 +871,8 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     holderGalleryBig.barSecond.setVisibility(View.VISIBLE);
                     holderGalleryBig.imageOnlyOne.setVisibility(View.GONE);
                     holderGalleryBig.barOneBig.setVisibility(View.GONE);
-                    loadPhoto(models.get(position).getPhotos().get(0), holderGalleryBig.imageOne, holderGalleryBig.barFirst);
-                    loadPhoto(models.get(position).getPhotos().get(1), holderGalleryBig.imageTwo, holderGalleryBig.barSecond);
+                    activity.loadPhoto(models.get(position).getPhotos().get(0), holderGalleryBig.imageOne, holderGalleryBig.barFirst);
+                    activity.loadPhoto(models.get(position).getPhotos().get(1), holderGalleryBig.imageTwo, holderGalleryBig.barSecond);
                 }
                 if (models.get(position).getPromoted() == 1) {
                     holderGalleryBig.promoted.setVisibility(View.VISIBLE);
@@ -899,14 +892,14 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderGalleryBig.galleryCard.startAnimation(alpha);
-                        loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
+                        activity.loadArticle(models.get(holderGalleryBig.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.GALLERY_TYPE);
                     }
                 });
                 break;
             case Constants.ADVERTISE:
                 final AdvertiseHolder holderAdvertise = (AdvertiseHolder) viewHolder;
                 if (!models.get(position).getImage().equals("")) {
-                    loadPhoto(models.get(position).getImage(), holderAdvertise.image, holderAdvertise.bar);
+                    activity.loadPhoto(models.get(position).getImage(), holderAdvertise.image, holderAdvertise.bar);
                 }
                 holderAdvertise.adsClose.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                 holderAdvertise.adsTitle.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -963,7 +956,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderSimpleWide.simpleWideCard.startAnimation(alpha);
-                        loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderSimpleWide.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1005,7 +998,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderUrgent.urgentCardLayer.startAnimation(alpha);
-                        loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderUrgent.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
@@ -1014,7 +1007,7 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                 if (models.get(position).getImage() == null) {
                     holderMainShort.image.setVisibility(View.GONE);
                 } else {
-                    loadPhoto(models.get(position).getImage(), holderMainShort.image, holderMainShort.bar);
+                    activity.loadPhoto(models.get(position).getImage(), holderMainShort.image, holderMainShort.bar);
                 }
                 holderMainShort.date.setText(models.get(position).getDate());
                 holderMainShort.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
@@ -1049,74 +1042,13 @@ public class RVPopularDataAdapter extends RecyclerView.Adapter<RVPopularDataAdap
                     @Override
                     public void onClick(View v) {
                         holderMainShort.mainShort.startAnimation(alpha);
-                        loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
+                        activity.loadArticle(models.get(holderMainShort.getAdapterPosition()).getId(), models.get(position).getArticle_type(), Constants.ARTICLE_TYPE);
                     }
                 });
                 break;
         }
     }
 
-    private void openAdvertise(String url) {
-        Intent browserIntent = new Intent(context.getContext(), AppBrowserActivity.class);
-        browserIntent.putExtra(Constants.URL, url);
-        context.startActivity(browserIntent);
-    }
-
-    public void loadPhoto(String input, ImageView output, final ProgressBar loader) {
-        Ion.with(context.getActivity()).load(input).progressHandler(new ProgressCallback() {
-            @Override
-            public void onProgress(long downloaded, long total) {
-                loader.setVisibility(View.VISIBLE);
-            }
-        }).intoImageView(output).setCallback(new FutureCallback<ImageView>() {
-            @Override
-            public void onCompleted(Exception e, ImageView result) {
-                loader.setVisibility(View.GONE);
-            }
-        });
-    }
-
-
-    public void loadPhotoCircle(String input, ImageView output, final ProgressBar loader) {
-        Ion.with(context.getActivity()).load(input).progressHandler(new ProgressCallback() {
-            @Override
-            public void onProgress(long downloaded, long total) {
-                loader.setVisibility(View.VISIBLE);
-            }
-        }).withBitmap().transform(new CircleImageView()).intoImageView(output).setCallback(new FutureCallback<ImageView>() {
-            @Override
-            public void onCompleted(Exception e, ImageView result) {
-                loader.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void loadArticle(Integer id, final String type, final String contentType) {
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-        Observable<Article> call = api.getItemById(id, contentType);
-        call.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Article>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d("SearchAdapter", "Загружаю статью...");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("SearchAdapter", "Ошибка при открытии...");
-                    }
-
-                    @Override
-                    public void onNext(Article article) {
-                        Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
-                        articleIntent.putExtra(Constants.ITEM, article.getItem());
-                        articleIntent.putExtra(Constants.TYPE, type);
-                        articleIntent.putExtra(Constants.CONTENT_TYPE, contentType);
-                        context.startActivity(articleIntent);
-                    }
-                });
-    }
 
     public void remove(int position) {
         models.remove(position);

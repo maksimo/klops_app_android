@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.ResponseBody;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
@@ -238,7 +238,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @OnClick(R.id.logo)
     public void testPush() {
         logo.startAnimation(alpha);
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
         Observable<ResponseBody> call = api.giveMeTestPush(app.getToken(), Constants.PLATFORM);
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -274,7 +274,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                         .setCategory("Settings Activity action")
                         .setAction("Subscribe on push notifs")
                         .build());
-                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+                KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
                 Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -314,7 +314,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                         .setCategory("Settings Activity action")
                         .setAction("UnSubscribe from push notifs")
                         .build());
-                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+                KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
                 final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -382,66 +382,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         switchNotifications.setChecked(sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, false));
     }
 
-//
-//    @OnClick(R.id.socialViber)
-//    public void callViber() {
-//        Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
-//        call.setPackage("com.viber.voip");
-//        startActivity(call);
-//    }
-//
-//    @OnClick(R.id.socialWhats)
-//    public void callWhatsApp() {
-//        String DisplayName = "Klops.ru";
-//        String MobileNumber = "+79097823333";
-//        Bitmap bmImage = BitmapFactory.decodeResource(this.getResources(),
-//                R.drawable.app_icon_main);
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bmImage.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-//        byte[] Photo = baos.toByteArray();
-//        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-//        ops.add(ContentProviderOperation.newInsert(
-//                ContactsContract.RawContacts.CONTENT_URI)
-//                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-//                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-//                .build());
-//        if (DisplayName != null) {
-//            ops.add(ContentProviderOperation.newInsert(
-//                    ContactsContract.Data.CONTENT_URI)
-//                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-//                    .withValue(ContactsContract.Data.MIMETYPE,
-//                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-//                    .withValue(
-//                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-//                            DisplayName).build());
-//        }
-//
-//        if (MobileNumber != null) {
-//            ops.add(ContentProviderOperation.
-//                    newInsert(ContactsContract.Data.CONTENT_URI)
-//                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-//                    .withValue(ContactsContract.Data.MIMETYPE,
-//                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-//                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
-//                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
-//                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-//                    .build());
-//        }
-//        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-//                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-//                .withValue(ContactsContract.Data.MIMETYPE,
-//                        ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
-//                .withValue(ContactsContract.CommonDataKinds.Photo.DATA15,Photo)
-//                .build());
-//
-//        try {
-//            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        openApp(this, "com.whatsapp");
-//    }
 
     @OnClick(R.id.relativeLayout5)
     public void socialCall() {
@@ -522,7 +462,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         Intent i = manager.getLaunchIntentForPackage(packageName);
         if (i == null) {
             return false;
-            //throw new PackageManager.NameNotFoundException();
         }
         i.addCategory(Intent.CATEGORY_LAUNCHER);
         context.startActivity(i);

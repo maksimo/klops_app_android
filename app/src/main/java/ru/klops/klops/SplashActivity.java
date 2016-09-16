@@ -23,7 +23,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
@@ -150,7 +150,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startDataLoad() {
         Log.d(LOG, "startDataLoad");
-        PageApi apiNew = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.FeedApi apiNew = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Page> callNew = apiNew.getAllNews();
         callNew.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -177,7 +177,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Page page) {
                         myApp.setFirstPage(page);
-                        PageApi apiPopular = RetrofitServiceGenerator.createService(PageApi.class);
+                        KlopsApi.FeedApi apiPopular = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
                         Observable<Popular> callPopular = apiPopular.getPopularNews();
                         callPopular.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())

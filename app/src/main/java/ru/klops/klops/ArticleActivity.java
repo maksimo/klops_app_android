@@ -19,9 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -65,22 +62,11 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.adapter.GalleryContentPagerAdapter;
 import ru.klops.klops.adapter.GalleryPagerAdapter;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.fragments.AdsArticleFragment;
-import ru.klops.klops.fragments.AuthorArticleFragment;
+import ru.klops.klops.fragments.ArticleFragment;
 import ru.klops.klops.fragments.ContentFragment;
-import ru.klops.klops.fragments.GalleryOneArticleFragment;
-import ru.klops.klops.fragments.GalleryTwoArticleFragment;
-import ru.klops.klops.fragments.ImportantArticleFragment;
-import ru.klops.klops.fragments.InterviewArticleFragment;
-import ru.klops.klops.fragments.LongArticleFragment;
-import ru.klops.klops.fragments.MainShortFragment;
-import ru.klops.klops.fragments.NationalArticleFragment;
-import ru.klops.klops.fragments.SimpleTextArticleFragment;
-import ru.klops.klops.fragments.SimpleWideArticleFragment;
-import ru.klops.klops.fragments.SimpleWithImageArticleFragment;
-import ru.klops.klops.fragments.UrgentArticleFragment;
+import ru.klops.klops.fragments.GalleryFragment;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
@@ -300,20 +286,6 @@ public class ArticleActivity extends AppCompatActivity {
         setUpMatchNews();
     }
 
-
-    private void initShareImage() {
-        if (!item.getImage().equals("")) {
-            Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
-                    .setCallback(new FutureCallback<Bitmap>() {
-                        @Override
-                        public void onCompleted(Exception e, Bitmap result) {
-                            sharedBitmap = getLocalBitmapUri(result);
-
-                        }
-                    });
-        }
-    }
-
     private void setUpGalleries() {
         if (galleries.size() != 0) {
             gAdapter = new GalleryContentPagerAdapter(this, galleries);
@@ -391,23 +363,25 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public void loadArticle(Integer id, String contentType) {
-        PageApi articleApi = RetrofitServiceGenerator.createService(PageApi.class);
+        Log.d(LOG, "loadArticle");
+        KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> callArticle = articleApi.getItemById(id, contentType);
         callArticle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG, "Task completed");
+                        Log.d(LOG, "loadArticle - onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(LOG, "Error: " + e.getLocalizedMessage());
+                        Log.d(LOG, "loadArticle - onError" + e.getLocalizedMessage());
                     }
 
                     @Override
                     public void onNext(Article article) {
+                        Log.d(LOG, "loadArticle - onNext");
                         Intent newMatchArticle = getIntent();
                         newMatchArticle.putExtra(Constants.ITEM, type);
                         startActivity(newMatchArticle);
@@ -416,6 +390,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void loadPhoto(ArticleActivity context, String imageUrl, ImageView imView, final ProgressBar bar) {
+        Log.d(LOG, "loadPhoto");
         Ion.with(context).load(imageUrl).progressHandler(new ProgressCallback() {
             @Override
             public void onProgress(long downloaded, long total) {
@@ -483,29 +458,6 @@ public class ArticleActivity extends AppCompatActivity {
             }
         }
 
-        if (contentType.equals(Constants.GALLERY_TYPE)) {
-            format.setBackgroundResource(R.drawable.format_white);
-            share.setBackgroundResource(R.drawable.share_icon_white);
-            back.setBackgroundResource(R.drawable.back_white);
-            toolbarSeparatorArticle.setBackgroundColor(ContextCompat.getColor(this, R.color.blackText));
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
-            fullArticleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-            splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-            littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
-            matchLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-            connectedNewsOneDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            connectedNewsOneText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            connectedNewsOneLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            connectedNewsTwoDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            connectedNewsTwoText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-            connectedNewsTwoLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-            articleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
-        }
-
-
         for (int m = 0; m < contents.size(); m++) {
             contentLayouts.get(m).setVisibility(View.VISIBLE);
             ContentFragment contentFragment = new ContentFragment();
@@ -532,6 +484,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void setUPPager() {
+        Log.d(LOG, "setUPPager");
         smallGallery = new ArrayList<>();
         if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
             if (item.getPhotos().size() > 1) {
@@ -712,32 +665,10 @@ public class ArticleActivity extends AppCompatActivity {
             case 0:
                 formatCount++;
                 for (Fragment fragment : fragmentsInc) {
-                    if (fragment instanceof SimpleTextArticleFragment) {
-                        ((SimpleTextArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof SimpleWithImageArticleFragment) {
-                        ((SimpleWithImageArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof LongArticleFragment) {
-                        ((LongArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof InterviewArticleFragment) {
-                        ((InterviewArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof AuthorArticleFragment) {
-                        ((AuthorArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof NationalArticleFragment) {
-                        ((NationalArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof ImportantArticleFragment) {
-                        ((ImportantArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof GalleryOneArticleFragment) {
-                        ((GalleryOneArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof GalleryTwoArticleFragment) {
-                        ((GalleryTwoArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof SimpleWideArticleFragment) {
-                        ((SimpleWideArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof UrgentArticleFragment) {
-                        ((UrgentArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof AdsArticleFragment) {
-                        ((AdsArticleFragment) fragment).formatIncrement();
-                    } else if (fragment instanceof MainShortFragment) {
-                        ((MainShortFragment) fragment).formatIncrement();
+                    if (fragment instanceof ArticleFragment) {
+                        ((ArticleFragment) fragment).formatIncrement();
+                    } else if (fragment instanceof GalleryFragment) {
+                        ((GalleryFragment) fragment).formatIncrement();
                     }
                     FragmentManager contentFm = getSupportFragmentManager();
                     List<Fragment> fragmentsCont = contentFm.getFragments();
@@ -760,32 +691,10 @@ public class ArticleActivity extends AppCompatActivity {
             case 1:
                 formatCount = 0;
                 for (Fragment fragment : fragmentsInc) {
-                    if (fragment instanceof SimpleTextArticleFragment) {
-                        ((SimpleTextArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof SimpleWithImageArticleFragment) {
-                        ((SimpleWithImageArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof LongArticleFragment) {
-                        ((LongArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof InterviewArticleFragment) {
-                        ((InterviewArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof AuthorArticleFragment) {
-                        ((AuthorArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof NationalArticleFragment) {
-                        ((NationalArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof ImportantArticleFragment) {
-                        ((ImportantArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof GalleryOneArticleFragment) {
-                        ((GalleryOneArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof GalleryTwoArticleFragment) {
-                        ((GalleryTwoArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof SimpleWideArticleFragment) {
-                        ((SimpleWideArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof UrgentArticleFragment) {
-                        ((UrgentArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof AdsArticleFragment) {
-                        ((AdsArticleFragment) fragment).formatDecrement();
-                    } else if (fragment instanceof MainShortFragment) {
-                        ((MainShortFragment) fragment).formatDecrement();
+                    if (fragment instanceof ArticleFragment) {
+                        ((ArticleFragment) fragment).formatDecrement();
+                    } else if (fragment instanceof GalleryFragment) {
+                        ((GalleryFragment) fragment).formatDecrement();
                     }
                     FragmentManager contentFm = getSupportFragmentManager();
                     List<Fragment> fragmentsCont = contentFm.getFragments();
@@ -811,91 +720,25 @@ public class ArticleActivity extends AppCompatActivity {
     private void drawFragment() {
         Log.d(LOG, "drawFragment");
         Bundle bundle = new Bundle();
-        switch (type) {
-            case Constants.SIMPLE_TEXT:
-                SimpleTextArticleFragment simpleText = new SimpleTextArticleFragment();
+        switch (contentType) {
+            case Constants.ARTICLE_TYPE:
+                ArticleFragment articleFragment = new ArticleFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
-                simpleText.setArguments(bundle);
-                placeArticleFragment(simpleText);
+                articleFragment.setArguments(bundle);
+                placeArticleFragment(articleFragment);
                 break;
-            case Constants.SIMPLE_IMAGE_TEXT:
-                SimpleWithImageArticleFragment simpleImage = new SimpleWithImageArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                simpleImage.setArguments(bundle);
-                placeArticleFragment(simpleImage);
-                break;
-            case Constants.LONG_TEXT:
-                LongArticleFragment longArticle = new LongArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                longArticle.setArguments(bundle);
-                placeArticleFragment(longArticle);
-                break;
-            case Constants.INTERVIEW_TEXT:
-                InterviewArticleFragment interviewArticle = new InterviewArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                interviewArticle.setArguments(bundle);
-                placeArticleFragment(interviewArticle);
-                break;
-            case Constants.AUTHORS_TEXT:
-                AuthorArticleFragment authorArticle = new AuthorArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                authorArticle.setArguments(bundle);
-                placeArticleFragment(authorArticle);
-                break;
-            case Constants.NATIONAL_TEXT:
-                NationalArticleFragment nationalArticle = new NationalArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                nationalArticle.setArguments(bundle);
-                placeArticleFragment(nationalArticle);
-                break;
-            case Constants.IMPORTANT_TEXT:
-                ImportantArticleFragment importantArticle = new ImportantArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                importantArticle.setArguments(bundle);
-                placeArticleFragment(importantArticle);
-                break;
-            case Constants.GALLERY_FIRST_TEXT:
+            case Constants.GALLERY_TYPE:
                 galleryBackground();
-                GalleryOneArticleFragment galleryOneArticle = new GalleryOneArticleFragment();
+                GalleryFragment galleryFragment = new GalleryFragment();
                 bundle.putParcelable(Constants.ARTICLE, item);
-                galleryOneArticle.setArguments(bundle);
-                placeArticleFragment(galleryOneArticle);
-                break;
-            case Constants.GALLERY_SECOND_TEXT:
-                galleryBackground();
-                GalleryTwoArticleFragment galleryTwoArticle = new GalleryTwoArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                galleryTwoArticle.setArguments(bundle);
-                placeArticleFragment(galleryTwoArticle);
-                break;
-            case Constants.SIMPLE_WIDE_TEXT:
-                SimpleWideArticleFragment simpleWideArticle = new SimpleWideArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                simpleWideArticle.setArguments(bundle);
-                placeArticleFragment(simpleWideArticle);
-                break;
-            case Constants.ADS_TEXT:
-                AdsArticleFragment adsArticleFragment = new AdsArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                adsArticleFragment.setArguments(bundle);
-                placeArticleFragment(adsArticleFragment);
-                break;
-            case Constants.URGENT_TEXT:
-                UrgentArticleFragment urgentArticleFragment = new UrgentArticleFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                urgentArticleFragment.setArguments(bundle);
-                placeArticleFragment(urgentArticleFragment);
-                break;
-            case Constants.MAIN_SHORT_TEXT:
-                MainShortFragment mainShortFragment = new MainShortFragment();
-                bundle.putParcelable(Constants.ARTICLE, item);
-                mainShortFragment.setArguments(bundle);
-                placeArticleFragment(mainShortFragment);
+                galleryFragment.setArguments(bundle);
+                placeArticleFragment(galleryFragment);
                 break;
         }
     }
 
     private void galleryBackground() {
+        Log.d(LOG, "setUPGalleryBackground");
         format.setBackgroundResource(R.drawable.format_white);
         share.setBackgroundResource(R.drawable.share_icon_white);
         back.setBackgroundResource(R.drawable.back_white);
@@ -921,6 +764,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public void placeArticleFragment(Fragment fragment) {
+        Log.d(LOG, "placeArticleFragment");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.articleContainer, fragment)
                 .addToBackStack(null)
@@ -944,6 +788,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private Uri getLocalBitmapUri(Bitmap bmp) {
+        Log.d(LOG, "getLocalBitmapUri");
         Uri bmpUri = null;
         try {
             File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "sharedKlopsImage" + System.currentTimeMillis() + ".png");
@@ -958,6 +803,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public void shareNews() {
+        Log.d(LOG, "shareNews");
         final Intent shareIntent = new Intent();
         final String title = item.getTitle();
         final String description = item.getShortdecription();

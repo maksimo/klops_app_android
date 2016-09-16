@@ -33,7 +33,7 @@ import butterknife.Unbinder;
 import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.SearchRecyclerAdapter;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.models.search.News;
 import ru.klops.klops.models.search.Search;
@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment {
     public void startSearch(final String requestedWord) {
         ((HomeActivity) getActivity()).hideKeyboard();
         news = new ArrayList<>();
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.SearchApi api = RetrofitServiceGenerator.createService(KlopsApi.SearchApi.class);
         Observable<Search> call = api.getSearchResult(requestedWord);
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

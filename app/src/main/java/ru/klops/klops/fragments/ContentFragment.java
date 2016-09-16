@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import ru.klops.klops.AppBrowserActivity;
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.application.KlopsApplication;

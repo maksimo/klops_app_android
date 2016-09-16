@@ -16,7 +16,7 @@ GcmListenerService;
 
 import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.services.RetrofitServiceGenerator;
@@ -52,7 +52,7 @@ public class MyGcmListenerService extends GcmListenerService {
     }
 
     private void sendNotification(final String message) {
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.ArticleApi api = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> call = api.getItemById(id, Constants.ARTICLE_TYPE);
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

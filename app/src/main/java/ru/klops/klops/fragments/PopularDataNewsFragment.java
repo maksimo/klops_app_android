@@ -24,9 +24,8 @@ import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVPopularDataAdapter;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.News;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
@@ -75,7 +74,7 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
 
     @Override
     public void onRefresh() {
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.FeedApi api = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Popular> refreshPage = api.getPopularNews();
         refreshPage.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

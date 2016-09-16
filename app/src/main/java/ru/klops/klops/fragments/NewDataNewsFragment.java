@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVNewDataAdapter;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.models.feed.Currency;
 import ru.klops.klops.models.feed.News;
@@ -81,7 +81,7 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onRefresh() {
         adapter.clearNewFeed();
-        PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
+        KlopsApi.FeedApi api = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Page> refreshPage = api.getAllNews();
         refreshPage.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

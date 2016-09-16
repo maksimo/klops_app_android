@@ -24,8 +24,9 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.klops.klops.ArticleActivity;
+import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.api.PageApi;
+import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.fragments.SearchFragment;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.search.News;
@@ -45,12 +46,14 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     String keyword;
     Pattern word;
     String alternativeWord;
+    HomeActivity activity;
 
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword) {
         this.models = models;
         this.context = context;
         this.keyword = keyword;
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
+        activity = (HomeActivity) context.getActivity();
     }
 
     public SearchRecyclerAdapter(SearchFragment context, ArrayList<News> models, String keyword, String alternativeWord) {
@@ -59,6 +62,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.keyword = keyword;
         this.alternativeWord = alternativeWord;
         alpha = AnimationUtils.loadAnimation(context.getContext(), R.anim.alpha);
+        activity = (HomeActivity) context.getActivity();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -118,13 +122,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         if (alternativeWord != null){
             word = Pattern.compile(keyword+"|"+alternativeWord);
         }else {
-//        if (Character.isUpperCase(keyword.charAt(0))){
-//            word = Pattern.compile(keyword+"|"+(keyword.substring(0,1).toLowerCase()+keyword.substring(1)));
-//        }else if (Character.isLowerCase(keyword.charAt(0))){
-//            word = Pattern.compile(keyword+"|"+(keyword.substring(0,1).toUpperCase()+keyword.substring(1)));
-//        }else {
-//            word = Pattern.compile(keyword);
-//        }
             word = Pattern.compile(keyword);
         }
         Matcher matcher = word.matcher(searchWord);
@@ -154,31 +151,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             @Override
             public void onClick(View v) {
                 viewHolder.layout.startAnimation(alpha);
-                PageApi api = RetrofitServiceGenerator.createService(PageApi.class);
-                final Observable<Article> call = api.getItemById(models.get(viewHolder.getAdapterPosition()).getId(), Constants.ARTICLE_TYPE);
-                call.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Article>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.d("SearchAdapter", "Loading search article complete");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d("SearchAdapter", "Loading failed");
-                            }
-
-                            @Override
-                            public void onNext(Article article) {
-                                Intent articleIntent = new Intent(context.getContext(), ArticleActivity.class);
-                                articleIntent.putExtra(Constants.ITEM, article.getItem());
-                                articleIntent.putExtra(Constants.TYPE, models.get(position).getArticle_type());
-                                articleIntent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
-                                call.unsubscribeOn(Schedulers.io());
-                                context.startActivity(articleIntent);
-                            }
-                        });
+                activity.loadFoundArticle(models.get(viewHolder.getAdapterPosition()).getId(), models.get(position).getArticle_type());
             }
         });
     }
