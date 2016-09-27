@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.PhotoAdapter;
+import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.custom.Circle;
 import ru.klops.klops.custom.TextViewProMd;
 import ru.klops.klops.custom.TextViewProRegular;
@@ -43,6 +44,7 @@ public class PhotoActivity extends AppCompatActivity {
     ArrayList<Gallery> photos;
     int photoNumber;
     int countPager = 0;
+    KlopsApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class PhotoActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         setContentView(R.layout.activity_photo);
+        app = KlopsApplication.getINSTANCE();
         unbinder = ButterKnife.bind(this);
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         photoNumber = getIntent().getIntExtra(Constants.NUMBER, 0);
@@ -121,6 +124,7 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
+        app.savePhotoPosition(photosPager.getCurrentItem());
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
         } else {

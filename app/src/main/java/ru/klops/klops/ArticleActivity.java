@@ -1,9 +1,9 @@
 package ru.klops.klops;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,29 +26,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKCallback;
-import com.vk.sdk.VKScope;
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.model.VKPhotoArray;
-import com.vk.sdk.api.photo.VKImageParameters;
-import com.vk.sdk.api.photo.VKUploadImage;
-import com.vk.sdk.dialogs.VKShareDialog;
-import com.vk.sdk.dialogs.VKShareDialogBuilder;
-import com.vk.sdk.util.VKUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,6 +55,8 @@ import ru.klops.klops.models.article.Connected_items;
 import ru.klops.klops.models.article.Content;
 import ru.klops.klops.models.article.Gallery;
 import ru.klops.klops.models.article.Item;
+import ru.klops.klops.models.feed.Page;
+import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
@@ -91,14 +76,7 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.shareSocials)
     ImageView share;
     KlopsApplication app;
-    AlertDialog.Builder shareBuilder;
-    AlertDialog shareDialog;
     View shareLayout;
-    TextView shareTitle;
-    TextView facebookTitle;
-    TextView vkontakteTitle;
-    RelativeLayout facebook;
-    RelativeLayout vkontakte;
     Item item;
     @BindView(R.id.articleLayer)
     RelativeLayout articleLayer;
@@ -241,25 +219,18 @@ public class ArticleActivity extends AppCompatActivity {
     ArrayList<Connected_items> connectedItemses;
     ArrayList<String> smallGallery;
     GalleryPagerAdapter littleAdapter;
-    ShareDialog shareFacebookDialog;
-    VKShareDialogBuilder vkShareDialog;
     ArrayList<Content> contents;
     Animation alpha;
-    Bitmap bmp;
-    String text;
     GalleryContentPagerAdapter gAdapter;
     ArrayList<Gallery> galleries;
     int count = 0;
     int countPager = 0;
     int formatCount = 0;
-    private Target loadTarget;
     Unbinder unbinder;
     ArrayList<RelativeLayout> contentLayouts;
-    Uri sharedBitmap;
     Tracker mTracker;
     String type;
     String contentType;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,13 +249,12 @@ public class ArticleActivity extends AppCompatActivity {
         type = getIntent().getStringExtra(Constants.TYPE);
         contentType = getIntent().getStringExtra(Constants.CONTENT_TYPE);
         setSupportActionBar(toolbar);
-        initSocials();
-        setUpShare();
         drawFragment();
         setUPContent();
         setUpGalleries();
         setUpMatchNews();
     }
+
 
     private void setUpGalleries() {
         if (galleries.size() != 0) {
@@ -362,7 +332,7 @@ public class ArticleActivity extends AppCompatActivity {
         loadArticle(connectedItemses.get(1).getDoc_list().getId(), connectedItemses.get(1).getDoc_list().getContent_type());
     }
 
-    public void loadArticle(Integer id, String contentType) {
+    public void loadArticle(Integer id, final String contentType) {
         Log.d(LOG, "loadArticle");
         KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> callArticle = articleApi.getItemById(id, contentType);
@@ -383,7 +353,10 @@ public class ArticleActivity extends AppCompatActivity {
                     public void onNext(Article article) {
                         Log.d(LOG, "loadArticle - onNext");
                         Intent newMatchArticle = getIntent();
-                        newMatchArticle.putExtra(Constants.ITEM, type);
+                        newMatchArticle.putExtra(Constants.ITEM, article.getItem());
+                        newMatchArticle.putExtra(Constants.TYPE, type);
+                        newMatchArticle.putExtra(Constants.ARTICLE_TYPE, this.getClass().getName());
+                        newMatchArticle.putExtra(Constants.CONTENT_TYPE, contentType);
                         startActivity(newMatchArticle);
                     }
                 });
@@ -532,129 +505,6 @@ public class ArticleActivity extends AppCompatActivity {
             littleGallery.setCurrentItem(count);
         }
     }
-
-    private void initSocials() {
-        if (!item.getImage().equals("")) {
-            loadBitmap(item.getImage());
-        }
-        text = item.getTitle() + "\n" + "\n" + item.getShortdecription();
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        VKSdk.initialize(getApplicationContext());
-        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-    }
-
-    private void setUpShare() {
-        Log.d(LOG, "setUpShare");
-        shareBuilder = new AlertDialog.Builder(this);
-        shareBuilder.setView(shareLayout);
-        shareBuilder.setCancelable(true);
-        shareDialog = shareBuilder.create();
-        shareTitle = (TextView) shareLayout.findViewById(R.id.shareTitle);
-        shareTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
-        facebookTitle = (TextView) shareLayout.findViewById(R.id.facebookTitle);
-        facebookTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        vkontakteTitle = (TextView) shareLayout.findViewById(R.id.vkontakteTitle);
-        vkontakteTitle.setTypeface(Typeface.createFromAsset(this.getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
-        facebook = (RelativeLayout) shareLayout.findViewById(R.id.shareViaFB);
-        shareFacebookDialog = new ShareDialog(this);
-        facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebook.startAnimation(alpha);
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(item.getTitle())
-                            .setImageUrl(Uri.parse(item.getImage()))
-                            .setContentDescription(item.getShortdecription())
-                            .setContentUrl(Uri.parse(item.getUrl()))
-                            .build();
-                    shareFacebookDialog.show(linkContent, ShareDialog.Mode.NATIVE);
-                }
-                shareDialog.dismiss();
-            }
-        });
-        vkontakte = (RelativeLayout) shareLayout.findViewById(R.id.shareViaVK);
-        vkontakte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vkontakte.startAnimation(alpha);
-                VKSdk.login(ArticleActivity.this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS, VKScope.OFFLINE);
-                VKPhotoArray photos = new VKPhotoArray();
-
-                vkShareDialog = new VKShareDialogBuilder()
-                        .setText(text)
-                        .setUploadedPhotos(photos)
-                        .setAttachmentImages(new VKUploadImage[]{
-                                new VKUploadImage(bmp, VKImageParameters.pngImage())
-                        }).setAttachmentLink("Отправлено с помощью приложения Klops.ru", item.getUrl())
-                        .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
-                            @Override
-                            public void onVkShareComplete(int postId) {
-                                Toast.makeText(getApplicationContext(), "Вы поделились новостью", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onVkShareCancel() {
-                                Toast.makeText(getApplicationContext(), "Вы отменили операцию", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onVkShareError(VKError error) {
-                                Log.d(LOG, String.valueOf(error.apiError.errorCode));
-                                Log.d(LOG, error.apiError.errorMessage);
-                            }
-                        });
-                vkShareDialog.show(getSupportFragmentManager(), "VK_SHARE_DIALOG");
-                shareDialog.dismiss();
-            }
-        });
-
-    }
-
-    public void setBmp(Bitmap bmp) {
-        this.bmp = bmp;
-    }
-
-    public void loadBitmap(String url) {
-        if (loadTarget == null) loadTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                handleBitmap(bitmap);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-        Picasso.with(this).load(url).into(loadTarget);
-    }
-
-    private void handleBitmap(Bitmap bitmap) {
-        setBmp(bitmap);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
-            @Override
-            public void onResult(VKAccessToken res) {
-                Toast.makeText(getApplicationContext(), "Пользователь успешно авторизирован", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(VKError error) {
-                Toast.makeText(getApplicationContext(), "Произошла ошибка авторизации", Toast.LENGTH_SHORT).show();
-            }
-        }))
-            super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
     @OnClick(R.id.buttonFormat)
     public void openFormatDialog() {
@@ -827,47 +677,6 @@ public class ArticleActivity extends AppCompatActivity {
         } else {
             startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
         }
-//
-//        try {
-//            List<Intent> targetedShareIntents = new ArrayList<Intent>();
-//            Intent share = new Intent(android.content.Intent.ACTION_SEND);
-//            share.setType("image/*");
-//            List<ResolveInfo> resInfo = getPackageManager()
-//                    .queryIntentActivities(share, 0);
-//            if (!resInfo.isEmpty()) {
-//                for (ResolveInfo info : resInfo) {
-//                    final Intent targetedShare = new Intent(
-//                            android.content.Intent.ACTION_SEND);
-//                    targetedShare.setType("image/*");
-//                    if (info.activityInfo.packageName.contains(
-//                            "facebook")
-//                            || info.activityInfo.name.contains(
-//                            "vk")|| info.activityInfo.name.contains(
-//                            "viber")|| info.activityInfo.name.contains(
-//                            "telegram")|| info.activityInfo.name.contains(
-//                            "twitter")|| info.activityInfo.name.contains(
-//                            "odnoklasniki")|| info.activityInfo.name.contains(
-//                            "twitter")|| info.activityInfo.name.contains("whatsapp")) {
-//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getTitle());
-//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getShortdecription());
-//                        targetedShare.putExtra(Intent.EXTRA_TEXT, item.getUrl());
-//                        if (sharedBitmap!= null) {
-//                            targetedShare.putExtra(Intent.EXTRA_STREAM, sharedBitmap);
-//                        }
-//                        targetedShare.setPackage(info.activityInfo.packageName);
-//                        targetedShareIntents.add(targetedShare);
-//                    }
-//                }
-//                Intent chooserIntent = Intent.createChooser(
-//                        targetedShareIntents.remove(0), "Выберите приложение");
-//                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-//                        targetedShareIntents.toArray(new Parcelable[]{}));
-//                startActivity(chooserIntent);
-//            }
-//        } catch (Exception e) {
-//            Log.v("VM",
-//                    "Exception while sending data" + e.getMessage());
-//        }
     }
 
     @Override
@@ -883,7 +692,6 @@ public class ArticleActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        AppEventsLogger.activateApp(app);
         Log.d(LOG, "onResume");
         super.onResume();
     }
@@ -904,8 +712,62 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        finish();
-        super.onBackPressed();
+        if (app.getFlag() == 1) {
+                loadFeeds();
+
+        } else {
+            finish();
+            super.onBackPressed();
+        }
+    }
+
+    private void loadFeeds() {
+        KlopsApi.FeedApi apiNew = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
+        Observable<Page> callNew = apiNew.getAllNews();
+        callNew.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Page>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(LOG, "loadFeeds + onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "loadFeeds + onError" + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Page page) {
+                        Log.d(LOG, "loadFeeds + onNext");
+                        app.setFirstPage(page);
+                        KlopsApi.FeedApi apiPopular = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
+                        Observable<Popular> callPopular = apiPopular.getPopularNews();
+                        callPopular.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Popular>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(LOG, "loadFeeds + onCompleted");
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.d(LOG, "loadFeeds + onError" + e.getLocalizedMessage());
+
+                                    }
+
+                                    @Override
+                                    public void onNext(Popular popular) {
+                                        Log.d(LOG, "loadFeeds + onNext");
+                                        app.setPopularPage(popular);
+                                        Intent intent = new Intent(ArticleActivity.this, HomeActivity.class);
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override

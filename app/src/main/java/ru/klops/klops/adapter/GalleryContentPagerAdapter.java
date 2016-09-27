@@ -2,31 +2,22 @@ package ru.klops.klops.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.loader.StreamLoader;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.PhotoActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.models.article.Gallery;
-import ru.klops.klops.models.article.Photos;
 import ru.klops.klops.utils.Constants;
 
 public class GalleryContentPagerAdapter extends PagerAdapter {

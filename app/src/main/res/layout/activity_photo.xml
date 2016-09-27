@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:id="@+id/photoLayers"
     android:background="@color/galleryCard"
-    tools:context=".utils.activities.PhotoActivity"
+    tools:context="PhotoActivity"
     android:orientation="vertical">
 
     <ru.klops.klops.custom.Circle

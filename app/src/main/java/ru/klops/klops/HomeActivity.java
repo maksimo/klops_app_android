@@ -161,6 +161,7 @@ public class HomeActivity extends AppCompatActivity {
                         Intent articleIntent = new Intent(HomeActivity.this, ArticleActivity.class);
                         articleIntent.putExtra(Constants.ITEM, article.getItem());
                         articleIntent.putExtra(Constants.TYPE, article_type);
+                        articleIntent.putExtra(Constants.ACTIVITY_TYPE, this.getClass().getName());
                         articleIntent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
                         call.unsubscribeOn(Schedulers.io());
                         startActivity(articleIntent);

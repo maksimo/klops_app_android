@@ -99,7 +99,6 @@ public class ContentFragment extends Fragment {
     public void initContent(final Content content, RelativeLayout contentLayer, final WebView contentView, final ProgressBar loader, ImageView image, TextView description, final TextView moreTitle, final TextView moreUrl, WebView webVideo, final int size) {
         if (content != null) {
             if (content.getText() != null) {
-                String contentText;
                 contentLayer.setVisibility(View.VISIBLE);
                 contentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 contentView.setScrollContainer(false);
@@ -140,10 +139,12 @@ public class ContentFragment extends Fragment {
                             if (matcher.find()) {
                                 int articleId = Integer.parseInt(linkId);
                                 activity.loadArticle(articleId, Constants.ARTICLE_TYPE);
+                                return true;
                             }
                         }else {
-                            Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            startActivity(browser);
+                            view.getContext().startActivity(
+                                    new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                            return true;
                         }
                         return false;
                     }
@@ -153,7 +154,6 @@ public class ContentFragment extends Fragment {
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.getSettings().setSupportZoom(true);
-
             } else if (content.getPhotos() != null) {
                 contentLayer.setVisibility(View.VISIBLE);
                 image.setVisibility(View.VISIBLE);

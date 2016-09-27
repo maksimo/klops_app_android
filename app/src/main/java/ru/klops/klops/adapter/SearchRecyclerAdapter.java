@@ -1,6 +1,5 @@
 package ru.klops.klops.adapter;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +7,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +21,10 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.klops.klops.ArticleActivity;
 import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
-import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.fragments.SearchFragment;
-import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.search.News;
-import ru.klops.klops.services.RetrofitServiceGenerator;
-import ru.klops.klops.utils.Constants;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.ViewHolder> {
     ArrayList<News> models;

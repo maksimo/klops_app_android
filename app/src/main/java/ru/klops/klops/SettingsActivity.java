@@ -27,6 +27,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -92,10 +93,16 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     ImageView logo;
     @BindView(R.id.toolbarSettings)
     Toolbar toolbarSettings;
+    @BindView(R.id.socialViberLayer)
+    RelativeLayout socialViberLayer;
     @BindView(R.id.viberLogo)
     ImageView viber;
+    @BindView(R.id.socialWhatsappLayer)
+    RelativeLayout socialWhatsappLayer;
     @BindView(R.id.whatsappLogo)
     ImageView whatsapp;
+    @BindView(R.id.socialCallLayer)
+    RelativeLayout socialCallLayer;
     @BindView(R.id.callLogo)
     ImageView call;
     int clickChecker = 0;
@@ -116,8 +123,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     SharedPreferences preferences;
     boolean appSubscription;
     Tracker mTracker;
-    private Cursor cursor;
     View bottomSheet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -388,17 +395,17 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
-    @OnClick(R.id.viberLogo)
+    @OnClick(R.id.socialViberLayer)
     public void openViber() {
-        viber.startAnimation(alpha);
+        socialViberLayer.startAnimation(alpha);
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
         call.setPackage("com.viber.voip");
         startActivity(call);
     }
 
-    @OnClick(R.id.whatsappLogo)
+    @OnClick(R.id.socialWhatsappLayer)
     public void openWhatsapp() {
-        whatsapp.startAnimation(alpha);
+        socialWhatsappLayer.startAnimation(alpha);
         String DisplayName = "Klops.ru";
         String MobileNumber = "+79097823333";
         Bitmap bmImage = BitmapFactory.decodeResource(SettingsActivity.this.getResources(),
@@ -450,9 +457,9 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         openApp(SettingsActivity.this, "com.whatsapp");
     }
 
-    @OnClick(R.id.callLogo)
+    @OnClick(R.id.socialCallLayer)
     public void openDialDialog() {
-        call.startAnimation(alpha);
+        socialCallLayer.startAnimation(alpha);
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + socialPhone.getText().toString().trim()));
         startActivity(call);
     }

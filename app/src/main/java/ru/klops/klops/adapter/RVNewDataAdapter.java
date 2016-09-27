@@ -1009,15 +1009,18 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
                 }
                 holderMainShort.date.setText(models.get(position).getDate());
                 holderMainShort.date.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
+                if (models.get(position).getPromoted() == 0) {
+                    holderMainShort.promoted.setVisibility(View.GONE);
+                }else {
+                    holderMainShort.promoted.setVisibility(View.VISIBLE);
+                }
                 if (!models.get(position).getUpdate_status().equals("")) {
                     holderMainShort.status.setText(models.get(position).getUpdate_status());
                     holderMainShort.status.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
                     holderMainShort.mainShortCardStatusIcon.setVisibility(View.VISIBLE);
                     holderMainShort.status.setVisibility(View.VISIBLE);
                 }
-                if (models.get(position).getPromoted() == 1) {
-                    holderMainShort.promoted.setVisibility(View.VISIBLE);
-                }
+
                 if (!models.get(position).getAuthor().equals("")) {
                     holderMainShort.author.setTypeface(Typeface.createFromAsset(context.getContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
                     if (!models.get(position).getSource().equals("")) {
