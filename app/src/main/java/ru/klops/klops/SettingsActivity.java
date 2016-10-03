@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @BindView(R.id.logo)
     ImageView logo;
     @BindView(R.id.toolbarSettings)
-    Toolbar toolbarSettings;
+    RelativeLayout toolbarSettings;
     @BindView(R.id.socialViberLayer)
     RelativeLayout socialViberLayer;
     @BindView(R.id.viberLogo)
@@ -139,14 +139,25 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
+        initFonts();
         mTracker = app.getDefaultTracker();
         switchNotifications.setOnCheckedChangeListener(this);
         sharedSubscription = loadStatement();
         appSubscription = loadInnerStatement();
         loadState();
-        initFonts();
         initProgressDialog();
+        checkSubscription();
         Log.d(LOG, "onCreate");
+    }
+
+    private void checkSubscription() {
+        if (app.getState().equals(Constants.UNSUBSCRIBED)) {
+            saveStatement(Constants.SUBSCRIBED);
+            saveInnerStatement(true);
+            saveState(true);
+            switchNotifications.setChecked(true);
+            appSubscription = true;
+        }
     }
 
     @OnClick(R.id.mainSettingsLayer)
@@ -157,7 +168,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     private void initFonts() {
-        setSupportActionBar(toolbarSettings);
         confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         notifications.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         quickly.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
@@ -277,10 +287,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 saveState(true);
                 confirmTitle.setText("Подписка на уведомления...");
                 confirmDialog.show();
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Settings Activity action")
-                        .setAction("Subscribe on push notifs")
-                        .build());
                 KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
                 Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
@@ -317,10 +323,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 saveState(false);
                 confirmTitle.setText("Отмена подписки...");
                 confirmDialog.show();
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Settings Activity action")
-                        .setAction("UnSubscribe from push notifs")
-                        .build());
                 KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
                 final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
                 call.subscribeOn(Schedulers.io())
@@ -374,6 +376,12 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public String loadStatement() {
         sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
         sharedSubscription = sharedPreferences.getString(Constants.SUBSCRIPTION, Constants.UNSUBSCRIBED);
+        return sharedSubscription;
+    }
+
+    public String firstTimeSubscribe() {
+        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        sharedSubscription = sharedPreferences.getString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
         return sharedSubscription;
     }
 
@@ -504,10 +512,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         Log.d(LOG, "onStart");
         super.onStart();
         FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Settings Activity")
-                .setAction("Settings Activity Start")
-                .build());
     }
 
     @Override

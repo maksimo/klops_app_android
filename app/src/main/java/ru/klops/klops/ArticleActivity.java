@@ -1,6 +1,5 @@
 package ru.klops.klops;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -11,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.analytics.HitBuilders;
@@ -82,12 +79,6 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout articleLayer;
     @BindView(R.id.textMatch)
     TextView matchArticles;
-    @BindView(R.id.littlePhotoSwitcher)
-    RelativeLayout littlePhotoSwitcher;
-    @BindView(R.id.littlePhotoSwitchCounter)
-    TextView littlePhotoSwitchCounter;
-    @BindView(R.id.galleryBackground)
-    RelativeLayout galleryBackground;
     @BindView(R.id.splitterThird)
     View splitterThird;
     @BindView(R.id.ViewsPhotos)
@@ -98,8 +89,6 @@ public class ArticleActivity extends AppCompatActivity {
     TextView littlePhotoSwitchCounterTwo;
     @BindView(R.id.littlePhotoSwitcherTwo)
     RelativeLayout littlePhotoSwitcherTwo;
-    @BindView(R.id.littleGallery)
-    ViewPager littleGallery;
     @BindView(R.id.matchLayout)
     RelativeLayout matchLayout;
     @BindView(R.id.connectedNewsOneLayer)
@@ -208,8 +197,6 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout fullArticleLayer;
     @BindView(R.id.splitterFour)
     View splitterFour;
-    @BindView(R.id.littleSwitchPhotoIcon)
-    ImageView littleSwitchPhotoIcon;
     @BindView(R.id.toolbarSeparatorArticle)
     View toolbarSeparatorArticle;
     @BindView(R.id.connectedSeparator)
@@ -217,13 +204,10 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.scrollArticleLayout)
     ScrollView scrollArticleLayout;
     ArrayList<Connected_items> connectedItemses;
-    ArrayList<String> smallGallery;
-    GalleryPagerAdapter littleAdapter;
     ArrayList<Content> contents;
     Animation alpha;
     GalleryContentPagerAdapter gAdapter;
     ArrayList<Gallery> galleries;
-    int count = 0;
     int countPager = 0;
     int formatCount = 0;
     Unbinder unbinder;
@@ -281,8 +265,6 @@ public class ArticleActivity extends AppCompatActivity {
 
                 }
             });
-        } else {
-            setUPPager();
         }
     }
 
@@ -456,56 +438,6 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-    private void setUPPager() {
-        Log.d(LOG, "setUPPager");
-        smallGallery = new ArrayList<>();
-        if (!item.getPhotos().isEmpty() && item.getPhotos() != null) {
-            if (item.getPhotos().size() > 1) {
-                smallGallery.addAll(item.getPhotos());
-                littleAdapter = new GalleryPagerAdapter(this, smallGallery);
-                littleGallery.setAdapter(littleAdapter);
-                littleGallery.setCurrentItem(0);
-                littlePhotoSwitchCounter.setText("1/" + String.valueOf(item.getPhotos().size()));
-                splitterThird.setVisibility(View.GONE);
-                galleryBackground.setVisibility(View.VISIBLE);
-                littleGallery.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        littlePhotoSwitchCounter.setText(String.valueOf(littleGallery.getCurrentItem() + 1) + "/" + String.valueOf(item.getPhotos().size()));
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                });
-            } else {
-                splitterThird.setVisibility(View.VISIBLE);
-                galleryBackground.setVisibility(View.GONE);
-            }
-        } else {
-            splitterThird.setVisibility(View.VISIBLE);
-            galleryBackground.setVisibility(View.GONE);
-        }
-
-    }
-
-    @OnClick(R.id.littlePhotoSwitchCounter)
-    public void nextPhoto() {
-        if (count != littleAdapter.getCount() - 1) {
-            littleGallery.setCurrentItem(littleGallery.getCurrentItem() + 1);
-            count++;
-        } else {
-            count = 0;
-            littleGallery.setCurrentItem(count);
-        }
-    }
-
     @OnClick(R.id.buttonFormat)
     public void openFormatDialog() {
         FragmentManager fminc = getSupportFragmentManager();
@@ -598,9 +530,6 @@ public class ArticleActivity extends AppCompatActivity {
         splitterThird.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
         splitterFour.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         matchArticles.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        galleryBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.greyText));
-        littlePhotoSwitchCounter.setTextColor(ContextCompat.getColor(this, R.color.greyText));
-        littleSwitchPhotoIcon.setBackgroundResource(R.drawable.gallery_dark);
         matchLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         connectedNewsOneDate.setTextColor(ContextCompat.getColor(this, R.color.greyText));
         connectedNewsOneText.setTextColor(ContextCompat.getColor(this, R.color.greyText));
@@ -631,10 +560,6 @@ public class ArticleActivity extends AppCompatActivity {
     public void openShareDialog() {
         share.startAnimation(alpha);
         shareNews();
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Article Activity action")
-                .setAction("Share news")
-                .build());
     }
 
     private Uri getLocalBitmapUri(Bitmap bmp) {
@@ -684,10 +609,6 @@ public class ArticleActivity extends AppCompatActivity {
         Log.d(LOG, "onStart");
         super.onStart();
         FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Article Activity")
-                .setAction("Article Activity Start")
-                .build());
     }
 
     @Override
@@ -778,5 +699,6 @@ public class ArticleActivity extends AppCompatActivity {
         super.onDestroy();
     }
 }
+
 
 

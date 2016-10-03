@@ -18,11 +18,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.ResponseBody;
 import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.gcm.QuickstartPreferences;
@@ -30,6 +34,7 @@ import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
+import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,6 +48,10 @@ public class SplashActivity extends AppCompatActivity {
     private BroadcastReceiver registrationReceiver;
     private boolean isReceiverRegistered;
     String data;
+    Tracker mTracker;
+    SharedPreferences sharedPreferences;
+    String sharedSubscription;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.splash_activity);
         unbinder = ButterKnife.bind(this);
         myApp = KlopsApplication.getINSTANCE();
+        mTracker = myApp.getDefaultTracker();
         Log.d(LOG, "onCreate");
         checkAPIbaseURL();
     }
@@ -89,6 +99,7 @@ public class SplashActivity extends AppCompatActivity {
         AlertDialog.Builder alertConnection = new AlertDialog.Builder(SplashActivity.this);
         if (mobileNwInfo.isConnected() || wifiNwInfo.isConnected()) {
             startGoogleServices();
+            checkSubscription();
             startDataLoad();
         } else if (!mobileNwInfo.isConnected() || !wifiNwInfo.isConnected()) {
             alertConnection.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
@@ -105,6 +116,46 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }).show();
         }
+    }
+
+    private void checkSubscription() {
+        if (firstTimeSubscribe().equals(Constants.UNSUBSCRIBED)) {
+            myApp.setState(Constants.UNSUBSCRIBED);
+            KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
+            Observable<ResponseBody> call = api.subscribeNotification(myApp.getToken(), Constants.PLATFORM);
+            call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResponseBody>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.d(LOG, "response code: 200");
+                            editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+                            editor.putString(Constants.FIRST_TIME_CHECK, Constants.SUBSCRIBED);
+                            editor.apply();
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
+                        }
+
+                        @Override
+                        public void onNext(ResponseBody responseBody) {
+                            Log.d(LOG, "response code: 200" + responseBody.toString());
+                            AndroidSchedulers.reset();
+                        }
+                    });
+
+        }else {
+            myApp.setState(Constants.SUBSCRIBED);
+        }
+    }
+
+    private String firstTimeSubscribe() {
+        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        sharedSubscription = sharedPreferences.getString(Constants.FIRST_TIME_CHECK, Constants.UNSUBSCRIBED);
+        return sharedSubscription;
     }
 
     private void startGoogleServices() {
@@ -217,6 +268,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
         super.onStart();
         Log.d(LOG, "onStart");
     }
@@ -255,6 +307,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.d(LOG, "onDestroy");
+        FlurryAgent.onEndSession(this);
         unbinder.unbind();
         finish();
         super.onDestroy();

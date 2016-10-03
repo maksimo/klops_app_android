@@ -10,7 +10,10 @@ import com.google.android.gms.analytics.Tracker;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
+import java.text.Collator;
+
 import io.fabric.sdk.android.Fabric;
+import ru.klops.klops.R;
 import ru.klops.klops.models.article.Item;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
@@ -26,6 +29,7 @@ public class KlopsApplication extends Application {
     private Tracker tracker;
     private int photoPosition;
     private int flag;
+    private String state;
 
 
     public static KlopsApplication getINSTANCE() {
@@ -47,19 +51,21 @@ public class KlopsApplication extends Application {
 
     }
 
-    synchronized public Tracker getDefaultTracker(){
-        if (tracker == null){
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            tracker = analytics.newTracker("UA-80429730-1");
+            tracker = analytics.newTracker(R.xml.analytics_tracker);
+            tracker.enableAutoActivityTracking(true);
         }
         return tracker;
     }
 
     public String loadBaseURL() {
-        SharedPreferences sharedPreferences =  getINSTANCE().getSharedPreferences(Constants.PATH, getINSTANCE().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getINSTANCE().getSharedPreferences(Constants.PATH, getINSTANCE().MODE_PRIVATE);
         String subscription = sharedPreferences.getString(Constants.NEW_URL, "https://klops.ru/api/");
         return subscription;
     }
+
     public Page getFirstPage() {
         return firstPage;
     }
@@ -99,11 +105,21 @@ public class KlopsApplication extends Application {
     public int getPhotoPosition() {
         return photoPosition;
     }
+
     public void setFlag(int flag) {
         this.flag = flag;
     }
 
     public int getFlag() {
         return flag;
+    }
+
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+            return state;
     }
 }

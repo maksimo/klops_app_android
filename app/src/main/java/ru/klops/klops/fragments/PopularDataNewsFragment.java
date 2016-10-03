@@ -97,10 +97,6 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
                         adapter.notifyDataSetChanged();
                     }
                 });
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Popular Feed Action")
-                .setAction("Refresh Popular Feed")
-                .build());
     }
 
     private void initRecyclerView() {
@@ -227,10 +223,6 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
 
     public void scrollPopularToTop() {
         popularManager.scrollToPosition(0);
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Popular Feed Action")
-                .setAction("Scroll To Top Of Popular Feed")
-                .build());
     }
 
     @Override

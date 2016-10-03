@@ -174,10 +174,6 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(LOG, "onStart");
         super.onStart();
         FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Home Activity")
-                .setAction("Start Home Activity")
-                .build());
     }
 
     @Override

@@ -55,7 +55,6 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
     ArrayList<News> copy;
     ArrayList<Integer> typesAdapter;
     Currency currency;
-    int separatorNumber;
     ArrayList<Integer> separatorCounts;
     private Tracker mTracker;
 
@@ -108,10 +107,6 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                         adapter.notifyDataSetChanged();
                     }
                 });
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Main Feed Action")
-                .setAction("Refresh Main Feed")
-                .build());
     }
 
     private void setUpRecycler() {
@@ -252,10 +247,6 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
 
     public void scrollNewToTop() {
         newManager.scrollToPosition(0);
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Main Feed Action")
-                .setAction("Scroll To Top Action")
-                .build());
     }
 
     @Override

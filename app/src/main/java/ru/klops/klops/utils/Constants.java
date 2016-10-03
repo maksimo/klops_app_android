@@ -66,4 +66,6 @@ public class Constants {
     public static final String CONTENT_TYPE = "CONTENT_TYPE";
     public static final String ACTIVITY_TYPE = "activity_type";
     public static final String YANDEX_KEY = "06b49732-fe82-4f20-8782-9e8de1c029fc";
+    public static final String FIRST_TIME_SUBSCRIBE = "FIRST_TIME";
+    public static final String FIRST_TIME_CHECK = "FIRST_CHECK";
 }

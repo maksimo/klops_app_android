@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Replace placeholder ID with your tracking ID-->
+    <string name="ga_trackingId">UA-10688719-4</string>
+
+    <!--Enable automatic activity tracking-->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!--Enable automatic exception tracking-->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <screnName name="ru.klops.klops.ArticleActivity">
+        Klops Full Article Screen
+    </screnName>
+
+    <screnName name="ru.klops.klops.HomeActivity">
+        Klops Home Screen
+    </screnName>
+
+    <screnName name="ru.klops.klops.PhotoActivity">
+        Klops Gallery Screen
+    </screnName>
+
+    <screnName name="ru.klops.klops.SettingsActivity">
+        Klops Settings Screen
+    </screnName>
+
+    <screnName name="ru.klops.klops.SplashActivity">
+        Klops Splash Screen
+    </screnName>
+
+</resources>

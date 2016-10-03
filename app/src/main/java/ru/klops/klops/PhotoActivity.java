@@ -11,6 +11,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.flurry.android.FlurryAgent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
@@ -45,6 +48,7 @@ public class PhotoActivity extends AppCompatActivity {
     int photoNumber;
     int countPager = 0;
     KlopsApplication app;
+    Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class PhotoActivity extends AppCompatActivity {
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         photoNumber = getIntent().getIntExtra(Constants.NUMBER, 0);
         photos = getIntent().getParcelableArrayListExtra(Constants.PHOTOS);
+        mTracker = app.getDefaultTracker();
         setUpPager();
         Log.d(LOG, "onCreate");
     }
@@ -106,6 +111,7 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         Log.d(LOG, "onStart");
+        FlurryAgent.onStartSession(this, Constants.FLURRY_API_KEY);
         super.onStart();
     }
 
@@ -143,6 +149,7 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d(LOG, "onDestroy");
         unbinder.unbind();
+        FlurryAgent.onEndSession(this);
         super.onDestroy();
     }
 
