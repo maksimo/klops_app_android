@@ -30,6 +30,7 @@ public class KlopsApplication extends Application {
     private int photoPosition;
     private int flag;
     private String state;
+    private String intentData;
 
 
     public static KlopsApplication getINSTANCE() {
@@ -121,5 +122,13 @@ public class KlopsApplication extends Application {
 
     public String getState() {
             return state;
+    }
+
+    public void setIntentData(String intentData) {
+        this.intentData = intentData;
+    }
+
+    public String getIntentData() {
+        return intentData;
     }
 }

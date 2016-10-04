@@ -154,7 +154,7 @@ public class ContentFragment extends Fragment {
                 contentView.getSettings().setJavaScriptEnabled(true);
                 contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                 contentView.getSettings().setSupportZoom(true);
-            } else if (content.getPhotos() != null) {
+            } else if (content.getPhotos() != null && !content.getPhotos().isEmpty()) {
                 contentLayer.setVisibility(View.VISIBLE);
                 image.setVisibility(View.VISIBLE);
                 loader.setVisibility(View.VISIBLE);

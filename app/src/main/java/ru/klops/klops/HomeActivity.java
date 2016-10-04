@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onNext(Article article) {
                         Intent articleIntent = new Intent(HomeActivity.this, ArticleActivity.class);
                         articleIntent.putExtra(Constants.ITEM, article.getItem());
-                        articleIntent.putExtra(Constants.TYPE, type);
+                        articleIntent.putExtra(Constants.TYPE, article.getItem().getArticle_type());
                         articleIntent.putExtra(Constants.CONTENT_TYPE, contentType);
                         startActivity(articleIntent);
                     }

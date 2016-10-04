@@ -203,18 +203,27 @@ public class ArticleActivity extends AppCompatActivity {
     View connectedSeparator;
     @BindView(R.id.scrollArticleLayout)
     ScrollView scrollArticleLayout;
+
+    @BindView(R.id.galleryDescription)
+    TextView galleryDescription;
+
     ArrayList<Connected_items> connectedItemses;
     ArrayList<Content> contents;
     Animation alpha;
-    GalleryContentPagerAdapter gAdapter;
+    GalleryPagerAdapter gAdapter;
     ArrayList<Gallery> galleries;
     int countPager = 0;
     int formatCount = 0;
     Unbinder unbinder;
     ArrayList<RelativeLayout> contentLayouts;
     Tracker mTracker;
-    String type;
     String contentType;
+    @BindView(R.id.galleryLayer)
+    RelativeLayout galleryLayer;
+    @BindView(R.id.littleSwitchPhotoIconTwo)
+    ImageView littleSwitchPhotoIconTwo;
+    String intentData;
+    Intent webIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,7 +239,6 @@ public class ArticleActivity extends AppCompatActivity {
         alpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
         mTracker = app.getDefaultTracker();
         item = getIntent().getParcelableExtra(Constants.ITEM);
-        type = getIntent().getStringExtra(Constants.TYPE);
         contentType = getIntent().getStringExtra(Constants.CONTENT_TYPE);
         setSupportActionBar(toolbar);
         drawFragment();
@@ -239,14 +247,19 @@ public class ArticleActivity extends AppCompatActivity {
         setUpMatchNews();
     }
 
-
     private void setUpGalleries() {
         if (galleries.size() != 0) {
-            gAdapter = new GalleryContentPagerAdapter(this, galleries);
+            ArrayList<String> photos = new ArrayList<>();
+            for (Gallery gallery : galleries) {
+                photos.add(gallery.getImg_url());
+            }
+            gAdapter = new GalleryPagerAdapter(this, galleries);
             pager.setAdapter(gAdapter);
             pager.setCurrentItem(0);
             contentGallery.setVisibility(View.VISIBLE);
             splitterThird.setVisibility(View.VISIBLE);
+            galleryDescription.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+            galleryDescription.setText(galleries.get(0).getDescription());
             littlePhotoSwitchCounterTwo.setText("1/" + String.valueOf(galleries.size()));
             final int count = galleries.size();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -258,6 +271,7 @@ public class ArticleActivity extends AppCompatActivity {
                 @Override
                 public void onPageSelected(int position) {
                     littlePhotoSwitchCounterTwo.setText(String.valueOf(pager.getCurrentItem() + 1) + "/" + String.valueOf(count));
+                    galleryDescription.setText(galleries.get(position).getDescription());
                 }
 
                 @Override
@@ -336,10 +350,38 @@ public class ArticleActivity extends AppCompatActivity {
                         Log.d(LOG, "loadArticle - onNext");
                         Intent newMatchArticle = getIntent();
                         newMatchArticle.putExtra(Constants.ITEM, article.getItem());
-                        newMatchArticle.putExtra(Constants.TYPE, type);
-                        newMatchArticle.putExtra(Constants.ARTICLE_TYPE, this.getClass().getName());
-                        newMatchArticle.putExtra(Constants.CONTENT_TYPE, contentType);
+                        newMatchArticle.putExtra(Constants.TYPE, contentType);
                         startActivity(newMatchArticle);
+                    }
+                });
+    }
+
+    private void loadWebArticle(Integer id, final String contentType) {
+        Log.d(LOG, "loadWebArticle");
+        KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
+        Observable<Article> callArticle = articleApi.getItemById(id, contentType);
+        callArticle.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Article>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(LOG, "loadArticle - onCompleted");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(LOG, "loadArticle - onError" + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Article article) {
+                        Log.d(LOG, "loadArticle - onNext");
+                        Intent intent = getIntent();
+                        intent.putExtra(Constants.ITEM, article.getItem());
+                        intent.putExtra(Constants.CONTENT_TYPE, contentType);
+                        finish();
+                        startActivity(intent);
                     }
                 });
     }
@@ -461,6 +503,7 @@ public class ArticleActivity extends AppCompatActivity {
                         }
                     }
                     matchArticles.setTextSize(27);
+                    galleryDescription.setTextSize(18);
                     connectedNewsOneDate.setTextSize(12);
                     connectedNewsOneText.setTextSize(18);
                     connectedNewsTwoDate.setTextSize(12);
@@ -487,6 +530,7 @@ public class ArticleActivity extends AppCompatActivity {
                         }
                     }
                     matchArticles.setTextSize(25);
+                    galleryDescription.setTextSize(16);
                     connectedNewsOneDate.setTextSize(10);
                     connectedNewsOneText.setTextSize(16);
                     connectedNewsTwoDate.setTextSize(10);
@@ -540,6 +584,11 @@ public class ArticleActivity extends AppCompatActivity {
         articleLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
         connectedSeparator.setBackgroundColor(ContextCompat.getColor(this, R.color.darkColor));
         scrollArticleLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        galleryLayer.setBackgroundColor(ContextCompat.getColor(this, R.color.galleryCard));
+        littleSwitchPhotoIconTwo.setBackgroundResource(R.drawable.gallery_dark);
+        littlePhotoSwitcherTwo.setBackgroundResource(R.drawable.gallery_switch_shape_dark);
+        littlePhotoSwitchCounterTwo.setTextColor(ContextCompat.getColor(this, R.color.darkGreyText));
+        galleryDescription.setTextColor(ContextCompat.getColor(this, R.color.darkGreyText));
     }
 
     public void placeArticleFragment(Fragment fragment) {
@@ -633,12 +682,13 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d(LOG, "onBackPressed");
-        if (app.getFlag() == 1) {
-                loadFeeds();
-
-        } else {
+        if (app.getFlag() == 0) {
             finish();
             super.onBackPressed();
+        } else if (app.getFlag() == 1) {
+            loadFeeds();
+        } else if (app.getFlag() == 2) {
+            loadFeeds();
         }
     }
 

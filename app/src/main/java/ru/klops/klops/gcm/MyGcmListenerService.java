@@ -51,6 +51,7 @@ public class MyGcmListenerService extends GcmListenerService {
             id = Integer.parseInt(separateId[0]);
             Log.d(TAG, String.valueOf(id));
         }
+
         sendNotification(message);
 
     }

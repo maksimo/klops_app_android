@@ -1,6 +1,7 @@
 package ru.klops.klops.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Parcelable;
@@ -23,31 +24,43 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.klops.klops.PhotoActivity;
 import ru.klops.klops.R;
+import ru.klops.klops.models.article.Gallery;
+import ru.klops.klops.utils.Constants;
 
 public class GalleryPagerAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-    ArrayList<String> photos;
+    ArrayList<Gallery> gallery;
 
-    public GalleryPagerAdapter(Context context, ArrayList<String> photos) {
+    public GalleryPagerAdapter(Context context, ArrayList<Gallery> gallery) {
         super();
         this.context = context;
-        this.photos = photos;
+        this.gallery = gallery;
 
     }
 
     @Override
     public int getCount() {
-        return photos.size();
+        return gallery.size();
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.gallery_item_simple, container, false);
         final ImageView photo = (ImageView) itemView.findViewById(R.id.galleryPagerSimplePhoto);
-        Ion.with(context).load(photos.get(position)).withBitmap().intoImageView(photo);
+        Ion.with(context).load(gallery.get(position).getImg_url()).withBitmap().intoImageView(photo);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhotoActivity.class);
+                intent.putParcelableArrayListExtra(Constants.PHOTOS, gallery);
+                intent.putExtra(Constants.NUMBER, position + 1);
+                context.startActivity(intent);
+            }
+        });
         container.addView(itemView);
         return itemView;
     }

@@ -12,7 +12,6 @@ public class Item implements Parcelable {
     public String shortdecription;
     public String image;
     public String update_status;
-    public List<String> photos;
     public String article_type;
     public String url;
     public Og_image og_image;
@@ -22,18 +21,18 @@ public class Item implements Parcelable {
     public String source;
     public List<Connected_items> connected_items;
     public Integer promoted;
+    public Integer views_count;
 
     public Item() {
     }
 
-    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, List<String> photos, String article_type, String url, Og_image og_image, List<Content> content, Integer timestamp, String author, String source, List<Connected_items> connected_items, Integer promoted) {
+    public Item(Integer id, String date, String title, String shortdecription, String image, String update_status, String article_type, String url, Og_image og_image, List<Content> content, Integer timestamp, String author, String source, List<String> photos, List<Connected_items> connected_items, Integer promoted, Integer views_count) {
         this.id = id;
         this.date = date;
         this.title = title;
         this.shortdecription = shortdecription;
         this.image = image;
         this.update_status = update_status;
-        this.photos = photos;
         this.article_type = article_type;
         this.url = url;
         this.og_image = og_image;
@@ -43,6 +42,7 @@ public class Item implements Parcelable {
         this.source = source;
         this.connected_items = connected_items;
         this.promoted = promoted;
+        this.views_count = views_count;
     }
 
     protected Item(Parcel in) {
@@ -52,7 +52,6 @@ public class Item implements Parcelable {
         shortdecription = in.readString();
         image = in.readString();
         update_status = in.readString();
-        photos = in.createStringArrayList();
         article_type = in.readString();
         url = in.readString();
         og_image = in.readParcelable(Og_image.class.getClassLoader());
@@ -61,6 +60,7 @@ public class Item implements Parcelable {
         source = in.readString();
         connected_items = in.createTypedArrayList(Connected_items.CREATOR);
         promoted = in.readInt();
+        views_count = in.readInt();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -136,14 +136,6 @@ public class Item implements Parcelable {
 
     public void setUpdate_status(String update_status) {
         this.update_status = update_status;
-    }
-
-    public List<String> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<String> photos) {
-        this.photos = photos;
     }
 
     public String getArticle_type() {
@@ -236,6 +228,17 @@ public class Item implements Parcelable {
         this.promoted = promoted;
     }
 
+    public Integer getViews_count() {
+        if (views_count == null){
+            setViews_count(0);
+        }
+        return views_count;
+    }
+
+    public void setViews_count(Integer views_count) {
+        this.views_count = views_count;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -245,7 +248,6 @@ public class Item implements Parcelable {
                 ", shortdecription='" + shortdecription + '\'' +
                 ", image='" + image + '\'' +
                 ", update_status='" + update_status + '\'' +
-                ", photos=" + photos +
                 ", article_type='" + article_type + '\'' +
                 ", url='" + url + '\'' +
                 ", og_image='" + og_image + '\'' +
@@ -271,7 +273,6 @@ public class Item implements Parcelable {
         dest.writeString(shortdecription);
         dest.writeString(image);
         dest.writeString(update_status);
-        dest.writeStringList(photos);
         dest.writeString(article_type);
         dest.writeString(url);
         dest.writeParcelable(og_image, flags);
@@ -280,5 +281,6 @@ public class Item implements Parcelable {
         dest.writeString(source);
         dest.writeTypedList(connected_items);
         dest.writeInt(promoted);
+        dest.writeInt(views_count);
     }
 }

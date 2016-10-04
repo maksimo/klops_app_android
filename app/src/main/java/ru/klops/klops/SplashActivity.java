@@ -31,6 +31,7 @@ import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
 import ru.klops.klops.gcm.QuickstartPreferences;
 import ru.klops.klops.gcm.RegistrationIntentService;
+import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
 import ru.klops.klops.services.RetrofitServiceGenerator;
@@ -52,6 +53,7 @@ public class SplashActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String sharedSubscription;
     SharedPreferences.Editor editor;
+    String webArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,11 @@ public class SplashActivity extends AppCompatActivity {
         mTracker = myApp.getDefaultTracker();
         Log.d(LOG, "onCreate");
         checkAPIbaseURL();
+    }
+
+    private void checkWebArticle() {
+        Intent web = getIntent();
+        webArticle = web.getDataString();
     }
 
     private void checkAPIbaseURL() {
@@ -100,7 +107,38 @@ public class SplashActivity extends AppCompatActivity {
         if (mobileNwInfo.isConnected() || wifiNwInfo.isConnected()) {
             startGoogleServices();
             checkSubscription();
-            startDataLoad();
+            checkWebArticle();
+            if (webArticle!= null && !webArticle.equals("")){
+                String slpitScheme[] = webArticle.split("\\?");
+                String idString = slpitScheme[1];
+                Integer articleId = Integer.parseInt(idString);
+                myApp.setFlag(2);
+                KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
+                Observable<Article> callArticle = articleApi.getItemById(articleId, Constants.ARTICLE_TYPE);
+                callArticle.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Article>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onNext(Article article) {
+                                Intent intent = new Intent(SplashActivity.this, ArticleActivity.class);
+                                intent.putExtra(Constants.ITEM, article.getItem());
+                                intent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
+                                finish();
+                                startActivity(intent);
+                            }
+                        });
+            }else {
+                startDataLoad();
+            }
         } else if (!mobileNwInfo.isConnected() || !wifiNwInfo.isConnected()) {
             alertConnection.setIcon(R.drawable.alert_icon).setTitle("Подключение невозможно")
                     .setMessage("Пожалуйста проверьте интернет или Wi-Fi соединение вашего устройства")

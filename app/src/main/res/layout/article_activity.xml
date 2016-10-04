@@ -409,7 +409,7 @@
                     android:paddingTop="5dp"
                     android:visibility="gone"/>
 
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:id="@+id/contentGallery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -419,25 +419,29 @@
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/ViewsPhotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        app:layout_aspectRatio="178%"
+                        app:layout_widthPercent="100%"
                         android:visibility="visible" />
 
                     <RelativeLayout
+                        android:id="@+id/galleryLayer"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/ViewsPhotos"
-                        android:background="@color/galleryCard">
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp"
+                        android:background="@color/colorPrimary">
 
                         <RelativeLayout
                             android:id="@+id/littlePhotoSwitcherTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="15dp"
                             android:layout_marginBottom="10dp"
                             android:layout_marginTop="10dp"
+                            android:layout_centerVertical="true"
                             android:alpha="0.7"
-                            android:background="@drawable/gallery_switch_shape_dark"
+                            android:background="@drawable/gallery_switch_shape"
                             android:clickable="true"
                             android:visibility="visible">
 
@@ -447,7 +451,7 @@
                                 android:layout_height="15dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="12dp"
-                                android:background="@drawable/gallery_dark" />
+                                android:background="@drawable/gallery" />
 
                             <TextView
                                 android:id="@+id/littlePhotoSwitchCounterTwo"
@@ -458,10 +462,23 @@
                                 android:layout_toRightOf="@+id/littleSwitchPhotoIconTwo"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="12dp"
-                                android:textColor="@color/darkGreyText" />
+                                android:textColor="@color/greyText" />
                         </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/galleryDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toRightOf="@+id/littlePhotoSwitcherTwo"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="30dp"
+                            android:textSize="16sp"
+                            android:text=""
+                            android:textColor="@color/greyText" />
                     </RelativeLayout>
-                </RelativeLayout>
+                </android.support.percent.PercentRelativeLayout>
 
             </RelativeLayout>
 
