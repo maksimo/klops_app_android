@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVNewDataAdapter;
@@ -35,6 +36,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -56,7 +58,8 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
     ArrayList<Integer> typesAdapter;
     Currency currency;
     ArrayList<Integer> separatorCounts;
-    private Tracker mTracker;
+    Tracker mTracker;
+    Subscription refreshSub;
 
     @Override
     public void onAttach(Context context) {
@@ -82,7 +85,7 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
         adapter.clearNewFeed();
         KlopsApi.FeedApi api = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Page> refreshPage = api.getAllNews();
-        refreshPage.subscribeOn(Schedulers.newThread())
+        refreshSub = refreshPage.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Page>() {
                     @Override
@@ -99,6 +102,7 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
                     @Override
                     public void onNext(Page page) {
                         mApp.setFirstPage(page);
+                        ((HomeActivity)getActivity()).setRefreshStatus(refreshSub);
                         if (!page.getCurrency().getUsd().equals("")) {
                             adapter.addData(new ArrayList<News>(page.getNews()), addData(new ArrayList<News>(page.getNews())), page.getCurrency());
                         }else {
@@ -270,6 +274,9 @@ public class NewDataNewsFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onStop() {
         Log.d(LOG, "onStop");
+        if (refreshSub!=null){
+            refreshSub.unsubscribe();
+        }
         super.onStop();
     }
 

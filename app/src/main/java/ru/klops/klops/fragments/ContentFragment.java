@@ -158,6 +158,9 @@ public class ContentFragment extends Fragment {
                 contentLayer.setVisibility(View.VISIBLE);
                 image.setVisibility(View.VISIBLE);
                 loader.setVisibility(View.VISIBLE);
+                if (content.getPhotos().get(0).getImg_url().contains(".gif")){
+                    image.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
                 loadPhoto(this, content.getPhotos().get(0).getImg_url(), image, loader);
                 if (!content.getPhotos().get(0).getDescription().equals("")) {
                     description.setText(content.getPhotos().get(0).getDescription());

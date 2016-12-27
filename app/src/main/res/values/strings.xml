@@ -43,5 +43,6 @@
     <string name="search">Поиск</string>
     <string name="search_error">Введите слово для поиска</string>
     <string name="moreAbout">Больше на эту тему</string>
+    <string name="apps_chooser" />
     <integer name="com_vk_sdk_AppId">5536102</integer>
 </resources>

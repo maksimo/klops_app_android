@@ -8,11 +8,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
-
-
-
-
     <RelativeLayout
         android:id="@+id/mainSettingsLayer"
         android:layout_width="match_parent"

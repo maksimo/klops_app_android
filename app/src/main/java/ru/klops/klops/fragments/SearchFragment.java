@@ -41,6 +41,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -68,6 +69,7 @@ public class SearchFragment extends Fragment {
     KlopsApplication mApp;
     List<News> news;
     String requestedWord;
+    Subscription searchSub;
 
     @Override
     public void onAttach(Context context) {
@@ -150,7 +152,7 @@ public class SearchFragment extends Fragment {
         news = new ArrayList<>();
         KlopsApi.SearchApi api = RetrofitServiceGenerator.createService(KlopsApi.SearchApi.class);
         Observable<Search> call = api.getSearchResult(requestedWord);
-        call.subscribeOn(Schedulers.io())
+        searchSub = call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Search>() {
                     @Override
@@ -228,6 +230,9 @@ public class SearchFragment extends Fragment {
     @Override
     public void onStop() {
         Log.d(LOG, "onStop");
+        if (searchSub!=null) {
+            searchSub.unsubscribe();
+        }
         super.onStop();
     }
 

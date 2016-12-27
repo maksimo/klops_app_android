@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.klops.klops.HomeActivity;
 import ru.klops.klops.R;
 import ru.klops.klops.adapter.ItemOffsetDecoration;
 import ru.klops.klops.adapter.RVPopularDataAdapter;
@@ -32,6 +33,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,7 +53,8 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
     ArrayList<Integer> dataTypes;
     ArrayList<News> copy;
     Unbinder unbinder;
-    private Tracker mTracker;
+    Tracker mTracker;
+    Subscription refreshSub;
 
     @Override
     public void onAttach(Context context) {
@@ -76,7 +79,7 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
     public void onRefresh() {
         KlopsApi.FeedApi api = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Popular> refreshPage = api.getPopularNews();
-        refreshPage.subscribeOn(Schedulers.newThread())
+        refreshSub = refreshPage.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Popular>() {
                     @Override
@@ -92,6 +95,7 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
 
                     @Override
                     public void onNext(Popular popular) {
+                        ((HomeActivity)getActivity()).setRefreshStatus(refreshSub);
                         mApp.setPopularPage(popular);
                         adapter.addData(new ArrayList<News>(popular.getNews()), addData(new ArrayList<News>(popular.getNews())));
                         adapter.notifyDataSetChanged();
@@ -247,6 +251,9 @@ public class PopularDataNewsFragment extends Fragment implements SwipeRefreshLay
     @Override
     public void onStop() {
         Log.d(LOG, "onStop");
+        if (refreshSub!=null){
+            refreshSub.unsubscribe();
+        }
         super.onStop();
     }
 

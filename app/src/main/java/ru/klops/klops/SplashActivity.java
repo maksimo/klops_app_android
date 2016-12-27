@@ -1,17 +1,12 @@
 package ru.klops.klops;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,18 +14,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.ResponseBody;
 import ru.klops.klops.api.KlopsApi;
 import ru.klops.klops.application.KlopsApplication;
-import ru.klops.klops.gcm.QuickstartPreferences;
-import ru.klops.klops.gcm.RegistrationIntentService;
 import ru.klops.klops.models.article.Article;
 import ru.klops.klops.models.feed.Page;
 import ru.klops.klops.models.popular.Popular;
@@ -38,6 +29,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -46,18 +38,17 @@ public class SplashActivity extends AppCompatActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     KlopsApplication myApp;
     Unbinder unbinder;
-    private BroadcastReceiver registrationReceiver;
-    private boolean isReceiverRegistered;
-    String data;
     Tracker mTracker;
-    SharedPreferences sharedPreferences;
-    String sharedSubscription;
-    SharedPreferences.Editor editor;
     String webArticle;
+    Subscription articleSub;
+    Subscription newFeedSub;
+    Subscription popularFeedSub;
+    int articleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG, "onCreate");
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -65,24 +56,24 @@ public class SplashActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         myApp = KlopsApplication.getINSTANCE();
         mTracker = myApp.getDefaultTracker();
-        Log.d(LOG, "onCreate");
-        checkAPIbaseURL();
+        checkPlayService();
+        checkAPIBaseURL();
     }
+
 
     private void checkWebArticle() {
         Intent web = getIntent();
         webArticle = web.getDataString();
     }
 
-    private void checkAPIbaseURL() {
+    private void checkAPIBaseURL() {
         String baseUrl = myApp.loadBaseURL();
         if (!baseUrl.equals("https://klops.ru/api/")) {
             final AlertDialog.Builder apiChanged = new AlertDialog.Builder(SplashActivity.this);
             apiChanged.setIcon(R.drawable.alert_icon).setTitle("Ошибка приложения").setCancelable(false)
                     .setMessage("Настройки API приложения были изменены. Хотите продолжить работу?").setPositiveButton("Да", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
+                public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     finish();
                     startActivity(intent);
@@ -105,38 +96,44 @@ public class SplashActivity extends AppCompatActivity {
         NetworkInfo wifiNwInfo = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         AlertDialog.Builder alertConnection = new AlertDialog.Builder(SplashActivity.this);
         if (mobileNwInfo.isConnected() || wifiNwInfo.isConnected()) {
-            startGoogleServices();
-            checkSubscription();
             checkWebArticle();
-            if (webArticle!= null && !webArticle.equals("")){
-                String slpitScheme[] = webArticle.split("\\?");
-                String idString = slpitScheme[1];
-                Integer articleId = Integer.parseInt(idString);
-                myApp.setFlag(2);
-                KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
-                Observable<Article> callArticle = articleApi.getItemById(articleId, Constants.ARTICLE_TYPE);
-                callArticle.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Article>() {
-                            @Override
-                            public void onCompleted() {
+            if (webArticle != null && !webArticle.equals("")) {
+                if (webArticle.length() <=17){
+                    Intent intent = new Intent(this, SplashActivity.class);
+                    finish();
+                    startActivity(intent);
+                }else {
+//                    String extras = getIntent().getDataString();
+                    articleId = Integer.parseInt(webArticle.replaceAll("[^\\d]", ""));
+//                    String slpitScheme[] = webArticle.split("\\?");
+//                    String idString = slpitScheme[1];
+//                    Integer articleId = Integer.parseInt(idString);
+                    myApp.setFlag(2);
+                    KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
+                    Observable<Article> callArticle = articleApi.getItemById(articleId, Constants.ARTICLE_TYPE);
+                    articleSub = callArticle.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<Article>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
+                                }
 
-                            @Override
-                            public void onError(Throwable e) {
-                            }
+                                @Override
+                                public void onError(Throwable e) {
+                                }
 
-                            @Override
-                            public void onNext(Article article) {
-                                Intent intent = new Intent(SplashActivity.this, ArticleActivity.class);
-                                intent.putExtra(Constants.ITEM, article.getItem());
-                                intent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
-                                finish();
-                                startActivity(intent);
-                            }
-                        });
-            }else {
+                                @Override
+                                public void onNext(Article article) {
+                                    Intent intent = new Intent(SplashActivity.this, ArticleActivity.class);
+                                    intent.putExtra(Constants.ITEM, article.getItem());
+                                    intent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            });
+                }
+            } else {
                 startDataLoad();
             }
         } else if (!mobileNwInfo.isConnected() || !wifiNwInfo.isConnected()) {
@@ -156,71 +153,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void checkSubscription() {
-        if (firstTimeSubscribe().equals(Constants.UNSUBSCRIBED)) {
-            myApp.setState(Constants.UNSUBSCRIBED);
-            KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
-            Observable<ResponseBody> call = api.subscribeNotification(myApp.getToken(), Constants.PLATFORM);
-            call.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ResponseBody>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(LOG, "response code: 200");
-                            editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
-                            editor.putString(Constants.FIRST_TIME_CHECK, Constants.SUBSCRIBED);
-                            editor.apply();
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
-                        }
-
-                        @Override
-                        public void onNext(ResponseBody responseBody) {
-                            Log.d(LOG, "response code: 200" + responseBody.toString());
-                            AndroidSchedulers.reset();
-                        }
-                    });
-
-        }else {
-            myApp.setState(Constants.SUBSCRIBED);
-        }
-    }
-
-    private String firstTimeSubscribe() {
-        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        sharedSubscription = sharedPreferences.getString(Constants.FIRST_TIME_CHECK, Constants.UNSUBSCRIBED);
-        return sharedSubscription;
-    }
-
-    private void startGoogleServices() {
-        Log.d(LOG, "startGoogleServices");
-        registrationReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                data = intent.getDataString();
-            }
-        };
-        registerReceiver();
-        if (checkPlayService()) {
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
-    private void registerReceiver() {
-        if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(registrationReceiver,
-                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-            isReceiverRegistered = true;
-        }
-    }
-
     private boolean checkPlayService() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
@@ -229,8 +161,7 @@ public class SplashActivity extends AppCompatActivity {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
             } else {
-                Log.i(LOG, "This device is not supported.");
-                finish();
+                GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
             }
             return false;
         }
@@ -241,7 +172,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(LOG, "startDataLoad");
         KlopsApi.FeedApi apiNew = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Page> callNew = apiNew.getAllNews();
-        callNew.subscribeOn(Schedulers.newThread())
+        newFeedSub = callNew.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Page>() {
                     @Override
@@ -268,7 +199,7 @@ public class SplashActivity extends AppCompatActivity {
                         myApp.setFirstPage(page);
                         KlopsApi.FeedApi apiPopular = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
                         Observable<Popular> callPopular = apiPopular.getPopularNews();
-                        callPopular.subscribeOn(Schedulers.io())
+                        popularFeedSub = callPopular.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<Popular>() {
                                     @Override
@@ -302,6 +233,7 @@ public class SplashActivity extends AppCompatActivity {
                                 });
                     }
                 });
+
     }
 
     @Override
@@ -313,15 +245,13 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(registrationReceiver);
-        isReceiverRegistered = false;
         super.onPause();
         Log.d(LOG, "onPause");
     }
 
     @Override
     protected void onResume() {
-        registerReceiver();
+        checkPlayService();
         super.onResume();
         Log.d(LOG, "onResume");
     }
@@ -330,6 +260,15 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d(LOG, "onStop");
+        if (articleSub != null) {
+            articleSub.unsubscribe();
+        }
+        if (newFeedSub != null) {
+            newFeedSub.unsubscribe();
+        }
+        if (popularFeedSub != null) {
+            popularFeedSub.unsubscribe();
+        }
         finish();
         super.onStop();
 

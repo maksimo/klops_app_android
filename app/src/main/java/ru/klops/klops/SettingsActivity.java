@@ -51,6 +51,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -117,6 +118,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView confirmText;
     ProgressBar confirmProgress;
     String sharedSubscription;
+    String firstTimeSubscribed;
+    String subscribeState;
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor innerPrefs;
@@ -140,6 +143,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
         initFonts();
+        subscribeState = firstTimeSubscribe();
         mTracker = app.getDefaultTracker();
         switchNotifications.setOnCheckedChangeListener(this);
         sharedSubscription = loadStatement();
@@ -151,7 +155,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     }
 
     private void checkSubscription() {
-        if (app.getState().equals(Constants.UNSUBSCRIBED)) {
+        if (subscribeState.equals(Constants.SUBSCRIBED)) {
             saveStatement(Constants.SUBSCRIBED);
             saveInnerStatement(true);
             saveState(true);
@@ -381,8 +385,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     public String firstTimeSubscribe() {
         sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        sharedSubscription = sharedPreferences.getString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
-        return sharedSubscription;
+        firstTimeSubscribed = sharedPreferences.getString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
+        return firstTimeSubscribed;
     }
 
 

@@ -40,7 +40,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         INSTANCE = this;
         FlurryAgent.setLogEnabled(false);
         FlurryAgent.init(this, Constants.FLURRY_API_KEY);
@@ -113,15 +113,6 @@ public class KlopsApplication extends Application {
 
     public int getFlag() {
         return flag;
-    }
-
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getState() {
-            return state;
     }
 
     public void setIntentData(String intentData) {

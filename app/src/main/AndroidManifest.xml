@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.SEND"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -43,17 +44,36 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/app_name" android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="ru.klops.klops"/>
+                    android:scheme="https"
+                    android:host="ru.klops.klops"
+                    android:pathPrefix="/"/>
+
+                <data
+                    android:scheme="https"
+                    android:host="klops.ru"
+                    android:pathPrefix="/news/"/>
+
+                <data
+                    android:scheme="https"
+                    android:host="klops.ru/news/"/>
+
+                <data
+                    android:scheme="https"
+                    android:host="klops.ru/news"
+                    android:pathPrefix="/politika"/>
+
             </intent-filter>
         </activity>
+
         <activity
             android:name=".PhotoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
@@ -68,34 +88,23 @@
 
         </activity>
 
-
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="ru.klops.klops.gcm" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name=".gcm.MyGcmListenerService"
+            android:name="ru.klops.klops.gcm.KlopsMessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <service android:name="ru.klops.klops.gcm.RegistrationIntentService" android:exported="false"/>
+
         <service
-            android:name=".gcm.MyInstanceIDListenerService"
+            android:name="ru.klops.klops.gcm.KlopsInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name=".gcm.RegistrationIntentService"
-            android:exported="false" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

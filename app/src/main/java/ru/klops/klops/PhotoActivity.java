@@ -18,6 +18,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -49,6 +51,7 @@ public class PhotoActivity extends AppCompatActivity {
     int countPager = 0;
     KlopsApplication app;
     Tracker mTracker;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

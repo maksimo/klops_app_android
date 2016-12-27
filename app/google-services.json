@@ -1,29 +1,35 @@
 {
   "project_info": {
-    "project_number": "937224364875",
-    "project_id": "klops-1367"
+    "project_number": "757801516925",
+    "firebase_url": "https://fir-klops.firebaseio.com",
+    "project_id": "firebase-klops",
+    "storage_bucket": "firebase-klops.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:937224364875:android:7b76b58c489688e6",
+        "mobilesdk_app_id": "1:757801516925:android:7b76b58c489688e6",
         "android_client_info": {
           "package_name": "ru.klops.klops"
         }
       },
       "oauth_client": [
         {
-          "client_id": "937224364875-3tko90s5j4tprm303ncvfniqac445sji.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ru.klops.klops",
-            "certificate_hash": "47AB1CA1005E00619BB959D72D0359164DED9314"
-          }
+          "client_id": "757801516925-p01d7fsn4ap9mn7poa1uo05fqk5kgm7l.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "757801516925-cdr3o4vrjbapkuf2blf9rur8649ife3f.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "757801516925-dnkf0v0anu7ilj2pajve5nghu47128st.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYgsBY0FxeCUwzya9xXrZLpDIjaHqfBws"
+          "current_key": "AIzaSyBlAUNHBF4M82cnhkZXBUl3lKqSFqGH3NE"
         }
       ],
       "services": {
@@ -38,7 +44,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

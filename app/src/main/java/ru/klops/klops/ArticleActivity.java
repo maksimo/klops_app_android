@@ -3,6 +3,7 @@ package ru.klops.klops;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,8 @@ import com.google.android.gms.analytics.Tracker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,6 +61,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -222,8 +226,10 @@ public class ArticleActivity extends AppCompatActivity {
     RelativeLayout galleryLayer;
     @BindView(R.id.littleSwitchPhotoIconTwo)
     ImageView littleSwitchPhotoIconTwo;
-    String intentData;
-    Intent webIntent;
+    Subscription articleSub;
+    Subscription newFeedSub;
+    Subscription popularFeedSub;
+    Bitmap bmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,10 +247,31 @@ public class ArticleActivity extends AppCompatActivity {
         item = getIntent().getParcelableExtra(Constants.ITEM);
         contentType = getIntent().getStringExtra(Constants.CONTENT_TYPE);
         setSupportActionBar(toolbar);
+        if (!item.getImage().equals("")) {
+            loadBitmap();
+        }
         drawFragment();
         setUPContent();
         setUpGalleries();
         setUpMatchNews();
+    }
+
+    private void loadBitmap() {
+        Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        setBmp(result);
+                    }
+                });
+    }
+
+    public Bitmap getBmp() {
+        return bmp;
+    }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
     }
 
     private void setUpGalleries() {
@@ -332,7 +359,7 @@ public class ArticleActivity extends AppCompatActivity {
         Log.d(LOG, "loadArticle");
         KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> callArticle = articleApi.getItemById(id, contentType);
-        callArticle.subscribeOn(Schedulers.io())
+        articleSub = callArticle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
                     @Override
@@ -352,36 +379,6 @@ public class ArticleActivity extends AppCompatActivity {
                         newMatchArticle.putExtra(Constants.ITEM, article.getItem());
                         newMatchArticle.putExtra(Constants.TYPE, contentType);
                         startActivity(newMatchArticle);
-                    }
-                });
-    }
-
-    private void loadWebArticle(Integer id, final String contentType) {
-        Log.d(LOG, "loadWebArticle");
-        KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
-        Observable<Article> callArticle = articleApi.getItemById(id, contentType);
-        callArticle.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Article>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(LOG, "loadArticle - onCompleted");
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(LOG, "loadArticle - onError" + e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onNext(Article article) {
-                        Log.d(LOG, "loadArticle - onNext");
-                        Intent intent = getIntent();
-                        intent.putExtra(Constants.ITEM, article.getItem());
-                        intent.putExtra(Constants.CONTENT_TYPE, contentType);
-                        finish();
-                        startActivity(intent);
                     }
                 });
     }
@@ -628,29 +625,39 @@ public class ArticleActivity extends AppCompatActivity {
 
     public void shareNews() {
         Log.d(LOG, "shareNews");
-        final Intent shareIntent = new Intent();
-        final String title = item.getTitle();
-        final String description = item.getShortdecription();
-        final String url = item.getUrl();
+//        final Intent shareIntent = new Intent();
+//        final String title = item.getTitle();
+//        final String description = item.getShortdecription();
+//        final String url = item.getUrl();
+//        shareIntent.setAction(Intent.ACTION_SEND);
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, description);
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+//        shareIntent.setType("image/*");
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        if (!item.getImage().equals("")) {
+//            Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
+//                    .setCallback(new FutureCallback<Bitmap>() {
+//                        @Override
+//                        public void onCompleted(Exception e, Bitmap result) {
+//                            shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(result));
+//                            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
+//
+//                        }
+//                    });
+//        } else {
+//            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
+//        }
+        Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, title);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, description);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, item.getTitle());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, item.getUrl());
         shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(getBmp()));
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        if (!item.getImage().equals("")) {
-            Ion.with(this).load(item.getImage()).withBitmap().asBitmap()
-                    .setCallback(new FutureCallback<Bitmap>() {
-                        @Override
-                        public void onCompleted(Exception e, Bitmap result) {
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(result));
-                            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
+        startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
 
-                        }
-                    });
-        } else {
-            startActivity(Intent.createChooser(shareIntent, "Поделиться новостью"));
-        }
     }
 
     @Override
@@ -675,6 +682,15 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         Log.d(LOG, "onStop");
+        if (articleSub != null) {
+            articleSub.unsubscribe();
+        }
+        if (newFeedSub != null) {
+            newFeedSub.unsubscribe();
+        }
+        if (popularFeedSub != null) {
+            popularFeedSub.unsubscribe();
+        }
         super.onStop();
         FlurryAgent.onEndSession(this);
     }
@@ -695,7 +711,7 @@ public class ArticleActivity extends AppCompatActivity {
     private void loadFeeds() {
         KlopsApi.FeedApi apiNew = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
         Observable<Page> callNew = apiNew.getAllNews();
-        callNew.subscribeOn(Schedulers.newThread())
+        newFeedSub = callNew.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Page>() {
                     @Override
@@ -714,7 +730,7 @@ public class ArticleActivity extends AppCompatActivity {
                         app.setFirstPage(page);
                         KlopsApi.FeedApi apiPopular = RetrofitServiceGenerator.createService(KlopsApi.FeedApi.class);
                         Observable<Popular> callPopular = apiPopular.getPopularNews();
-                        callPopular.subscribeOn(Schedulers.io())
+                        popularFeedSub = callPopular.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<Popular>() {
                                     @Override

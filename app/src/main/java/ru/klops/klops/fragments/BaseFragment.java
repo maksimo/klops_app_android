@@ -55,11 +55,13 @@ public class BaseFragment extends Fragment {
     Shader textShader;
     Shader first;
     Shader second;
+    HomeActivity activity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mApp = KlopsApplication.getINSTANCE();
+        activity = (HomeActivity) getActivity();
     }
 
     @Nullable
@@ -67,7 +69,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.base_fragment, container, false);
         unbinder = ButterKnife.bind(this, fragmentView);
-        ((HomeActivity) getActivity()).setSupportActionBar(baseToolbar);
+        activity.setSupportActionBar(baseToolbar);
         Log.d(LOG, "onCreateView");
         setUpAnim();
         setUpGradients();
@@ -116,7 +118,9 @@ public class BaseFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                ((HomeActivity) getActivity()).scrollList();
+                if (activity.getRefreshStatus() == false) {
+                    activity.scrollList();
+                }
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -175,7 +179,7 @@ public class BaseFragment extends Fragment {
     public void searchAction() {
         btnSearch.startAnimation(alpha);
         viewPager.startAnimation(fadeIn);
-        ((HomeActivity) getActivity()).replaceFragmentFadeIn(new SearchFragment());
+        activity.replaceFragmentFadeIn(new SearchFragment());
     }
 
     @OnClick(R.id.settings_action)

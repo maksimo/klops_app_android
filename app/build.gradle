@@ -11,8 +11,6 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
-apply plugin: 'com.google.gms.google-services'
-
 
 
 repositories {
@@ -20,15 +18,15 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-
-
-dependencies {
-    compile 'com.google.android.gms:play-services-appindexing:8.3.0'
-}
-
 android {
     signingConfigs {
-        config {
+        debug {
+            keyAlias 'klops'
+            keyPassword 'klops1234'
+            storeFile file('D:/projects/Klops/klops-key.jks')
+            storePassword 'klops1234'
+        }
+        release {
             keyAlias 'klops'
             keyPassword 'klops1234'
             storeFile file('D:/projects/Klops/klops-key.jks')
@@ -45,15 +43,16 @@ android {
         applicationId "ru.klops.klops"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.1.08"
+        versionCode 15
+        versionName "1.1.15"
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig getSigningConfig()
+            signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def name = new String("klops");
@@ -63,6 +62,9 @@ android {
                             output.outputFile.name.replace("app-release", "" + name))
                 }
             }
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -83,8 +85,9 @@ android {
         compile 'com.squareup.okhttp3:okhttp:3.4.1'
         compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
         compile 'com.squareup.picasso:picasso:2.5.2'
-        compile 'com.google.android.gms:play-services-gcm:8.3.0'
-        compile 'com.google.android.gms:play-services-analytics:8.3.0'
+        compile 'com.google.firebase:firebase-core:10.0.1'
+        compile 'com.google.firebase:firebase-messaging:10.0.1'
+        compile 'com.google.android.gms:play-services-analytics:10.0.1'
         compile 'com.flurry.android:analytics:6.2.0'
         compile 'com.yandex.android:mobmetricalib:2.42'
         compile 'com.jakewharton:butterknife:8.0.1'
@@ -94,3 +97,4 @@ android {
         }
     }
 }
+apply plugin: 'com.google.gms.google-services'

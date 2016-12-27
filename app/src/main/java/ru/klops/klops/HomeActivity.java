@@ -31,6 +31,7 @@ import ru.klops.klops.services.RetrofitServiceGenerator;
 import ru.klops.klops.utils.Constants;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -39,6 +40,8 @@ public class HomeActivity extends AppCompatActivity {
     final String LOG = "HomeActivity";
     KlopsApplication app;
     private Tracker mTracker;
+    Subscription articleSub;
+    Subscription subscription;
 
 
     @Override
@@ -87,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
     public void loadArticle(Integer id, final String type, final String contentType){
         KlopsApi.ArticleApi api = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> call = api.getItemById(id, contentType);
-        call.subscribeOn(Schedulers.newThread())
+        articleSub = call.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
                     @Override
@@ -143,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
     public void loadFoundArticle(Integer id, final String article_type) {
         KlopsApi.ArticleApi api = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         final Observable<Article> call = api.getItemById(id, Constants.ARTICLE_TYPE);
-        call.subscribeOn(Schedulers.io())
+        articleSub = call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
                     @Override
@@ -161,9 +164,7 @@ public class HomeActivity extends AppCompatActivity {
                         Intent articleIntent = new Intent(HomeActivity.this, ArticleActivity.class);
                         articleIntent.putExtra(Constants.ITEM, article.getItem());
                         articleIntent.putExtra(Constants.TYPE, article_type);
-                        articleIntent.putExtra(Constants.ACTIVITY_TYPE, this.getClass().getName());
                         articleIntent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
-                        call.unsubscribeOn(Schedulers.io());
                         startActivity(articleIntent);
                     }
                 });
@@ -210,14 +211,30 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d(LOG, "onStop");
-        super.onStop();
+        if (articleSub!=null) {
+            articleSub.unsubscribe();
+        }
         FlurryAgent.onEndSession(this);
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         Log.d(LOG, "onDestroy");
         super.onDestroy();
+    }
+
+
+    public void setRefreshStatus(Subscription subscription){
+        this.subscription = subscription;
+    }
+
+    public boolean getRefreshStatus() {
+        if (subscription!= null){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
 
