@@ -43,8 +43,8 @@ android {
         applicationId "ru.klops.klops"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 15
-        versionName "1.1.15"
+        versionCode 16
+        versionName "1.1.16"
         multiDexEnabled true
     }
     buildTypes {
@@ -92,7 +92,7 @@ android {
         compile 'com.yandex.android:mobmetricalib:2.42'
         compile 'com.jakewharton:butterknife:8.0.1'
         apt 'com.jakewharton:butterknife-compiler:8.0.1'
-        compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
             transitive = true;
         }
     }

@@ -67,6 +67,20 @@
                     android:host="klops.ru/news"
                     android:pathPrefix="/politika"/>
 
+                <data
+                    android:scheme="https"
+                    android:host="klops.me"
+                    android:pathPrefix="/news/"/>
+
+                <data
+                    android:scheme="https"
+                    android:host="klops.me/news/"/>
+
+                <data
+                    android:scheme="https"
+                    android:host="klops.me/news"
+                    android:pathPrefix="/politika"/>
+
             </intent-filter>
         </activity>
 

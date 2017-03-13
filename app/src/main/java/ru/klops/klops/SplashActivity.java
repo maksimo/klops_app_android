@@ -18,6 +18,9 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.klops.klops.api.KlopsApi;
@@ -98,13 +101,11 @@ public class SplashActivity extends AppCompatActivity {
         if (mobileNwInfo.isConnected() || wifiNwInfo.isConnected()) {
             checkWebArticle();
             if (webArticle != null && !webArticle.equals("")) {
-                if (webArticle.length() <=17){
-                    Intent intent = new Intent(this, SplashActivity.class);
-                    finish();
-                    startActivity(intent);
-                }else {
+                Pattern numberPat = Pattern.compile("\\d+");
+                Matcher matcher = numberPat.matcher(webArticle);
+                if (matcher.find()){
 //                    String extras = getIntent().getDataString();
-                    articleId = Integer.parseInt(webArticle.replaceAll("[^\\d]", ""));
+                    articleId = Integer.parseInt(matcher.group());
 //                    String slpitScheme[] = webArticle.split("\\?");
 //                    String idString = slpitScheme[1];
 //                    Integer articleId = Integer.parseInt(idString);
@@ -132,6 +133,10 @@ public class SplashActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             });
+                }else {
+                        Intent intent = new Intent(this, SplashActivity.class);
+                        finish();
+                        startActivity(intent);
                 }
             } else {
                 startDataLoad();

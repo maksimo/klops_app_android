@@ -40,7 +40,7 @@ public class KlopsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         INSTANCE = this;
         FlurryAgent.setLogEnabled(false);
         FlurryAgent.init(this, Constants.FLURRY_API_KEY);
