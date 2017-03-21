@@ -1,4 +1,4 @@
-package ru.klops.klops.gcm;
+package ru.klops.klops.fcm;
 
 import android.app.IntentService;
 import android.content.Intent;

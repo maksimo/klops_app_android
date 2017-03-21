@@ -1073,6 +1073,7 @@ public class RVNewDataAdapter extends RecyclerView.Adapter<RVNewDataAdapter.View
     }
 
     public void addDataWithoutCurr(ArrayList<News> data, ArrayList<Integer> types){
+        clearNewFeed();
         models.addAll(data);
         dynamicTypes.addAll(types);
     }

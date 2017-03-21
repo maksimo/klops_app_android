@@ -1,4 +1,4 @@
-package ru.klops.klops.gcm;
+package ru.klops.klops.fcm;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,7 +13,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Map;
 import java.util.Random;
 
 import ru.klops.klops.ArticleActivity;
@@ -35,17 +34,19 @@ public class KlopsMessagingService extends FirebaseMessagingService {
     PendingIntent pendingIntent;
     Intent intent;
     String message;
+    String title;
     KlopsApplication application = KlopsApplication.getINSTANCE();
 
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         id = Integer.parseInt(remoteMessage.getData().get("newsID"));
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-        createNotification(notification, id);
+        title = remoteMessage.getData().get("title");
+        message = remoteMessage.getData().get("message");
+        createNotification(id);
     }
 
-    private void createNotification(final RemoteMessage.Notification notification, int pageId) {
+    private void createNotification(int pageId) {
         KlopsApi.ArticleApi api = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
         Observable<Article> call = api.getItemById(pageId, Constants.ARTICLE_TYPE);
         call.subscribeOn(Schedulers.io())
@@ -63,14 +64,14 @@ public class KlopsMessagingService extends FirebaseMessagingService {
 
                     @Override
                     public void onNext(Article article) {
-                        openArticleIntent(article.getItem(), article.getItem().article_type, notification);
+                        openArticleIntent(article.getItem(), article.getItem().article_type);
 
                     }
                 });
     }
 
 
-    private void openArticleIntent(Item item, String article_type, RemoteMessage.Notification notification) {
+    private void openArticleIntent(Item item, String article_type) {
         Random random = new Random();
         int m = random.nextInt(9999 - 1000);
         intent = new Intent(this, ArticleActivity.class);
@@ -90,8 +91,8 @@ public class KlopsMessagingService extends FirebaseMessagingService {
             notificationBuilder.setSmallIcon(R.drawable.app_icon_main);
         }
 
-        notificationBuilder.setContentTitle(notification.getTitle());
-        notificationBuilder.setContentText(notification.getBody());
+        notificationBuilder.setContentTitle(title);
+        notificationBuilder.setContentText(message);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSound(defaultSoundUri);
         notificationBuilder.setContentIntent(pendingIntent);
