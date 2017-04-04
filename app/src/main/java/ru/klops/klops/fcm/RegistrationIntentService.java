@@ -26,9 +26,6 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     KlopsApplication app;
-    SharedPreferences sharedPreferences;
-    String sharedSubscription;
-    SharedPreferences.Editor editor;
     String subscribeState;
 
     public RegistrationIntentService() {
@@ -38,45 +35,42 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         app = KlopsApplication.getINSTANCE();
-        FirebaseInstanceId instanceID = FirebaseInstanceId.getInstance();
+        String token = FirebaseInstanceId.getInstance().getToken();
         String senderId = getResources().getString(R.string.gcm_defaultSenderId);
-        String token = instanceID.getToken();
-        Log.d(TAG, "FCM Registration Token: " + token);
-        subscribeState = firstTimeSubscribe();
-        sendRegistrationToServer(token);
-        try {
-            subscribeTopics(token);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendRegistrationToServer(String token) {
         app.setToken(token);
+        Log.d(TAG, "FCM token: " + token);
         checkSubscription();
+        firstTimeSubscribe();
+
     }
 
     private void checkSubscription() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        subscribeState = sharedPreferences.getString(Constants.FIRST_TIME_CHECK, Constants.UNSUBSCRIBED);
+    }
+
+    private void firstTimeSubscribe() {
+        Log.d(TAG, "firstTimeSubscribe");
         if (subscribeState.equals(Constants.UNSUBSCRIBED)) {
             KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
-            Observable<ResponseBody> call = api.subscribeNotification(app.getToken(), Constants.PLATFORM);
+            Observable<ResponseBody> call = api.subscribeNotification(FirebaseInstanceId.getInstance().getToken(), Constants.PLATFORM);
             call.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<ResponseBody>() {
                         @Override
                         public void onCompleted() {
-                            Log.d(TAG, "response code: 200");
+                            Log.d(TAG, "firstTimeSubscribe - onCompleted");
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d(TAG, "response code: 403" + e.getLocalizedMessage());
+                            Log.d(TAG, "firstTimeSubscribe - onError" + e.getLocalizedMessage());
                         }
 
                         @Override
                         public void onNext(ResponseBody responseBody) {
-                            Log.d(TAG, "response code: 200" + responseBody.toString());
-                            editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+                            Log.d(TAG, "firstTimeSubscribe - onNext" + responseBody.toString());
+                            SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
                             editor.putString(Constants.FIRST_TIME_CHECK, Constants.SUBSCRIBED);
                             editor.apply();
                         }
@@ -86,13 +80,7 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
-    private String firstTimeSubscribe() {
-        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        sharedSubscription = sharedPreferences.getString(Constants.FIRST_TIME_CHECK, Constants.UNSUBSCRIBED);
-        return sharedSubscription;
-    }
-
-    private void subscribeTopics(String token) throws IOException {
+    private void subscribeTopics() throws IOException {
         for (String topic : TOPICS) {
             FirebaseMessaging.getInstance().subscribeToTopic(topic);
         }

@@ -13,6 +13,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +45,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.ResponseBody;
@@ -55,9 +59,11 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class SettingsActivity extends AppCompatActivity {
     final String LOG = "SettingsActivity";
     BottomSheetBehavior bottomSheetBehavior;
+    @BindView(R.id.settingsCoordinator)
+    CoordinatorLayout mMainLayout;
     @BindView(R.id.confirm_button)
     TextView confirm;
     @BindView(R.id.switch_notifications)
@@ -106,10 +112,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     RelativeLayout socialCallLayer;
     @BindView(R.id.callLogo)
     ImageView call;
-    int clickChecker = 0;
     Animation alpha;
     Unbinder unbinder;
-    String tokenDevice;
     KlopsApplication app;
     AlertDialog.Builder confirmBuilder;
     AlertDialog confirmDialog;
@@ -117,16 +121,9 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     TextView confirmTitle;
     TextView confirmText;
     ProgressBar confirmProgress;
-    String sharedSubscription;
-    String firstTimeSubscribed;
-    String subscribeState;
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor innerPrefs;
-    SharedPreferences preferences;
-    boolean appSubscription;
     Tracker mTracker;
     View bottomSheet;
+    String subScriptionStatus;
 
 
     @Override
@@ -142,36 +139,27 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirmLayout = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null);
         alpha = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.alpha);
         app = KlopsApplication.getINSTANCE();
-        initFonts();
-        subscribeState = firstTimeSubscribe();
         mTracker = app.getDefaultTracker();
-        switchNotifications.setOnCheckedChangeListener(this);
-        sharedSubscription = loadStatement();
-        appSubscription = loadInnerStatement();
-        loadState();
-        initProgressDialog();
-        checkSubscription();
+        initViews();
+        getUserPreferences();
         Log.d(LOG, "onCreate");
     }
 
-    private void checkSubscription() {
-        if (subscribeState.equals(Constants.SUBSCRIBED)) {
-            saveStatement(Constants.SUBSCRIBED);
-            saveInnerStatement(true);
-            saveState(true);
-            switchNotifications.setChecked(true);
-            appSubscription = true;
+    private void getUserPreferences() {
+        SharedPreferences preferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
+        subScriptionStatus = preferences.getString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
+        switch (subScriptionStatus){
+            case Constants.SUBSCRIBED:
+                switchNotifications.setChecked(true);
+                break;
+            case Constants.UNSUBSCRIBED:
+                switchNotifications.setChecked(false);
+                break;
         }
     }
 
-    @OnClick(R.id.mainSettingsLayer)
-    public void closeBottomSheer() {
-        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }
-    }
 
-    private void initFonts() {
+    private void initViews() {
         confirm.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         notifications.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         quickly.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
@@ -186,9 +174,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         socialPhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
         advertise.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         advertisePhone.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-regular.ttf"));
-    }
 
-    public void initProgressDialog() {
         confirmBuilder = new AlertDialog.Builder(this);
         confirmBuilder.setView(confirmLayout);
         confirmBuilder.setCancelable(false);
@@ -198,6 +184,90 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirmTitle.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-bold.ttf"));
         confirmText.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
         confirmDialog = confirmBuilder.create();
+
+        switchNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(LOG, "onCheckedChanged : " + String.valueOf(isChecked));
+                if (isChecked) {
+                    confirmTitle.setText("Подписка на уведомления...");
+                    confirmDialog.show();
+                    KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
+                    Observable<ResponseBody> call = api.subscribeNotification(app.getToken(), Constants.PLATFORM);
+                    call.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<ResponseBody>() {
+                                @Override
+                                public void onCompleted() {
+                                    Log.d(LOG, "onCheckedChanged - onCompleted");
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d(LOG, "onCheckedChanged - onError " + e.getLocalizedMessage());
+                                    confirmDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNext(ResponseBody responseBody) {
+                                    Log.d(LOG, "onCheckedChanged - onNext");
+                                    confirmDialog.dismiss();
+                                    SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+                                    editor.putString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
+                                    editor.apply();
+                                    showMessage("Вы подписались на уведомления");
+                                }
+                            });
+                } else {
+                    confirmTitle.setText("Отмена подписки...");
+                    confirmDialog.show();
+                    KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
+                    Observable<ResponseBody> call = api.unSubscribeNotification(app.getToken(), Constants.PLATFORM);
+                    call.subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<ResponseBody>() {
+                                @Override
+                                public void onCompleted() {
+                                    Log.d(LOG, "onCheckedChanged - onCompleted");
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.d(LOG, "onCheckedChanged - onError " + e.getLocalizedMessage());
+                                    confirmDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNext(ResponseBody responseBody) {
+                                    Log.d(LOG, "onCheckedChanged - onNext");
+                                    confirmDialog.dismiss();
+                                    SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
+                                    editor.putString(Constants.FIRST_TIME_SUBSCRIBE, Constants.UNSUBSCRIBED);
+                                    editor.apply();
+                                    showMessage("Вы отменили подписку на уведомления");
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    public void showMessage(String message){
+        Snackbar snackbar = Snackbar.make(mMainLayout,
+                message,
+                Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.blackText));
+        textView.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/akzidenzgroteskpro-md.ttf"));
+        snackbar.show();
+    }
+
+    @OnClick(R.id.mainSettingsLayer)
+    public void closeBottomSheer() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
     }
 
     @OnClick(R.id.confirm_button)
@@ -205,202 +275,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         confirm.startAnimation(alpha);
         onBackPressed();
     }
-
-    @OnClick(R.id.join)
-    public void checkBaseUrl() {
-        switch (clickChecker) {
-            case 0:
-                clickChecker++;
-                join.startAnimation(alpha);
-                break;
-            case 1:
-                clickChecker++;
-                join.startAnimation(alpha);
-                break;
-            case 2:
-                clickChecker++;
-                join.startAnimation(alpha);
-                break;
-            case 3:
-                clickChecker++;
-                join.startAnimation(alpha);
-                break;
-            case 4:
-                clickChecker = 0;
-                join.startAnimation(alpha);
-                joinPhone.setVisibility(View.GONE);
-                joinTestBaseUrl.setVisibility(View.VISIBLE);
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                joinTestBaseUrl.requestFocus();
-                inputMethodManager.showSoftInput(joinTestBaseUrl, 0);
-                changeURLOk.setVisibility(View.VISIBLE);
-                break;
-        }
-
-    }
-
-    @OnClick(R.id.changeURLOk)
-    public void submitNewUrl() {
-        joinTestBaseUrl.setFocusable(false);
-        changeURLOk.setVisibility(View.GONE);
-        joinTestBaseUrl.setVisibility(View.GONE);
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(joinTestBaseUrl.getWindowToken(), 0);
-        saveNewUrl(joinTestBaseUrl.getText().toString());
-        Toast.makeText(this, joinTestBaseUrl.getText().toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void saveNewUrl(String url) {
-        SharedPreferences.Editor editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
-        editor.putString(Constants.NEW_URL, url);
-        editor.commit();
-    }
-
-    @OnClick(R.id.logo)
-    public void testPush() {
-        logo.startAnimation(alpha);
-        KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
-        Observable<ResponseBody> call = api.giveMeTestPush(app.getToken(), Constants.PLATFORM);
-        call.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(LOG, "response code: 200");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(LOG, "response code: 403");
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        Log.d(LOG, "response code: 200");
-                    }
-                });
-
-    }
-
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        tokenDevice = app.getToken();
-        if (isChecked) {
-            if (!sharedSubscription.equals(Constants.SUBSCRIBED) | appSubscription != true) {
-                saveState(true);
-                confirmTitle.setText("Подписка на уведомления...");
-                confirmDialog.show();
-                KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
-                Observable<ResponseBody> call = api.subscribeNotification(tokenDevice, Constants.PLATFORM);
-                call.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ResponseBody>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.d(LOG, "response code: 200");
-                                saveStatement(Constants.SUBSCRIBED);
-                                saveInnerStatement(true);
-                                appSubscription = true;
-                                Toast.makeText(SettingsActivity.this, "Подписка оформлена...", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
-                                confirmDialog.dismiss();
-                                Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onNext(ResponseBody responseBody) {
-                                Log.d(LOG, "response code: 200" + responseBody.toString());
-                                AndroidSchedulers.reset();
-                                confirmDialog.dismiss();
-                            }
-                        });
-            } else {
-
-            }
-        } else {
-            if (!sharedSubscription.equals(Constants.UNSUBSCRIBED) | appSubscription != false) {
-                saveState(false);
-                confirmTitle.setText("Отмена подписки...");
-                confirmDialog.show();
-                KlopsApi.NotificationApi api = RetrofitServiceGenerator.createService(KlopsApi.NotificationApi.class);
-                final Observable<ResponseBody> call = api.unSubscribeNotification(tokenDevice, Constants.PLATFORM);
-                call.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ResponseBody>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.d(LOG, "response code: 200");
-                                saveStatement(Constants.UNSUBSCRIBED);
-                                saveInnerStatement(false);
-                                Toast.makeText(SettingsActivity.this, "Подписка отменена...", Toast.LENGTH_SHORT).show();
-                            }
-
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d(LOG, "response code: 403" + e.getLocalizedMessage());
-                                confirmDialog.dismiss();
-                                Toast.makeText(SettingsActivity.this, "Сервис временно недоступен...", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onNext(ResponseBody responseBody) {
-                                Log.d(LOG, "response code: 200" + responseBody.toString());
-                                AndroidSchedulers.reset();
-                                confirmDialog.dismiss();
-                            }
-                        });
-            }
-        }
-    }
-
-    private void saveInnerStatement(boolean statement) {
-        innerPrefs = getPreferences(MODE_PRIVATE).edit();
-        innerPrefs.putBoolean(Constants.INNER_PREFS, statement);
-        innerPrefs.apply();
-    }
-
-    private Boolean loadInnerStatement() {
-        preferences = getPreferences(MODE_PRIVATE);
-        appSubscription = preferences.getBoolean(Constants.INNER_PREFS, false);
-        return appSubscription;
-    }
-
-    public void saveStatement(String subscription) {
-        editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
-        editor.putString(Constants.SUBSCRIPTION, subscription);
-        editor.apply();
-    }
-
-    public String loadStatement() {
-        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        sharedSubscription = sharedPreferences.getString(Constants.SUBSCRIPTION, Constants.UNSUBSCRIBED);
-        return sharedSubscription;
-    }
-
-    public String firstTimeSubscribe() {
-        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        firstTimeSubscribed = sharedPreferences.getString(Constants.FIRST_TIME_SUBSCRIBE, Constants.SUBSCRIBED);
-        return firstTimeSubscribed;
-    }
-
-
-    public void saveState(boolean value) {
-        editor = getSharedPreferences(Constants.PATH, MODE_PRIVATE).edit();
-        editor.putBoolean(Constants.GCM_AVAILABLE, value);
-        editor.apply();
-    }
-
-    public void loadState() {
-        sharedPreferences = getSharedPreferences(Constants.PATH, MODE_PRIVATE);
-        switchNotifications.setChecked(sharedPreferences.getBoolean(Constants.GCM_AVAILABLE, false));
-    }
-
 
     @OnClick(R.id.relativeLayout5)
     public void socialCall() {
@@ -431,28 +305,24 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
                 .build());
-        if (DisplayName != null) {
-            ops.add(ContentProviderOperation.newInsert(
-                    ContactsContract.Data.CONTENT_URI)
-                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                    .withValue(ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                    .withValue(
-                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                            DisplayName).build());
-        }
+        ops.add(ContentProviderOperation.newInsert(
+                ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(
+                        ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                        DisplayName).build());
 
-        if (MobileNumber != null) {
-            ops.add(ContentProviderOperation.
-                    newInsert(ContactsContract.Data.CONTENT_URI)
-                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                    .withValue(ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
-                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
-                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-                    .build());
-        }
+        ops.add(ContentProviderOperation.
+                newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build());
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
                 .withValue(ContactsContract.Data.MIMETYPE,
@@ -497,7 +367,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void callAdvertise() {
         Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + advertisePhone.getText().toString().trim()));
         startActivity(call);
-
     }
 
     @OnClick(R.id.relativeLayout4)
@@ -507,8 +376,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         String aEmailList[] = {"news@klops.ru"};
         emailIntent.putExtra(Intent.EXTRA_EMAIL, aEmailList);
         startActivity(emailIntent);
-
-
     }
 
     @Override

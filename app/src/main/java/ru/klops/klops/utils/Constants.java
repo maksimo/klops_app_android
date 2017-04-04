@@ -42,18 +42,13 @@ public class Constants {
     public static final String ITEM = "ITEM";
     public static final String PLATFORM = "android";
     // Google Cloud Messing service constants
-    public static final String GCM_AVAILABLE = "gcm state";
     public static final String PATH = "ru.klops.gcm";
     public static final String SUBSCRIBED = "subscribed";
     public static final String UNSUBSCRIBED = "unsubscribed";
-    public static final String SUBSCRIPTION = "subscription";
+    public static final String TOOGLE_STATE = "TOOGLE_STATE";
 
     public static final String NEW_URL = "NEW_BASE";
-    public static final String INNER_PREFS = "inner statement";
-    public static final String PHOTO = "PHOTO";
-    public static final String TEXT = "TEXT";
     public static final String NUMBER = "NUMBER";
-    public static final String URL = "BROWSER_URL";
     // Analytics
     public static final String FLURRY_API_KEY = "B5FBY7BSKNXWM7V29G68";
     public static final String TYPE = "TYPE";
@@ -64,9 +59,8 @@ public class Constants {
 
     public static final String PHOTOS = "PHOTOS";
     public static final String CONTENT_TYPE = "CONTENT_TYPE";
-    public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final String YANDEX_KEY = "06b49732-fe82-4f20-8782-9e8de1c029fc";
     public static final String FIRST_TIME_SUBSCRIBE = "FIRST_TIME";
     public static final String FIRST_TIME_CHECK = "FIRST_CHECK";
-    public static final String WEB_URL = "WEB_URL";
+
 }

@@ -65,8 +65,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void checkWebArticle() {
-        Intent web = getIntent();
-        webArticle = web.getDataString();
+        webArticle = getIntent().getDataString();
     }
 
     private void checkAPIBaseURL() {
@@ -78,8 +77,8 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    finish();
                     startActivity(intent);
+                    finish();
                 }
             }).setNegativeButton("Нет", new DialogInterface.OnClickListener() {
                 @Override
@@ -104,11 +103,7 @@ public class SplashActivity extends AppCompatActivity {
                 Pattern numberPat = Pattern.compile("\\d+");
                 Matcher matcher = numberPat.matcher(webArticle);
                 if (matcher.find()){
-//                    String extras = getIntent().getDataString();
                     articleId = Integer.parseInt(matcher.group());
-//                    String slpitScheme[] = webArticle.split("\\?");
-//                    String idString = slpitScheme[1];
-//                    Integer articleId = Integer.parseInt(idString);
                     myApp.setFlag(2);
                     KlopsApi.ArticleApi articleApi = RetrofitServiceGenerator.createService(KlopsApi.ArticleApi.class);
                     Observable<Article> callArticle = articleApi.getItemById(articleId, Constants.ARTICLE_TYPE);
@@ -129,14 +124,14 @@ public class SplashActivity extends AppCompatActivity {
                                     Intent intent = new Intent(SplashActivity.this, ArticleActivity.class);
                                     intent.putExtra(Constants.ITEM, article.getItem());
                                     intent.putExtra(Constants.CONTENT_TYPE, Constants.ARTICLE_TYPE);
-                                    finish();
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                 }else {
                         Intent intent = new Intent(this, SplashActivity.class);
-                        finish();
-                        startActivity(intent);
+                    startActivity(intent);
+                    finish();
                 }
             } else {
                 startDataLoad();
@@ -214,26 +209,19 @@ public class SplashActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onError(Throwable e) {
-                                        Log.d(LOG, "Ошибка доступа..." + e.getLocalizedMessage());
-                                        Toast.makeText(SplashActivity.this, "Не удалось загрузить дополнительные данные...", Toast.LENGTH_SHORT).show();
-                                        final AlertDialog.Builder somethingWrong = new AlertDialog.Builder(SplashActivity.this);
-                                        somethingWrong.setIcon(R.drawable.alert_icon).setTitle("Ошибка данных")
-                                                .setMessage("Желаете продолжить?").setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                                                finish();
-                                                startActivity(intent);
-                                            }
-                                        }).show();
+                                        Log.d(LOG, "onError" + e.getLocalizedMessage());
+                                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+
                                     }
 
                                     @Override
                                     public void onNext(Popular popular) {
                                         myApp.setPopularPage(popular);
                                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                                        finish();
                                         startActivity(intent);
+                                        finish();
                                     }
                                 });
                     }
